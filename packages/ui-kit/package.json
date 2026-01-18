@@ -15,7 +15,6 @@
     "framer-motion": "^11.11.17"
   },
   "devDependencies": {
-    "@soulcanvas/eslint-config": "*",
     "@soulcanvas/typescript-config": "*",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",

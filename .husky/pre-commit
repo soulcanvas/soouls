@@ -1,1 +1,6 @@
-bun test
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# This runs Biome, fixes what it can, and adds changes back to the commit
+bunx biome check --write --unsafe .
+git add .

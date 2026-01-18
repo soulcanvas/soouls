@@ -27,7 +27,7 @@ This is a **Distributed Monorepo** using **Bun + Turborepo** with the following 
 ### Prerequisites
 
 - **Bun** 1.3.5+ (package manager)
-- **Node.js** 18+ (runtime)
+- **bun**  (runtime)
 - **PostgreSQL** (database)
 
 ### Installation
