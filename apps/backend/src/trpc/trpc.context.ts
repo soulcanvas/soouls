@@ -1,11 +1,7 @@
-import { createClerkClient } from '@clerk/backend';
+import { verifyToken } from '@clerk/backend';
 import type { Request } from 'express';
 
 export async function createTrpcContext(req: Request) {
-  const clerkClient = createClerkClient({
-    secretKey: process.env.CLERK_SECRET_KEY || '',
-  });
-
   // Get the auth token from the request
   const authHeader = req.headers.authorization;
   const token = authHeader?.replace('Bearer ', '');
@@ -14,7 +10,9 @@ export async function createTrpcContext(req: Request) {
 
   if (token) {
     try {
-      const session = await clerkClient.verifyToken(token);
+      const session = await verifyToken(token, {
+        secretKey: process.env.CLERK_SECRET_KEY || '',
+      });
       userId = session.sub;
     } catch (error) {
       // Token is invalid, user is not authenticated

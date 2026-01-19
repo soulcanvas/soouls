@@ -14,9 +14,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "knip": "^5.0.0",
+    "knip": "^5.82.1",
     "husky": "^9.1.7",
-    "lint-staged": "^15.2.11",
+    "lint-staged": "^15.5.2",
     "turbo": "^2.7.5",
     "typescript": "5.9.2"
   },
