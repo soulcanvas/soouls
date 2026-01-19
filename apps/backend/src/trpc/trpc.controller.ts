@@ -6,7 +6,7 @@ import type { TrpcRouter } from './trpc.router';
 
 @Controller('trpc')
 export class TrpcController {
-  constructor(private readonly trpcRouter: TrpcRouter) { }
+  constructor(private readonly trpcRouter: TrpcRouter) {}
 
   @All('*')
   async handler(@Req() req: ExpressRequest, @Res() res: ExpressResponse) {

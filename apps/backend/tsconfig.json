@@ -8,16 +8,9 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
-      "@soulcanvas/api/*": [
-        "../../packages/api/src/*"
-      ]
+      "@soulcanvas/api/*": ["../../packages/api/src/*"]
     }
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
