@@ -3,7 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./*": "./src/*.tsx",
+    ".": "./src/index.tsx",
+    "./Button": "./src/Button.tsx",
+    "./Card": "./src/Card.tsx",
+    "./Container": "./src/Container.tsx",
+    "./Section": "./src/Section.tsx",
+    "./Typography": "./src/Typography.tsx",
+    "./Navbar": "./src/Navbar.tsx",
+    "./Footer": "./src/Footer.tsx",
     "./styles": "./src/styles/index.css"
   },
   "scripts": {
@@ -14,10 +21,14 @@
     "react-dom": "^19.2.0",
     "framer-motion": "^11.11.17"
   },
+  "peerDependencies": {
+    "next": ">=14.0.0"
+  },
   "devDependencies": {
     "@soulcanvas/typescript-config": "*",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
-    "typescript": "5.9.2"
+    "typescript": "5.9.2",
+    "next": "16.1.0"
   }
 }

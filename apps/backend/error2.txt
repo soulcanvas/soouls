@@ -1,0 +1,32 @@
+[32m[Nest] 54156  - [39m19/01/2026, 11:14:05 pm [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 54156  - [39m19/01/2026, 11:14:05 pm [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTrpcModule dependencies initialized[39m[38;5;3m +21ms[39m
+[31m[Nest] 54156  - [39m19/01/2026, 11:14:05 pm [31m  ERROR[39m [38;5;3m[ExceptionHandler] [39m[31mNest can't resolve dependencies of the AppController (?). Please make sure that the argument Object at index [0] is available in the AppModule context.
+
+Potential solutions:
+- Is AppModule a valid NestJS module?
+- If Object is a provider, is it part of the current AppModule?
+- If Object is exported from a separate @Module, is that module imported within AppModule?
+  @Module({
+    imports: [ /* the Module containing Object */ ]
+  })
+[39m
+Error: Nest can't resolve dependencies of the AppController (?). Please make sure that the argument Object at index [0] is available in the AppModule context.
+
+Potential solutions:
+- Is AppModule a valid NestJS module?
+- If Object is a provider, is it part of the current AppModule?
+- If Object is exported from a separate @Module, is that module imported within AppModule?
+  @Module({
+    imports: [ /* the Module containing Object */ ]
+  })
+
+    at Injector.lookupComponentInParentModules (C:\Users\HP\Videos\projects\soulcanavs\soulcanvas\node_modules\.bun\@nestjs+core@10.4.22+90e827b8eeb6ba79\node_modules\@nestjs\core\injector\injector.js:262:19)
+    at async Injector.resolveComponentInstance (C:\Users\HP\Videos\projects\soulcanavs\soulcanvas\node_modules\.bun\@nestjs+core@10.4.22+90e827b8eeb6ba79\node_modules\@nestjs\core\injector\injector.js:215:33)
+    at async resolveParam (C:\Users\HP\Videos\projects\soulcanavs\soulcanvas\node_modules\.bun\@nestjs+core@10.4.22+90e827b8eeb6ba79\node_modules\@nestjs\core\injector\injector.js:129:38)
+    at async Promise.all (index 0)
+    at async Injector.resolveConstructorParams (C:\Users\HP\Videos\projects\soulcanavs\soulcanvas\node_modules\.bun\@nestjs+core@10.4.22+90e827b8eeb6ba79\node_modules\@nestjs\core\injector\injector.js:144:27)
+    at async Injector.loadInstance (C:\Users\HP\Videos\projects\soulcanavs\soulcanvas\node_modules\.bun\@nestjs+core@10.4.22+90e827b8eeb6ba79\node_modules\@nestjs\core\injector\injector.js:70:13)
+    at async Injector.loadController (C:\Users\HP\Videos\projects\soulcanavs\soulcanvas\node_modules\.bun\@nestjs+core@10.4.22+90e827b8eeb6ba79\node_modules\@nestjs\core\injector\injector.js:89:9)
+    at async C:\Users\HP\Videos\projects\soulcanavs\soulcanvas\node_modules\.bun\@nestjs+core@10.4.22+90e827b8eeb6ba79\node_modules\@nestjs\core\injector\instance-loader.js:68:13
+    at async Promise.all (index 0)
+    at async InstanceLoader.createInstancesOfControllers (C:\Users\HP\Videos\projects\soulcanavs\soulcanvas\node_modules\.bun\@nestjs+core@10.4.22+90e827b8eeb6ba79\node_modules\@nestjs\core\injector\instance-loader.js:67:9)

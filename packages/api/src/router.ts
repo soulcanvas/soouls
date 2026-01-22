@@ -40,7 +40,7 @@ export const appRouter = router({
     };
   }),
 
-  getEntries: publicProcedure.input(z.object({ userId: z.string() })).query(async ({ input }) => {
+  getEntries: publicProcedure.input(z.object({ userId: z.string() })).query(async () => {
     // Implementation here
     return [];
   }),

@@ -1,9 +1,9 @@
 import { useAuth } from '@clerk/nextjs';
 import type { AppRouter } from '@soulcanvas/api/router';
 import { httpBatchLink } from '@trpc/client';
-import { createTRPCReact } from '@trpc/react-query';
+import { type CreateTRPCReact, createTRPCReact } from '@trpc/react-query';
 
-export const trpc = createTRPCReact<AppRouter>();
+export const trpc: CreateTRPCReact<AppRouter, unknown> = createTRPCReact<AppRouter>();
 
 export function getTRPCClient(getToken: () => Promise<string | null>) {
   return trpc.createClient({
