@@ -22,8 +22,9 @@ const SENTIMENT_MAP: Record<string, { color: string }> = {
 
 export async function analyzeSentiment(text: string): Promise<SentimentResult> {
   try {
+    // Temporary compatibility cast for mixed AI SDK model type versions in this monorepo.
     const { text: result } = await generateText({
-      model: anthropic('claude-3-5-haiku-latest'),
+      model: anthropic('claude-3-5-haiku-latest') as never,
       prompt: `Analyze the sentiment of the following text. Respond with ONLY a JSON object with two fields:
 - "label": one of [joy, sadness, anger, fear, surprise, disgust, neutral, love, hope, anxiety]
 - "score": a number from -1 (most negative) to 1 (most positive)

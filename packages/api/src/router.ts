@@ -20,11 +20,38 @@ export const router = t.router;
 export const publicProcedure = t.procedure;
 
 // Protected procedure (requires authentication)
+export type EntryKind = 'entry' | 'task';
+
+export type GalaxyEntry = {
+  id: string;
+  content: string;
+  type: EntryKind;
+  sentimentColor: string | null;
+  sentimentLabel: string | null;
+  x: number;
+  y: number;
+  z: number;
+  visualMass: number | null;
+};
+
+export type EntriesApi = {
+  createEntry: (userId: string, content: string, type?: EntryKind) => Promise<unknown>;
+  getGalaxyData: (userId: string) => Promise<GalaxyEntry[]>;
+};
+
+export type TasksApi = {
+  convertToTask: (entryId: string, deadline: Date) => Promise<void>;
+};
+
 export type UsersApi = {
   ensureUser: (clerkId: string) => Promise<string>; // Returns internal UUID
 };
 
-export function createAppRouter(services: { entries: EntriesApi; tasks: TasksApi; users: UsersApi }) {
+export function createAppRouter(services: {
+  entries: EntriesApi;
+  tasks: TasksApi;
+  users: UsersApi;
+}) {
   const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
     if (!ctx.userId) {
       throw new Error('Unauthorized');
