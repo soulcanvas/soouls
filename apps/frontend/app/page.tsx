@@ -1,11 +1,17 @@
-import { GalaxyView } from './components';
+import { Navbar } from '@soulcanvas/ui-kit';
+import { GalaxyView } from './components/GalaxyView';
+
+const navLinks = [
+  { label: 'Features', href: '#features' },
+  { label: 'Safe Space', href: '#safe-space' },
+  { label: 'Sunday Review', href: '#review' },
+];
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-aura-focus/30">
-      <main id="main-content">
-        <GalaxyView />
-      </main>
-    </div>
+    <main className="bg-base-void min-h-screen">
+      <Navbar links={navLinks} ctaText="Get Started" ctaHref="/sign-up" transparent />
+      <GalaxyView />
+    </main>
   );
 }

@@ -3,45 +3,49 @@
 import Link from 'next/link';
 import React from 'react';
 
+const footerLinks = [
+  { label: 'Privacy', href: '/privacy' },
+  { label: 'Terms', href: '/terms' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' },
+];
+
 export const MinimalFooter = () => {
   return (
-    <footer className="relative py-20 bg-base-cream dark:bg-base-charcoal border-t border-slate-100 dark:border-white/5">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-12">
-          <div className="space-y-4 text-center md:text-left">
-            <h3 className="font-editorial text-2xl tracking-tight text-slate-900 dark:text-base-cream">
-              SoulCanvas
-            </h3>
-            <p className="font-clarity text-sm text-slate-400 max-w-xs leading-relaxed">
-              Transforming the act of daily documentation into a highly aesthetic, deeply meaningful
-              experience.
-            </p>
+    <footer className="relative bg-base-void border-t border-white/[0.04]">
+      {/* Gradient border glow */}
+      <div
+        className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-aura-focus/20 to-transparent"
+        aria-hidden="true"
+      />
+
+      <div className="max-w-6xl mx-auto px-6 py-16 md:py-20">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+          {/* Brand */}
+          <div className="flex items-center gap-3">
+            <span className="font-editorial text-xl text-white/70">
+              Soul<span className="text-aura-focus">Canvas</span>
+            </span>
           </div>
 
-          <div className="flex gap-12 font-clarity text-sm tracking-widest uppercase text-slate-400">
-            <Link
-              href="/sign-up"
-              className="hover:text-slate-900 dark:hover:text-base-cream transition-colors"
-            >
-              Waitlist
-            </Link>
-            <Link
-              href="/philosophy"
-              className="hover:text-slate-900 dark:hover:text-base-cream transition-colors"
-            >
-              Philosophy
-            </Link>
-            <Link
-              href="/privacy"
-              className="hover:text-slate-900 dark:hover:text-base-cream transition-colors"
-            >
-              Privacy
-            </Link>
-          </div>
+          {/* Links */}
+          <nav className="flex items-center gap-8" aria-label="Footer navigation">
+            {footerLinks.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="font-clarity text-xs text-white/25 hover:text-white/50 transition-colors duration-500 relative group"
+              >
+                {link.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-aura-focus/30 group-hover:w-full transition-all duration-500" />
+              </Link>
+            ))}
+          </nav>
 
-          <div className="font-clarity text-xs text-slate-300 dark:text-slate-600">
-            © 2026 Rudra1959. All rights reserved.
-          </div>
+          {/* Copyright */}
+          <p className="font-clarity text-[10px] text-white/15 tracking-wider">
+            © {new Date().getFullYear()} SoulCanvas
+          </p>
         </div>
       </div>
     </footer>

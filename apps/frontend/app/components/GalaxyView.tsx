@@ -1,21 +1,24 @@
 'use client';
 
-import React from 'react';
-import { ArtifactsSection } from './ArtifactsSection';
+import { CTASection } from './CTASection';
+import { FeaturesBento } from './FeaturesBento';
 import { HeroSection } from './HeroSection';
 import { MinimalFooter } from './MinimalFooter';
+import { SafeSpaceSection } from './SafeSpaceSection';
+import { SocialProofSection } from './SocialProofSection';
 import { SundayReviewSection } from './SundayReviewSection';
 import { TimelineSection } from './TimelineSection';
-import { VaultSection } from './VaultSection';
 
 export function GalaxyView() {
   return (
     <>
       <HeroSection />
+      <SocialProofSection />
       <TimelineSection />
-      <VaultSection />
-      <ArtifactsSection />
+      <SafeSpaceSection />
+      <FeaturesBento />
       <SundayReviewSection />
+      <CTASection />
       <MinimalFooter />
     </>
   );

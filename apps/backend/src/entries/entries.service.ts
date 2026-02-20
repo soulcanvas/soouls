@@ -1,65 +1,70 @@
 import { Injectable } from '@nestjs/common';
-import { generateEmbedding } from '@soulcanvas/ai-engine/embeddings';
-import { analyzeSentiment } from '@soulcanvas/ai-engine/sentiment';
 import { db } from '@soulcanvas/database/client';
-import { eq, sql } from '@soulcanvas/database/client';
+import { and, eq, sql } from '@soulcanvas/database/client';
 import { canvasNodes, journalEntries } from '@soulcanvas/database/schema';
+import { encryptData, decryptData } from '../utils/encryption';
 
 @Injectable()
 export class EntriesService {
   async createEntry(userId: string, content: string, type: 'entry' | 'task' = 'entry') {
-    // 1. Generate Embedding
-    const embedding = await generateEmbedding(content);
+    // Encrypt and save immediately — no AI processing
+    const encryptedContent = encryptData(content, userId);
 
-    // 2. Analyze Sentiment
-    const sentiment = await analyzeSentiment(content);
-
-    // 3. Store in Database
     const [entry] = await db
       .insert(journalEntries)
       .values({
         userId,
-        content,
+        content: encryptedContent,
         type,
-        embedding,
-        sentimentScore: sentiment.score,
-        sentimentLabel: sentiment.label,
-        sentimentColor: sentiment.color,
+        // AI fields (embedding, sentiment) left NULL — will be filled by AI engine later
       })
       .returning();
 
-    // 4. Initial Node Placement (Simplified: Randomize or place near similar nodes)
-    // For now, let's find the most similar node and place near it
-    const similarNodes = await this.findSimilarEntries(embedding, userId, 1);
-
-    let x = Math.random() * 10 - 5;
-    let y = Math.random() * 10 - 5;
-    let z = Math.random() * 10 - 5;
-
-    if (similarNodes.length > 0) {
-      const [parentNode] = await db
-        .select()
-        .from(canvasNodes)
-        .where(eq(canvasNodes.entryId, similarNodes[0].id))
-        .limit(1);
-
-      if (parentNode) {
-        x = parentNode.x + (Math.random() - 0.5) * 2;
-        y = parentNode.y + (Math.random() - 0.5) * 2;
-        z = parentNode.z + (Math.random() - 0.5) * 2;
-      }
-    }
-
+    // Place canvas node
     await db.insert(canvasNodes).values({
       entryId: entry.id,
-      x,
-      y,
-      z,
+      x: Math.random() * 10 - 5,
+      y: Math.random() * 10 - 5,
+      z: Math.random() * 10 - 5,
       visualMass: type === 'task' ? 2.0 : 1.0,
-      emotion: sentiment.label,
     });
 
     return entry;
+  }
+
+  async getEntry(userId: string, id: string) {
+    const [entry] = await db
+      .select({ id: journalEntries.id, content: journalEntries.content })
+      .from(journalEntries)
+      .where(and(eq(journalEntries.id, id), eq(journalEntries.userId, userId)))
+      .limit(1);
+
+    if (entry) {
+      entry.content = decryptData(entry.content, userId);
+    }
+    return entry || null;
+  }
+
+  async updateEntry(userId: string, id: string, content: string) {
+    // Verify ownership first
+    const existing = await db
+      .select({ id: journalEntries.id })
+      .from(journalEntries)
+      .where(sql`${journalEntries.id} = ${id} AND ${journalEntries.userId} = ${userId}`)
+      .limit(1);
+
+    if (existing.length === 0) {
+      throw new Error('Unauthorized or entry not found.');
+    }
+
+    // Encrypt and update immediately — no AI processing
+    await db
+      .update(journalEntries)
+      .set({
+        content: encryptData(content, userId),
+        updatedAt: new Date(),
+      })
+      .where(eq(journalEntries.id, id));
   }
 
   async findSimilarEntries(
@@ -67,19 +72,18 @@ export class EntriesService {
     userId: string,
     limit = 5,
   ): Promise<Array<{ id: string }>> {
-    // Use raw SQL for vector similarity to avoid type issues with pgvector operator
     const embeddingString = JSON.stringify(embedding);
     const rows = await db.execute(sql`
-            SELECT * FROM ${journalEntries}
-            WHERE ${journalEntries.userId} = ${userId}
-            ORDER BY ${journalEntries.embedding} <=> ${embeddingString}::vector
-            LIMIT ${limit}
-        `);
+      SELECT * FROM ${journalEntries}
+      WHERE ${journalEntries.userId} = ${userId}
+      ORDER BY ${journalEntries.embedding} <=> ${embeddingString}::vector
+      LIMIT ${limit}
+    `);
     return rows as unknown as Array<{ id: string }>;
   }
 
   async getGalaxyData(userId: string) {
-    return db
+    const rawData = await db
       .select({
         id: journalEntries.id,
         content: journalEntries.content,
@@ -94,5 +98,11 @@ export class EntriesService {
       .from(journalEntries)
       .innerJoin(canvasNodes, eq(journalEntries.id, canvasNodes.entryId))
       .where(eq(journalEntries.userId, userId));
+
+    // Decrypt on the way out
+    return rawData.map(entry => ({
+      ...entry,
+      content: decryptData(entry.content, userId),
+    }));
   }
 }

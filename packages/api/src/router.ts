@@ -35,7 +35,9 @@ export type GalaxyEntry = {
 };
 
 export type EntriesApi = {
-  createEntry: (userId: string, content: string, type?: EntryKind) => Promise<unknown>;
+  createEntry: (userId: string, content: string, type?: EntryKind) => Promise<{ id: string }>;
+  updateEntry: (userId: string, id: string, content: string) => Promise<void>;
+  getEntry: (userId: string, id: string) => Promise<{ id: string; content: string } | null>;
   getGalaxyData: (userId: string) => Promise<GalaxyEntry[]>;
 };
 
@@ -83,9 +85,27 @@ export function createAppRouter(services: {
         return services.entries.createEntry(ctx.userId, input.content, input.type ?? 'entry');
       }),
 
+    updateEntry: protectedProcedure
+      .input(
+        z.object({
+          id: z.string(),
+          content: z.string(),
+        }),
+      )
+      .mutation(async ({ input, ctx }) => {
+        await services.entries.updateEntry(ctx.userId, input.id, input.content);
+        return { success: true };
+      }),
+
     getGalaxyData: protectedProcedure.query(async ({ ctx }) => {
       return services.entries.getGalaxyData(ctx.userId);
     }),
+
+    getEntry: protectedProcedure
+      .input(z.object({ id: z.string() }))
+      .query(async ({ input, ctx }) => {
+        return services.entries.getEntry(ctx.userId, input.id);
+      }),
 
     convertToTask: protectedProcedure
       .input(

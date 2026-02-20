@@ -12,6 +12,14 @@ export default function DashboardPage() {
 
   const totalEntries = galaxyData?.length || 0;
 
+  const latestEntry = galaxyData && galaxyData.length > 0 ? galaxyData[galaxyData.length - 1] : null;
+  const latestEntryId = latestEntry ? latestEntry.id : null;
+  const continueLink = latestEntryId ? `/dashboard/new-entry?id=${latestEntryId}` : '/dashboard/new-entry';
+
+  // Use raw content from latest entry (it arrives decrypted from backend)
+  const firstLine = latestEntry ? latestEntry.content.split('\n').find(l => l.trim().length > 0) : null;
+  const displayTitle = firstLine ? (firstLine.length > 40 ? firstLine.substring(0, 40) + '...' : firstLine) : 'Latest Entry';
+
   return (
     <DashboardLayout
       userActionSlot={
@@ -44,11 +52,24 @@ export default function DashboardPage() {
         >
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0F0F0F] z-10" />
 
-          <div className="relative z-0 opacity-50 blur-[2px] mb-8">
-            <h4 className="font-editorial text-2xl text-slate-700">The Midnight Echos</h4>
-            <p className="font-clarity text-slate-600 mt-4 leading-relaxed">
-              The silence of the night brings a clarity that the day often obscures...
-            </p>
+          <div className="relative z-0 opacity-80 mb-8 max-w-2xl">
+            {galaxyData && galaxyData.length > 0 ? (
+              <Link href={continueLink} className="block group">
+                <h4 className="font-editorial text-2xl text-slate-300 group-hover:text-amber-500 transition-colors">
+                  {displayTitle}
+                </h4>
+                <p className="font-clarity text-slate-400 mt-4 leading-relaxed line-clamp-3">
+                  {latestEntry ? latestEntry.content : 'Loading...'}
+                </p>
+              </Link>
+            ) : (
+              <>
+                <h4 className="font-editorial text-2xl text-slate-700">The Midnight Echos</h4>
+                <p className="font-clarity text-slate-600 mt-4 leading-relaxed blur-[2px]">
+                  The silence of the night brings a clarity that the day often obscures...
+                </p>
+              </>
+            )}
           </div>
 
           <div className="absolute bottom-6 left-6 right-6 z-20 flex flex-wrap items-center gap-4">
@@ -60,9 +81,11 @@ export default function DashboardPage() {
                 <PenLine className="w-3 h-3" /> Text
               </span>
             </div>
-            <ActionButton icon={Plus} className="ml-auto">
-              Start New Cluster
-            </ActionButton>
+            <Link href={continueLink} className="ml-auto">
+              <ActionButton icon={Plus}>
+                {latestEntryId ? 'Continue' : 'New Entry'}
+              </ActionButton>
+            </Link>
           </div>
         </WidgetCard>
 
@@ -84,9 +107,11 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="mt-4 flex justify-center">
-            <ActionButton variant="secondary" icon={Plus} className="w-full text-xs py-2">
-              Start New Cluster
-            </ActionButton>
+            <Link href="/dashboard/new-entry" className="w-full">
+              <ActionButton variant="secondary" icon={Plus} className="w-full text-xs py-2">
+                New Entry
+              </ActionButton>
+            </Link>
           </div>
         </WidgetCard>
 

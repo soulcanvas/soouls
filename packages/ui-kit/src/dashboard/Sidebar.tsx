@@ -32,16 +32,14 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`group flex items-center gap-3 rounded-xl px-4 py-3 transition-all ${
-                isActive
+              className={`group flex items-center gap-3 rounded-xl px-4 py-3 transition-all ${isActive
                   ? 'bg-white/5 text-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.1)]'
                   : 'text-slate-400 hover:bg-white/5 hover:text-base-cream'
-              }`}
+                }`}
             >
               <item.icon
-                className={`h-5 w-5 transition-colors ${
-                  isActive ? 'text-amber-400' : 'text-slate-500 group-hover:text-slate-300'
-                }`}
+                className={`h-5 w-5 transition-colors ${isActive ? 'text-amber-400' : 'text-slate-500 group-hover:text-slate-300'
+                  }`}
               />
               <span className="font-clarity text-sm font-medium">{item.label}</span>
               {isActive && (
