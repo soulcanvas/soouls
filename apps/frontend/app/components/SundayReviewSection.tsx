@@ -43,8 +43,9 @@ export const SundayReviewSection = () => {
       {/* Floating particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         {[...Array(6)].map((_, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: visual particles only
           <div
-            key={i}
+            key={`particle-${i}`}
             className="absolute w-1 h-1 rounded-full bg-white/10 animate-float"
             style={{
               left: `${15 + i * 15}%`,
@@ -99,8 +100,9 @@ export const SundayReviewSection = () => {
                   </div>
                   <div className="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => (
+                      // biome-ignore lint/suspicious/noArrayIndexKey: visual stars only
                       <Star
-                        key={i}
+                        key={`star-${i}`}
                         size={10}
                         className={i < 4 ? 'text-aura-joy fill-aura-joy' : 'text-white/10'}
                       />
@@ -121,7 +123,7 @@ export const SundayReviewSection = () => {
                       { color: 'bg-aura-anxiety/50', width: 'w-[15%]' },
                     ].map((bar, idx) => (
                       <m.div
-                        key={idx}
+                        key={bar.color}
                         className={`${bar.color} ${bar.width} rounded-md`}
                         initial={{ scaleX: 0 }}
                         whileInView={{ scaleX: 1 }}

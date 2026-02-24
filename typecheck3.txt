@@ -1,0 +1,36 @@
+﻿ΓÇó Packages in scope: @soulcanvas/ai-engine, @soulcanvas/api, @soulcanvas/backend, @soulcanvas/database, @soulcanvas/frontend, @soulcanvas/logic, @soulcanvas/typescript-config, @soulcanvas/ui-kit
+ΓÇó Running check-types in 8 packages
+ΓÇó Remote caching disabled
+@soulcanvas/ai-engine:check-types: cache hit, replaying logs ac1f76a465e0d772
+@soulcanvas/ai-engine:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soulcanvas/ai-engine:check-types: [?9001l[?1004l[22m
+@soulcanvas/logic:check-types: cache hit, replaying logs 1407fd55041166c8
+@soulcanvas/logic:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soulcanvas/logic:check-types: [?9001l[?1004l[22m
+@soulcanvas/database:check-types: cache hit, replaying logs b3ddc2b3ee1c13da
+@soulcanvas/database:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soulcanvas/database:check-types: [?9001l[?1004l[22m
+@soulcanvas/ui-kit:check-types: cache hit, replaying logs 5472e13c56882d90
+@soulcanvas/ui-kit:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soulcanvas/ui-kit:check-types: [?9001l[?1004l[22m
+@soulcanvas/api:check-types: cache hit, replaying logs e3b900ff997eab5f
+@soulcanvas/api:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soulcanvas/api:check-types: [22m[?9001l[?1004l
+@soulcanvas/frontend:check-types: cache miss, executing 5fe4ffeef73e1070
+@soulcanvas/backend:check-types: cache hit, replaying logs 0202b192489ba053
+@soulcanvas/backend:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soulcanvas/backend:check-types: [22m[?9001l[?1004l
+@soulcanvas/frontend:check-types: $ next typegen && tsc --noEmit
+@soulcanvas/frontend:check-types: Generating route types...
+@soulcanvas/frontend:check-types: Γ£ô Types generated successfully
+@soulcanvas/frontend:check-types: app/components/FeaturesBento.tsx(57,15): error TS2322: Type 'number' is not assignable to type 'never'.
+@soulcanvas/frontend:check-types: app/components/FeaturesBento.tsx(57,26): error TS2322: Type 'number' is not assignable to type 'never'.
+@soulcanvas/frontend:check-types: app/components/FeaturesBento.tsx(62,17): error TS2322: Type 'number' is not assignable to type 'never'.
+@soulcanvas/frontend:check-types: app/components/FeaturesBento.tsx(62,27): error TS2322: Type 'string' is not assignable to type 'never'.
+@soulcanvas/frontend:check-types: app/components/SafeSpaceSection.tsx(54,46): error TS2304: Cannot find name 'i'.
+
+ Tasks:    6 successful, 7 total
+Cached:    6 cached, 7 total
+  Time:    24.936s 
+Failed:    @soulcanvas/frontend#check-types
+

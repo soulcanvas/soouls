@@ -1,7 +1,16 @@
 'use client';
 
 import { LazyMotion, domAnimation, m } from 'framer-motion';
-import { Camera, FileAudio, FileText, Map, Palette, Percent, Star, TrendingUp } from 'lucide-react';
+import {
+  Camera,
+  FileAudio,
+  FileText,
+  Map as MapIcon,
+  Palette,
+  Percent,
+  Star,
+  TrendingUp,
+} from 'lucide-react';
 import React from 'react';
 
 const artifacts = [
@@ -26,7 +35,7 @@ const artifacts = [
   {
     title: 'Personalized Time Capsule',
     desc: 'Seal entries for your future self to discover and reflect upon.',
-    Icon: Map,
+    Icon: MapIcon,
     span: 'md:col-span-1',
     color: 'from-aura-focus/10 to-cyan-500/5',
     iconColor: 'text-aura-focus',
@@ -125,6 +134,7 @@ export const ArtifactsSection = () => {
                           viewBox="0 0 24 24"
                           stroke="currentColor"
                         >
+                          <title>Learn More</title>
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"

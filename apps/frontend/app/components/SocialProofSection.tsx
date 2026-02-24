@@ -119,7 +119,7 @@ export function SocialProofSection() {
                 >
                   {[...testimonials, ...testimonials].map((quote, i) => (
                     <div
-                      key={`${row}-${i}`}
+                      key={`${row}-${quote.author}-${i}`}
                       className="inline-flex items-center mx-3 px-6 py-4 rounded-2xl border border-white/[0.04] bg-white/[0.02] hover:bg-white/[0.04] transition-colors duration-500"
                     >
                       <div className="flex items-center gap-3">

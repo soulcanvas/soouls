@@ -61,9 +61,9 @@ export const AuraBackground: React.FC<AuraBackgroundProps> = ({
     >
       <div className="absolute inset-0 filter blur-[120px] opacity-50">
         {mounted &&
-          blobConfigs.map((blob, i) => (
+          blobConfigs.map((blob) => (
             <motion.div
-              key={i}
+              key={blob.color}
               className={`absolute rounded-full pointer-events-none ${colorMap[blob.color]}`}
               initial={{
                 x: `${blob.positions.ix}%`,

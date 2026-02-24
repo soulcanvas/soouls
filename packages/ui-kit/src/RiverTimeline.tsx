@@ -27,7 +27,7 @@ export const RiverTimeline: React.FC<RiverTimelineProps> = ({ entries }) => {
       <div className="space-y-32">
         {entries.map((entry, i) => (
           <motion.div
-            key={i}
+            key={`${entry.date}-${entry.content.substring(0, 10)}`}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}

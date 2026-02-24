@@ -47,7 +47,7 @@ export function SafeSpaceSection() {
                 { icon: Fingerprint, text: 'Biometric lock options' },
               ].map((item, i) => (
                 <m.li
-                  key={i}
+                  key={item.text}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}

@@ -167,7 +167,10 @@ export default function DashboardPage() {
                 <p className="text-xs text-amber-500/80 mt-1">Tomorrow</p>
               </div>
             </div>
-            <button className="w-full py-2 text-xs text-slate-400 hover:text-base-cream transition-colors">
+            <button
+              type="button"
+              className="w-full py-2 text-xs text-slate-400 hover:text-base-cream transition-colors"
+            >
               + Add task
             </button>
           </div>
@@ -211,6 +214,7 @@ function FolderOpenIcon({ className }: { className?: string }) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
+      <title>Folder</title>
       <path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2" />
     </svg>
   );

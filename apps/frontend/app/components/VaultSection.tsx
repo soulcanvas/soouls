@@ -185,6 +185,7 @@ export const VaultSection = () => {
                           className="absolute -inset-4 w-[calc(100%+32px)] h-[calc(100%+32px)]"
                           viewBox="0 0 100 100"
                         >
+                          <title>Progress</title>
                           <circle
                             cx="50"
                             cy="50"
@@ -214,10 +215,9 @@ export const VaultSection = () => {
                           Hold to Unlock
                         </p>
 
-                        <div
-                          className="cursor-pointer select-none"
-                          role="button"
-                          tabIndex={0}
+                        <button
+                          type="button"
+                          className="cursor-pointer select-none border-none bg-transparent w-full"
                           aria-label="Hold to unlock the vault"
                           onKeyDown={(e) => {
                             if (e.key === ' ' || e.key === 'Enter') startHold();
@@ -235,7 +235,7 @@ export const VaultSection = () => {
                               style={{ width: `${progress}%` }}
                             />
                           </div>
-                        </div>
+                        </button>
                       </div>
                     </m.div>
                   ) : (

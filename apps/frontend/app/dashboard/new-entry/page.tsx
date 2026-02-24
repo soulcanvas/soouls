@@ -56,7 +56,7 @@ export default function NewEntryPage() {
 
   // ─── Fetch existing entry (for edit mode) ─────────────────────────────────
   const { data: existingEntry } = trpc.getEntry.useQuery(
-    { id: initialId! },
+    { id: initialId ?? '' },
     { enabled: !!initialId },
   );
   useEffect(() => {
@@ -142,6 +142,7 @@ export default function NewEntryPage() {
       <header className="px-10 py-8 flex justify-between items-center relative z-10 w-full">
         <div className="flex items-center gap-1 text-xl font-editorial tracking-wide">
           <button
+            type="button"
             onClick={handleHomeClick}
             className="text-slate-500 hover:text-slate-300 transition-colors bg-transparent border-none cursor-pointer"
           >
@@ -209,23 +210,38 @@ export default function NewEntryPage() {
 
           {/* Bottom toolbar */}
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[90%] md:w-auto bg-[#141414] border border-white/10 rounded-[20px] flex items-center divide-x divide-white/10 shadow-lg overflow-hidden z-10">
-            <button className="flex items-center gap-2 px-5 py-3.5 hover:bg-white/5 transition-colors text-slate-200 text-sm whitespace-nowrap">
+            <button
+              type="button"
+              className="flex items-center gap-2 px-5 py-3.5 hover:bg-white/5 transition-colors text-slate-200 text-sm whitespace-nowrap"
+            >
               <ImageIcon className="w-4 h-4 text-slate-400" />
               <span>Add image</span>
             </button>
-            <button className="flex items-center gap-2 px-5 py-3.5 hover:bg-white/5 transition-colors text-slate-200 text-sm whitespace-nowrap">
+            <button
+              type="button"
+              className="flex items-center gap-2 px-5 py-3.5 hover:bg-white/5 transition-colors text-slate-200 text-sm whitespace-nowrap"
+            >
               <Mic className="w-4 h-4 text-slate-400" />
               <span>Voice note</span>
             </button>
-            <button className="flex items-center gap-2 px-5 py-3.5 hover:bg-white/5 transition-colors text-slate-200 text-sm whitespace-nowrap">
+            <button
+              type="button"
+              className="flex items-center gap-2 px-5 py-3.5 hover:bg-white/5 transition-colors text-slate-200 text-sm whitespace-nowrap"
+            >
               <PenTool className="w-4 h-4 text-slate-400" />
               <span>Doodle</span>
             </button>
-            <button className="flex items-center gap-2 px-5 py-3.5 hover:bg-white/5 transition-colors text-slate-200 text-sm whitespace-nowrap">
+            <button
+              type="button"
+              className="flex items-center gap-2 px-5 py-3.5 hover:bg-white/5 transition-colors text-slate-200 text-sm whitespace-nowrap"
+            >
               <ListTodo className="w-4 h-4 text-slate-400" />
               <span>Tasklist</span>
             </button>
-            <button className="flex items-center gap-2 px-5 py-3.5 hover:bg-white/5 transition-colors text-slate-200 text-sm whitespace-nowrap">
+            <button
+              type="button"
+              className="flex items-center gap-2 px-5 py-3.5 hover:bg-white/5 transition-colors text-slate-200 text-sm whitespace-nowrap"
+            >
               <Clock className="w-4 h-4 text-slate-400" />
               <span>Set time</span>
             </button>
