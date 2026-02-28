@@ -153,18 +153,18 @@ export default function RiverOfTimeSection() {
         <section
             ref={sectionRef}
             id="product"
-            className="relative overflow-hidden"
+            className="relative overflow-hidden flex items-center w-full"
             style={{
                 backgroundColor: '#222222',
-                minHeight: '100svh',
-                padding: '120px 0',
+                minHeight: '982px',
+                padding: '0 60px',
             }}
         >
             {/* Left Column — Text */}
             <div
                 ref={leftRef}
-                className="absolute left-0 top-0 h-full flex flex-col justify-start"
-                style={{ left: '60px', top: '298px', width: '719px' }}
+                className="relative z-10 flex flex-col justify-center"
+                style={{ width: '100%', maxWidth: '719px' }}
             >
                 <div className="reveal" style={{ marginBottom: '40px' }}>
                     <h2

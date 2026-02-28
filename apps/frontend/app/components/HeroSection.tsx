@@ -42,14 +42,16 @@ export default function HeroSection() {
         className="absolute inset-0 parallax-layer"
         style={{ top: '-10%', height: '120%' }}
       >
-        <Image
-          src="/hero-bg-figma.png"
-          alt=""
-          fill
-          priority
-          className="object-cover object-center"
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="object-cover object-center w-full h-full"
           style={{ opacity: 0.85 }}
-        />
+        >
+          <source src="/images/red_sun_remix.mp4" type="video/mp4" />
+        </video>
         {/* Dark gradient overlay — bottom fade to black */}
         <div
           className="absolute inset-0"
