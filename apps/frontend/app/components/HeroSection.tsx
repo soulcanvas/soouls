@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { useEffect, useRef } from 'react';
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -69,7 +69,10 @@ export default function HeroSection() {
         style={{ paddingTop: '80px' }}
       >
         {/* Main headline */}
-        <div className="mb-6 flex flex-col sm:flex-row items-center justify-center sm:gap-4 flex-wrap" style={{ maxWidth: '1100px' }}>
+        <div
+          className="mb-6 flex flex-col sm:flex-row items-center justify-center sm:gap-4 flex-wrap"
+          style={{ maxWidth: '1100px' }}
+        >
           <span
             className="font-urbanist font-medium tracking-tight"
             style={{
@@ -120,7 +123,8 @@ export default function HeroSection() {
             opacity: 0.9,
           }}
         >
-          Non-linear journaling designed for depth. Capture your thoughts as they happen, not just when they fit a timeline. Build a map of your mind.
+          Non-linear journaling designed for depth. Capture your thoughts as they happen, not just
+          when they fit a timeline. Build a map of your mind.
         </p>
 
         {/* CTA Button */}
@@ -170,7 +174,14 @@ export default function HeroSection() {
           style={{ animation: 'float-up 2s ease-in-out infinite alternate' }}
         >
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <path d="M7 10.5L14 17.5L21 10.5" stroke="#EFEBDD" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.5" />
+            <path
+              d="M7 10.5L14 17.5L21 10.5"
+              stroke="#EFEBDD"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.5"
+            />
           </svg>
         </div>
       </div>

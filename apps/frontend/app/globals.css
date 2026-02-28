@@ -1,5 +1,5 @@
 /* ── Google Fonts ── */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Urbanist:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -8,19 +8,19 @@
 :root {
   /* Figma SC Color Tokens */
   --sc-black: #222222;
-  --sc-black1: #1C1C1C;
-  --sc-deep-blue: #1E2A3A;
-  --sc-orange: #E07A5F;
-  --sc-white2: #EFEBDD;
-  --sc-grey1: #D8D8D8;
-  --sc-grey2: #A8A8A8;
-  --sc-grey3: #6E6E6E;
-  --sc-tan: #D6C2A3;
+  --sc-black1: #1c1c1c;
+  --sc-deep-blue: #1e2a3a;
+  --sc-orange: #e07a5f;
+  --sc-white2: #efebdd;
+  --sc-grey1: #d8d8d8;
+  --sc-grey2: #a8a8a8;
+  --sc-grey3: #6e6e6e;
+  --sc-tan: #d6c2a3;
   --sc-footer-bg: #181511;
 
   /* Legacy vars */
   --background: #222222;
-  --foreground: #EFEBDD;
+  --foreground: #efebdd;
 }
 
 /* Smooth scroll */
@@ -52,7 +52,7 @@ body {
 body {
   color: var(--sc-white2);
   background: var(--sc-black);
-  font-family: 'Urbanist', system-ui, sans-serif;
+  font-family: "Urbanist", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -106,11 +106,11 @@ a {
 
 /* ── Typography ── */
 .font-playfair {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
 }
 
 .font-urbanist {
-  font-family: 'Urbanist', sans-serif;
+  font-family: "Urbanist", sans-serif;
 }
 
 /* ── SC Utility Classes ── */
@@ -146,10 +146,10 @@ a {
   /* Orange glow text shadow */
   .text-glow-orange {
     text-shadow:
-      0px 7px 16px rgba(224, 124, 96, .22),
-      0px 29px 29px rgba(224, 124, 96, .19),
-      0px 65px 39px rgba(224, 124, 96, .11),
-      0px 115px 46px rgba(224, 124, 96, .03);
+      0px 7px 16px rgba(224, 124, 96, 0.22),
+      0px 29px 29px rgba(224, 124, 96, 0.19),
+      0px 65px 39px rgba(224, 124, 96, 0.11),
+      0px 115px 46px rgba(224, 124, 96, 0.03);
   }
 
   /* Glassmorphism */
@@ -173,7 +173,7 @@ a {
   }
 
   .noise-overlay::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
@@ -207,7 +207,6 @@ a {
 }
 
 @keyframes card-float {
-
   0%,
   100% {
     transform: translateY(0px) rotate(var(--rotate, 0deg));
@@ -229,7 +228,6 @@ a {
 }
 
 @keyframes border-flow {
-
   0%,
   100% {
     background-position: 0% 50%;
@@ -241,7 +239,6 @@ a {
 }
 
 @keyframes pulse-glow {
-
   0%,
   100% {
     box-shadow: 0 0 20px rgba(224, 122, 95, 0.2);

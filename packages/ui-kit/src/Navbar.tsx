@@ -75,7 +75,10 @@ export function Navbar({
                 className="flex items-center gap-2 text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus rounded-lg"
               >
                 {logo || (
-                  <span className="text-xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+                  <span
+                    className="text-xl font-bold tracking-tight"
+                    style={{ fontFamily: 'var(--font-playfair), serif' }}
+                  >
                     Soul<span style={{ color: '#99F6E4' }}>Canvas</span>
                   </span>
                 )}
@@ -88,7 +91,10 @@ export function Navbar({
                     key={link.href}
                     href={link.href}
                     className="text-sm text-white/50 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus rounded"
-                    style={{ letterSpacing: '0.04em', fontFamily: 'var(--font-geist-sans), sans-serif' }}
+                    style={{
+                      letterSpacing: '0.04em',
+                      fontFamily: 'var(--font-geist-sans), sans-serif',
+                    }}
                   >
                     {link.label}
                   </Link>
@@ -96,7 +102,11 @@ export function Navbar({
                 <Link
                   href={ctaHref}
                   className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-2 text-sm text-white/80 backdrop-blur-md transition-all hover:bg-white/10 hover:text-white hover:border-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus"
-                  style={{ fontFamily: 'var(--font-geist-sans), sans-serif', fontSize: '0.75rem', letterSpacing: '0.05em' }}
+                  style={{
+                    fontFamily: 'var(--font-geist-sans), sans-serif',
+                    fontSize: '0.75rem',
+                    letterSpacing: '0.05em',
+                  }}
                 >
                   {ctaText}
                 </Link>
@@ -111,11 +121,22 @@ export function Navbar({
                 aria-controls="mobile-menu-topbar"
                 aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
               >
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
                   {isMobileMenuOpen ? (
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                    />
                   )}
                 </svg>
               </button>
@@ -163,18 +184,9 @@ export function Navbar({
         {floating && (
           <motion.header
             key="floating-pill"
-            initial={shouldReduceMotion
-              ? { opacity: 0 }
-              : { opacity: 0, y: -20, scale: 0.96 }
-            }
-            animate={shouldReduceMotion
-              ? { opacity: 1 }
-              : { opacity: 1, y: 0, scale: 1 }
-            }
-            exit={shouldReduceMotion
-              ? { opacity: 0 }
-              : { opacity: 0, y: -20, scale: 0.96 }
-            }
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -20, scale: 0.96 }}
+            animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -20, scale: 0.96 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="fixed top-5 left-1/2 z-50 -translate-x-1/2 w-full max-w-2xl px-4"
           >
@@ -189,7 +201,10 @@ export function Navbar({
                 className="flex items-center text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus rounded-full"
               >
                 {logo || (
-                  <span className="text-base font-bold tracking-tight" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+                  <span
+                    className="text-base font-bold tracking-tight"
+                    style={{ fontFamily: 'var(--font-playfair), serif' }}
+                  >
                     Soul<span style={{ color: '#99F6E4' }}>Canvas</span>
                   </span>
                 )}
@@ -202,7 +217,11 @@ export function Navbar({
                     key={link.href}
                     href={link.href}
                     className="text-xs text-white/40 transition-colors hover:text-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus rounded"
-                    style={{ letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'var(--font-geist-sans), sans-serif' }}
+                    style={{
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      fontFamily: 'var(--font-geist-sans), sans-serif',
+                    }}
                   >
                     {link.label}
                   </Link>
@@ -213,7 +232,10 @@ export function Navbar({
               <Link
                 href={ctaHref}
                 className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2 text-xs font-semibold text-black transition-all hover:bg-white/90 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus cursor-pointer"
-                style={{ letterSpacing: '0.03em', fontFamily: 'var(--font-geist-sans), sans-serif' }}
+                style={{
+                  letterSpacing: '0.03em',
+                  fontFamily: 'var(--font-geist-sans), sans-serif',
+                }}
               >
                 {ctaText}
               </Link>

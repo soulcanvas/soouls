@@ -16,7 +16,7 @@ export default function SundayReviewSection() {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
@@ -37,11 +37,14 @@ export default function SundayReviewSection() {
       <div
         className="absolute"
         style={{
-          width: '400px', height: '400px',
+          width: '400px',
+          height: '400px',
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(214,194,163,0.15) 0%, rgba(214,194,163,0) 70%)',
           filter: 'blur(80px)',
-          top: '-80px', left: '50%', transform: 'translateX(-50%)',
+          top: '-80px',
+          left: '50%',
+          transform: 'translateX(-50%)',
           pointerEvents: 'none',
         }}
       />
@@ -65,7 +68,12 @@ export default function SundayReviewSection() {
                 <div>
                   <p
                     className="font-urbanist"
-                    style={{ fontSize: '13px', letterSpacing: '0.1em', color: '#6E6E6E', marginBottom: '4px' }}
+                    style={{
+                      fontSize: '13px',
+                      letterSpacing: '0.1em',
+                      color: '#6E6E6E',
+                      marginBottom: '4px',
+                    }}
                   >
                     NOV, 02, 2023
                   </p>
@@ -79,7 +87,11 @@ export default function SundayReviewSection() {
                 {/* Squiggly / logo mark placeholder */}
                 <div style={{ width: 48, height: 48, opacity: 0.4 }}>
                   <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 24C8 24 12 8 24 8C36 8 40 24 40 24C40 24 36 40 24 40C12 40 8 24 8 24Z" stroke="#D6C2A3" strokeWidth="1.5" />
+                    <path
+                      d="M8 24C8 24 12 8 24 8C36 8 40 24 40 24C40 24 36 40 24 40C12 40 8 24 8 24Z"
+                      stroke="#D6C2A3"
+                      strokeWidth="1.5"
+                    />
                   </svg>
                 </div>
               </div>
@@ -107,7 +119,9 @@ export default function SundayReviewSection() {
                   color: '#A8A8A8',
                 }}
               >
-                This week, your entries gravitated toward themes of endurance. The silence of the desert reflected in your Tuesday voice notes, revealing a growing peace with the unknown...
+                This week, your entries gravitated toward themes of endurance. The silence of the
+                desert reflected in your Tuesday voice notes, revealing a growing peace with the
+                unknown...
               </p>
 
               {/* Color bar graphic */}
@@ -119,9 +133,7 @@ export default function SundayReviewSection() {
                       flex: 1,
                       height: h,
                       borderRadius: '6px',
-                      background: i % 2 === 0
-                        ? '#504A41'
-                        : '#613E34',
+                      background: i % 2 === 0 ? '#504A41' : '#613E34',
                     }}
                   />
                 ))}
@@ -152,7 +164,8 @@ export default function SundayReviewSection() {
                 opacity: 0.85,
               }}
             >
-              A beautifully typeset, single-screen summary of your week. Synthesized by intent — delivered with care.
+              A beautifully typeset, single-screen summary of your week. Synthesized by intent —
+              delivered with care.
             </p>
           </div>
         </div>
