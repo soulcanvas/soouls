@@ -19,8 +19,8 @@ export default function NewEntryPage() {
 
   // ─── Stable refs ──────────────────────────────────────────────────────────
   // Mutations stored in refs so they never cause useCallback to change identity
-  const createMutation = trpc.createEntry.useMutation();
-  const updateMutation = trpc.updateEntry.useMutation();
+  const createMutation = trpc.private.entries.create.useMutation();
+  const updateMutation = trpc.private.entries.update.useMutation();
   const createMutateRef = useRef(createMutation.mutateAsync);
   const updateMutateRef = useRef(updateMutation.mutateAsync);
   useEffect(() => {
@@ -55,7 +55,7 @@ export default function NewEntryPage() {
   }, [saveStatus]);
 
   // ─── Fetch existing entry (for edit mode) ─────────────────────────────────
-  const { data: existingEntry } = trpc.getEntry.useQuery(
+  const { data: existingEntry } = trpc.private.entries.getOne.useQuery(
     { id: initialId ?? '' },
     { enabled: !!initialId },
   );

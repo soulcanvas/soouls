@@ -15,13 +15,21 @@ export async function createTrpcContext(req: Request) {
       });
       userId = session.sub;
     } catch (error) {
-      // Token is invalid, user is not authenticated
-      console.error('Invalid token:', error);
+      // Token is invalid, user is not authenticated — continue as anonymous
+      console.error('[Auth] Invalid token:', error);
     }
   }
+
+  // req.ip is set correctly when trust proxy is enabled in main.ts
+  // Falls back to the socket address if not forwarded
+  const ip =
+    (req.headers['x-forwarded-for'] as string | undefined)?.split(',')[0]?.trim() ??
+    req.ip ??
+    '127.0.0.1';
 
   return {
     userId,
     authToken: token,
+    ip,
   };
 }

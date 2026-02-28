@@ -5,7 +5,9 @@
   "type": "module",
   "exports": {
     "./router": "./src/router.ts",
-    "./client": "./src/client.ts"
+    "./client": "./src/client.ts",
+    "./trpc": "./src/trpc.ts",
+    "./rate-limit": "./src/rate-limit.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit"
