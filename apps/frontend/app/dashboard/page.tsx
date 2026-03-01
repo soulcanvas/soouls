@@ -6,9 +6,24 @@ import { CheckCircle2, ChevronRight, Folder, Mic, PenLine, Plus } from 'lucide-r
 import Link from 'next/link';
 import { trpc } from '../../src/utils/trpc'; // Relative path
 
+function formatRelativeTime(dateInput: string | Date | undefined | null) {
+  if (!dateInput) return 'Past';
+  const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+  const now = new Date();
+  const diffInMs = now.getTime() - date.getTime();
+  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+  if (diffInDays <= 0) return 'Today';
+  if (diffInDays === 1) return 'Yesterday';
+  if (diffInDays < 7) return `${diffInDays} days ago`;
+  if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`;
+  if (diffInDays < 365) return `${Math.floor(diffInDays / 30)} months ago`;
+  return `${Math.floor(diffInDays / 365)} years ago`;
+}
+
 export default function DashboardPage() {
   const { user } = useUser();
-  const { data: galaxyData } = trpc.getGalaxyData.useQuery();
+  const { data: galaxyData } = trpc.private.entries.getGalaxy.useQuery();
 
   const totalEntries = galaxyData?.length || 0;
 
@@ -90,9 +105,18 @@ export default function DashboardPage() {
                 <PenLine className="w-3 h-3" /> Text
               </span>
             </div>
-            <Link href={continueLink} className="ml-auto">
-              <ActionButton icon={Plus}>{latestEntryId ? 'Continue' : 'New Entry'}</ActionButton>
-            </Link>
+            <div className="ml-auto flex items-center gap-3">
+              {latestEntryId && (
+                <Link href="/dashboard/new-entry">
+                  <ActionButton variant="secondary" icon={Plus}>
+                    New Entry
+                  </ActionButton>
+                </Link>
+              )}
+              <Link href={continueLink}>
+                <ActionButton icon={Plus}>{latestEntryId ? 'Continue' : 'New Entry'}</ActionButton>
+              </Link>
+            </div>
           </div>
         </WidgetCard>
 
@@ -167,7 +191,10 @@ export default function DashboardPage() {
                 <p className="text-xs text-amber-500/80 mt-1">Tomorrow</p>
               </div>
             </div>
-            <button className="w-full py-2 text-xs text-slate-400 hover:text-base-cream transition-colors">
+            <button
+              type="button"
+              className="w-full py-2 text-xs text-slate-400 hover:text-base-cream transition-colors"
+            >
               + Add task
             </button>
           </div>
@@ -195,6 +222,63 @@ export default function DashboardPage() {
           </div>
         </WidgetCard>
       </div>
+
+      {/* Historical Entries Timeline */}
+      {galaxyData && galaxyData.length > 0 && (
+        <section className="mt-16 mb-8">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="font-editorial text-3xl text-base-cream">Your Timeline</h2>
+            <Link
+              href="/dashboard/insights"
+              className="text-sm font-clarity text-slate-500 hover:text-base-cream transition-colors flex items-center"
+            >
+              View All <ChevronRight className="w-4 h-4 ml-1" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {galaxyData
+              .slice()
+              .reverse()
+              .map((entry) => {
+                const first =
+                  (entry.content || '').split('\n').find((l: string) => l.trim().length > 0) ||
+                  'Empty entry';
+                const display = first.length > 30 ? `${first.substring(0, 30)}...` : first;
+
+                return (
+                  <Link
+                    key={entry.id}
+                    href={`/dashboard/new-entry?id=${entry.id}`}
+                    className="block group"
+                  >
+                    <div className="p-6 rounded-[24px] bg-[#0F0F0F] border border-white/5 hover:bg-white/[0.02] hover:border-white/10 transition-all duration-300 h-full flex flex-col justify-between min-h-[160px]">
+                      <div>
+                        <div className="flex justify-between items-start mb-4">
+                          <span className="text-[10px] font-clarity uppercase text-slate-500 tracking-widest">
+                            {/* @ts-expect-error - TRPC client passes createdAt safely after regeneration */}
+                            {formatRelativeTime(entry.createdAt)}
+                          </span>
+                          {entry.type === 'task' ? (
+                            <CheckCircle2 className="w-4 h-4 text-slate-600" />
+                          ) : (
+                            <PenLine className="w-4 h-4 text-slate-600" />
+                          )}
+                        </div>
+                        <h4 className="font-editorial text-xl text-slate-300 group-hover:text-amber-500 transition-colors">
+                          {display}
+                        </h4>
+                      </div>
+                      <p className="font-clarity text-sm text-slate-500 mt-3 line-clamp-2 leading-relaxed">
+                        {entry.content}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
+          </div>
+        </section>
+      )}
     </DashboardLayout>
   );
 }
@@ -211,6 +295,7 @@ function FolderOpenIcon({ className }: { className?: string }) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
+      <title>Folder</title>
       <path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2" />
     </svg>
   );

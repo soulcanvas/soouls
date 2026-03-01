@@ -64,7 +64,7 @@ export class EntriesService {
         content: encryptData(content, userId),
         updatedAt: new Date(),
       })
-      .where(eq(journalEntries.id, id));
+      .where(and(eq(journalEntries.id, id), eq(journalEntries.userId, userId)));
   }
 
   async findSimilarEntries(
@@ -87,6 +87,7 @@ export class EntriesService {
       .select({
         id: journalEntries.id,
         content: journalEntries.content,
+        createdAt: journalEntries.createdAt,
         type: journalEntries.type,
         sentimentColor: journalEntries.sentimentColor,
         sentimentLabel: journalEntries.sentimentLabel,

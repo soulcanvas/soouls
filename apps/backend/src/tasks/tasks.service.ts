@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { db, eq, sql } from '@soulcanvas/database/client';
+import { and, db, eq, sql } from '@soulcanvas/database/client';
 import { canvasNodes, journalEntries } from '@soulcanvas/database/schema';
 
 @Injectable()
@@ -39,11 +39,16 @@ export class TasksService {
     }
   }
 
-  async convertToTask(entryId: string, deadline: Date) {
-    await db
+  async convertToTask(userId: string, entryId: string, deadline: Date) {
+    const result = await db
       .update(journalEntries)
       .set({ type: 'task', deadline })
-      .where(eq(journalEntries.id, entryId));
+      .where(and(eq(journalEntries.id, entryId), eq(journalEntries.userId, userId)))
+      .returning({ id: journalEntries.id });
+
+    if (result.length === 0) {
+      throw new Error('Unauthorized or entry not found.');
+    }
 
     await db.update(canvasNodes).set({ visualMass: 2.0 }).where(eq(canvasNodes.entryId, entryId));
   }

@@ -1,17 +1,28 @@
-import { Navbar } from '@soulcanvas/ui-kit';
-import { GalaxyView } from './components/GalaxyView';
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import FooterSection from "./components/FooterSection";
+import HeroSection from "./components/HeroSection";
+import LandingNavbar from "./components/LandingNavbar";
+import RiverOfTimeSection from "./components/RiverOfTimeSection";
+import SpatialCanvasSection from "./components/SpatialCanvasSection";
+import SundayReviewSection from "./components/SundayReviewSection";
+import WaitlistSection from "./components/WaitlistSection";
 
-const navLinks = [
-  { label: 'Features', href: '#features' },
-  { label: 'Safe Space', href: '#safe-space' },
-  { label: 'Sunday Review', href: '#review' },
-];
+export default async function Home() {
+  const { userId } = await auth();
+  if (userId) {
+    redirect("/dashboard");
+  }
 
-export default function Home() {
   return (
-    <main className="bg-base-void min-h-screen">
-      <Navbar links={navLinks} ctaText="Get Started" ctaHref="/sign-up" transparent />
-      <GalaxyView />
+    <main style={{ backgroundColor: "#FFFFFF" }}>
+      <LandingNavbar />
+      <HeroSection />
+      <RiverOfTimeSection />
+      <SpatialCanvasSection />
+      <SundayReviewSection />
+      <WaitlistSection />
+      <FooterSection />
     </main>
   );
 }

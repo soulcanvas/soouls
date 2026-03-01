@@ -1,15 +1,14 @@
 'use client';
 
 import { m } from 'framer-motion';
-import { BookOpen, Camera, Edit3, Link as LinkIcon } from 'lucide-react';
+import { BookOpen, Camera, Edit3, Link as LinkIcon, type LucideIcon } from 'lucide-react';
 import type React from 'react';
 import { useRef, useState } from 'react';
 
 // Reusable animated bento card
 interface BentoCardProps {
   className?: string;
-  children?: React.ReactNode;
-  icon: any;
+  icon: LucideIcon;
   title: string;
   desc: string;
   tag: string;
@@ -19,7 +18,6 @@ interface BentoCardProps {
 
 function BentoCard({
   className,
-  children,
   icon: Icon,
   title,
   desc,

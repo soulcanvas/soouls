@@ -1,0 +1,35 @@
+$ turbo run check-types
+• turbo 2.8.10
+• Packages in scope: @soulcanvas/ai-engine, @soulcanvas/api, @soulcanvas/backend, @soulcanvas/database, @soulcanvas/frontend, @soulcanvas/logic, @soulcanvas/typescript-config, @soulcanvas/ui-kit
+• Running check-types in 8 packages
+• Remote caching disabled
+@soulcanvas/logic:check-types: cache hit, replaying logs 1407fd55041166c8
+@soulcanvas/logic:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soulcanvas/logic:check-types: [?9001l[?1004l[22m
+@soulcanvas/ui-kit:check-types: cache miss, executing 9e3b178a087c4e2e
+@soulcanvas/ai-engine:check-types: cache hit, replaying logs ac1f76a465e0d772
+@soulcanvas/ai-engine:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soulcanvas/ai-engine:check-types: [?9001l[?1004l[22m
+@soulcanvas/database:check-types: cache hit, replaying logs b3ddc2b3ee1c13da
+@soulcanvas/database:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soulcanvas/database:check-types: [?9001l[?1004l[22m
+@soulcanvas/api:check-types: cache hit, replaying logs e3b900ff997eab5f
+@soulcanvas/api:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soulcanvas/api:check-types: [22m[?9001l[?1004l
+@soulcanvas/backend:check-types: cache hit, replaying logs 0202b192489ba053
+@soulcanvas/backend:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soulcanvas/backend:check-types: [22m[?9001l[?1004l
+@soulcanvas/ui-kit:check-types: $ tsc --noEmit
+@soulcanvas/ui-kit:check-types: src/RiverTimeline.tsx(38,14): error TS2304: Cannot find name 'i'.
+@soulcanvas/ui-kit:check-types: src/RiverTimeline.tsx(58,16): error TS2304: Cannot find name 'i'.
+@soulcanvas/ui-kit:check-types: src/RiverTimeline.tsx(74,20): error TS2304: Cannot find name 'i'.
+@soulcanvas/ui-kit:check-types: src/RiverTimeline.tsx(78,23): error TS2304: Cannot find name 'i'.
+@soulcanvas/ui-kit:check-types: ERROR: command finished with error: command (C:\Users\HP\Videos\projects\soulcanvas\packages\ui-kit) C:\Users\HP\.bun\bin\bun.exe run check-types exited (2)
+@soulcanvas/ui-kit#check-types: command (C:\Users\HP\Videos\projects\soulcanvas\packages\ui-kit) C:\Users\HP\.bun\bin\bun.exe run check-types exited (2)
+
+ Tasks:    5 successful, 6 total
+Cached:    5 cached, 6 total
+  Time:    12.241s 
+Failed:    @soulcanvas/ui-kit#check-types
+
+ ERROR  run failed: command  exited (2)
