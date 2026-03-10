@@ -1,17 +1,16 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useUser } from '@clerk/nextjs';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { useRouter } from "next/navigation";
 
 const CalendarApp = () => {
-
-  // REAL CLERK USER
   const { user } = useUser();
+  const router = useRouter();
 
   const [view, setView] = useState('Monthly');
-  
-  // --- Dynamic Calendar Logic ---
+
   const [currentDate, setCurrentDate] = useState(new Date());
   const today = new Date();
 
@@ -19,16 +18,18 @@ const CalendarApp = () => {
   const year = currentDate.getFullYear();
 
   const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    'January','February','March','April','May','June',
+    'July','August','September','October','November','December',
   ];
 
   const firstDayOfMonth = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
+  // FIX: prevent month overflow (March 31 → Feb bug)
   const changeMonth = (direction: number) => {
     const newDate = new Date(currentDate);
-    newDate.setMonth(currentDate.getMonth() + direction);
+    newDate.setDate(1);
+    newDate.setMonth(newDate.getMonth() + direction);
     setCurrentDate(newDate);
   };
 
@@ -44,13 +45,13 @@ const CalendarApp = () => {
     }
 
     return items;
-  }, [month, year, firstDayOfMonth, daysInMonth]);
+  }, [firstDayOfMonth, daysInMonth]);
 
   const handleGoBack = () => {
-    window.location.href = '/dashboard';
+    router.push("/dashboard");
   };
 
-  const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  const daysOfWeek = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
 
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white font-sans p-8 flex flex-col items-center justify-center overflow-hidden selection:bg-[#e67e65]/30 relative">
@@ -61,7 +62,7 @@ const CalendarApp = () => {
           className="text-[16vw] font-bold leading-none tracking-tighter text-transparent opacity-30"
           style={{
             WebkitTextStroke: '1.5px rgba(255,255,255,0.4)',
-            fontFamily: 'system-ui, -apple-system, sans-serif'
+            fontFamily: 'system-ui, -apple-system, sans-serif',
           }}
         >
           Soulcanvas
@@ -70,9 +71,8 @@ const CalendarApp = () => {
 
       {/* Header */}
       <div className="w-full max-w-4xl flex justify-between items-center mb-12 relative z-10 px-4">
-
         <div className="flex items-baseline gap-1 text-2xl font-semibold tracking-tight">
-          <button 
+          <button
             onClick={handleGoBack}
             className="text-gray-500 hover:text-gray-300 transition-colors cursor-pointer border-none bg-transparent p-0"
           >
@@ -84,10 +84,8 @@ const CalendarApp = () => {
 
         {/* User Profile */}
         <div className="flex items-center gap-4">
-
           <div className="w-12 h-12 rounded-full border-2 border-yellow-500 p-[2px] overflow-hidden bg-gray-800 flex items-center justify-center shadow-lg transition-transform hover:scale-110">
             <div className="w-full h-full rounded-full overflow-hidden bg-zinc-700">
-
               {user?.imageUrl ? (
                 <img
                   src={user.imageUrl}
@@ -97,10 +95,8 @@ const CalendarApp = () => {
               ) : (
                 <div className="w-full h-full animate-pulse bg-zinc-600" />
               )}
-
             </div>
           </div>
-
         </div>
       </div>
 
@@ -109,9 +105,10 @@ const CalendarApp = () => {
 
         {/* Controls */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
-
           <div className="flex items-center gap-10">
-            <button 
+
+            <button
+              aria-label="Previous month"
               onClick={() => changeMonth(-1)}
               className="text-gray-500 hover:text-white transition-colors"
             >
@@ -122,28 +119,38 @@ const CalendarApp = () => {
               {months[month]} {year}
             </h2>
 
-            <button 
+            <button
+              aria-label="Next month"
               onClick={() => changeMonth(1)}
               className="text-gray-500 hover:text-white transition-colors"
             >
               <ChevronRight size={28} strokeWidth={1.5} />
             </button>
+
           </div>
 
+          {/* View Switcher */}
           <div className="bg-black/60 p-1 rounded-full border border-white/5 flex items-center">
-            {['Monthly', 'Weekly', 'Daily'].map((v) => (
-              <button
-                key={v}
-                onClick={() => setView(v)}
-                className={`px-8 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
-                  view === v
-                    ? 'bg-[#e67e65] text-white shadow-xl'
-                    : 'text-gray-500 hover:text-gray-300'
-                }`}
-              >
-                {v}
-              </button>
-            ))}
+            {['Monthly', 'Weekly', 'Daily'].map((v) => {
+              const disabled = v !== "Monthly";
+
+              return (
+                <button
+                  key={v}
+                  onClick={() => !disabled && setView(v)}
+                  disabled={disabled}
+                  className={`px-8 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
+                    view === v
+                      ? 'bg-[#e67e65] text-white shadow-xl'
+                      : disabled
+                      ? 'text-gray-600 cursor-not-allowed'
+                      : 'text-gray-500 hover:text-gray-300'
+                  }`}
+                >
+                  {v}
+                </button>
+              );
+            })}
           </div>
 
         </div>
@@ -170,17 +177,15 @@ const CalendarApp = () => {
 
             return (
               <div key={item.key} className="relative flex justify-center items-center group">
+
                 {item.day ? (
                   <>
                     <div
-                      className={`
-                        w-14 h-16 flex items-center justify-center text-2xl font-light cursor-pointer transition-all duration-300 rounded-2xl
-                        ${
-                          isToday
-                            ? 'bg-[#e67e65] text-white shadow-2xl shadow-[#e67e65]/40 scale-105'
-                            : 'text-gray-300 hover:bg-white/5 hover:scale-110'
-                        }
-                      `}
+                      className={`w-14 h-16 flex items-center justify-center text-2xl font-light cursor-pointer transition-all duration-300 rounded-2xl ${
+                        isToday
+                          ? 'bg-[#e67e65] text-white shadow-2xl shadow-[#e67e65]/40 scale-105'
+                          : 'text-gray-300 hover:bg-white/5 hover:scale-110'
+                      }`}
                     >
                       {item.day}
                     </div>
@@ -192,6 +197,7 @@ const CalendarApp = () => {
                 ) : (
                   <div className="w-14 h-16" />
                 )}
+
               </div>
             );
           })}

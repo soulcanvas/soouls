@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -18,8 +18,8 @@ export default function HeroSection() {
       contentRef.current.style.opacity = `${Math.max(0, 1 - relativeScroll / 500)}`;
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
@@ -28,8 +28,8 @@ export default function HeroSection() {
       id="hero"
       className="relative w-full overflow-hidden bg-[#222222]"
       style={{
-        height: "100svh",
-        minHeight: "700px",
+        height: '100svh',
+        minHeight: '700px',
       }}
     >
       {/* Hero Background Video */}
@@ -64,7 +64,7 @@ export default function HeroSection() {
         <div className="flex flex-col items-center">
           <span
             className="font-urbanist font-bold text-white tracking-tight"
-            style={{ fontSize: "clamp(40px, 8vw, 80px)", lineHeight: "1em" }}
+            style={{ fontSize: 'clamp(40px, 8vw, 80px)', lineHeight: '1em' }}
           >
             Welcome to a
           </span>
@@ -73,16 +73,16 @@ export default function HeroSection() {
             <span
               className="font-playfair font-bold italic text-[#E07A5F]"
               style={{
-                fontSize: "clamp(46px, 9vw, 92px)",
-                lineHeight: "1em",
-                textShadow: "0px 7px 16px rgba(224, 124, 96, 0.4)",
+                fontSize: 'clamp(46px, 9vw, 92px)',
+                lineHeight: '1em',
+                textShadow: '0px 7px 16px rgba(224, 124, 96, 0.4)',
               }}
             >
               quieter
             </span>
             <span
               className="font-urbanist font-bold text-white tracking-tight"
-              style={{ fontSize: "clamp(40px, 8vw, 80px)", lineHeight: "1em" }}
+              style={{ fontSize: 'clamp(40px, 8vw, 80px)', lineHeight: '1em' }}
             >
               way to think.
             </span>
@@ -91,17 +91,16 @@ export default function HeroSection() {
 
         <p
           className="font-urbanist font-normal mb-11 text-[#EFEBDD] opacity-90 max-w-[760px]"
-          style={{ fontSize: "20px", lineHeight: "1.5em" }}
+          style={{ fontSize: '20px', lineHeight: '1.5em' }}
         >
-          Non-linear journaling designed for depth. Capture your thoughts as
-          they happen, not just when they fit a timeline. Build a map of your
-          mind.
+          Non-linear journaling designed for depth. Capture your thoughts as they happen, not just
+          when they fit a timeline. Build a map of your mind.
         </p>
 
         <a
           href="/sign-up"
           className="font-urbanist font-semibold bg-[#E07A5F] text-[#222222] px-8 h-16 rounded-xl flex items-center transition-transform hover:scale-105 active:scale-95"
-          style={{ fontSize: "20px" }}
+          style={{ fontSize: '20px' }}
         >
           Start Writing
         </a>

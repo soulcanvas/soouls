@@ -1,7 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { BookOpen, FolderOpen, Home, LayoutGrid, Library, Settings, Sparkles, Calendar } from 'lucide-react';
+import {
+  BookOpen,
+  Calendar,
+  FolderOpen,
+  Home,
+  LayoutGrid,
+  Library,
+  Settings,
+  Sparkles,
+} from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
