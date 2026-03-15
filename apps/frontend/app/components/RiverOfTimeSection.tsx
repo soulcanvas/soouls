@@ -182,13 +182,13 @@ export default function RiverOfTimeSection() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.querySelectorAll('.reveal').forEach((el, i) => {
               setTimeout(() => el.classList.add('in-view'), i * 120);
             });
           }
-        });
+        }
       },
       { threshold: 0.15 },
     );

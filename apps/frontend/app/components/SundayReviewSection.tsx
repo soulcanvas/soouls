@@ -8,13 +8,13 @@ export default function SundayReviewSection() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.querySelectorAll('.reveal').forEach((el, i) => {
               setTimeout(() => el.classList.add('in-view'), i * 150);
             });
           }
-        });
+        }
       },
       { threshold: 0.1 },
     );
@@ -153,6 +153,7 @@ export default function SundayReviewSection() {
                   preserveAspectRatio="none"
                   style={{ overflow: 'visible' }}
                 >
+                  <title>Weekly Emotional Trajectory Graph</title>
                   {/* The connected golden path */}
                   <path
                     d="M 5 35 L 50 48 L 100 30 L 140 42 L 190 25 L 240 20 L 295 28"

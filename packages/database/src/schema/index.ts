@@ -19,6 +19,7 @@ const vector = customType<{ data: number[] }>({
 });
 
 export const entryTypeEnum = pgEnum('entry_type', ['entry', 'task']);
+export const entryStatusEnum = pgEnum('entry_status', ['draft', 'published', 'archived']);
 export const messageChannelEnum = pgEnum('message_channel', ['email', 'whatsapp']);
 export const userAccountStatusEnum = pgEnum('user_account_status', [
   'active',
@@ -61,13 +62,18 @@ export const adminInviteStatusEnum = pgEnum('admin_invite_status', [
 ]);
 export const developerApiKeyStatusEnum = pgEnum('developer_api_key_status', ['active', 'revoked']);
 
+// ────────────────────────────────────────
 // Users table
+// ────────────────────────────────────────
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
   clerkId: text('clerk_id').notNull().unique(), // Link to Clerk
   email: text('email').notNull().unique(),
   name: text('name'),
   phoneNumber: text('phone_number'),
+  avatarUrl: text('avatar_url'),
+  bio: text('bio'),
+  timezone: text('timezone').default('UTC'),
   accountStatus: userAccountStatusEnum('account_status').default('active').notNull(),
   billingTier: billingTierEnum('billing_tier').default('free').notNull(),
   themePreference: text('theme_preference').default('aurora'),
@@ -85,7 +91,26 @@ export const users = pgTable('users', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
+// ────────────────────────────────────────
+// Clusters table (user-created groupings)
+// ────────────────────────────────────────
+export const clusters = pgTable('clusters', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id')
+    .references(() => users.id, { onDelete: 'cascade' })
+    .notNull(),
+  name: text('name').notNull(),
+  description: text('description'),
+  color: text('color').default('#F59E0B'),
+  icon: text('icon').default('sparkles'),
+  isPinned: boolean('is_pinned').default(false).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+// ────────────────────────────────────────
 // Journal entries table
+// ────────────────────────────────────────
 export const journalEntries = pgTable('journal_entries', {
   id: uuid('id').primaryKey().defaultRandom(),
   userId: uuid('user_id')
@@ -102,14 +127,26 @@ export const journalEntries = pgTable('journal_entries', {
 
   // Task specific fields
   deadline: timestamp('deadline'),
-  status: text('status').default('pending'), // pending, completed
+  status: entryStatusEnum('status').default('draft'), // Uses the entry_status enum from DB
 
   metadata: jsonb('metadata'), // Additional data like tags, location, etc.
+
+  // Columns that exist in the live DB
+  clusterId: uuid('cluster_id').references(() => clusters.id, { onDelete: 'set null' }),
+  title: text('title'),
+  isPinned: boolean('is_pinned').default(false).notNull(),
+  wordCount: integer('word_count').default(0),
+  taskStatus: text('task_status').default('pending'),
+  attachments: jsonb('attachments'),
+  tags: jsonb('tags'),
+
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
+// ────────────────────────────────────────
 // Canvas nodes table (for 3D visualization)
+// ────────────────────────────────────────
 export const canvasNodes = pgTable('canvas_nodes', {
   id: uuid('id').primaryKey().defaultRandom(),
   entryId: uuid('entry_id')
@@ -121,8 +158,12 @@ export const canvasNodes = pgTable('canvas_nodes', {
   visualMass: real('visual_mass').default(1.0).notNull(), // For gravitational pull
   emotion: text('emotion'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow(),
 });
 
+// ────────────────────────────────────────
+// Admin tables (Command Center)
+// ────────────────────────────────────────
 export const adminUsers = pgTable('admin_users', {
   id: uuid('id').primaryKey().defaultRandom(),
   clerkId: text('clerk_id').unique(),
@@ -143,6 +184,7 @@ export const adminInvites = pgTable('admin_invites', {
   id: uuid('id').primaryKey().defaultRandom(),
   email: text('email').notNull(),
   role: adminRoleEnum('role').notNull(),
+  permissions: jsonb('permissions').$type<string[]>().default([]).notNull(),
   status: adminInviteStatusEnum('status').default('pending').notNull(),
   invitedByAdminUserId: uuid('invited_by_admin_user_id').references(() => adminUsers.id),
   inviteToken: text('invite_token').notNull().unique(),
@@ -200,6 +242,9 @@ export const serviceControls = pgTable('service_controls', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+// ────────────────────────────────────────
+// Messaging tables
+// ────────────────────────────────────────
 export const messageCampaigns = pgTable('message_campaigns', {
   id: uuid('id').primaryKey().defaultRandom(),
   createdByUserId: uuid('created_by_user_id').references(() => users.id),

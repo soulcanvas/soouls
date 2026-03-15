@@ -3,31 +3,31 @@ $ turbo run check-types
 • Packages in scope: @soulcanvas/admin-dashboard, @soulcanvas/ai-engine, @soulcanvas/api, @soulcanvas/backend, @soulcanvas/database, @soulcanvas/frontend, @soulcanvas/logic, @soulcanvas/typescript-config, @soulcanvas/ui-kit
 • Running check-types in 9 packages
 • Remote caching disabled
-@soulcanvas/admin-dashboard:check-types: cache hit, replaying logs c3f523c7e6c2a506
+@soulcanvas/admin-dashboard:check-types: cache hit, replaying logs bab87f040cadbf47
 @soulcanvas/admin-dashboard:check-types: $ bun run --env-file=../../.env scripts/run.ts bunx tsc --noEmit -p tsconfig.json
+@soulcanvas/ai-engine:check-types: cache hit, replaying logs 6228f8783e61b5a9
+@soulcanvas/ai-engine:check-types: $ tsc --noEmit
+@soulcanvas/ui-kit:check-types: cache hit, replaying logs 307e08336f9e796b
+@soulcanvas/ui-kit:check-types: $ tsc --noEmit
 @soulcanvas/logic:check-types: cache hit, replaying logs d42fec961377a9bd
 @soulcanvas/logic:check-types: $ tsc --noEmit
 @soulcanvas/database:check-types: cache hit, replaying logs 31a4554f1fbe218f
 @soulcanvas/database:check-types: $ tsc --noEmit
-@soulcanvas/ui-kit:check-types: cache hit, replaying logs 307e08336f9e796b
-@soulcanvas/ui-kit:check-types: $ tsc --noEmit
-@soulcanvas/ai-engine:check-types: cache hit, replaying logs 6228f8783e61b5a9
-@soulcanvas/ai-engine:check-types: $ tsc --noEmit
 @soulcanvas/api:check-types: cache hit, replaying logs 6a2de273b0962abd
 @soulcanvas/api:check-types: $ tsc --noEmit
-@soulcanvas/frontend:check-types: cache miss, executing c150761c0554128c
-@soulcanvas/backend:check-types: cache hit, replaying logs 4a898641fa7fe13d
+@soulcanvas/frontend:check-types: cache miss, executing 75cad60222168c5d
+@soulcanvas/backend:check-types: cache hit, replaying logs 8462db04931a3fbb
 @soulcanvas/backend:check-types: $ tsc --noEmit
 @soulcanvas/frontend:check-types: $ next typegen && tsc --noEmit
 @soulcanvas/frontend:check-types: Generating route types...
 @soulcanvas/frontend:check-types: ✓ Types generated successfully
-@soulcanvas/frontend:check-types: app/dashboard/new-entry/page.tsx(933,4): error TS1005: ')' expected.
+@soulcanvas/frontend:check-types: app/dashboard/new-entry/page.tsx(987,56): error TS2339: Property 'get' does not exist on type 'DecorateRouterRecord<{ ctx: TrpcContext; meta: object; errorShape: DefaultErrorShape; transformer: false; }, DecorateCreateRouterOptions<{ create: MutationProcedure<{ input: { content: string; type?: "entry" | "task" | undefined; }; output: { ...; }; meta: object; }>; update: MutationProcedure<...>; getOne: QueryPro...'.
 @soulcanvas/frontend:check-types: ERROR: command finished with error: command (C:\Users\HP\Videos\projects\soulcanvas\apps\frontend) C:\Users\HP\.bun\bin\bun.exe run check-types exited (2)
 @soulcanvas/frontend#check-types: command (C:\Users\HP\Videos\projects\soulcanvas\apps\frontend) C:\Users\HP\.bun\bin\bun.exe run check-types exited (2)
 
  Tasks:    7 successful, 8 total
 Cached:    7 cached, 8 total
-  Time:    8.341s 
+  Time:    18.893s 
 Failed:    @soulcanvas/frontend#check-types
 
  ERROR  run failed: command  exited (2)

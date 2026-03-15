@@ -1,0 +1,405 @@
+$ biome check .
+.\apps\admin-dashboard\app\audit-logs\page.tsx:68:37 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    66 │           <div className="animate-pulse space-y-2">
+    67 │             {[...Array(10)].map((_, i) => (
+  > 68 │               <div key={`skeleton-${i}`} className="h-14 rounded-xl bg-white/[0.03]" />
+       │                                     ^
+    69 │             ))}
+    70 │           </div>
+  
+  i This is the source of the key value.
+  
+    65 │         {!filteredLogs ? (
+    66 │           <div className="animate-pulse space-y-2">
+  > 67 │             {[...Array(10)].map((_, i) => (
+       │                                     ^
+    68 │               <div key={`skeleton-${i}`} className="h-14 rounded-xl bg-white/[0.03]" />
+    69 │             ))}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\FooterSection.tsx:158:32 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    156 │         {Array.from({ length: 4 }).map((_, i) => (
+    157 │           <span
+  > 158 │             key={`footer-txt-${i}`}
+        │                                ^
+    159 │             className="font-playfair"
+    160 │             style={{
+  
+  i This is the source of the key value.
+  
+    154 │       {/* Stacked Text block matching Figma */}
+    155 │       <div className="absolute bottom-[-60px] left-0 right-0 z-10 flex flex-col items-center justify-center pointer-events-none opacity-20">
+  > 156 │         {Array.from({ length: 4 }).map((_, i) => (
+        │                                            ^
+    157 │           <span
+    158 │             key={`footer-txt-${i}`}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:295:13 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+    293 │           </p>
+    294 │           <div className="flex items-center gap-2">
+  > 295 │             <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+        │             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    296 │               <circle cx="8" cy="8" r="6" stroke="#E5B36A" strokeWidth="1.5" />
+    297 │               <path d="M8 5V8.5L10 10" stroke="#E5B36A" strokeWidth="1.5" strokeLinecap="round" />
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:320:11 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+    318 │         >
+    319 │           {/* Stickman Doodle SVG */}
+  > 320 │           <svg
+        │           ^^^^
+  > 321 │             width="80"
+         ...
+  > 328 │             strokeLinejoin="round"
+  > 329 │           >
+        │           ^
+    330 │             {/* Headphones */}
+    331 │             <path d="M20 50 C20 20, 80 20, 80 50" />
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:154:40 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    152 │                 return (
+    153 │                   <div
+  > 154 │                     key={`doodle-bar-${j}`}
+        │                                        ^
+    155 │                     style={{
+    156 │                       width: '3px',
+  
+  i This is the source of the key value.
+  
+    148 │             </svg>
+    149 │             <div className="flex items-center gap-[3px] flex-1">
+  > 150 │               {Array.from({ length: 32 }).map((_, j) => {
+        │                                                   ^
+    151 │                 const h = 8 + Math.sin(j * 0.5) * 14 + Math.random() * 8;
+    152 │                 return (
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:254:36 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    252 │             { label: 'backend integration' },
+    253 │           ].map((t, i) => (
+  > 254 │             <div key={`task-item-${i}`} className="flex items-center gap-3 mb-4 last:mb-0">
+        │                                    ^
+    255 │               <div
+    256 │                 style={{
+  
+  i This is the source of the key value.
+  
+    251 │             { label: '3 litr water' },
+    252 │             { label: 'backend integration' },
+  > 253 │           ].map((t, i) => (
+        │                     ^
+    254 │             <div key={`task-item-${i}`} className="flex items-center gap-3 mb-4 last:mb-0">
+    255 │               <div
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:364:35 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    362 │           {['DRAG', '•', 'MOVE', '•', 'CONNECT', '•', 'REFLECT'].map((w, i) => (
+    363 │             <span
+  > 364 │               key={`action-word-${i}`}
+        │                                   ^
+    365 │               style={{
+    366 │                 fontSize: '14px',
+  
+  i This is the source of the key value.
+  
+    360 │           }}
+    361 │         >
+  > 362 │           {['DRAG', '•', 'MOVE', '•', 'CONNECT', '•', 'REFLECT'].map((w, i) => (
+        │                                                                          ^
+    363 │             <span
+    364 │               key={`action-word-${i}`}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:357:15 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    355 │   const clearCanvas = () => {
+    356 │     snap();
+  > 357 │     const c = canvasRef.current!;
+        │               ^^^^^^^^^^^^^^^^^^
+    358 │     const ctx = c.getContext('2d')!;
+    359 │     ctx.fillStyle = '#111';
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:358:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    356 │     snap();
+    357 │     const c = canvasRef.current!;
+  > 358 │     const ctx = c.getContext('2d')!;
+        │                 ^^^^^^^^^^^^^^^^^^^
+    359 │     ctx.fillStyle = '#111';
+    360 │     ctx.fillRect(0, 0, c.width, c.height);
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:363:15 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    361 │   };
+    362 │   useEffect(() => {
+  > 363 │     const c = canvasRef.current!;
+        │               ^^^^^^^^^^^^^^^^^^
+    364 │     const ctx = c.getContext('2d')!;
+    365 │     ctx.fillStyle = '#111';
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:364:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    362 │   useEffect(() => {
+    363 │     const c = canvasRef.current!;
+  > 364 │     const ctx = c.getContext('2d')!;
+        │                 ^^^^^^^^^^^^^^^^^^^
+    365 │     ctx.fillStyle = '#111';
+    366 │     ctx.fillRect(0, 0, c.width, c.height);
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:494:17 lint/a11y/useSemanticElements ━━━━━━━━━━━━━━
+
+  × The elements with the following roles can be changed to the following elements:
+    <button>
+    <input type="button">
+  
+  
+    492 │         <div className="p-5">
+    493 │           {!preview ? (
+  > 494 │             <div
+        │                 
+  > 495 │               role="button"
+        │               ^^^^^^^^^^^^^
+    496 │               tabIndex={0}
+    497 │               onKeyDown={(e) => {
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:222:11 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    220 │         <div className="flex items-center gap-1">
+    221 │           {extra}
+  > 222 │           <button
+        │           ^^^^^^^
+  > 223 │             onClick={onClose}
+  > 224 │             className="p-2 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
+  > 225 │           >
+        │           ^
+    226 │             <X className="w-4 h-4" />
+    227 │           </button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:238:3 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    236 │ }
+    237 │ const IconBtn = ({ onClick, children }: { onClick: () => void; children: React.ReactNode }) => (
+  > 238 │   <button
+        │   ^^^^^^^
+  > 239 │     onClick={onClick}
+  > 240 │     className="p-2 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
+  > 241 │   >
+        │   ^
+    242 │     {children}
+    243 │   </button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:246:3 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    244 │ );
+    245 │ const GhostBtn = ({ onClick, children }: { onClick: () => void; children: React.ReactNode }) => (
+  > 246 │   <button
+        │   ^^^^^^^
+  > 247 │     onClick={onClick}
+  > 248 │     className="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors"
+  > 249 │   >
+        │   ^
+    250 │     {children}
+    251 │   </button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:258:3 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    256 │   children,
+    257 │ }: { onClick?: () => void; disabled?: boolean; children: React.ReactNode }) => (
+  > 258 │   <button
+        │   ^^^^^^^
+  > 259 │     onClick={onClick}
+  > 260 │     disabled={disabled}
+  > 261 │     className="px-5 py-2 bg-[#FF5C35] hover:bg-[#ff6b47] disabled:opacity-30 text-white text-sm rounded-xl transition-colors font-medium"
+  > 262 │   >
+        │   ^
+    263 │     {children}
+    264 │   </button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:402:15 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    400 │           <div className="flex gap-1.5">
+    401 │             {COLORS.map((c) => (
+  > 402 │               <button
+        │               ^^^^^^^
+  > 403 │                 key={c}
+         ...
+  > 412 │                 }}
+  > 413 │               />
+        │               ^^
+    414 │             ))}
+    415 │           </div>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:417:11 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    415 │           </div>
+    416 │           <div className="w-px h-4 bg-white/10" />
+  > 417 │           <button
+        │           ^^^^^^^
+  > 418 │             onClick={() => setTool((t) => (t === 'eraser' ? 'pen' : 'eraser'))}
+  > 419 │             className={`flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs transition-colors ${tool === 'eraser' ? 'bg-white/10 text-white' : 'text-slate-400 hover:text-white'}`}
+  > 420 │           >
+        │           ^
+    421 │             <Eraser className="w-3 h-3" /> Eraser
+    422 │           </button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:532:15 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    530 │                 className="w-full max-h-60 object-contain bg-black/20"
+    531 │               />
+  > 532 │               <button
+        │               ^^^^^^^
+  > 533 │                 onClick={() => {
+         ...
+  > 537 │                 className="absolute top-2 right-2 bg-black/60 p-1.5 rounded-lg hover:bg-black/80 transition-colors"
+  > 538 │               >
+        │               ^
+    539 │                 <X className="w-3.5 h-3.5 text-white" />
+    540 │               </button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:626:23 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    624 │           <MInput value={title} onChange={(e) => setTitle(e.target.value)} />
+    625 │           {tasks.map((t, i) => (
+  > 626 │             <div key={i} className="flex gap-2 items-center">
+        │                       ^
+    627 │               <MInput
+    628 │                 value={t}
+  
+  i This is the source of the key value.
+  
+    623 │         <div className="p-5 flex flex-col gap-3">
+    624 │           <MInput value={title} onChange={(e) => setTitle(e.target.value)} />
+  > 625 │           {tasks.map((t, i) => (
+        │                          ^
+    626 │             <div key={i} className="flex gap-2 items-center">
+    627 │               <MInput
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+The number of diagnostics exceeds the number allowed by Biome.
+Diagnostics not shown: 20.
+Checked 174 files in 363ms. No fixes applied.
+Found 18 errors.
+Found 9 warnings.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+
+error: script "lint" exited with code 1

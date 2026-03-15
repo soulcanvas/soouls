@@ -1,0 +1,450 @@
+.\apps\admin-dashboard\app\audit-logs\page.tsx:68:37 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    66 │           <div className="animate-pulse space-y-2">
+    67 │             {[...Array(10)].map((_, i) => (
+  > 68 │               <div key={`skeleton-${i}`} className="h-14 rounded-xl bg-white/[0.03]" />
+       │                                     ^
+    69 │             ))}
+    70 │           </div>
+  
+  i This is the source of the key value.
+  
+    65 │         {!filteredLogs ? (
+    66 │           <div className="animate-pulse space-y-2">
+  > 67 │             {[...Array(10)].map((_, i) => (
+       │                                     ^
+    68 │               <div key={`skeleton-${i}`} className="h-14 rounded-xl bg-white/[0.03]" />
+    69 │             ))}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\FooterSection.tsx:158:32 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    156 │         {Array.from({ length: 4 }).map((_, i) => (
+    157 │           <span
+  > 158 │             key={`footer-txt-${i}`}
+        │                                ^
+    159 │             className="font-playfair"
+    160 │             style={{
+  
+  i This is the source of the key value.
+  
+    154 │       {/* Stacked Text block matching Figma */}
+    155 │       <div className="absolute bottom-[-60px] left-0 right-0 z-10 flex flex-col items-center justify-center pointer-events-none opacity-20">
+  > 156 │         {Array.from({ length: 4 }).map((_, i) => (
+        │                                            ^
+    157 │           <span
+    158 │             key={`footer-txt-${i}`}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:295:13 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+    293 │           </p>
+    294 │           <div className="flex items-center gap-2">
+  > 295 │             <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+        │             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    296 │               <circle cx="8" cy="8" r="6" stroke="#E5B36A" strokeWidth="1.5" />
+    297 │               <path d="M8 5V8.5L10 10" stroke="#E5B36A" strokeWidth="1.5" strokeLinecap="round" />
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:320:11 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+    318 │         >
+    319 │           {/* Stickman Doodle SVG */}
+  > 320 │           <svg
+        │           ^^^^
+  > 321 │             width="80"
+         ...
+  > 328 │             strokeLinejoin="round"
+  > 329 │           >
+        │           ^
+    330 │             {/* Headphones */}
+    331 │             <path d="M20 50 C20 20, 80 20, 80 50" />
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:154:40 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    152 │                 return (
+    153 │                   <div
+  > 154 │                     key={`doodle-bar-${j}`}
+        │                                        ^
+    155 │                     style={{
+    156 │                       width: '3px',
+  
+  i This is the source of the key value.
+  
+    148 │             </svg>
+    149 │             <div className="flex items-center gap-[3px] flex-1">
+  > 150 │               {Array.from({ length: 32 }).map((_, j) => {
+        │                                                   ^
+    151 │                 const h = 8 + Math.sin(j * 0.5) * 14 + Math.random() * 8;
+    152 │                 return (
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:254:36 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    252 │             { label: 'backend integration' },
+    253 │           ].map((t, i) => (
+  > 254 │             <div key={`task-item-${i}`} className="flex items-center gap-3 mb-4 last:mb-0">
+        │                                    ^
+    255 │               <div
+    256 │                 style={{
+  
+  i This is the source of the key value.
+  
+    251 │             { label: '3 litr water' },
+    252 │             { label: 'backend integration' },
+  > 253 │           ].map((t, i) => (
+        │                     ^
+    254 │             <div key={`task-item-${i}`} className="flex items-center gap-3 mb-4 last:mb-0">
+    255 │               <div
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:364:35 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    362 │           {['DRAG', '•', 'MOVE', '•', 'CONNECT', '•', 'REFLECT'].map((w, i) => (
+    363 │             <span
+  > 364 │               key={`action-word-${i}`}
+        │                                   ^
+    365 │               style={{
+    366 │                 fontSize: '14px',
+  
+  i This is the source of the key value.
+  
+    360 │           }}
+    361 │         >
+  > 362 │           {['DRAG', '•', 'MOVE', '•', 'CONNECT', '•', 'REFLECT'].map((w, i) => (
+        │                                                                          ^
+    363 │             <span
+    364 │               key={`action-word-${i}`}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:504:17 lint/a11y/useSemanticElements ━━━━━━━━━━━━━━
+
+  × The elements with the following roles can be changed to the following elements:
+    <button>
+    <input type="button">
+  
+  
+    502 │         <div className="p-5">
+    503 │           {!preview ? (
+  > 504 │             <div
+        │                 
+  > 505 │               role="button"
+        │               ^^^^^^^^^^^^^
+    506 │               tabIndex={0}
+    507 │               onKeyDown={(e) => {
+  
+  i For examples and more information, see WAI-ARIA Roles
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:637:31 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    635 │           <MInput value={title} onChange={(e) => setTitle(e.target.value)} />
+    636 │           {tasks.map((t, i) => (
+  > 637 │             <div key={`task-${i}`} className="flex gap-2 items-center">
+        │                               ^
+    638 │               <MInput
+    639 │                 value={t}
+  
+  i This is the source of the key value.
+  
+    634 │         <div className="p-5 flex flex-col gap-3">
+    635 │           <MInput value={title} onChange={(e) => setTitle(e.target.value)} />
+  > 636 │           {tasks.map((t, i) => (
+        │                          ^
+    637 │             <div key={`task-${i}`} className="flex gap-2 items-center">
+    638 │               <MInput
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:659:11 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    657 │             </div>
+    658 │           ))}
+  > 659 │           <button
+        │           ^^^^^^^
+  > 660 │             onClick={() => setTasks([...tasks, ''])}
+  > 661 │             className="flex items-center gap-1 text-[#FF5C35] text-xs hover:text-[#ff6b47] transition-colors"
+  > 662 │           >
+        │           ^
+    663 │             <Plus className="w-3.5 h-3.5" /> Add task
+    664 │           </button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:687:7 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    685 │     >
+    686 │       {children}
+  > 687 │       <button
+        │       ^^^^^^^
+  > 688 │         onClick={onRemove}
+  > 689 │         className="absolute -top-2 -right-2 bg-[#FF5C35] rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity z-10 shadow-lg"
+  > 690 │       >
+        │       ^
+    691 │         <X className="w-3 h-3 text-white" />
+    692 │       </button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:755:9 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    753 │     <Card onRemove={onRemove}>
+    754 │       <div className="flex items-center gap-3">
+  > 755 │         <button
+        │         ^^^^^^^
+  > 756 │           onClick={toggle}
+  > 757 │           className="w-7 h-7 rounded-full bg-[#FF5C35] flex items-center justify-center flex-shrink-0 hover:bg-[#ff6b47] transition-colors"
+  > 758 │         >
+        │         ^
+    759 │           {playing ? (
+    760 │             <Pause className="w-3 h-3 text-white" fill="white" />
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:768:20 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    766 │           {bars.map((h, i) => (
+    767 │             <div
+  > 768 │               key={i}
+        │                    ^
+    769 │               className="flex-1 rounded-full transition-colors"
+    770 │               style={{
+  
+  i This is the source of the key value.
+  
+    764 │         </button>
+    765 │         <div className="flex items-end gap-[1.5px] flex-1 h-7">
+  > 766 │           {bars.map((h, i) => (
+        │                         ^
+    767 │             <div
+    768 │               key={i}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:810:3 lint/correctness/useExhaustiveDependencies ━━━━━━━━━━
+
+  ! This hook specifies a dependency more specific that its captures: b.seconds
+  
+    808 │   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    809 │ 
+  > 810 │   useEffect(() => {
+        │   ^^^^^^^^^
+    811 │     if (b.running) {
+    812 │       intervalRef.current = setInterval(() => onUpdate({ ...b, seconds: b.seconds + 1 }), 1000);
+  
+  i This capture is more generic than...
+  
+    810 │   useEffect(() => {
+    811 │     if (b.running) {
+  > 812 │       intervalRef.current = setInterval(() => onUpdate({ ...b, seconds: b.seconds + 1 }), 1000);
+        │                                                             ^
+    813 │     }
+    814 │     return () => {
+  
+  i ...this dependency.
+  
+    815 │       if (intervalRef.current) clearInterval(intervalRef.current);
+    816 │     };
+  > 817 │   }, [b.running, b.seconds]); // eslint-disable-line
+        │                  ^^^^^^^^^
+    818 │ 
+    819 │   const fmt = (s: number) => {
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:810:3 lint/correctness/useExhaustiveDependencies ━━━━━━━━━━
+
+  ! This hook does not specify all of its dependencies: b
+  
+    808 │   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    809 │ 
+  > 810 │   useEffect(() => {
+        │   ^^^^^^^^^
+    811 │     if (b.running) {
+    812 │       intervalRef.current = setInterval(() => onUpdate({ ...b, seconds: b.seconds + 1 }), 1000);
+  
+  i This dependency is not specified in the hook dependency list.
+  
+    810 │   useEffect(() => {
+    811 │     if (b.running) {
+  > 812 │       intervalRef.current = setInterval(() => onUpdate({ ...b, seconds: b.seconds + 1 }), 1000);
+        │                                                             ^
+    813 │     }
+    814 │     return () => {
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:810:3 lint/correctness/useExhaustiveDependencies ━━━━━━━━━━
+
+  ! This hook does not specify all of its dependencies: onUpdate
+  
+    808 │   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    809 │ 
+  > 810 │   useEffect(() => {
+        │   ^^^^^^^^^
+    811 │     if (b.running) {
+    812 │       intervalRef.current = setInterval(() => onUpdate({ ...b, seconds: b.seconds + 1 }), 1000);
+  
+  i This dependency is not specified in the hook dependency list.
+  
+    810 │   useEffect(() => {
+    811 │     if (b.running) {
+  > 812 │       intervalRef.current = setInterval(() => onUpdate({ ...b, seconds: b.seconds + 1 }), 1000);
+        │                                               ^^^^^^^^
+    813 │     }
+    814 │     return () => {
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:841:9 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    839 │       </div>
+    840 │       <div className="flex items-center gap-1.5">
+  > 841 │         <button
+        │         ^^^^^^^
+  > 842 │           onClick={() => onUpdate({ ...b, running: !b.running })}
+  > 843 │           className="p-1 rounded-lg hover:bg-white/5 text-slate-300 transition-colors"
+  > 844 │         >
+        │         ^
+    845 │           {b.running ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+    846 │         </button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:847:9 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    845 │           {b.running ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+    846 │         </button>
+  > 847 │         <button
+        │         ^^^^^^^
+  > 848 │           onClick={() => onUpdate({ ...b, seconds: 0, running: false })}
+  > 849 │           className="p-1 rounded-lg hover:bg-white/5 text-slate-400 transition-colors"
+  > 850 │         >
+        │         ^
+    851 │           <Square className="w-3 h-3" />
+    852 │         </button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:876:11 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    874 │       <div className="flex flex-col gap-1.5">
+    875 │         {b.tasks.map((task) => (
+  > 876 │           <button
+        │           ^^^^^^^
+  > 877 │             key={task.id}
+  > 878 │             onClick={() => toggle(task.id)}
+  > 879 │             className="flex items-center gap-2 text-left group/t"
+  > 880 │           >
+        │           ^
+    881 │             <div
+    882 │               className={`w-3.5 h-3.5 rounded flex items-center justify-center flex-shrink-0 border transition-colors ${task.done ? 'bg-[#FF5C35] border-[#FF5C35]' : 'border-white/20 group-hover/t:border-white/40'}`}
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:916:5 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    914 │ }) {
+    915 │   return (
+  > 916 │     <button
+        │     ^^^^^^^
+  > 917 │       onClick={onClick}
+  > 918 │       className={`flex items-center gap-2 px-5 py-4 transition-colors text-sm whitespace-nowrap flex-1 justify-center ${active ? 'bg-red-500/[0.08] text-red-400' : 'hover:bg-white/5 text-slate-300'}`}
+  > 919 │     >
+        │     ^
+    920 │       {icon}
+    921 │       <span>{label}</span>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+The number of diagnostics exceeds the number allowed by Biome.
+Diagnostics not shown: 8.
+Checked 174 files in 258ms. No fixes applied.
+Found 11 errors.
+Found 16 warnings.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+

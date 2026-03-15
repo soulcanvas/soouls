@@ -84,18 +84,18 @@ function usePersistedEntry(initialId: string | null) {
       /* corrupt data — ignore */
     }
     setHydrated(true);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [initialId]);
 
   // Persist to localStorage whenever text or blocks change
   const persist = useCallback(
     (text: string, blks: Block[]) => {
       if (!hydrated) return;
       setSaveStatus('saving');
-      clearTimeout(saveTimer.current!);
+      if (saveTimer.current) clearTimeout(saveTimer.current);
       saveTimer.current = setTimeout(() => {
         try {
           const state: PersistedState = { textContent: text, blocks: blks };
-          localStorage.setItem(LS_KEY, JSON.stringify(state));
+          localStorage.setItem(lsKeyRef.current, JSON.stringify(state));
           setSaveStatus('saved');
         } catch {
           // localStorage quota exceeded (large images/audio)
@@ -157,11 +157,22 @@ function usePersistedEntry(initialId: string | null) {
         localStorage.setItem(newKey, data);
       }
       localStorage.removeItem(oldKey);
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
     lsKeyRef.current = newKey;
   }, []);
 
-  return { textContent, setTextContent, blocks, setBlocks, hydrated, saveStatus, clearAll, migrateKey };
+  return {
+    textContent,
+    setTextContent,
+    blocks,
+    setBlocks,
+    hydrated,
+    saveStatus,
+    clearAll,
+    migrateKey,
+  };
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -209,6 +220,7 @@ function Modal({
         <div className="flex items-center gap-1">
           {extra}
           <button
+            type="button"
             onClick={onClose}
             className="p-2 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
           >
@@ -225,6 +237,7 @@ function Modal({
 }
 const IconBtn = ({ onClick, children }: { onClick: () => void; children: React.ReactNode }) => (
   <button
+    type="button"
     onClick={onClick}
     className="p-2 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
   >
@@ -233,6 +246,7 @@ const IconBtn = ({ onClick, children }: { onClick: () => void; children: React.R
 );
 const GhostBtn = ({ onClick, children }: { onClick: () => void; children: React.ReactNode }) => (
   <button
+    type="button"
     onClick={onClick}
     className="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors"
   >
@@ -245,6 +259,7 @@ const OrangeBtn = ({
   children,
 }: { onClick?: () => void; disabled?: boolean; children: React.ReactNode }) => (
   <button
+    type="button"
     onClick={onClick}
     disabled={disabled}
     className="px-5 py-2 bg-[#FF5C35] hover:bg-[#ff6b47] disabled:opacity-30 text-white text-sm rounded-xl transition-colors font-medium"
@@ -285,7 +300,8 @@ function DoodleModal({ onClose, onSave }: { onClose: () => void; onSave: (d: str
   const COLORS = ['#ffffff', '#FF5C35', '#f59e0b', '#34d399', '#60a5fa', '#a78bfa', '#f472b6'];
 
   const getPos = (e: React.MouseEvent | React.TouchEvent) => {
-    const c = canvasRef.current!;
+    const c = canvasRef.current;
+    if (!c) return;
     const r = c.getBoundingClientRect();
     const sx = c.width / r.width;
     const sy = c.height / r.height;
@@ -295,8 +311,10 @@ function DoodleModal({ onClose, onSave }: { onClose: () => void; onSave: (d: str
     return { x: (me.clientX - r.left) * sx, y: (me.clientY - r.top) * sy };
   };
   const snap = () => {
-    const c = canvasRef.current!;
-    const ctx = c.getContext('2d')!;
+    const c = canvasRef.current;
+    if (!c) return;
+    const ctx = c.getContext('2d');
+    if (!ctx) return;
     history.current.push(ctx.getImageData(0, 0, c.width, c.height));
     if (history.current.length > 40) history.current.shift();
   };
@@ -306,7 +324,8 @@ function DoodleModal({ onClose, onSave }: { onClose: () => void; onSave: (d: str
     drawing.current = true;
     const p = getPos(e);
     last.current = p;
-    const ctx = canvasRef.current?.getContext('2d')!;
+    const ctx = canvasRef.current?.getContext('2d');
+    if (!ctx) return;
     ctx.beginPath();
     ctx.arc(p.x, p.y, (tool === 'eraser' ? size * 3 : size) / 2, 0, Math.PI * 2);
     ctx.fillStyle = tool === 'eraser' ? '#111' : color;
@@ -316,7 +335,8 @@ function DoodleModal({ onClose, onSave }: { onClose: () => void; onSave: (d: str
     e.preventDefault();
     if (!drawing.current || !last.current) return;
     const p = getPos(e);
-    const ctx = canvasRef.current?.getContext('2d')!;
+    const ctx = canvasRef.current?.getContext('2d');
+    if (!ctx) return;
     ctx.beginPath();
     ctx.moveTo(last.current.x, last.current.y);
     ctx.lineTo(p.x, p.y);
@@ -333,18 +353,23 @@ function DoodleModal({ onClose, onSave }: { onClose: () => void; onSave: (d: str
   };
   const undo = () => {
     if (!history.current.length) return;
-    canvasRef.current?.getContext('2d')?.putImageData(history.current.pop()!, 0, 0);
+    const imageData = history.current.pop();
+    if (imageData) canvasRef.current?.getContext('2d')?.putImageData(imageData, 0, 0);
   };
   const clearCanvas = () => {
     snap();
-    const c = canvasRef.current!;
-    const ctx = c.getContext('2d')!;
+    const c = canvasRef.current;
+    if (!c) return;
+    const ctx = c.getContext('2d');
+    if (!ctx) return;
     ctx.fillStyle = '#111';
     ctx.fillRect(0, 0, c.width, c.height);
   };
   useEffect(() => {
-    const c = canvasRef.current!;
-    const ctx = c.getContext('2d')!;
+    const c = canvasRef.current;
+    if (!c) return;
+    const ctx = c.getContext('2d');
+    if (!ctx) return;
     ctx.fillStyle = '#111';
     ctx.fillRect(0, 0, c.width, c.height);
   }, []);
@@ -370,7 +395,7 @@ function DoodleModal({ onClose, onSave }: { onClose: () => void; onSave: (d: str
             <GhostBtn onClick={onClose}>Cancel</GhostBtn>
             <OrangeBtn
               onClick={() => {
-                onSave(canvasRef.current?.toDataURL());
+                onSave(canvasRef.current?.toDataURL() || '');
                 onClose();
               }}
             >
@@ -383,6 +408,7 @@ function DoodleModal({ onClose, onSave }: { onClose: () => void; onSave: (d: str
           <div className="flex gap-1.5">
             {COLORS.map((c) => (
               <button
+                type="button"
                 key={c}
                 onClick={() => {
                   setColor(c);
@@ -398,6 +424,7 @@ function DoodleModal({ onClose, onSave }: { onClose: () => void; onSave: (d: str
           </div>
           <div className="w-px h-4 bg-white/10" />
           <button
+            type="button"
             onClick={() => setTool((t) => (t === 'eraser' ? 'pen' : 'eraser'))}
             className={`flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs transition-colors ${tool === 'eraser' ? 'bg-white/10 text-white' : 'text-slate-400 hover:text-white'}`}
           >
@@ -460,7 +487,12 @@ function ImageModal({
             <GhostBtn onClick={onClose}>Cancel</GhostBtn>
             <OrangeBtn
               disabled={!preview}
-              onClick={() => preview && (onAdd(preview, name), onClose())}
+              onClick={() => {
+                if (preview) {
+                  onAdd(preview, name);
+                  onClose();
+                }
+              }}
             >
               Add to entry
             </OrangeBtn>
@@ -469,7 +501,11 @@ function ImageModal({
       >
         <div className="p-5">
           {!preview ? (
-            <div
+            <button
+              type="button"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') ref.current?.click();
+              }}
               onDrop={(e) => {
                 e.preventDefault();
                 setDrag(false);
@@ -481,7 +517,7 @@ function ImageModal({
               }}
               onDragLeave={() => setDrag(false)}
               onClick={() => ref.current?.click()}
-              className={`border-2 border-dashed rounded-2xl p-14 flex flex-col items-center gap-3 cursor-pointer transition-colors ${drag ? 'border-[#FF5C35] bg-[#FF5C35]/5' : 'border-white/10 hover:border-white/20'}`}
+              className={`border-2 border-dashed rounded-2xl p-14 w-full flex flex-col items-center gap-3 cursor-pointer transition-colors ${drag ? 'border-[#FF5C35] bg-[#FF5C35]/5' : 'border-white/10 hover:border-white/20'}`}
             >
               <ImageIcon className="w-10 h-10 text-slate-500" />
               <p className="text-slate-400 text-sm text-center">
@@ -494,7 +530,7 @@ function ImageModal({
                 className="hidden"
                 onChange={(e) => e.target.files?.[0] && load(e.target.files[0])}
               />
-            </div>
+            </button>
           ) : (
             <div className="relative rounded-2xl overflow-hidden">
               <img
@@ -503,6 +539,7 @@ function ImageModal({
                 className="w-full max-h-60 object-contain bg-black/20"
               />
               <button
+                type="button"
                 onClick={() => {
                   setPreview(null);
                   setName('');
@@ -596,7 +633,8 @@ function TasklistModal({
         <div className="p-5 flex flex-col gap-3">
           <MInput value={title} onChange={(e) => setTitle(e.target.value)} />
           {tasks.map((t, i) => (
-            <div key={i} className="flex gap-2 items-center">
+            // biome-ignore lint/suspicious/noArrayIndexKey: simple tasks list
+            <div key={`task-${i}`} className="flex gap-2 items-center">
               <MInput
                 value={t}
                 onChange={(e) => {
@@ -609,6 +647,7 @@ function TasklistModal({
               />
               {tasks.length > 1 && (
                 <button
+                  type="button"
                   onClick={() => setTasks(tasks.filter((_, j) => j !== i))}
                   className="text-slate-500 hover:text-red-400 transition-colors flex-shrink-0"
                 >
@@ -618,6 +657,7 @@ function TasklistModal({
             </div>
           ))}
           <button
+            type="button"
             onClick={() => setTasks([...tasks, ''])}
             className="flex items-center gap-1 text-[#FF5C35] text-xs hover:text-[#ff6b47] transition-colors"
           >
@@ -646,6 +686,7 @@ function Card({
     >
       {children}
       <button
+        type="button"
         onClick={onRemove}
         className="absolute -top-2 -right-2 bg-[#FF5C35] rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity z-10 shadow-lg"
       >
@@ -696,7 +737,8 @@ function VoiceCard({
   }, [b.dataUrl]);
 
   const toggle = () => {
-    const a = audioRef.current!;
+    const a = audioRef.current;
+    if (!a) return;
     if (playing) {
       a.pause();
       setPlaying(false);
@@ -713,6 +755,7 @@ function VoiceCard({
     <Card onRemove={onRemove}>
       <div className="flex items-center gap-3">
         <button
+          type="button"
           onClick={toggle}
           className="w-7 h-7 rounded-full bg-[#FF5C35] flex items-center justify-center flex-shrink-0 hover:bg-[#ff6b47] transition-colors"
         >
@@ -723,16 +766,20 @@ function VoiceCard({
           )}
         </button>
         <div className="flex items-end gap-[1.5px] flex-1 h-7">
-          {bars.map((h, i) => (
-            <div
-              key={i}
-              className="flex-1 rounded-full transition-colors"
-              style={{
-                height: `${h}%`,
-                background: i < (prog / 100) * bars.length ? '#FF5C35' : 'rgba(255,255,255,0.18)',
-              }}
-            />
-          ))}
+          {bars.map((h, i) => {
+            // biome-ignore lint/suspicious/noArrayIndexKey: static playback visual
+            return (
+              <div
+                key={`bar-${i}`}
+                className="flex-1 rounded-full transition-colors"
+                style={{
+                  height: `${h}%`,
+                  backgroundColor:
+                    i / bars.length <= prog / 100 ? '#FF5C35' : 'rgba(255,255,255,0.1)',
+                }}
+              />
+            );
+          })}
         </div>
         <span className="text-slate-400 text-xs">{fmt(b.duration)}</span>
       </div>
@@ -774,7 +821,7 @@ function GoalCard({
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [b.running, b.seconds]); // eslint-disable-line
+  }, [b.running, b.seconds]); // biome-ignore lint/correctness/useExhaustiveDependencies: custom run cycle
 
   const fmt = (s: number) => {
     const h = Math.floor(s / 3600);
@@ -799,12 +846,14 @@ function GoalCard({
       </div>
       <div className="flex items-center gap-1.5">
         <button
+          type="button"
           onClick={() => onUpdate({ ...b, running: !b.running })}
           className="p-1 rounded-lg hover:bg-white/5 text-slate-300 transition-colors"
         >
           {b.running ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
         </button>
         <button
+          type="button"
           onClick={() => onUpdate({ ...b, seconds: 0, running: false })}
           className="p-1 rounded-lg hover:bg-white/5 text-slate-400 transition-colors"
         >
@@ -834,6 +883,7 @@ function TasklistCard({
       <div className="flex flex-col gap-1.5">
         {b.tasks.map((task) => (
           <button
+            type="button"
             key={task.id}
             onClick={() => toggle(task.id)}
             className="flex items-center gap-2 text-left group/t"
@@ -874,6 +924,7 @@ function ToolBtn({
 }) {
   return (
     <button
+      type="button"
       onClick={onClick}
       className={`flex items-center gap-2 px-5 py-4 transition-colors text-sm whitespace-nowrap flex-1 justify-center ${active ? 'bg-red-500/[0.08] text-red-400' : 'hover:bg-white/5 text-slate-300'}`}
     >
@@ -911,7 +962,7 @@ function useVoiceRecorder(onDone: (dataUrl: string, duration: number) => void) {
         r.onload = (e) =>
           onDone(e.target?.result as string, Math.round((Date.now() - t0.current) / 1000));
         r.readAsDataURL(blob);
-        stream.getTracks().forEach((t) => t.stop());
+        for (const t of stream.getTracks()) t.stop();
       };
       mr.start();
       t0.current = Date.now();
@@ -930,7 +981,7 @@ function useVoiceRecorder(onDone: (dataUrl: string, duration: number) => void) {
     if (timerRef.current) clearInterval(timerRef.current);
     setRecording(false);
     setElapsed(0);
-  };
+  }, []);
 
   return { recording, elapsed, start, stop };
 }
@@ -946,7 +997,7 @@ export default function NewEntryPage() {
 
   // ── Persisted state (text + blocks survive refresh) ────────────────────────
   const { textContent, setTextContent, blocks, setBlocks, hydrated, saveStatus, clearAll } =
-    usePersistedEntry();
+    usePersistedEntry(initialId);
   const [modal, setModal] = useState<null | 'image' | 'doodle' | 'goal' | 'tasklist'>(null);
 
   // ── tRPC auto-save (syncs to DB in addition to localStorage) ──────────────
@@ -973,18 +1024,19 @@ export default function NewEntryPage() {
     userIdRef.current = user?.id;
   }, [user?.id]);
 
-  const { data: existingEntry } = trpc.getEntry.useQuery(
-    { id: initialId! },
+  const { data: existingEntry } = trpc.private.entries.getOne.useQuery(
+    { id: initialId || '' },
     { enabled: !!initialId },
   );
   useEffect(() => {
     if (existingEntry) {
       try {
-        const decompressed = LZString.decompressFromUTF16(existingEntry.content) || existingEntry.content;
+        const decompressed =
+          LZString.decompressFromUTF16(existingEntry.content) || existingEntry.content;
         const parsed = JSON.parse(decompressed);
         if (parsed.textContent !== undefined) {
           if (!textContent) setTextContent(parsed.textContent || '');
-          if (blocks.length === 0) setBlocks(_prev => parsed.blocks || []);
+          if (blocks.length === 0) setBlocks((_prev) => parsed.blocks || []);
         } else {
           if (!textContent) setTextContent(existingEntry.content || '');
         }
@@ -1020,7 +1072,7 @@ export default function NewEntryPage() {
     if (!textContent.trim() && blocks.length === 0) return;
     if (dbDebounce.current) clearTimeout(dbDebounce.current);
     dbDebounce.current = setTimeout(
-      () => performDbSave.current(textContent, entryIdRef.current),
+      () => performDbSave.current(textContent, blocks, entryIdRef.current),
       2000,
     );
     return () => {
@@ -1031,7 +1083,7 @@ export default function NewEntryPage() {
   const handleHome = async () => {
     if (dbDebounce.current) clearTimeout(dbDebounce.current);
     if (textContent.trim() && !isSaving.current)
-      await performDbSave.current(textContent, entryIdRef.current);
+      await performDbSave.current(textContent, blocks, entryIdRef.current);
     router.push('/dashboard');
   };
 
@@ -1078,6 +1130,7 @@ export default function NewEntryPage() {
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
           <button
+            type="button"
             onClick={handleHome}
             className="text-slate-500 hover:text-slate-300 transition-colors bg-transparent border-none cursor-pointer text-base"
           >
@@ -1121,6 +1174,7 @@ export default function NewEntryPage() {
           {/* Clear all button */}
           {(blocks.length > 0 || textContent) && (
             <button
+              type="button"
               onClick={() => {
                 if (confirm('Sab kuch clear kar dein?')) clearAll();
               }}

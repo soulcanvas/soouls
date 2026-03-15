@@ -83,8 +83,12 @@ export default function LandingDock({ links = defaultLinks }: LandingNavbarProps
             letterSpacing: '-0.035em',
             transition: 'color 0.2s',
           }}
-          onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#EFEBDD')}
-          onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#E07C60')}
+          onMouseEnter={(e) => {
+            (e.target as HTMLElement).style.color = '#EFEBDD';
+          }}
+          onMouseLeave={(e) => {
+            (e.target as HTMLElement).style.color = '#E07C60';
+          }}
         >
           Login
         </Link>

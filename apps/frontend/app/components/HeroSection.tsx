@@ -36,6 +36,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div
           className="absolute inset-0 w-full h-full"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: Need safe autoplaying background video without React hydration interference
           dangerouslySetInnerHTML={{
             __html: `
               <video
@@ -112,6 +113,7 @@ export default function HeroSection() {
         {/* Scroll Indicator */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <title>Scroll Down</title>
             <path
               d="M14 6V22M14 22L8 16M14 22L20 16"
               stroke="white"

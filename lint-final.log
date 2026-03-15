@@ -1,0 +1,417 @@
+$ biome check .
+.\apps\admin-dashboard\app\audit-logs\page.tsx:68:37 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    66 │           <div className="animate-pulse space-y-2">
+    67 │             {[...Array(10)].map((_, i) => (
+  > 68 │               <div key={`skeleton-${i}`} className="h-14 rounded-xl bg-white/[0.03]" />
+       │                                     ^
+    69 │             ))}
+    70 │           </div>
+  
+  i This is the source of the key value.
+  
+    65 │         {!filteredLogs ? (
+    66 │           <div className="animate-pulse space-y-2">
+  > 67 │             {[...Array(10)].map((_, i) => (
+       │                                     ^
+    68 │               <div key={`skeleton-${i}`} className="h-14 rounded-xl bg-white/[0.03]" />
+    69 │             ))}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\admin-dashboard\app\messaging\page.tsx format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+     86  86 │               <div className="grid gap-4 md:grid-cols-2">
+     87  87 │                 <div>
+     88     │ - ················<label·htmlFor="composeTitle"·className="mb-1.5·block·text-xs·font-medium·text-slate-400">
+         88 │ + ················<label
+         89 │ + ··················htmlFor="composeTitle"
+         90 │ + ··················className="mb-1.5·block·text-xs·font-medium·text-slate-400"
+         91 │ + ················>
+     89  92 │                     Internal Title
+     90  93 │                   </label>
+    ······· │ 
+     98 101 │                 </div>
+     99 102 │                 <div>
+    100     │ - ················<label·htmlFor="composeBrand"·className="mb-1.5·block·text-xs·font-medium·text-slate-400">
+        103 │ + ················<label
+        104 │ + ··················htmlFor="composeBrand"
+        105 │ + ··················className="mb-1.5·block·text-xs·font-medium·text-slate-400"
+        106 │ + ················>
+    101 107 │                     Brand Persona
+    102 108 │                   </label>
+    ······· │ 
+    104 110 │                     id="composeBrand"
+    105 111 │                     value={composeBrand}
+    106     │ - ··················onChange={(e)·=>·setComposeBrand(e.target.value·as·'soulcanvas'·|·'soulcanvas-studio'·|·'founder-desk')}
+        112 │ + ··················onChange={(e)·=>
+        113 │ + ····················setComposeBrand(
+        114 │ + ······················e.target.value·as·'soulcanvas'·|·'soulcanvas-studio'·|·'founder-desk',
+        115 │ + ····················)
+        116 │ + ··················}
+    107 117 │                     className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm text-white outline-none"
+    108 118 │                   >
+    ······· │ 
+    117 127 │   
+    118 128 │               <div>
+    119     │ - ··············<label·htmlFor="composeSubject"·className="mb-1.5·block·text-xs·font-medium·text-slate-400">
+        129 │ + ··············<label
+        130 │ + ················htmlFor="composeSubject"
+        131 │ + ················className="mb-1.5·block·text-xs·font-medium·text-slate-400"
+        132 │ + ··············>
+    120 133 │                   Email Subject / Notification Header
+    121 134 │                 </label>
+    ······· │ 
+    130 143 │   
+    131 144 │               <div>
+    132     │ - ··············<label·htmlFor="composeBody"·className="mb-1.5·block·text-xs·font-medium·text-slate-400">
+        145 │ + ··············<label
+        146 │ + ················htmlFor="composeBody"
+        147 │ + ················className="mb-1.5·block·text-xs·font-medium·text-slate-400"
+        148 │ + ··············>
+    133 149 │                   Markdown Body
+    134 150 │                 </label>
+  
+
+.\apps\frontend\app\components\FooterSection.tsx:158:32 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    156 │         {Array.from({ length: 4 }).map((_, i) => (
+    157 │           <span
+  > 158 │             key={`footer-txt-${i}`}
+        │                                ^
+    159 │             className="font-playfair"
+    160 │             style={{
+  
+  i This is the source of the key value.
+  
+    154 │       {/* Stacked Text block matching Figma */}
+    155 │       <div className="absolute bottom-[-60px] left-0 right-0 z-10 flex flex-col items-center justify-center pointer-events-none opacity-20">
+  > 156 │         {Array.from({ length: 4 }).map((_, i) => (
+        │                                            ^
+    157 │           <span
+    158 │             key={`footer-txt-${i}`}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\RiverOfTimeSection.tsx:185:9 lint/complexity/noForEach ━━━━━━━━━━━━━━
+
+  × Prefer for...of instead of forEach.
+  
+    183 │     const observer = new IntersectionObserver(
+    184 │       (entries) => {
+  > 185 │         entries.forEach((entry) => {
+        │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 186 │           if (entry.isIntersecting) {
+         ...
+  > 190 │           }
+  > 191 │         });
+        │         ^^
+    192 │       },
+    193 │       { threshold: 0.15 },
+  
+  i forEach may lead to performance issues when working with large arrays. When combined with functions like filter or map, this causes multiple iterations over the same type.
+  
+
+.\apps\frontend\app\dashboard\calendar\page.tsx:84:11 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    82 │       <div className="w-full max-w-4xl flex justify-between items-center mb-12 relative z-10 px-4">
+    83 │         <div className="flex items-baseline gap-1 text-2xl font-semibold tracking-tight">
+  > 84 │           <button
+       │           ^^^^^^^
+  > 85 │             onClick={handleGoBack}
+  > 86 │             className="text-gray-500 hover:text-gray-300 transition-colors cursor-pointer border-none bg-transparent p-0"
+  > 87 │           >
+       │           ^
+    88 │             Home
+    89 │           </button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\calendar\page.tsx:117:13 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    115 │         <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
+    116 │           <div className="flex items-center gap-10">
+  > 117 │             <button
+        │             ^^^^^^^
+  > 118 │               aria-label="Previous month"
+  > 119 │               onClick={() => changeMonth(-1)}
+  > 120 │               className="text-gray-500 hover:text-white transition-colors"
+  > 121 │             >
+        │             ^
+    122 │               <ChevronLeft size={28} strokeWidth={1.5} />
+    123 │             </button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\calendar\page.tsx:129:13 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    127 │             </h2>
+    128 │ 
+  > 129 │             <button
+        │             ^^^^^^^
+  > 130 │               aria-label="Next month"
+  > 131 │               onClick={() => changeMonth(1)}
+  > 132 │               className="text-gray-500 hover:text-white transition-colors"
+  > 133 │             >
+        │             ^
+    134 │               <ChevronRight size={28} strokeWidth={1.5} />
+    135 │             </button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\calendar\page.tsx:144:17 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    143 │               return (
+  > 144 │                 <button
+        │                 ^^^^^^^
+  > 145 │                   key={v}
+         ...
+  > 154 │                   }`}
+  > 155 │                 >
+        │                 ^
+    156 │                   {v}
+    157 │                 </button>
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\frontend\app\dashboard\calendar\page.tsx:210:11 lint/a11y/useButtonType ━━━━━━━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    208 │         {/* Bottom Search */}
+    209 │         <div className="absolute -bottom-6 left-1/2 -translate-x-1/2">
+  > 210 │           <button className="bg-[#1a1a1a] border border-white/10 px-8 py-3 rounded-full text-xs text-gray-500 font-bold flex items-center gap-2 hover:border-[#e67e65]/50 hover:text-gray-300 transition-all shadow-2xl group uppercase tracking-widest">
+        │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    211 │             <span className="opacity-60 group-hover:opacity-100 transition-opacity">
+    212 │               Ctrl + k to search
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\backend\src\command-center\command-center.service.ts:90:10 lint/correctness/noUnusedVariables ━━━━━━━━━━
+
+  × This function is unused.
+  
+    88 │ ] as const;
+    89 │ 
+  > 90 │ function assertRole(actor: AdminActor, allowedRoles: AdminRole[]) {
+       │          ^^^^^^^^^^
+    91 │   if (!allowedRoles.includes(actor.role)) {
+    92 │     throw new UnauthorizedException('You do not have permission to perform this action.');
+  
+  i Unused variables usually are result of incomplete refactoring, typos and other source of bugs.
+  
+
+.\apps\backend\src\command-center\command-center.service.ts:112:10 lint/correctness/noUnusedVariables ━━━━━━━━━━
+
+  × This function is unused.
+  
+    111 │ /** Check if an actor has a specific permission (supports the '*' wildcard). */
+  > 112 │ function hasPermission(actor: AdminActor, required: Permission): boolean {
+        │          ^^^^^^^^^^^^^
+    113 │   if (actor.permissions.includes('*')) return true;
+    114 │   return actor.permissions.includes(required);
+  
+  i Unused variables usually are result of incomplete refactoring, typos and other source of bugs.
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:295:13 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+    293 │           </p>
+    294 │           <div className="flex items-center gap-2">
+  > 295 │             <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+        │             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    296 │               <circle cx="8" cy="8" r="6" stroke="#E5B36A" strokeWidth="1.5" />
+    297 │               <path d="M8 5V8.5L10 10" stroke="#E5B36A" strokeWidth="1.5" strokeLinecap="round" />
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:320:11 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+    318 │         >
+    319 │           {/* Stickman Doodle SVG */}
+  > 320 │           <svg
+        │           ^^^^
+  > 321 │             width="80"
+         ...
+  > 328 │             strokeLinejoin="round"
+  > 329 │           >
+        │           ^
+    330 │             {/* Headphones */}
+    331 │             <path d="M20 50 C20 20, 80 20, 80 50" />
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:154:26 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    152 │                 return (
+    153 │                   <div
+  > 154 │                     key={j}
+        │                          ^
+    155 │                     style={{
+    156 │                       width: '3px',
+  
+  i This is the source of the key value.
+  
+    148 │             </svg>
+    149 │             <div className="flex items-center gap-[3px] flex-1">
+  > 150 │               {Array.from({ length: 32 }).map((_, j) => {
+        │                                                   ^
+    151 │                 const h = 8 + Math.sin(j * 0.5) * 14 + Math.random() * 8;
+    152 │                 return (
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:254:23 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    252 │             { label: 'backend integration' },
+    253 │           ].map((t, i) => (
+  > 254 │             <div key={i} className="flex items-center gap-3 mb-4 last:mb-0">
+        │                       ^
+    255 │               <div
+    256 │                 style={{
+  
+  i This is the source of the key value.
+  
+    251 │             { label: '3 litr water' },
+    252 │             { label: 'backend integration' },
+  > 253 │           ].map((t, i) => (
+        │                     ^
+    254 │             <div key={i} className="flex items-center gap-3 mb-4 last:mb-0">
+    255 │               <div
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:364:20 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    362 │           {['DRAG', '•', 'MOVE', '•', 'CONNECT', '•', 'REFLECT'].map((w, i) => (
+    363 │             <span
+  > 364 │               key={i}
+        │                    ^
+    365 │               style={{
+    366 │                 fontSize: '14px',
+  
+  i This is the source of the key value.
+  
+    360 │           }}
+    361 │         >
+  > 362 │           {['DRAG', '•', 'MOVE', '•', 'CONNECT', '•', 'REFLECT'].map((w, i) => (
+        │                                                                          ^
+    363 │             <span
+    364 │               key={i}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:94:20 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    92 │       if (!hydrated) return;
+    93 │       setSaveStatus('saving');
+  > 94 │       clearTimeout(saveTimer.current!);
+       │                    ^^^^^^^^^^^^^^^^^^
+    95 │       saveTimer.current = setTimeout(() => {
+    96 │         try {
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:299:15 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    298 │   const getPos = (e: React.MouseEvent | React.TouchEvent) => {
+  > 299 │     const c = canvasRef.current!;
+        │               ^^^^^^^^^^^^^^^^^^
+    300 │     const r = c.getBoundingClientRect();
+    301 │     const sx = c.width / r.width;
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:309:15 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    307 │   };
+    308 │   const snap = () => {
+  > 309 │     const c = canvasRef.current!;
+        │               ^^^^^^^^^^^^^^^^^^
+    310 │     const ctx = c.getContext('2d')!;
+    311 │     history.current.push(ctx.getImageData(0, 0, c.width, c.height));
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:310:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    308 │   const snap = () => {
+    309 │     const c = canvasRef.current!;
+  > 310 │     const ctx = c.getContext('2d')!;
+        │                 ^^^^^^^^^^^^^^^^^^^
+    311 │     history.current.push(ctx.getImageData(0, 0, c.width, c.height));
+    312 │     if (history.current.length > 40) history.current.shift();
+  
+
+The number of diagnostics exceeds the number allowed by Biome.
+Diagnostics not shown: 41.
+Checked 174 files in 291ms. No fixes applied.
+Found 30 errors.
+Found 6 warnings.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+
+error: script "lint" exited with code 1

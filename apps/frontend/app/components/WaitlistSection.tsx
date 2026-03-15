@@ -10,13 +10,13 @@ export default function WaitlistSection() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.querySelectorAll('.reveal').forEach((el, i) => {
               setTimeout(() => el.classList.add('in-view'), i * 150);
             });
           }
-        });
+        }
       },
       { threshold: 0.1 },
     );
@@ -59,6 +59,7 @@ export default function WaitlistSection() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
+          <title>Decorative Clover Element</title>
           <path
             d="M48 48 C 20 8, -5 40, 48 48 Z"
             stroke="#FFFFFF"
@@ -105,6 +106,7 @@ export default function WaitlistSection() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
+          <title>Decorative Clover Element</title>
           <path
             d="M48 48 C 20 8, -5 40, 48 48 Z"
             stroke="#FFFFFF"

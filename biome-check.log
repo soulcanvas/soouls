@@ -1,0 +1,343 @@
+.\apps\admin-dashboard\app\audit-logs\page.tsx:68:37 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    66 │           <div className="animate-pulse space-y-2">
+    67 │             {[...Array(10)].map((_, i) => (
+  > 68 │               <div key={`skeleton-${i}`} className="h-14 rounded-xl bg-white/[0.03]" />
+       │                                     ^
+    69 │             ))}
+    70 │           </div>
+  
+  i This is the source of the key value.
+  
+    65 │         {!filteredLogs ? (
+    66 │           <div className="animate-pulse space-y-2">
+  > 67 │             {[...Array(10)].map((_, i) => (
+       │                                     ^
+    68 │               <div key={`skeleton-${i}`} className="h-14 rounded-xl bg-white/[0.03]" />
+    69 │             ))}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\FooterSection.tsx:158:32 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    156 │         {Array.from({ length: 4 }).map((_, i) => (
+    157 │           <span
+  > 158 │             key={`footer-txt-${i}`}
+        │                                ^
+    159 │             className="font-playfair"
+    160 │             style={{
+  
+  i This is the source of the key value.
+  
+    154 │       {/* Stacked Text block matching Figma */}
+    155 │       <div className="absolute bottom-[-60px] left-0 right-0 z-10 flex flex-col items-center justify-center pointer-events-none opacity-20">
+  > 156 │         {Array.from({ length: 4 }).map((_, i) => (
+        │                                            ^
+    157 │           <span
+    158 │             key={`footer-txt-${i}`}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:295:13 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+    293 │           </p>
+    294 │           <div className="flex items-center gap-2">
+  > 295 │             <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+        │             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    296 │               <circle cx="8" cy="8" r="6" stroke="#E5B36A" strokeWidth="1.5" />
+    297 │               <path d="M8 5V8.5L10 10" stroke="#E5B36A" strokeWidth="1.5" strokeLinecap="round" />
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:320:11 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+    318 │         >
+    319 │           {/* Stickman Doodle SVG */}
+  > 320 │           <svg
+        │           ^^^^
+  > 321 │             width="80"
+         ...
+  > 328 │             strokeLinejoin="round"
+  > 329 │           >
+        │           ^
+    330 │             {/* Headphones */}
+    331 │             <path d="M20 50 C20 20, 80 20, 80 50" />
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:154:26 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    152 │                 return (
+    153 │                   <div
+  > 154 │                     key={j}
+        │                          ^
+    155 │                     style={{
+    156 │                       width: '3px',
+  
+  i This is the source of the key value.
+  
+    148 │             </svg>
+    149 │             <div className="flex items-center gap-[3px] flex-1">
+  > 150 │               {Array.from({ length: 32 }).map((_, j) => {
+        │                                                   ^
+    151 │                 const h = 8 + Math.sin(j * 0.5) * 14 + Math.random() * 8;
+    152 │                 return (
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:254:23 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    252 │             { label: 'backend integration' },
+    253 │           ].map((t, i) => (
+  > 254 │             <div key={i} className="flex items-center gap-3 mb-4 last:mb-0">
+        │                       ^
+    255 │               <div
+    256 │                 style={{
+  
+  i This is the source of the key value.
+  
+    251 │             { label: '3 litr water' },
+    252 │             { label: 'backend integration' },
+  > 253 │           ].map((t, i) => (
+        │                     ^
+    254 │             <div key={i} className="flex items-center gap-3 mb-4 last:mb-0">
+    255 │               <div
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:364:20 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    362 │           {['DRAG', '•', 'MOVE', '•', 'CONNECT', '•', 'REFLECT'].map((w, i) => (
+    363 │             <span
+  > 364 │               key={i}
+        │                    ^
+    365 │               style={{
+    366 │                 fontSize: '14px',
+  
+  i This is the source of the key value.
+  
+    360 │           }}
+    361 │         >
+  > 362 │           {['DRAG', '•', 'MOVE', '•', 'CONNECT', '•', 'REFLECT'].map((w, i) => (
+        │                                                                          ^
+    363 │             <span
+    364 │               key={i}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:323:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    321 │     const p = getPos(e);
+    322 │     last.current = p;
+  > 323 │     const ctx = canvasRef.current?.getContext('2d')!;
+        │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    324 │     ctx.beginPath();
+    325 │     ctx.arc(p.x, p.y, (tool === 'eraser' ? size * 3 : size) / 2, 0, Math.PI * 2);
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:333:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    331 │     if (!drawing.current || !last.current) return;
+    332 │     const p = getPos(e);
+  > 333 │     const ctx = canvasRef.current?.getContext('2d')!;
+        │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    334 │     ctx.beginPath();
+    335 │     ctx.moveTo(last.current.x, last.current.y);
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:350:55 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    348 │   const undo = () => {
+    349 │     if (!history.current.length) return;
+  > 350 │     canvasRef.current?.getContext('2d')?.putImageData(history.current.pop()!, 0, 0);
+        │                                                       ^^^^^^^^^^^^^^^^^^^^^^
+    351 │   };
+    352 │   const clearCanvas = () => {
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:354:15 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    352 │   const clearCanvas = () => {
+    353 │     snap();
+  > 354 │     const c = canvasRef.current!;
+        │               ^^^^^^^^^^^^^^^^^^
+    355 │     const ctx = c.getContext('2d')!;
+    356 │     ctx.fillStyle = '#111';
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:355:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    353 │     snap();
+    354 │     const c = canvasRef.current!;
+  > 355 │     const ctx = c.getContext('2d')!;
+        │                 ^^^^^^^^^^^^^^^^^^^
+    356 │     ctx.fillStyle = '#111';
+    357 │     ctx.fillRect(0, 0, c.width, c.height);
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:360:15 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    358 │   };
+    359 │   useEffect(() => {
+  > 360 │     const c = canvasRef.current!;
+        │               ^^^^^^^^^^^^^^^^^^
+    361 │     const ctx = c.getContext('2d')!;
+    362 │     ctx.fillStyle = '#111';
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:361:17 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    359 │   useEffect(() => {
+    360 │     const c = canvasRef.current!;
+  > 361 │     const ctx = c.getContext('2d')!;
+        │                 ^^^^^^^^^^^^^^^^^^^
+    362 │     ctx.fillStyle = '#111';
+    363 │     ctx.fillRect(0, 0, c.width, c.height);
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:477:62 lint/style/noCommaOperator ━━━━━━━━━━━━━━━━━
+
+  × The comma operator is disallowed.
+  
+    475 │             <OrangeBtn
+    476 │               disabled={!preview}
+  > 477 │               onClick={() => preview && (onAdd(preview, name), onClose())}
+        │                                                              ^
+    478 │             >
+    479 │               Add to entry
+  
+  i Its use is often confusing and obscures side effects.
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:486:13 lint/a11y/useKeyWithClickEvents ━━━━━━━━━━━━
+
+  × Enforce to have the onClick mouse event with the onKeyUp, the onKeyDown, or the onKeyPress keyboard event.
+  
+    484 │         <div className="p-5">
+    485 │           {!preview ? (
+  > 486 │             <div
+        │             ^^^^
+  > 487 │               onDrop={(e) => {
+         ...
+  > 498 │               className={`border-2 border-dashed rounded-2xl p-14 flex flex-col items-center gap-3 cursor-pointer transition-colors ${drag ? 'border-[#FF5C35] bg-[#FF5C35]/5' : 'border-white/10 hover:border-white/20'}`}
+  > 499 │             >
+        │             ^
+    500 │               <ImageIcon className="w-10 h-10 text-slate-500" />
+    501 │               <p className="text-slate-400 text-sm text-center">
+  
+  i Actions triggered using mouse events should have corresponding keyboard events to account for keyboard-only navigation.
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:713:15 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    712 │   const toggle = () => {
+  > 713 │     const a = audioRef.current!;
+        │               ^^^^^^^^^^^^^^^^^
+    714 │     if (playing) {
+    715 │       a.pause();
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:928:9 lint/complexity/noForEach ━━━━━━━━━━━━━━━━━━━
+
+  × Prefer for...of instead of forEach.
+  
+    926 │           onDone(e.target?.result as string, Math.round((Date.now() - t0.current) / 1000));
+    927 │         r.readAsDataURL(blob);
+  > 928 │         stream.getTracks().forEach((t) => t.stop());
+        │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    929 │       };
+    930 │       mr.start();
+  
+  i forEach may lead to performance issues when working with large arrays. When combined with functions like filter or map, this causes multiple iterations over the same type.
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:991:11 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  × Forbidden non-null assertion.
+  
+    990 │   const { data: existingEntry } = trpc.private.entries.getOne.useQuery(
+  > 991 │     { id: initialId! },
+        │           ^^^^^^^^^^
+    992 │     { enabled: !!initialId },
+    993 │   );
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:63:3 lint/correctness/useExhaustiveDependencies ━━━━━━━━━━
+
+  ! This hook does not specify all of its dependencies: initialId
+  
+    62 │   // Load from localStorage once on mount (client only)
+  > 63 │   useEffect(() => {
+       │   ^^^^^^^^^
+    64 │     // If this is a brand-new entry (no ID), wipe the stale 'new' key
+    65 │     // so old data never leaks into a fresh canvas.
+  
+  i This dependency is not specified in the hook dependency list.
+  
+    64 │     // If this is a brand-new entry (no ID), wipe the stale 'new' key
+    65 │     // so old data never leaks into a fresh canvas.
+  > 66 │     if (!initialId) {
+       │          ^^^^^^^^^
+    67 │       localStorage.removeItem(lsKeyRef.current);
+    68 │       setHydrated(true);
+  
+  i Either include it or remove the dependency array
+  
+
+The number of diagnostics exceeds the number allowed by Biome.
+Diagnostics not shown: 28.
+Checked 174 files in 315ms. No fixes applied.
+Found 21 errors.
+Found 6 warnings.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+

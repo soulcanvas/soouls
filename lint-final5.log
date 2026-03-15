@@ -1,0 +1,432 @@
+$ biome check .
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:155:40 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    153 │                 return (
+    154 │                   <div
+  > 155 │                     key={`doodle-bar-${j}`}
+        │                                        ^
+    156 │                     style={{
+    157 │                       width: '3px',
+  
+  i This is the source of the key value.
+  
+    148 │             </svg>
+    149 │             <div className="flex items-center gap-[3px] flex-1">
+  > 150 │               {Array.from({ length: 32 }).map((_, j) => {
+        │                                                   ^
+    151 │                 const h = 8 + Math.sin(j * 0.5) * 14 + Math.random() * 8;
+    152 │                 // biome-ignore lint/suspicious/noArrayIndexKey: static shapes
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:257:38 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    255 │             // biome-ignore lint/suspicious/noArrayIndexKey: static layout
+    256 │             return (
+  > 257 │               <div key={`task-item-${i}`} className="flex items-center gap-3 mb-4 last:mb-0">
+        │                                      ^
+    258 │                 <div
+    259 │                   style={{
+  
+  i This is the source of the key value.
+  
+    252 │             { label: '3 litr water' },
+    253 │             { label: 'backend integration' },
+  > 254 │           ].map((t, i) => {
+        │                     ^
+    255 │             // biome-ignore lint/suspicious/noArrayIndexKey: static layout
+    256 │             return (
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:372:37 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    370 │             return (
+    371 │               <span
+  > 372 │                 key={`action-word-${i}`}
+        │                                     ^
+    373 │                 style={{
+    374 │                   fontSize: '14px',
+  
+  i This is the source of the key value.
+  
+    366 │           }}
+    367 │         >
+  > 368 │           {['DRAG', '•', 'MOVE', '•', 'CONNECT', '•', 'REFLECT'].map((w, i) => {
+        │                                                                          ^
+    369 │             // biome-ignore lint/suspicious/noArrayIndexKey: static word list
+    370 │             return (
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:152:17 suppressions/unused ━━━━━━━━━━━━━━━━━
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    150 │               {Array.from({ length: 32 }).map((_, j) => {
+    151 │                 const h = 8 + Math.sin(j * 0.5) * 14 + Math.random() * 8;
+  > 152 │                 // biome-ignore lint/suspicious/noArrayIndexKey: static shapes
+        │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    153 │                 return (
+    154 │                   <div
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:255:13 suppressions/unused ━━━━━━━━━━━━━━━━━
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    253 │             { label: 'backend integration' },
+    254 │           ].map((t, i) => {
+  > 255 │             // biome-ignore lint/suspicious/noArrayIndexKey: static layout
+        │             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    256 │             return (
+    257 │               <div key={`task-item-${i}`} className="flex items-center gap-3 mb-4 last:mb-0">
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:369:13 suppressions/unused ━━━━━━━━━━━━━━━━━
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    367 │         >
+    368 │           {['DRAG', '•', 'MOVE', '•', 'CONNECT', '•', 'REFLECT'].map((w, i) => {
+  > 369 │             // biome-ignore lint/suspicious/noArrayIndexKey: static word list
+        │             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    370 │             return (
+    371 │               <span
+  
+
+.\apps\frontend\app\components\FooterSection.tsx:160:34 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    158 │           return (
+    159 │             <span
+  > 160 │               key={`footer-txt-${i}`}
+        │                                  ^
+    161 │               className="font-playfair"
+    162 │               style={{
+  
+  i This is the source of the key value.
+  
+    154 │       {/* Stacked Text block matching Figma */}
+    155 │       <div className="absolute bottom-[-60px] left-0 right-0 z-10 flex flex-col items-center justify-center pointer-events-none opacity-20">
+  > 156 │         {Array.from({ length: 4 }).map((_, i) => {
+        │                                            ^
+    157 │           // biome-ignore lint/suspicious/noArrayIndexKey: static text
+    158 │           return (
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\FooterSection.tsx:157:11 suppressions/unused ━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    155 │       <div className="absolute bottom-[-60px] left-0 right-0 z-10 flex flex-col items-center justify-center pointer-events-none opacity-20">
+    156 │         {Array.from({ length: 4 }).map((_, i) => {
+  > 157 │           // biome-ignore lint/suspicious/noArrayIndexKey: static text
+        │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    158 │           return (
+    159 │             <span
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:773:29 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    771 │             return (
+    772 │               <div
+  > 773 │                 key={`bar-${i}`}
+        │                             ^
+    774 │                 className="flex-1 rounded-full transition-colors"
+    775 │                 style={{
+  
+  i This is the source of the key value.
+  
+    767 │         </button>
+    768 │         <div className="flex items-end gap-[1.5px] flex-1 h-7">
+  > 769 │           {bars.map((h, i) => {
+        │                         ^
+    770 │             // biome-ignore lint/suspicious/noArrayIndexKey: static playback visual
+    771 │             return (
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:817:3 lint/correctness/useExhaustiveDependencies ━━━━━━━━━━
+
+  ! This hook specifies a dependency more specific that its captures: b.seconds
+  
+    815 │   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    816 │ 
+  > 817 │   useEffect(() => {
+        │   ^^^^^^^^^
+    818 │     if (b.running) {
+    819 │       intervalRef.current = setInterval(() => onUpdate({ ...b, seconds: b.seconds + 1 }), 1000);
+  
+  i This capture is more generic than...
+  
+    817 │   useEffect(() => {
+    818 │     if (b.running) {
+  > 819 │       intervalRef.current = setInterval(() => onUpdate({ ...b, seconds: b.seconds + 1 }), 1000);
+        │                                                             ^
+    820 │     }
+    821 │     return () => {
+  
+  i ...this dependency.
+  
+    822 │       if (intervalRef.current) clearInterval(intervalRef.current);
+    823 │     };
+  > 824 │   }, [b.running, b.seconds]); // biome-ignore lint/correctness/useExhaustiveDependencies: custom run cycle
+        │                  ^^^^^^^^^
+    825 │ 
+    826 │   const fmt = (s: number) => {
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:817:3 lint/correctness/useExhaustiveDependencies ━━━━━━━━━━
+
+  ! This hook does not specify all of its dependencies: b
+  
+    815 │   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    816 │ 
+  > 817 │   useEffect(() => {
+        │   ^^^^^^^^^
+    818 │     if (b.running) {
+    819 │       intervalRef.current = setInterval(() => onUpdate({ ...b, seconds: b.seconds + 1 }), 1000);
+  
+  i This dependency is not specified in the hook dependency list.
+  
+    817 │   useEffect(() => {
+    818 │     if (b.running) {
+  > 819 │       intervalRef.current = setInterval(() => onUpdate({ ...b, seconds: b.seconds + 1 }), 1000);
+        │                                                             ^
+    820 │     }
+    821 │     return () => {
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:817:3 lint/correctness/useExhaustiveDependencies ━━━━━━━━━━
+
+  ! This hook does not specify all of its dependencies: onUpdate
+  
+    815 │   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    816 │ 
+  > 817 │   useEffect(() => {
+        │   ^^^^^^^^^
+    818 │     if (b.running) {
+    819 │       intervalRef.current = setInterval(() => onUpdate({ ...b, seconds: b.seconds + 1 }), 1000);
+  
+  i This dependency is not specified in the hook dependency list.
+  
+    817 │   useEffect(() => {
+    818 │     if (b.running) {
+  > 819 │       intervalRef.current = setInterval(() => onUpdate({ ...b, seconds: b.seconds + 1 }), 1000);
+        │                                               ^^^^^^^^
+    820 │     }
+    821 │     return () => {
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:1031:3 lint/correctness/useExhaustiveDependencies ━━━━━━━━━━
+
+  ! This hook does not specify all of its dependencies: blocks.length
+  
+    1029 │     { enabled: !!initialId },
+    1030 │   );
+  > 1031 │   useEffect(() => {
+         │   ^^^^^^^^^
+    1032 │     if (existingEntry) {
+    1033 │       try {
+  
+  i This dependency is not specified in the hook dependency list.
+  
+    1037 │         if (parsed.textContent !== undefined) {
+    1038 │           if (!textContent) setTextContent(parsed.textContent || '');
+  > 1039 │           if (blocks.length === 0) setBlocks((_prev) => parsed.blocks || []);
+         │               ^^^^^^^^^^^^^
+    1040 │         } else {
+    1041 │           if (!textContent) setTextContent(existingEntry.content || '');
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:1031:3 lint/correctness/useExhaustiveDependencies ━━━━━━━━━━
+
+  ! This hook does not specify all of its dependencies: setTextContent
+  
+    1029 │     { enabled: !!initialId },
+    1030 │   );
+  > 1031 │   useEffect(() => {
+         │   ^^^^^^^^^
+    1032 │     if (existingEntry) {
+    1033 │       try {
+  
+  i This dependency is not specified in the hook dependency list.
+  
+    1042 │         }
+    1043 │       } catch {
+  > 1044 │         if (!textContent) setTextContent(existingEntry.content || '');
+         │                           ^^^^^^^^^^^^^^
+    1045 │       }
+    1046 │       setEntryId(existingEntry.id);
+  
+  i This dependency is not specified in the hook dependency list.
+  
+    1039 │           if (blocks.length === 0) setBlocks((_prev) => parsed.blocks || []);
+    1040 │         } else {
+  > 1041 │           if (!textContent) setTextContent(existingEntry.content || '');
+         │                             ^^^^^^^^^^^^^^
+    1042 │         }
+    1043 │       } catch {
+  
+  i This dependency is not specified in the hook dependency list.
+  
+    1036 │         const parsed = JSON.parse(decompressed);
+    1037 │         if (parsed.textContent !== undefined) {
+  > 1038 │           if (!textContent) setTextContent(parsed.textContent || '');
+         │                             ^^^^^^^^^^^^^^
+    1039 │           if (blocks.length === 0) setBlocks((_prev) => parsed.blocks || []);
+    1040 │         } else {
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:1031:3 lint/correctness/useExhaustiveDependencies ━━━━━━━━━━
+
+  ! This hook does not specify all of its dependencies: setBlocks
+  
+    1029 │     { enabled: !!initialId },
+    1030 │   );
+  > 1031 │   useEffect(() => {
+         │   ^^^^^^^^^
+    1032 │     if (existingEntry) {
+    1033 │       try {
+  
+  i This dependency is not specified in the hook dependency list.
+  
+    1037 │         if (parsed.textContent !== undefined) {
+    1038 │           if (!textContent) setTextContent(parsed.textContent || '');
+  > 1039 │           if (blocks.length === 0) setBlocks((_prev) => parsed.blocks || []);
+         │                                    ^^^^^^^^^
+    1040 │         } else {
+    1041 │           if (!textContent) setTextContent(existingEntry.content || '');
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:1031:3 lint/correctness/useExhaustiveDependencies ━━━━━━━━━━
+
+  ! This hook does not specify all of its dependencies: textContent
+  
+    1029 │     { enabled: !!initialId },
+    1030 │   );
+  > 1031 │   useEffect(() => {
+         │   ^^^^^^^^^
+    1032 │     if (existingEntry) {
+    1033 │       try {
+  
+  i This dependency is not specified in the hook dependency list.
+  
+    1042 │         }
+    1043 │       } catch {
+  > 1044 │         if (!textContent) setTextContent(existingEntry.content || '');
+         │              ^^^^^^^^^^^
+    1045 │       }
+    1046 │       setEntryId(existingEntry.id);
+  
+  i This dependency is not specified in the hook dependency list.
+  
+    1039 │           if (blocks.length === 0) setBlocks((_prev) => parsed.blocks || []);
+    1040 │         } else {
+  > 1041 │           if (!textContent) setTextContent(existingEntry.content || '');
+         │                ^^^^^^^^^^^
+    1042 │         }
+    1043 │       } catch {
+  
+  i This dependency is not specified in the hook dependency list.
+  
+    1036 │         const parsed = JSON.parse(decompressed);
+    1037 │         if (parsed.textContent !== undefined) {
+  > 1038 │           if (!textContent) setTextContent(parsed.textContent || '');
+         │                ^^^^^^^^^^^
+    1039 │           if (blocks.length === 0) setBlocks((_prev) => parsed.blocks || []);
+    1040 │         } else {
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:1071:3 lint/correctness/useExhaustiveDependencies ━━━━━━━━━━
+
+  ! This hook does not specify all of its dependencies: blocks
+  
+    1070 │   // DB debounce — fires 2s after last keystroke or block change
+  > 1071 │   useEffect(() => {
+         │   ^^^^^^^^^
+    1072 │     if (!textContent.trim() && blocks.length === 0) return;
+    1073 │     if (dbDebounce.current) clearTimeout(dbDebounce.current);
+  
+  i This dependency is not specified in the hook dependency list.
+  
+    1073 │     if (dbDebounce.current) clearTimeout(dbDebounce.current);
+    1074 │     dbDebounce.current = setTimeout(
+  > 1075 │       () => performDbSave.current(textContent, blocks, entryIdRef.current),
+         │                                                ^^^^^^
+    1076 │       2000,
+    1077 │     );
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:1071:3 lint/correctness/useExhaustiveDependencies ━━━━━━━━━━
+
+  ! This hook does not specify all of its dependencies: blocks.length
+  
+    1070 │   // DB debounce — fires 2s after last keystroke or block change
+  > 1071 │   useEffect(() => {
+         │   ^^^^^^^^^
+    1072 │     if (!textContent.trim() && blocks.length === 0) return;
+    1073 │     if (dbDebounce.current) clearTimeout(dbDebounce.current);
+  
+  i This dependency is not specified in the hook dependency list.
+  
+    1070 │   // DB debounce — fires 2s after last keystroke or block change
+    1071 │   useEffect(() => {
+  > 1072 │     if (!textContent.trim() && blocks.length === 0) return;
+         │                                ^^^^^^^^^^^^^
+    1073 │     if (dbDebounce.current) clearTimeout(dbDebounce.current);
+    1074 │     dbDebounce.current = setTimeout(
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:770:13 suppressions/unused ━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    768 │         <div className="flex items-end gap-[1.5px] flex-1 h-7">
+    769 │           {bars.map((h, i) => {
+  > 770 │             // biome-ignore lint/suspicious/noArrayIndexKey: static playback visual
+        │             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    771 │             return (
+    772 │               <div
+  
+
+.\apps\frontend\app\dashboard\new-entry\page.tsx:824:31 suppressions/unused ━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    822 │       if (intervalRef.current) clearInterval(intervalRef.current);
+    823 │     };
+  > 824 │   }, [b.running, b.seconds]); // biome-ignore lint/correctness/useExhaustiveDependencies: custom run cycle
+        │                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    825 │ 
+    826 │   const fmt = (s: number) => {
+  
+
+Checked 174 files in 362ms. No fixes applied.
+Found 20 warnings.

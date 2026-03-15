@@ -65,7 +65,8 @@ export default function AuditLogsPage() {
         {!filteredLogs ? (
           <div className="animate-pulse space-y-2">
             {[...Array(10)].map((_, i) => (
-              <div key={i} className="h-14 rounded-xl bg-white/[0.03]" />
+              // biome-ignore lint/suspicious/noArrayIndexKey: static skeleton
+              <div key={`skeleton-${i}`} className="h-14 rounded-xl bg-white/[0.03]" />
             ))}
           </div>
         ) : filteredLogs.length === 0 ? (

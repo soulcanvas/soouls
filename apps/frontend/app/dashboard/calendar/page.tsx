@@ -82,6 +82,7 @@ const CalendarApp = () => {
       <div className="w-full max-w-4xl flex justify-between items-center mb-12 relative z-10 px-4">
         <div className="flex items-baseline gap-1 text-2xl font-semibold tracking-tight">
           <button
+            type="button"
             onClick={handleGoBack}
             className="text-gray-500 hover:text-gray-300 transition-colors cursor-pointer border-none bg-transparent p-0"
           >
@@ -115,6 +116,7 @@ const CalendarApp = () => {
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
           <div className="flex items-center gap-10">
             <button
+              type="button"
               aria-label="Previous month"
               onClick={() => changeMonth(-1)}
               className="text-gray-500 hover:text-white transition-colors"
@@ -127,6 +129,7 @@ const CalendarApp = () => {
             </h2>
 
             <button
+              type="button"
               aria-label="Next month"
               onClick={() => changeMonth(1)}
               className="text-gray-500 hover:text-white transition-colors"
@@ -142,6 +145,7 @@ const CalendarApp = () => {
 
               return (
                 <button
+                  type="button"
                   key={v}
                   onClick={() => !disabled && setView(v)}
                   disabled={disabled}
@@ -207,7 +211,10 @@ const CalendarApp = () => {
 
         {/* Bottom Search */}
         <div className="absolute -bottom-6 left-1/2 -translate-x-1/2">
-          <button className="bg-[#1a1a1a] border border-white/10 px-8 py-3 rounded-full text-xs text-gray-500 font-bold flex items-center gap-2 hover:border-[#e67e65]/50 hover:text-gray-300 transition-all shadow-2xl group uppercase tracking-widest">
+          <button
+            type="button"
+            className="bg-[#1a1a1a] border border-white/10 px-8 py-3 rounded-full text-xs text-gray-500 font-bold flex items-center gap-2 hover:border-[#e67e65]/50 hover:text-gray-300 transition-all shadow-2xl group uppercase tracking-widest"
+          >
             <span className="opacity-60 group-hover:opacity-100 transition-opacity">
               Ctrl + k to search
             </span>

@@ -84,6 +84,8 @@ export default function ClientShell({ children }: { children: React.ReactNode })
         message.includes('not been invited') ||
         message.includes('revoked') ||
         message.includes('Unauthorized') ||
+        message.includes('Unauthorized Entity') ||
+        message.includes('Forbidden') ||
         message.includes('permission')
       ) {
         setIsUnauthorized(true);
@@ -164,6 +166,7 @@ export default function ClientShell({ children }: { children: React.ReactNode })
             Make sure the backend server is running and try again.
           </p>
           <button
+            type="button"
             onClick={() => {
               setError(null);
               setLoading(true);

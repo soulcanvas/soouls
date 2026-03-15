@@ -8,13 +8,13 @@ export default function SpatialCanvasSection() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.querySelectorAll('.reveal').forEach((el, i) => {
               setTimeout(() => el.classList.add('in-view'), i * 150);
             });
           }
-        });
+        }
       },
       { threshold: 0.1 },
     );
@@ -143,14 +143,16 @@ export default function SpatialCanvasSection() {
         >
           <div className="flex items-center gap-3 w-full">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <title>Voice Note Icon</title>
               <path d="M8 5V19L19 12L8 5Z" fill="#E07A5F" />
             </svg>
             <div className="flex items-center gap-[3px] flex-1">
               {Array.from({ length: 32 }).map((_, j) => {
                 const h = 8 + Math.sin(j * 0.5) * 14 + Math.random() * 8;
+                // biome-ignore lint/suspicious/noArrayIndexKey: static shapes
                 return (
                   <div
-                    key={j}
+                    key={`doodle-bar-${j}`}
                     style={{
                       width: '3px',
                       height: `${Math.max(6, h)}px`,
@@ -249,19 +251,22 @@ export default function SpatialCanvasSection() {
             { label: '2k running' },
             { label: '3 litr water' },
             { label: 'backend integration' },
-          ].map((t, i) => (
-            <div key={i} className="flex items-center gap-3 mb-4 last:mb-0">
-              <div
-                style={{
-                  width: 14,
-                  height: 14,
-                  border: '2px solid #E5B36A',
-                  borderRadius: '3px',
-                }}
-              />
-              <span style={{ fontSize: '16px', color: '#D8D8D8' }}>{t.label}</span>
-            </div>
-          ))}
+          ].map((t, i) => {
+            // biome-ignore lint/suspicious/noArrayIndexKey: static layout
+            return (
+              <div key={`task-item-${i}`} className="flex items-center gap-3 mb-4 last:mb-0">
+                <div
+                  style={{
+                    width: 14,
+                    height: 14,
+                    borderRadius: 4,
+                    border: '1px solid rgba(255,255,255,0.2)',
+                  }}
+                />
+                <span style={{ fontSize: '15px', color: '#D8D8D8' }}>{t.label}</span>
+              </div>
+            );
+          })}
         </div>
 
         {/* Highlighted task card */}
@@ -292,6 +297,7 @@ export default function SpatialCanvasSection() {
           </p>
           <div className="flex items-center gap-2">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <title>Connection Node</title>
               <circle cx="8" cy="8" r="6" stroke="#E5B36A" strokeWidth="1.5" />
               <path d="M8 5V8.5L10 10" stroke="#E5B36A" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
@@ -321,11 +327,12 @@ export default function SpatialCanvasSection() {
             height="80"
             viewBox="0 0 100 100"
             fill="none"
-            stroke="#FFFFFF"
+            stroke="#111"
             strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"
           >
+            <title>Stickman Doodle</title>
             {/* Headphones */}
             <path d="M20 50 C20 20, 80 20, 80 50" />
             <rect x="15" y="45" width="10" height="20" rx="5" fill="#FFFFFF" />
@@ -358,19 +365,23 @@ export default function SpatialCanvasSection() {
             whiteSpace: 'nowrap',
           }}
         >
-          {['DRAG', '•', 'MOVE', '•', 'CONNECT', '•', 'REFLECT'].map((w, i) => (
-            <span
-              key={i}
-              style={{
-                fontSize: '14px',
-                letterSpacing: '0.15em',
-                color: w === '•' ? 'rgba(224, 122, 95, 0.5)' : '#E07A5F',
-                fontWeight: 600,
-              }}
-            >
-              {w}
-            </span>
-          ))}
+          {['DRAG', '•', 'MOVE', '•', 'CONNECT', '•', 'REFLECT'].map((w, i) => {
+            // biome-ignore lint/suspicious/noArrayIndexKey: static word list
+            return (
+              <span
+                key={`action-word-${i}`}
+                style={{
+                  fontSize: '14px',
+                  letterSpacing: '0.15em',
+                  color: w === '•' ? '#E5B36A' : '#A8A8A8',
+                  opacity: w === '•' ? 1 : 0.6,
+                  fontWeight: 600,
+                }}
+              >
+                {w}
+              </span>
+            );
+          })}
         </div>
       </div>
     </section>

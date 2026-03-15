@@ -38,6 +38,7 @@ export default function FooterSection() {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
+              <title>Soulcanvas Clover Logo</title>
               {/* Four hearts making a clover, outline exact match to image */}
               <path
                 d="M48 48 C 20 8, -5 40, 48 48 Z"
@@ -152,25 +153,28 @@ export default function FooterSection() {
 
       {/* Stacked Text block matching Figma */}
       <div className="absolute bottom-[-60px] left-0 right-0 z-10 flex flex-col items-center justify-center pointer-events-none opacity-20">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <span
-            key={i}
-            className="font-playfair"
-            style={{
-              fontFamily: 'ABC Whyte Inktrap, sans-serif',
-              fontSize: '300px',
-              lineHeight: '150px',
-              letterSpacing: '-0.035em',
-              fontWeight: 800,
-              color: 'transparent',
-              WebkitTextStroke: '1px #FFFFFF',
-              userSelect: 'none',
-              textTransform: 'none',
-            }}
-          >
-            Soulcanvas
-          </span>
-        ))}
+        {Array.from({ length: 4 }).map((_, i) => {
+          // biome-ignore lint/suspicious/noArrayIndexKey: static text
+          return (
+            <span
+              key={`footer-txt-${i}`}
+              className="font-playfair"
+              style={{
+                fontFamily: 'ABC Whyte Inktrap, sans-serif',
+                fontSize: '300px',
+                lineHeight: '150px',
+                letterSpacing: '-0.035em',
+                fontWeight: 800,
+                color: 'transparent',
+                WebkitTextStroke: '1px #FFFFFF',
+                userSelect: 'none',
+                textTransform: 'none',
+              }}
+            >
+              Soulcanvas
+            </span>
+          );
+        })}
       </div>
     </footer>
   );

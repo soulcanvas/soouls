@@ -1,0 +1,397 @@
+$ biome check .
+.\apps\admin-dashboard\app\audit-logs\page.tsx:68:25 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    66 │           <div className="animate-pulse space-y-2">
+    67 │             {[...Array(10)].map((_, i) => (
+  > 68 │               <div key={i} className="h-14 rounded-xl bg-white/[0.03]" />
+       │                         ^
+    69 │             ))}
+    70 │           </div>
+  
+  i This is the source of the key value.
+  
+    65 │         {!filteredLogs ? (
+    66 │           <div className="animate-pulse space-y-2">
+  > 67 │             {[...Array(10)].map((_, i) => (
+       │                                     ^
+    68 │               <div key={i} className="h-14 rounded-xl bg-white/[0.03]" />
+    69 │             ))}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\admin-dashboard\app\components\ClientShell.tsx:168:11 lint/a11y/useButtonType ━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    166 │             Make sure the backend server is running and try again.
+    167 │           </p>
+  > 168 │           <button
+        │           ^^^^^^^
+  > 169 │             onClick={() => {
+         ...
+  > 174 │             className="mt-4 inline-flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2 text-sm text-white transition-colors hover:bg-white/20"
+  > 175 │           >
+        │           ^
+    176 │             <RefreshCw className="h-4 w-4" />
+    177 │             Retry
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\admin-dashboard\app\sign-in\[[...sign-in]]\page.tsx format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+     28  28 │           <div className="absolute -right-[10%] bottom-[10%] h-[400px] w-[400px] rounded-full bg-violet-500/[0.05] blur-[120px]" />
+     29  29 │           {/* Star field dots */}
+     30     │ - ········<div·className="absolute·inset-0·opacity-30"·style={{
+     31     │ - ··········backgroundImage:·'radial-gradient(1px·1px·at·20%·30%,·rgba(255,255,255,0.4)·0%,·transparent·100%),·radial-gradient(1px·1px·at·40%·70%,·rgba(255,255,255,0.3)·0%,·transparent·100%),·radial-gradient(1px·1px·at·60%·20%,·rgba(255,255,255,0.5)·0%,·transparent·100%),·radial-gradient(1px·1px·at·80%·50%,·rgba(255,255,255,0.2)·0%,·transparent·100%),·radial-gradient(1px·1px·at·15%·80%,·rgba(255,255,255,0.4)·0%,·transparent·100%),·radial-gradient(1px·1px·at·70%·85%,·rgba(255,255,255,0.3)·0%,·transparent·100%),·radial-gradient(1.5px·1.5px·at·50%·50%,·rgba(245,158,11,0.6)·0%,·transparent·100%)',
+     32     │ - ········}}·/>
+         30 │ + ········<div
+         31 │ + ··········className="absolute·inset-0·opacity-30"
+         32 │ + ··········style={{
+         33 │ + ············backgroundImage:
+         34 │ + ··············'radial-gradient(1px·1px·at·20%·30%,·rgba(255,255,255,0.4)·0%,·transparent·100%),·radial-gradient(1px·1px·at·40%·70%,·rgba(255,255,255,0.3)·0%,·transparent·100%),·radial-gradient(1px·1px·at·60%·20%,·rgba(255,255,255,0.5)·0%,·transparent·100%),·radial-gradient(1px·1px·at·80%·50%,·rgba(255,255,255,0.2)·0%,·transparent·100%),·radial-gradient(1px·1px·at·15%·80%,·rgba(255,255,255,0.4)·0%,·transparent·100%),·radial-gradient(1px·1px·at·70%·85%,·rgba(255,255,255,0.3)·0%,·transparent·100%),·radial-gradient(1.5px·1.5px·at·50%·50%,·rgba(245,158,11,0.6)·0%,·transparent·100%)',
+         35 │ + ··········}}
+         36 │ + ········/>
+     33  37 │         </div>
+     34  38 │   
+    ······· │ 
+     67  71 │           {/* Description */}
+     68  72 │           <p className="mt-8 max-w-lg text-base leading-relaxed text-slate-500">
+     69     │ - ··········Internal·operations·hub·for·platform·administration,·real-time·telemetry,
+     70     │ - ··········and·incident·response.·Authorized·personnel·only.
+         73 │ + ··········Internal·operations·hub·for·platform·administration,·real-time·telemetry,·and·incident
+         74 │ + ··········response.·Authorized·personnel·only.
+     71  75 │           </p>
+     72  76 │   
+  
+
+.\apps\admin-dashboard\app\messaging\page.tsx:88:17 lint/a11y/noLabelWithoutControl ━━━━━━━━━━━━━━━━
+
+  × A form label must be associated with an input.
+  
+    86 │             <div className="grid gap-4 md:grid-cols-2">
+    87 │               <div>
+  > 88 │                 <label className="mb-1.5 block text-xs font-medium text-slate-400">
+       │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 89 │                   Internal Title
+  > 90 │                 </label>
+       │                 ^^^^^^^^
+    91 │                 <input
+    92 │                   value={composeTitle}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+.\apps\admin-dashboard\app\messaging\page.tsx:99:17 lint/a11y/noLabelWithoutControl ━━━━━━━━━━━━━━━━
+
+  × A form label must be associated with an input.
+  
+     97 │               </div>
+     98 │               <div>
+   > 99 │                 <label className="mb-1.5 block text-xs font-medium text-slate-400">
+        │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 100 │                   Brand Persona
+  > 101 │                 </label>
+        │                 ^^^^^^^^
+    102 │                 <select
+    103 │                   value={composeBrand}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+.\apps\admin-dashboard\app\messaging\page.tsx:104:70 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    102 │                 <select
+    103 │                   value={composeBrand}
+  > 104 │                   onChange={(e) => setComposeBrand(e.target.value as any)}
+        │                                                                      ^^^
+    105 │                   className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm text-white outline-none"
+    106 │                 >
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+.\apps\admin-dashboard\app\messaging\page.tsx:117:15 lint/a11y/noLabelWithoutControl ━━━━━━━━━━━━━━━
+
+  × A form label must be associated with an input.
+  
+    116 │             <div>
+  > 117 │               <label className="mb-1.5 block text-xs font-medium text-slate-400">
+        │               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 118 │                 Email Subject / Notification Header
+  > 119 │               </label>
+        │               ^^^^^^^^
+    120 │               <input
+    121 │                 value={composeSubject}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+.\apps\admin-dashboard\app\messaging\page.tsx:129:15 lint/a11y/noLabelWithoutControl ━━━━━━━━━━━━━━━
+
+  × A form label must be associated with an input.
+  
+    128 │             <div>
+  > 129 │               <label className="mb-1.5 block text-xs font-medium text-slate-400">
+        │               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 130 │                 Markdown Body
+  > 131 │               </label>
+        │               ^^^^^^^^
+    132 │               <textarea
+    133 │                 value={composeBody}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+.\apps\admin-dashboard\app\iam\page.tsx format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+     23  23 │   const GRANTABLE_PERMISSIONS = [
+     24  24 │     { key: 'view:all', label: 'View All Data', description: 'Read-only access to all dashboards' },
+     25     │ - ··{·key:·'mutate:users',·label:·'Manage·Users',·description:·'Edit·user·accounts,·billing,·and·status'·},
+     26     │ - ··{·key:·'mutate:invites',·label:·'Manage·Invites',·description:·'Send·and·revoke·admin·invitations'·},
+         25 │ + ··{
+         26 │ + ····key:·'mutate:users',
+         27 │ + ····label:·'Manage·Users',
+         28 │ + ····description:·'Edit·user·accounts,·billing,·and·status',
+         29 │ + ··},
+         30 │ + ··{
+         31 │ + ····key:·'mutate:invites',
+         32 │ + ····label:·'Manage·Invites',
+         33 │ + ····description:·'Send·and·revoke·admin·invitations',
+         34 │ + ··},
+     27  35 │     { key: 'can_invite', label: 'Can Invite', description: 'Allowed to invite subordinate roles' },
+     28     │ - ··{·key:·'mutate:api_keys',·label:·'Manage·API·Keys',·description:·'Create·and·revoke·developer·API·keys'·},
+     29     │ - ··{·key:·'mutate:feature_flags',·label:·'Manage·Feature·Flags',·description:·'Toggle·feature·flags'·},
+     30     │ - ··{·key:·'mutate:service_controls',·label:·'Manage·Service·Controls',·description:·'Toggle·kill·switches'·},
+         36 │ + ··{
+         37 │ + ····key:·'mutate:api_keys',
+         38 │ + ····label:·'Manage·API·Keys',
+         39 │ + ····description:·'Create·and·revoke·developer·API·keys',
+         40 │ + ··},
+         41 │ + ··{
+         42 │ + ····key:·'mutate:feature_flags',
+         43 │ + ····label:·'Manage·Feature·Flags',
+         44 │ + ····description:·'Toggle·feature·flags',
+         45 │ + ··},
+         46 │ + ··{
+         47 │ + ····key:·'mutate:service_controls',
+         48 │ + ····label:·'Manage·Service·Controls',
+         49 │ + ····description:·'Toggle·kill·switches',
+         50 │ + ··},
+     31  51 │     { key: 'mutate:messaging', label: 'Manage Messaging', description: 'Create and send campaigns' },
+     32  52 │   ] as const;
+    ······· │ 
+    182 202 │                 </div>
+    183 203 │                 <p className="mb-3 text-xs text-slate-500">
+    184     │ - ················You·can·only·grant·permissions·you·currently·hold.·The·invitee·will·receive·the·selected·permissions.
+        204 │ + ················You·can·only·grant·permissions·you·currently·hold.·The·invitee·will·receive·the
+        205 │ + ················selected·permissions.
+    185 206 │                 </p>
+    186 207 │                 <div className="grid gap-2 sm:grid-cols-2">
+  
+
+.\apps\backend\src\command-center\command-center.controller.ts format ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+     54  54 │     async inviteAdmin(
+     55  55 │       @Req() request: CommandCenterRequest,
+     56     │ - ····@Body()·body:·{·email:·string;·role:·'support'·|·'engineer'·|·'super_admin';·permissions?:·string[]·},
+         56 │ + ····@Body()·body:·{
+         57 │ + ······email:·string;
+         58 │ + ······role:·'support'·|·'engineer'·|·'super_admin';
+         59 │ + ······permissions?:·string[];
+         60 │ + ····},
+     57  61 │     ) {
+     58  62 │       return this.commandCenterService.inviteAdmin(this.getClerkId(request), body, request.ip);
+  
+
+.\apps\frontend\app\components\FooterSection.tsx:34:13 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+    32 │           {/* Exact Clover Logo SVG */}
+    33 │           <div className="mb-[20px]">
+  > 34 │             <svg
+       │             ^^^^
+  > 35 │               width="60"
+        ...
+  > 39 │               xmlns="http://www.w3.org/2000/svg"
+  > 40 │             >
+       │             ^
+    41 │               {/* Four hearts making a clover, outline exact match to image */}
+    42 │               <path
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+.\apps\frontend\app\components\FooterSection.tsx:157:18 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    155 │         {Array.from({ length: 4 }).map((_, i) => (
+    156 │           <span
+  > 157 │             key={i}
+        │                  ^
+    158 │             className="font-playfair"
+    159 │             style={{
+  
+  i This is the source of the key value.
+  
+    153 │       {/* Stacked Text block matching Figma */}
+    154 │       <div className="absolute bottom-[-60px] left-0 right-0 z-10 flex flex-col items-center justify-center pointer-events-none opacity-20">
+  > 155 │         {Array.from({ length: 4 }).map((_, i) => (
+        │                                            ^
+    156 │           <span
+    157 │             key={i}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\HeroSection.tsx:114:11 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+    112 │         {/* Scroll Indicator */}
+    113 │         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+  > 114 │           <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    115 │             <path
+    116 │               d="M14 6V22M14 22L8 16M14 22L20 16"
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+.\apps\frontend\app\components\HeroSection.tsx:39:11 lint/security/noDangerouslySetInnerHtml ━━━━━━━━━━
+
+  × Avoid passing content using the dangerouslySetInnerHTML prop.
+  
+    37 │         <div
+    38 │           className="absolute inset-0 w-full h-full"
+  > 39 │           dangerouslySetInnerHTML={{
+       │           ^^^^^^^^^^^^^^^^^^^^^^^
+    40 │             __html: `
+    41 │               <video
+  
+  ! Setting content using code can expose users to cross-site scripting (XSS) attacks
+  
+
+.\apps\frontend\app\components\LandingDock.tsx:86:33 lint/suspicious/noAssignInExpressions ━━━━━━━━━━
+
+  × The assignment should not be in an expression.
+  
+    84 │             transition: 'color 0.2s',
+    85 │           }}
+  > 86 │           onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#EFEBDD')}
+       │                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    87 │           onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#E07C60')}
+    88 │         >
+  
+  i The use of assignments in expressions is confusing.
+    Expressions are often considered as side-effect free.
+  
+
+.\apps\frontend\app\components\LandingDock.tsx:87:33 lint/suspicious/noAssignInExpressions ━━━━━━━━━━
+
+  × The assignment should not be in an expression.
+  
+    85 │           }}
+    86 │           onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#EFEBDD')}
+  > 87 │           onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#E07C60')}
+       │                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    88 │         >
+    89 │           Login
+  
+  i The use of assignments in expressions is confusing.
+    Expressions are often considered as side-effect free.
+  
+
+.\apps\frontend\app\components\LandingNavbar.tsx:135:35 lint/suspicious/noAssignInExpressions ━━━━━━━━━━
+
+  × The assignment should not be in an expression.
+  
+    133 │               transition: 'all 0.5s ease',
+    134 │             }}
+  > 135 │             onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#EFEBDD')}
+        │                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    136 │             onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#E07C60')}
+    137 │           >
+  
+  i The use of assignments in expressions is confusing.
+    Expressions are often considered as side-effect free.
+  
+
+.\apps\frontend\app\components\LandingNavbar.tsx:136:35 lint/suspicious/noAssignInExpressions ━━━━━━━━━━
+
+  × The assignment should not be in an expression.
+  
+    134 │             }}
+    135 │             onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#EFEBDD')}
+  > 136 │             onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#E07C60')}
+        │                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    137 │           >
+    138 │             Login
+  
+  i The use of assignments in expressions is confusing.
+    Expressions are often considered as side-effect free.
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:11:9 lint/complexity/noForEach ━━━━━━━━━━━━━
+
+  × Prefer for...of instead of forEach.
+  
+     9 │     const observer = new IntersectionObserver(
+    10 │       (entries) => {
+  > 11 │         entries.forEach((entry) => {
+       │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 12 │           if (entry.isIntersecting) {
+        ...
+  > 16 │           }
+  > 17 │         });
+       │         ^^
+    18 │       },
+    19 │       { threshold: 0.1 },
+  
+  i forEach may lead to performance issues when working with large arrays. When combined with functions like filter or map, this causes multiple iterations over the same type.
+  
+
+.\apps\frontend\app\components\SpatialCanvasSection.tsx:145:13 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+    143 │         >
+    144 │           <div className="flex items-center gap-3 w-full">
+  > 145 │             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        │             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    146 │               <path d="M8 5V19L19 12L8 5Z" fill="#E07A5F" />
+    147 │             </svg>
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+The number of diagnostics exceeds the number allowed by Biome.
+Diagnostics not shown: 65.
+Checked 174 files in 264ms. No fixes applied.
+Found 53 errors.
+Found 7 warnings.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+
+error: script "lint" exited with code 1

@@ -1,0 +1,365 @@
+$ biome check .
+.\apps\admin-dashboard\app\audit-logs\page.tsx:68:25 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    66 │           <div className="animate-pulse space-y-2">
+    67 │             {[...Array(10)].map((_, i) => (
+  > 68 │               <div key={i} className="h-14 rounded-xl bg-white/[0.03]" />
+       │                         ^
+    69 │             ))}
+    70 │           </div>
+  
+  i This is the source of the key value.
+  
+    65 │         {!filteredLogs ? (
+    66 │           <div className="animate-pulse space-y-2">
+  > 67 │             {[...Array(10)].map((_, i) => (
+       │                                     ^
+    68 │               <div key={i} className="h-14 rounded-xl bg-white/[0.03]" />
+    69 │             ))}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\admin-dashboard\app\components\ClientShell.tsx:168:11 lint/a11y/useButtonType ━━━━━━━━━━━━━━━
+
+  × Provide an explicit type prop for the button element.
+  
+    166 │             Make sure the backend server is running and try again.
+    167 │           </p>
+  > 168 │           <button
+        │           ^^^^^^^
+  > 169 │             onClick={() => {
+         ...
+  > 174 │             className="mt-4 inline-flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2 text-sm text-white transition-colors hover:bg-white/20"
+  > 175 │           >
+        │           ^
+    176 │             <RefreshCw className="h-4 w-4" />
+    177 │             Retry
+  
+  i The default type of a button is submit, which causes the submission of a form when placed inside a `form` element. This is likely not the behaviour that you want inside a React application.
+  
+  i Allowed button types are: submit, button or reset
+  
+
+.\apps\admin-dashboard\app\messaging\page.tsx:88:17 lint/a11y/noLabelWithoutControl ━━━━━━━━━━━━━━━━
+
+  × A form label must be associated with an input.
+  
+    86 │             <div className="grid gap-4 md:grid-cols-2">
+    87 │               <div>
+  > 88 │                 <label className="mb-1.5 block text-xs font-medium text-slate-400">
+       │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 89 │                   Internal Title
+  > 90 │                 </label>
+       │                 ^^^^^^^^
+    91 │                 <input
+    92 │                   value={composeTitle}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+.\apps\admin-dashboard\app\messaging\page.tsx:99:17 lint/a11y/noLabelWithoutControl ━━━━━━━━━━━━━━━━
+
+  × A form label must be associated with an input.
+  
+     97 │               </div>
+     98 │               <div>
+   > 99 │                 <label className="mb-1.5 block text-xs font-medium text-slate-400">
+        │                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 100 │                   Brand Persona
+  > 101 │                 </label>
+        │                 ^^^^^^^^
+    102 │                 <select
+    103 │                   value={composeBrand}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+.\apps\admin-dashboard\app\messaging\page.tsx:104:70 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    102 │                 <select
+    103 │                   value={composeBrand}
+  > 104 │                   onChange={(e) => setComposeBrand(e.target.value as any)}
+        │                                                                      ^^^
+    105 │                   className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm text-white outline-none"
+    106 │                 >
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+.\apps\admin-dashboard\app\messaging\page.tsx:117:15 lint/a11y/noLabelWithoutControl ━━━━━━━━━━━━━━━
+
+  × A form label must be associated with an input.
+  
+    116 │             <div>
+  > 117 │               <label className="mb-1.5 block text-xs font-medium text-slate-400">
+        │               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 118 │                 Email Subject / Notification Header
+  > 119 │               </label>
+        │               ^^^^^^^^
+    120 │               <input
+    121 │                 value={composeSubject}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+.\apps\admin-dashboard\app\messaging\page.tsx:129:15 lint/a11y/noLabelWithoutControl ━━━━━━━━━━━━━━━
+
+  × A form label must be associated with an input.
+  
+    128 │             <div>
+  > 129 │               <label className="mb-1.5 block text-xs font-medium text-slate-400">
+        │               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 130 │                 Markdown Body
+  > 131 │               </label>
+        │               ^^^^^^^^
+    132 │               <textarea
+    133 │                 value={composeBody}
+  
+  i Consider adding a `for` or `htmlFor` attribute to the label element or moving the input element to inside the label element.
+  
+
+.\apps\frontend\app\components\HeroSection.tsx:114:11 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+    112 │         {/* Scroll Indicator */}
+    113 │         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+  > 114 │           <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        │           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    115 │             <path
+    116 │               d="M14 6V22M14 22L8 16M14 22L20 16"
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+.\apps\frontend\app\components\HeroSection.tsx:39:11 lint/security/noDangerouslySetInnerHtml ━━━━━━━━━━
+
+  × Avoid passing content using the dangerouslySetInnerHTML prop.
+  
+    37 │         <div
+    38 │           className="absolute inset-0 w-full h-full"
+  > 39 │           dangerouslySetInnerHTML={{
+       │           ^^^^^^^^^^^^^^^^^^^^^^^
+    40 │             __html: `
+    41 │               <video
+  
+  ! Setting content using code can expose users to cross-site scripting (XSS) attacks
+  
+
+.\apps\frontend\app\components\LandingNavbar.tsx:135:35 lint/suspicious/noAssignInExpressions ━━━━━━━━━━
+
+  × The assignment should not be in an expression.
+  
+    133 │               transition: 'all 0.5s ease',
+    134 │             }}
+  > 135 │             onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#EFEBDD')}
+        │                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    136 │             onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#E07C60')}
+    137 │           >
+  
+  i The use of assignments in expressions is confusing.
+    Expressions are often considered as side-effect free.
+  
+
+.\apps\frontend\app\components\LandingNavbar.tsx:136:35 lint/suspicious/noAssignInExpressions ━━━━━━━━━━
+
+  × The assignment should not be in an expression.
+  
+    134 │             }}
+    135 │             onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#EFEBDD')}
+  > 136 │             onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#E07C60')}
+        │                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    137 │           >
+    138 │             Login
+  
+  i The use of assignments in expressions is confusing.
+    Expressions are often considered as side-effect free.
+  
+
+.\apps\frontend\app\components\FooterSection.tsx:34:13 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+    32 │           {/* Exact Clover Logo SVG */}
+    33 │           <div className="mb-[20px]">
+  > 34 │             <svg
+       │             ^^^^
+  > 35 │               width="60"
+        ...
+  > 39 │               xmlns="http://www.w3.org/2000/svg"
+  > 40 │             >
+       │             ^
+    41 │               {/* Four hearts making a clover, outline exact match to image */}
+    42 │               <path
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+.\apps\frontend\app\components\FooterSection.tsx:157:18 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    155 │         {Array.from({ length: 4 }).map((_, i) => (
+    156 │           <span
+  > 157 │             key={i}
+        │                  ^
+    158 │             className="font-playfair"
+    159 │             style={{
+  
+  i This is the source of the key value.
+  
+    153 │       {/* Stacked Text block matching Figma */}
+    154 │       <div className="absolute bottom-[-60px] left-0 right-0 z-10 flex flex-col items-center justify-center pointer-events-none opacity-20">
+  > 155 │         {Array.from({ length: 4 }).map((_, i) => (
+        │                                            ^
+    156 │           <span
+    157 │             key={i}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+.\apps\frontend\app\components\LandingDock.tsx:86:33 lint/suspicious/noAssignInExpressions ━━━━━━━━━━
+
+  × The assignment should not be in an expression.
+  
+    84 │             transition: 'color 0.2s',
+    85 │           }}
+  > 86 │           onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#EFEBDD')}
+       │                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    87 │           onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#E07C60')}
+    88 │         >
+  
+  i The use of assignments in expressions is confusing.
+    Expressions are often considered as side-effect free.
+  
+
+.\apps\frontend\app\components\LandingDock.tsx:87:33 lint/suspicious/noAssignInExpressions ━━━━━━━━━━
+
+  × The assignment should not be in an expression.
+  
+    85 │           }}
+    86 │           onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#EFEBDD')}
+  > 87 │           onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#E07C60')}
+       │                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    88 │         >
+    89 │           Login
+  
+  i The use of assignments in expressions is confusing.
+    Expressions are often considered as side-effect free.
+  
+
+.\apps\frontend\app\components\WaitlistSection.tsx:13:9 lint/complexity/noForEach ━━━━━━━━━━━━━━━━━━
+
+  × Prefer for...of instead of forEach.
+  
+    11 │     const observer = new IntersectionObserver(
+    12 │       (entries) => {
+  > 13 │         entries.forEach((entry) => {
+       │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 14 │           if (entry.isIntersecting) {
+        ...
+  > 18 │           }
+  > 19 │         });
+       │         ^^
+    20 │       },
+    21 │       { threshold: 0.1 },
+  
+  i forEach may lead to performance issues when working with large arrays. When combined with functions like filter or map, this causes multiple iterations over the same type.
+  
+
+.\apps\frontend\app\components\WaitlistSection.tsx:55:9 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+    53 │         }}
+    54 │       >
+  > 55 │         <svg
+       │         ^^^^
+  > 56 │           width="400"
+        ...
+  > 60 │           xmlns="http://www.w3.org/2000/svg"
+  > 61 │         >
+       │         ^
+    62 │           <path
+    63 │             d="M48 48 C 20 8, -5 40, 48 48 Z"
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+.\apps\frontend\app\components\WaitlistSection.tsx:101:9 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+     99 │         }}
+    100 │       >
+  > 101 │         <svg
+        │         ^^^^
+  > 102 │           width="400"
+         ...
+  > 106 │           xmlns="http://www.w3.org/2000/svg"
+  > 107 │         >
+        │         ^
+    108 │           <path
+    109 │             d="M48 48 C 20 8, -5 40, 48 48 Z"
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+.\apps\frontend\app\components\SundayReviewSection.tsx:11:9 lint/complexity/noForEach ━━━━━━━━━━━━━━
+
+  × Prefer for...of instead of forEach.
+  
+     9 │     const observer = new IntersectionObserver(
+    10 │       (entries) => {
+  > 11 │         entries.forEach((entry) => {
+       │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  > 12 │           if (entry.isIntersecting) {
+        ...
+  > 16 │           }
+  > 17 │         });
+       │         ^^
+    18 │       },
+    19 │       { threshold: 0.1 },
+  
+  i forEach may lead to performance issues when working with large arrays. When combined with functions like filter or map, this causes multiple iterations over the same type.
+  
+
+.\apps\frontend\app\components\SundayReviewSection.tsx:149:17 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━
+
+  × Alternative text title element cannot be empty
+  
+    147 │               {/* Advanced SVG Line Chart based on screenshot */}
+    148 │               <div className="relative w-full h-[60px] mb-8">
+  > 149 │                 <svg
+        │                 ^^^^
+  > 150 │                   width="100%"
+         ...
+  > 154 │                   style={{ overflow: 'visible' }}
+  > 155 │                 >
+        │                 ^
+    156 │                   {/* The connected golden path */}
+    157 │                   <path
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+The number of diagnostics exceeds the number allowed by Biome.
+Diagnostics not shown: 59.
+Checked 174 files in 363ms. No fixes applied.
+Found 48 errors.
+Found 7 warnings.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+
+error: script "lint" exited with code 1

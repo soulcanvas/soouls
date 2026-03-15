@@ -132,8 +132,12 @@ export default function LandingNavbar({ links = defaultLinks }: LandingNavbarPro
               letterSpacing: '-0.035em',
               transition: 'all 0.5s ease',
             }}
-            onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#EFEBDD')}
-            onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#E07C60')}
+            onMouseEnter={(e) => {
+              (e.target as HTMLElement).style.color = '#EFEBDD';
+            }}
+            onMouseLeave={(e) => {
+              (e.target as HTMLElement).style.color = '#E07C60';
+            }}
           >
             Login
           </Link>

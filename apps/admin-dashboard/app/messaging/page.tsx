@@ -85,10 +85,14 @@ export default function MessagingPage() {
           <div className="grid gap-6">
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-slate-400">
+                <label
+                  htmlFor="composeTitle"
+                  className="mb-1.5 block text-xs font-medium text-slate-400"
+                >
                   Internal Title
                 </label>
                 <input
+                  id="composeTitle"
                   value={composeTitle}
                   onChange={(e) => setComposeTitle(e.target.value)}
                   placeholder="e.g. March 2026 Feature Release"
@@ -96,12 +100,20 @@ export default function MessagingPage() {
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-slate-400">
+                <label
+                  htmlFor="composeBrand"
+                  className="mb-1.5 block text-xs font-medium text-slate-400"
+                >
                   Brand Persona
                 </label>
                 <select
+                  id="composeBrand"
                   value={composeBrand}
-                  onChange={(e) => setComposeBrand(e.target.value as any)}
+                  onChange={(e) =>
+                    setComposeBrand(
+                      e.target.value as 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk',
+                    )
+                  }
                   className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm text-white outline-none"
                 >
                   {messaging.brands.map((b) => (
@@ -114,10 +126,14 @@ export default function MessagingPage() {
             </div>
 
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-slate-400">
+              <label
+                htmlFor="composeSubject"
+                className="mb-1.5 block text-xs font-medium text-slate-400"
+              >
                 Email Subject / Notification Header
               </label>
               <input
+                id="composeSubject"
                 value={composeSubject}
                 onChange={(e) => setComposeSubject(e.target.value)}
                 placeholder="SoulCanvas Release Update"
@@ -126,10 +142,14 @@ export default function MessagingPage() {
             </div>
 
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-slate-400">
+              <label
+                htmlFor="composeBody"
+                className="mb-1.5 block text-xs font-medium text-slate-400"
+              >
                 Markdown Body
               </label>
               <textarea
+                id="composeBody"
                 value={composeBody}
                 onChange={(e) => setComposeBody(e.target.value)}
                 placeholder="# Hello World\n\nWrite your markdown body here..."

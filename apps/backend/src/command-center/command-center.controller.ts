@@ -53,7 +53,11 @@ export class CommandCenterController {
   @Post('iam/invite')
   async inviteAdmin(
     @Req() request: CommandCenterRequest,
-    @Body() body: { email: string; role: 'support' | 'engineer' | 'super_admin' },
+    @Body() body: {
+      email: string;
+      role: 'support' | 'engineer' | 'super_admin';
+      permissions?: string[];
+    },
   ) {
     return this.commandCenterService.inviteAdmin(this.getClerkId(request), body, request.ip);
   }
