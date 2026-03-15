@@ -68,7 +68,7 @@ export function checkRateLimit(
 
   if (timestamps.length >= config.maxRequests) {
     // Oldest request inside window — caller must wait until it falls out
-    const oldest = timestamps[0];
+    const oldest = timestamps[0] ?? windowStart;
     const retryAfterMs = oldest - windowStart;
     return { ok: false, retryAfterMs };
   }

@@ -1,12 +1,17 @@
-/** @type {import('next').NextConfig} */
+import { fileURLToPath } from 'node:url';
+
 const backendUrl =
   process.env.NEXT_PUBLIC_BACKEND_URL ?? process.env.BACKEND_URL ?? 'http://localhost:3000';
+const projectRoot = fileURLToPath(new URL('.', import.meta.url));
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  compress: true, // Explicitly enable gzip compression
-  swcMinify: true, // Enable SWC minification for faster builds
+  compress: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
+  },
+  turbopack: {
+    root: projectRoot,
   },
   async rewrites() {
     return [

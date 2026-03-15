@@ -1,41 +1,58 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { json, urlencoded } from 'express';
-
-// @ts-ignore — @nestjs/platform-express re-exports helmet types
 import helmet from 'helmet';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const isDevelopment = process.env.NODE_ENV !== 'production';
+  const appWithBodyParser = app as typeof app & {
+    useBodyParser: (
+      type: 'json' | 'urlencoded',
+      options: Record<string, boolean | number | string>,
+    ) => void;
+  };
 
-  app.use(json({ limit: '50mb' }));
-  app.use(urlencoded({ extended: true, limit: '50mb' }));
-
-  // ─── Security: HTTP Headers ──────────────────────────────────────────────
-  // Helmet sets a suite of well-known protective HTTP headers
-  // (CSP, X-Content-Type-Options, HSTS, etc.)
+  appWithBodyParser.useBodyParser('json', { limit: '50mb' });
+  appWithBodyParser.useBodyParser('urlencoded', { extended: true, limit: '50mb' });
   app.use(helmet());
 
-  // ─── Trust Proxy ────────────────────────────────────────────────────────
-  // Ensures req.ip resolves to the real client IP when behind a reverse proxy
-  // (Nginx, Cloudflare, etc.), which is required by the rate limiter.
   const expressApp = app.getHttpAdapter().getInstance();
   expressApp.set('trust proxy', 1);
 
-  // ─── CORS ────────────────────────────────────────────────────────────────
-  // Only the frontend origin is allowed. Defaults to localhost:3001 in dev.
-  const allowedOrigin = process.env.FRONTEND_URL ?? 'http://localhost:3001';
+  const allowedOrigins = [
+    process.env.FRONTEND_URL ?? 'http://localhost:3001',
+    process.env.COMMAND_CENTER_URL ?? 'http://localhost:4000',
+  ];
+
   app.enableCors({
-    origin: allowedOrigin,
-    methods: ['GET', 'POST', 'OPTIONS'],
+    origin: (origin, callback) => {
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      if (isDevelopment && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error(`CORS origin not allowed: ${origin}`), false);
+    },
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   });
 
-  await app.listen(process.env.PORT ?? 3000);
-  console.log(`[SoulCanvas API] Listening on port ${process.env.PORT ?? 3000}`);
-  console.log(`[SoulCanvas API] CORS allowed origin: ${allowedOrigin}`);
+  const port = process.env.PORT ?? 3000;
+  await app.listen(port);
+  console.log(`[SoulCanvas API] Listening on port ${port}`);
+  console.log(`[SoulCanvas API] CORS allowed origins: ${allowedOrigins.join(', ')}`);
 }
 
 bootstrap();

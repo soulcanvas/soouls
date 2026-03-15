@@ -6,7 +6,8 @@
   "exports": {
     "./canvas": "./src/canvas/index.ts",
     "./emotions": "./src/emotions/index.ts",
-    "./math": "./src/math/index.ts"
+    "./math": "./src/math/index.ts",
+    "./messaging": "./src/messaging/index.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit"

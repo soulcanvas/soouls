@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun run scripts/dev.ts",
+    "dev": "bun run --env-file=../../.env scripts/dev.ts",
     "build": "bun --bun next build",
     "start": "bun --bun next start",
     "lint": "biome check .",

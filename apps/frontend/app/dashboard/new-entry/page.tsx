@@ -1,6 +1,7 @@
 'use client';
 
 import { useUser } from '@clerk/nextjs';
+import imageCompression from 'browser-image-compression';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   Check,
@@ -20,11 +21,10 @@ import {
   Undo2,
   X,
 } from 'lucide-react';
+import LZString from 'lz-string';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { trpc } from '../../../src/utils/trpc';
-import imageCompression from 'browser-image-compression';
-import LZString from 'lz-string';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const uid = () => Math.random().toString(36).slice(2, 9);
@@ -895,7 +895,7 @@ function useVoiceRecorder(onDone: (dataUrl: string, duration: number) => void) {
   const mrRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const streamRef = useRef<MediaStream | null>(null);
+  const _streamRef = useRef<MediaStream | null>(null);
   const t0 = useRef(0);
 
   const start = async () => {
@@ -984,7 +984,7 @@ export default function NewEntryPage() {
         const parsed = JSON.parse(decompressed);
         if (parsed.textContent !== undefined) {
           if (!textContent) setTextContent(parsed.textContent || '');
-          if (blocks.length === 0) setBlocks(prev => parsed.blocks || []);
+          if (blocks.length === 0) setBlocks(_prev => parsed.blocks || []);
         } else {
           if (!textContent) setTextContent(existingEntry.content || '');
         }

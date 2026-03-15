@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { db } from '@soulcanvas/database/client';
 import { and, eq, sql } from '@soulcanvas/database/client';
 import { canvasNodes, journalEntries } from '@soulcanvas/database/schema';
-import { decryptData, encryptData } from '../utils/encryption';
 import LZString from 'lz-string';
+import { decryptData, encryptData } from '../utils/encryption';
 
 @Injectable()
 export class EntriesService {
@@ -113,7 +113,7 @@ export class EntriesService {
           parsed.blocks = [];
           optimizedContent = LZString.compressToUTF16(JSON.stringify(parsed));
         }
-      } catch (e) {
+      } catch (_e) {
         // Not LZString JSON, probably legacy plain text - do nothing
       }
       return {

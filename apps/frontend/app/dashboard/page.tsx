@@ -3,10 +3,10 @@
 import { UserButton, useUser } from '@clerk/nextjs';
 import { ActionButton, DashboardLayout, StatsWidget, WidgetCard } from '@soulcanvas/ui-kit';
 import { CheckCircle2, ChevronRight, Folder, Mic, PenLine, Plus } from 'lucide-react'; // Fixed imports
-import Link from 'next/link';
-import { trpc } from '../../src/utils/trpc'; // Relative path
 import LZString from 'lz-string';
+import Link from 'next/link';
 import { useMemo } from 'react';
+import { trpc } from '../../src/utils/trpc'; // Relative path
 
 function decodeEntryContent(rawContent: string | null | undefined): string {
   if (!rawContent) return '';
@@ -43,8 +43,10 @@ export default function DashboardPage() {
     if (!galaxyData) return null;
     return galaxyData.map((entry) => {
       const decodedContent = decodeEntryContent(entry.content);
-      const firstLineMatches = (decodedContent || '').split('\n').filter((l) => l.trim().length > 0);
-      const firstLine = firstLineMatches.length > 0 ? firstLineMatches[0] : 'Empty entry';
+      const firstLineMatches = (decodedContent || '')
+        .split('\n')
+        .filter((l) => l.trim().length > 0);
+      const firstLine = firstLineMatches[0] ?? 'Empty entry';
       const display = firstLine.length > 30 ? `${firstLine.substring(0, 30)}...` : firstLine;
 
       return {
@@ -58,7 +60,9 @@ export default function DashboardPage() {
   const totalEntries = processedGalaxyData?.length || 0;
 
   const latestEntry =
-    processedGalaxyData && processedGalaxyData.length > 0 ? processedGalaxyData[processedGalaxyData.length - 1] : null;
+    processedGalaxyData && processedGalaxyData.length > 0
+      ? processedGalaxyData[processedGalaxyData.length - 1]
+      : null;
 
   const latestEntryId = latestEntry ? latestEntry.id : null;
   const continueLink = latestEntryId
@@ -279,7 +283,7 @@ export default function DashboardPage() {
                     href={`/dashboard/new-entry?id=${entry.id}`}
                     className="block group"
                   >
-                    <div className="p-6 rounded-[24px] bg-[#0F0F0F] border border-white/5 hover:bg-white/[0.02] hover:border-white/10 transition-all duration-300 h-full flex flex-col justify-between min-h-[160px]">
+                    <div className="p-6 rounded-[24px] bg-[#0F0F0F] border border-white/5 hover:bg-[#e07a5f]/10 hover:border-[#e07a5f]/20 hover:shadow-[0_0_15px_rgba(224,122,95,0.15)] transition-all duration-300 h-full flex flex-col justify-between min-h-[160px]">
                       <div>
                         <div className="flex justify-between items-start mb-4">
                           <span className="text-[10px] font-clarity uppercase text-slate-500 tracking-widest">

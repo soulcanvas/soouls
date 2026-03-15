@@ -2,8 +2,8 @@
 
 import { useUser } from '@clerk/nextjs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React, { useState, useMemo } from 'react';
-import { useRouter } from "next/navigation";
 
 const CalendarApp = () => {
   const { user } = useUser();
@@ -18,8 +18,18 @@ const CalendarApp = () => {
   const year = currentDate.getFullYear();
 
   const months = [
-    'January','February','March','April','May','June',
-    'July','August','September','October','November','December',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   const firstDayOfMonth = new Date(year, month, 1).getDay();
@@ -48,14 +58,13 @@ const CalendarApp = () => {
   }, [firstDayOfMonth, daysInMonth]);
 
   const handleGoBack = () => {
-    router.push("/dashboard");
+    router.push('/dashboard');
   };
 
-  const daysOfWeek = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white font-sans p-8 flex flex-col items-center justify-center overflow-hidden selection:bg-[#e67e65]/30 relative">
-
       {/* Background Text */}
       <div className="absolute top-[15%] left-0 w-full flex justify-center pointer-events-none select-none z-0">
         <h1
@@ -102,11 +111,9 @@ const CalendarApp = () => {
 
       {/* Calendar Card */}
       <div className="w-full max-w-4xl bg-[#121212]/90 backdrop-blur-2xl border border-white/10 rounded-[40px] p-10 relative z-10 shadow-2xl">
-
         {/* Controls */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
           <div className="flex items-center gap-10">
-
             <button
               aria-label="Previous month"
               onClick={() => changeMonth(-1)}
@@ -126,13 +133,12 @@ const CalendarApp = () => {
             >
               <ChevronRight size={28} strokeWidth={1.5} />
             </button>
-
           </div>
 
           {/* View Switcher */}
           <div className="bg-black/60 p-1 rounded-full border border-white/5 flex items-center">
             {['Monthly', 'Weekly', 'Daily'].map((v) => {
-              const disabled = v !== "Monthly";
+              const disabled = v !== 'Monthly';
 
               return (
                 <button
@@ -143,8 +149,8 @@ const CalendarApp = () => {
                     view === v
                       ? 'bg-[#e67e65] text-white shadow-xl'
                       : disabled
-                      ? 'text-gray-600 cursor-not-allowed'
-                      : 'text-gray-500 hover:text-gray-300'
+                        ? 'text-gray-600 cursor-not-allowed'
+                        : 'text-gray-500 hover:text-gray-300'
                   }`}
                 >
                   {v}
@@ -152,7 +158,6 @@ const CalendarApp = () => {
               );
             })}
           </div>
-
         </div>
 
         {/* Week Days */}
@@ -169,7 +174,6 @@ const CalendarApp = () => {
         {/* Calendar Grid */}
         <div className="grid grid-cols-7 gap-y-10">
           {calendarGrid.map((item, index) => {
-
             const isToday =
               item.day === today.getDate() &&
               month === today.getMonth() &&
@@ -177,7 +181,6 @@ const CalendarApp = () => {
 
             return (
               <div key={item.key} className="relative flex justify-center items-center group">
-
                 {item.day ? (
                   <>
                     <div
@@ -197,7 +200,6 @@ const CalendarApp = () => {
                 ) : (
                   <div className="w-14 h-16" />
                 )}
-
               </div>
             );
           })}
@@ -211,7 +213,6 @@ const CalendarApp = () => {
             </span>
           </button>
         </div>
-
       </div>
     </div>
   );

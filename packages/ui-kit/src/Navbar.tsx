@@ -90,7 +90,7 @@ export function Navbar({
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-sm text-white/50 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus rounded"
+                    className="text-sm text-white/50 transition-all duration-300 hover:text-[#e07a5f] hover:drop-shadow-[0_0_8px_rgba(224,122,95,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus rounded"
                     style={{
                       letterSpacing: '0.04em',
                       fontFamily: 'var(--font-geist-sans), sans-serif',
@@ -101,7 +101,7 @@ export function Navbar({
                 ))}
                 <Link
                   href={ctaHref}
-                  className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-2 text-sm text-white/80 backdrop-blur-md transition-all hover:bg-white/10 hover:text-white hover:border-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus"
+                  className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-2 text-sm text-white/80 backdrop-blur-md transition-all hover:bg-[#e07a5f] hover:text-white hover:border-[#e07a5f] hover:shadow-[0_0_15px_rgba(224,122,95,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus"
                   style={{
                     fontFamily: 'var(--font-geist-sans), sans-serif',
                     fontSize: '0.75rem',
@@ -158,7 +158,7 @@ export function Navbar({
                       <Link
                         key={link.href}
                         href={link.href}
-                        className="block rounded-lg px-3 py-3 text-sm text-white/50 transition-colors hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus"
+                        className="block rounded-lg px-3 py-3 text-sm text-white/50 transition-all duration-300 hover:bg-[#e07a5f]/10 hover:text-[#e07a5f] hover:drop-shadow-[0_0_8px_rgba(224,122,95,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         {link.label}
@@ -166,7 +166,7 @@ export function Navbar({
                     ))}
                     <Link
                       href={ctaHref}
-                      className="mt-3 block w-full rounded-full border border-white/10 bg-white/5 px-4 py-3 text-center text-sm text-white/80 transition-all hover:bg-white/10 hover:text-white"
+                      className="mt-3 block w-full rounded-full border border-white/10 bg-white/5 px-4 py-3 text-center text-sm text-white/80 transition-all hover:bg-[#e07a5f] hover:text-white hover:border-[#e07a5f]"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {ctaText}
@@ -216,7 +216,7 @@ export function Navbar({
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-xs text-white/40 transition-colors hover:text-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus rounded"
+                    className="text-xs text-white/40 transition-all duration-300 hover:text-[#e07a5f] hover:drop-shadow-[0_0_8px_rgba(224,122,95,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus rounded"
                     style={{
                       letterSpacing: '0.08em',
                       textTransform: 'uppercase',
@@ -231,7 +231,7 @@ export function Navbar({
               {/* CTA */}
               <Link
                 href={ctaHref}
-                className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2 text-xs font-semibold text-black transition-all hover:bg-white/90 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus cursor-pointer"
+                className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2 text-xs font-semibold text-black transition-all hover:bg-[#e07a5f] hover:text-white hover:shadow-[0_0_20px_rgba(224,122,95,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aura-focus cursor-pointer"
                 style={{
                   letterSpacing: '0.03em',
                   fontFamily: 'var(--font-geist-sans), sans-serif',

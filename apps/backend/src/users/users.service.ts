@@ -1,10 +1,13 @@
 import { createClerkClient } from '@clerk/backend';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { db, eq } from '@soulcanvas/database/client';
 import { users } from '@soulcanvas/database/schema';
+import { MessagingService } from '../services/messaging.service';
 
 @Injectable()
 export class UsersService {
+  constructor(@Inject(MessagingService) private readonly messagingService: MessagingService) {}
+
   async ensureUser(clerkId: string): Promise<string> {
     // 1. Check if user exists in DB
     const [existingUser] = await db
@@ -30,6 +33,9 @@ export class UsersService {
     const emailObj = clerkUser.emailAddresses.find((e) => e.id === primaryEmailId);
     const email = emailObj?.emailAddress || '';
     const name = `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || 'Anonymous';
+    const primaryPhoneNumberId = clerkUser.primaryPhoneNumberId;
+    const phoneObj = clerkUser.phoneNumbers.find((phone) => phone.id === primaryPhoneNumberId);
+    const phoneNumber = phoneObj?.phoneNumber || null;
 
     if (!email) {
       throw new Error(`User ${clerkId} has no primary email address.`);
@@ -42,8 +48,13 @@ export class UsersService {
         clerkId,
         email,
         name,
+        phoneNumber,
+        transactionalWhatsappOptIn: Boolean(phoneNumber),
+        marketingWhatsappOptIn: Boolean(phoneNumber),
       })
       .returning({ id: users.id });
+
+    await this.messagingService.sendWelcomeSequence(newUser.id);
 
     return newUser.id;
   }

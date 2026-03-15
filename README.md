@@ -1,4 +1,4 @@
-# 🎨 SoulCanvas - Life Journaling App
+﻿# 🎨 SoulCanvas - Life Journaling App
 
 A beautiful, 3D-first journaling application built with a distributed monorepo architecture.
 
@@ -8,7 +8,7 @@ This is a **Distributed Monorepo** using **Bun + Turborepo** with the following 
 
 ### Apps
 
-- `@soulcanvas/frontend`: Next.js 14+ app with React Three Fiber for 3D canvas
+- `@soulcanvas/frontend`: Next.js 16+ app with React Three Fiber for 3D canvas
 - `@soulcanvas/backend`: NestJS API server with tRPC for type-safe communication
 
 ### Packages
