@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { SiX, SiLinkedin, SiInstagram } from "react-icons/si";
+import { SiInstagram, SiLinkedin, SiX } from 'react-icons/si';
 
 export default function FooterSection() {
   return (
@@ -8,9 +8,9 @@ export default function FooterSection() {
       id="footer"
       className="relative flex items-center justify-center overflow-hidden"
       style={{
-        backgroundColor: "#161616", // Adjusted slightly darker to match image
-        minHeight: "507px",
-        padding: "40px 0",
+        backgroundColor: '#161616', // Adjusted slightly darker to match image
+        minHeight: '507px',
+        padding: '40px 0',
       }}
     >
       {/* Noise Overlay */}
@@ -20,8 +20,8 @@ export default function FooterSection() {
           backgroundImage:
             "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",
           opacity: 0.08,
-          mixBlendMode: "overlay",
-          pointerEvents: "none",
+          mixBlendMode: 'overlay',
+          pointerEvents: 'none',
         }}
       />
 
@@ -71,17 +71,17 @@ export default function FooterSection() {
           </div>
           <span
             className="font-urbanist tracking-tight mb-3"
-            style={{ fontSize: "32px", color: "#E0DECE", fontWeight: 500 }}
+            style={{ fontSize: '32px', color: '#E0DECE', fontWeight: 500 }}
           >
             Soulcanvas
           </span>
           <p
             className="font-urbanist"
             style={{
-              fontSize: "12px",
-              color: "#A8A8A8",
-              lineHeight: "1.4em",
-              letterSpacing: "0.01em",
+              fontSize: '12px',
+              color: '#A8A8A8',
+              lineHeight: '1.4em',
+              letterSpacing: '0.01em',
               opacity: 0.8,
             }}
           >
@@ -93,12 +93,12 @@ export default function FooterSection() {
 
         {/* Center: Links */}
         <div className="flex flex-col gap-[20px] mt-[88px] ml-[-60px]">
-          {["TEAM", "PHILOSOPHY", "PRIVACY"].map((link) => (
+          {['TEAM', 'PHILOSOPHY', 'PRIVACY'].map((link) => (
             <a
               key={link}
               href={`#${link.toLowerCase()}`}
               className="font-urbanist tracking-wide hover:text-white transition-colors duration-200"
-              style={{ fontSize: "13px", color: "#D8D8D8", fontWeight: 600 }}
+              style={{ fontSize: '13px', color: '#D8D8D8', fontWeight: 600 }}
             >
               {link}
             </a>
@@ -139,9 +139,9 @@ export default function FooterSection() {
           <span
             className="font-urbanist mt-auto"
             style={{
-              fontSize: "11px",
-              color: "#888888",
-              letterSpacing: "0.02em",
+              fontSize: '11px',
+              color: '#888888',
+              letterSpacing: '0.02em',
               fontWeight: 500,
             }}
           >
@@ -157,15 +157,15 @@ export default function FooterSection() {
             key={i}
             className="font-playfair"
             style={{
-              fontFamily: "ABC Whyte Inktrap, sans-serif",
-              fontSize: "300px",
-              lineHeight: "150px",
-              letterSpacing: "-0.035em",
+              fontFamily: 'ABC Whyte Inktrap, sans-serif',
+              fontSize: '300px',
+              lineHeight: '150px',
+              letterSpacing: '-0.035em',
               fontWeight: 800,
-              color: "transparent",
-              WebkitTextStroke: "1px #FFFFFF",
-              userSelect: "none",
-              textTransform: "none",
+              color: 'transparent',
+              WebkitTextStroke: '1px #FFFFFF',
+              userSelect: 'none',
+              textTransform: 'none',
             }}
           >
             Soulcanvas

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 export default function SundayReviewSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -10,8 +10,8 @@ export default function SundayReviewSection() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.querySelectorAll(".reveal").forEach((el, i) => {
-              setTimeout(() => el.classList.add("in-view"), i * 150);
+            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
+              setTimeout(() => el.classList.add('in-view'), i * 150);
             });
           }
         });
@@ -28,22 +28,22 @@ export default function SundayReviewSection() {
       id="sunday-review"
       className="relative flex items-center overflow-hidden"
       style={{
-        backgroundColor: "#1D1E1E", // Matches the deep slate/grey background
-        minHeight: "100svh",
-        padding: "120px 60px",
+        backgroundColor: '#1D1E1E', // Matches the deep slate/grey background
+        minHeight: '100svh',
+        padding: '120px 60px',
       }}
     >
       {/* Massive subtle golden radial glow at the bottom left/center */}
       <div
         className="absolute pointer-events-none"
         style={{
-          width: "1200px",
-          height: "800px",
-          borderRadius: "50%",
+          width: '1200px',
+          height: '800px',
+          borderRadius: '50%',
           background:
-            "radial-gradient(circle, rgba(199, 163, 116, 0.25) 0%, rgba(199, 163, 116, 0.05) 40%, rgba(199, 163, 116, 0) 70%)",
-          bottom: "-300px",
-          left: "20%",
+            'radial-gradient(circle, rgba(199, 163, 116, 0.25) 0%, rgba(199, 163, 116, 0.05) 40%, rgba(199, 163, 116, 0) 70%)',
+          bottom: '-300px',
+          left: '20%',
           opacity: 0.8,
         }}
       />
@@ -55,22 +55,21 @@ export default function SundayReviewSection() {
           <div
             className="relative font-urbanist"
             style={{
-              width: "410px",
-              background: "linear-gradient(145deg, #1C1B19 0%, #151412 100%)", // Rich dark coffee/slate
-              borderRadius: "28px",
-              padding: "40px",
-              boxShadow:
-                "0 40px 80px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.05)",
-              border: "1px solid rgba(255,255,255,0.03)",
+              width: '410px',
+              background: 'linear-gradient(145deg, #1C1B19 0%, #151412 100%)', // Rich dark coffee/slate
+              borderRadius: '28px',
+              padding: '40px',
+              boxShadow: '0 40px 80px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.03)',
             }}
           >
             {/* Header: SUNDAY REVIEW | NOV. 02, 2023 */}
             <div className="flex justify-between items-center mb-10">
               <span
                 style={{
-                  fontSize: "12px",
-                  letterSpacing: "0.08em",
-                  color: "#A8A8A8",
+                  fontSize: '12px',
+                  letterSpacing: '0.08em',
+                  color: '#A8A8A8',
                   fontWeight: 400,
                 }}
               >
@@ -79,9 +78,9 @@ export default function SundayReviewSection() {
               <span
                 className="font-playfair"
                 style={{
-                  fontSize: "12px",
-                  letterSpacing: "0.05em",
-                  color: "#8E8E8E",
+                  fontSize: '12px',
+                  letterSpacing: '0.05em',
+                  color: '#8E8E8E',
                   fontWeight: 400,
                 }}
               >
@@ -93,10 +92,10 @@ export default function SundayReviewSection() {
             <h3
               className="font-playfair font-normal mb-5"
               style={{
-                fontSize: "36px",
-                lineHeight: "1em",
-                letterSpacing: "-0.01em",
-                color: "#E5D4B3",
+                fontSize: '36px',
+                lineHeight: '1em',
+                letterSpacing: '-0.01em',
+                color: '#E5D4B3',
               }}
             >
               Steady & <span className="italic">Resilient</span>
@@ -105,42 +104,40 @@ export default function SundayReviewSection() {
             {/* Paragraph */}
             <p
               style={{
-                fontSize: "15px",
-                lineHeight: "1.4em",
-                color: "#A0A09B",
-                letterSpacing: "-0.01em",
+                fontSize: '15px',
+                lineHeight: '1.4em',
+                color: '#A0A09B',
+                letterSpacing: '-0.01em',
                 fontWeight: 300,
               }}
             >
-              This week, your entries gravitated toward themes of endurance. The
-              silence of the desert reflected in your Tuesday voice notes,
-              revealing a growing peace with the unknown..
+              This week, your entries gravitated toward themes of endurance. The silence of the
+              desert reflected in your Tuesday voice notes, revealing a growing peace with the
+              unknown..
             </p>
 
             {/* Divider lines */}
             <div className="flex gap-4 mt-8 mb-6 opacity-40">
-              <div
-                style={{ height: "1px", background: "#E5D4B3", flex: 1.5 }}
-              />
-              <div style={{ height: "1px", background: "#E5D4B3", flex: 1 }} />
+              <div style={{ height: '1px', background: '#E5D4B3', flex: 1.5 }} />
+              <div style={{ height: '1px', background: '#E5D4B3', flex: 1 }} />
             </div>
 
             {/* Graph Card Component */}
             <div
               className="mt-6 rounded-2xl relative"
               style={{
-                background: "#161513",
-                padding: "24px 24px",
-                border: "1px solid rgba(255,255,255,0.02)",
-                boxShadow: "inset 0 2px 10px rgba(0,0,0,0.2)",
+                background: '#161513',
+                padding: '24px 24px',
+                border: '1px solid rgba(255,255,255,0.02)',
+                boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.2)',
               }}
             >
               <h4
                 style={{
-                  fontSize: "9px",
-                  letterSpacing: "0.15em",
-                  color: "#6A6559",
-                  marginBottom: "32px",
+                  fontSize: '9px',
+                  letterSpacing: '0.15em',
+                  color: '#6A6559',
+                  marginBottom: '32px',
                   fontWeight: 600,
                 }}
               >
@@ -154,7 +151,7 @@ export default function SundayReviewSection() {
                   height="100%"
                   viewBox="0 0 300 60"
                   preserveAspectRatio="none"
-                  style={{ overflow: "visible" }}
+                  style={{ overflow: 'visible' }}
                 >
                   {/* The connected golden path */}
                   <path
@@ -166,22 +163,8 @@ export default function SundayReviewSection() {
                     strokeLinejoin="round"
                   />
                   {/* Data Point Dots */}
-                  <circle
-                    cx="5"
-                    cy="35"
-                    r="2.5"
-                    fill="#161513"
-                    stroke="#D8C8A3"
-                    strokeWidth="1"
-                  />
-                  <circle
-                    cx="50"
-                    cy="48"
-                    r="2.5"
-                    fill="#161513"
-                    stroke="#D8C8A3"
-                    strokeWidth="1"
-                  />
+                  <circle cx="5" cy="35" r="2.5" fill="#161513" stroke="#D8C8A3" strokeWidth="1" />
+                  <circle cx="50" cy="48" r="2.5" fill="#161513" stroke="#D8C8A3" strokeWidth="1" />
                   <circle
                     cx="100"
                     cy="30"
@@ -229,36 +212,36 @@ export default function SundayReviewSection() {
               <div
                 className="flex flex-col gap-3"
                 style={{
-                  fontSize: "8.5px",
-                  letterSpacing: "0.05em",
-                  color: "#666",
+                  fontSize: '8.5px',
+                  letterSpacing: '0.05em',
+                  color: '#666',
                 }}
               >
                 <div className="flex flex-row gap-6">
                   <span>
-                    MON <span style={{ color: "#333" }}>—</span> REFLECTIVE
+                    MON <span style={{ color: '#333' }}>—</span> REFLECTIVE
                   </span>
                   <span>
-                    TUE <span style={{ color: "#333" }}>—</span> OVERWHELMED
-                  </span>
-                </div>
-                <div className="flex flex-row gap-6">
-                  <span>
-                    WED <span style={{ color: "#333" }}>—</span> GROUNDED
-                  </span>
-                  <span>
-                    THU <span style={{ color: "#333" }}>—</span> RESTLESS
-                  </span>
-                  <span>
-                    FRI <span style={{ color: "#333" }}>—</span> FOCUSED
+                    TUE <span style={{ color: '#333' }}>—</span> OVERWHELMED
                   </span>
                 </div>
                 <div className="flex flex-row gap-6">
                   <span>
-                    SAT <span style={{ color: "#333" }}>—</span> CALM
+                    WED <span style={{ color: '#333' }}>—</span> GROUNDED
                   </span>
                   <span>
-                    SUN <span style={{ color: "#333" }}>—</span> CENTERED
+                    THU <span style={{ color: '#333' }}>—</span> RESTLESS
+                  </span>
+                  <span>
+                    FRI <span style={{ color: '#333' }}>—</span> FOCUSED
+                  </span>
+                </div>
+                <div className="flex flex-row gap-6">
+                  <span>
+                    SAT <span style={{ color: '#333' }}>—</span> CALM
+                  </span>
+                  <span>
+                    SUN <span style={{ color: '#333' }}>—</span> CENTERED
                   </span>
                 </div>
               </div>
@@ -271,11 +254,11 @@ export default function SundayReviewSection() {
           <h2
             className="font-playfair font-normal"
             style={{
-              fontSize: "clamp(48px, 6vw, 96px)", // Scaled massively based on image
-              lineHeight: "1em",
-              letterSpacing: "-0.035em",
-              color: "#E5D4B3", // Matching golden font hue
-              marginBottom: "24px",
+              fontSize: 'clamp(48px, 6vw, 96px)', // Scaled massively based on image
+              lineHeight: '1em',
+              letterSpacing: '-0.035em',
+              color: '#E5D4B3', // Matching golden font hue
+              marginBottom: '24px',
             }}
           >
             The Sunday Review
@@ -283,16 +266,16 @@ export default function SundayReviewSection() {
           <p
             className="font-urbanist"
             style={{
-              fontSize: "clamp(18px, 2vw, 24px)",
-              lineHeight: "1.3em",
-              letterSpacing: "-0.02em",
-              color: "#FFFFFF",
-              maxWidth: "540px",
+              fontSize: 'clamp(18px, 2vw, 24px)',
+              lineHeight: '1.3em',
+              letterSpacing: '-0.02em',
+              color: '#FFFFFF',
+              maxWidth: '540px',
               fontWeight: 400,
             }}
           >
-            A beautifully typeset, single-screen summary of your week.
-            Synthesized by intent delivered with care
+            A beautifully typeset, single-screen summary of your week. Synthesized by intent
+            delivered with care
           </p>
         </div>
       </div>

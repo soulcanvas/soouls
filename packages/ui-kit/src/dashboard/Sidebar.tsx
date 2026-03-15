@@ -1,7 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { BookOpen, FolderOpen, Home, LayoutGrid, Library, Settings, Sparkles } from 'lucide-react';
+import {
+  BookOpen,
+  Calendar,
+  FolderOpen,
+  Home,
+  LayoutGrid,
+  Library,
+  Settings,
+  Sparkles,
+} from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -12,6 +21,7 @@ const menuItems = [
   { icon: BookOpen, label: 'Insights', href: '/dashboard/insights' },
   { icon: FolderOpen, label: 'Projects', href: '/dashboard/projects' },
   { icon: Library, label: 'Library', href: '/dashboard/library' },
+  { icon: Calendar, label: 'Calendar', href: '/dashboard/calendar' },
   { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
 ];
 
