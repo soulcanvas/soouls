@@ -57,6 +57,10 @@ export class NotificationQueueService implements OnModuleDestroy {
     return this.add('campaign-dispatch', { campaignId });
   }
 
+  async enqueueGdprExport(userId: string, requestorEmail: string) {
+    return this.add('gdpr-export', { userId, requestorEmail });
+  }
+
   async getCounts() {
     if (!this.queue) {
       return {

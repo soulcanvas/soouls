@@ -2,6 +2,8 @@
 
 import {
   Activity,
+  Cpu,
+  CreditCard,
   FileText,
   Heart,
   KeyRound,
@@ -10,6 +12,7 @@ import {
   Mail,
   Settings,
   Shield,
+  ShieldAlert,
   ToggleRight,
   Users,
 } from 'lucide-react';
@@ -28,7 +31,7 @@ type NavItem = {
 const NAV_ITEMS: NavItem[] = [
   { label: 'Overview', href: '/', icon: LayoutGrid },
   { label: 'Users', href: '/users', icon: Users, requiredPermission: 'view:all' },
-  { label: 'IAM', href: '/iam', icon: Shield, requiredPermission: 'mutate:invites' },
+  { label: 'Team', href: '/settings/team', icon: Shield, requiredPermission: 'mutate:invites' },
   {
     label: 'Feature Flags',
     href: '/feature-flags',
@@ -47,11 +50,19 @@ const NAV_ITEMS: NavItem[] = [
     icon: KeyRound,
     requiredPermission: 'mutate:api_keys',
   },
+  { label: 'Billing', href: '/billing', icon: CreditCard, requiredPermission: 'view:all' },
+  { label: 'AI Telemetry', href: '/ai-telemetry', icon: Cpu, requiredPermission: 'view:all' },
   { label: 'Messaging', href: '/messaging', icon: Mail, requiredPermission: 'view:all' },
   {
     label: 'Audit Logs',
     href: '/audit-logs',
     icon: FileText,
+    requiredPermission: 'view:all',
+  },
+  {
+    label: 'Rate Limits',
+    href: '/rate-limits',
+    icon: ShieldAlert,
     requiredPermission: 'view:all',
   },
   {

@@ -1,9 +1,11 @@
 import { createClerkClient } from '@clerk/backend';
 import { Injectable } from '@nestjs/common';
-import { db, desc, eq } from '@soulcanvas/database/client';
+import { and, db, desc, eq, sql } from '@soulcanvas/database/client';
 import {
   adminInvites,
   adminUsers,
+  canvasNodes,
+  journalEntries,
   messageCampaigns,
   messageDeliveries,
   users,
@@ -85,8 +87,32 @@ export class NotificationDispatchService {
     return user ?? null;
   }
 
-  private async listCampaignRecipients() {
-    return db
+  private async listCampaignRecipients(options: {
+    channels: Channel[];
+    targeting?: Record<string, string>;
+  }) {
+    const conditions = [];
+
+    if (options.channels.includes('email')) {
+      conditions.push(sql`${users.email} is not null`);
+      conditions.push(eq(users.marketingEmailOptIn, true));
+    }
+    if (options.channels.includes('whatsapp')) {
+      conditions.push(sql`${users.phoneNumber} is not null`);
+      conditions.push(eq(users.marketingWhatsappOptIn, true));
+    }
+
+    if (options.targeting) {
+      if (options.targeting.signupDate === 'last_7_days') {
+        conditions.push(sql`${users.createdAt} > now() - interval '7 days'`);
+      } else if (options.targeting.signupDate === 'last_30_days') {
+        conditions.push(sql`${users.createdAt} > now() - interval '30 days'`);
+      } else if (options.targeting.signupDate === 'older_than_30') {
+        conditions.push(sql`${users.createdAt} < now() - interval '30 days'`);
+      }
+    }
+
+    const baseQuery = db
       .select({
         id: users.id,
         clerkId: users.clerkId,
@@ -101,8 +127,14 @@ export class NotificationDispatchService {
         welcomeWhatsappSentAt: users.welcomeWhatsappSentAt,
         lastSecureAccessSentAt: users.lastSecureAccessSentAt,
       })
-      .from(users)
-      .orderBy(desc(users.createdAt));
+      .from(users);
+
+    if (conditions.length > 0) {
+      const { and } = await import('@soulcanvas/database/client');
+      baseQuery.where(and(...conditions));
+    }
+
+    return baseQuery.orderBy(desc(users.createdAt));
   }
 
   private async recordDelivery(input: {
@@ -585,6 +617,7 @@ export class NotificationDispatchService {
         ctaLabel: messageCampaigns.ctaLabel,
         ctaUrl: messageCampaigns.ctaUrl,
         channels: messageCampaigns.channels,
+        targeting: messageCampaigns.targeting,
       })
       .from(messageCampaigns)
       .where(eq(messageCampaigns.id, campaignId))
@@ -602,7 +635,10 @@ export class NotificationDispatchService {
       throw new Error('Campaign has no sendable channels.');
     }
 
-    const recipients = await this.listCampaignRecipients();
+    const recipients = await this.listCampaignRecipients({
+      channels: sanitizedChannels,
+      targeting: campaign.targeting as Record<string, string> | undefined,
+    });
     const template = buildCampaignTemplate({
       brandKey: getBrandPreset(campaign.brandKey).key,
       subject: campaign.subject,
@@ -656,6 +692,11 @@ export class NotificationDispatchService {
           }),
         ),
       );
+
+      // Polite rate limit: 1 second delay between batches
+      if (index + NOTIFICATION_BATCH_SIZE < recipients.length) {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
     }
 
     const status: 'sent' | 'partially_sent' | 'failed' =
@@ -675,5 +716,72 @@ export class NotificationDispatchService {
         updatedAt: new Date(),
       })
       .where(eq(messageCampaigns.id, campaignId));
+  }
+
+  async processGdprExport(userId: string, requestorEmail: string) {
+    const user = await this.getUserByDbId(userId);
+
+    // Fetch all user data
+    const entries = await db
+      .select({
+        id: journalEntries.id,
+        content: journalEntries.content,
+        createdAt: journalEntries.createdAt,
+      })
+      .from(journalEntries)
+      .where(eq(journalEntries.userId, userId));
+
+    const nodes = await db
+      .select({
+        id: canvasNodes.id,
+        entryId: canvasNodes.entryId,
+        emotion: canvasNodes.emotion,
+        x: canvasNodes.x,
+        y: canvasNodes.y,
+        z: canvasNodes.z,
+      })
+      .from(canvasNodes)
+      .innerJoin(journalEntries, eq(canvasNodes.entryId, journalEntries.id))
+      .where(eq(journalEntries.userId, userId));
+
+    const exportManifest = {
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+      },
+      entriesCount: entries.length,
+      nodesCount: nodes.length,
+      exportDate: new Date().toISOString(),
+      data: {
+        entries,
+        nodes,
+      },
+    };
+
+    // Simulate Zip Build Delay
+    console.log(`[GDPR] Building Export ZIP for User ${userId}...`);
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    const zipSizeStr = `${(JSON.stringify(exportManifest).length / 1024).toFixed(2)} KB`;
+    console.log(
+      `[GDPR] Generated mock ZIP archive (${zipSizeStr}). Emailing to ${requestorEmail}...`,
+    );
+
+    // We do an internal simulated email send since S3 buckets/signed URLs aren't fully configured
+    await this.sendEmail({
+      to: requestorEmail,
+      subject: `GDPR Data Export: ${user.email}`,
+      html: `
+        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2>Data Export Ready</h2>
+          <p>The GDPR data export you requested for <strong>${user.email}</strong> has finalized.</p>
+          <p>Archive size: ${zipSizeStr}</p>
+          <p><em>(Mock implementation — S3 ZIP attachment hidden in preview)</em></p>
+          <hr />
+          <p style="color: #666; font-size: 12px;">Requested by: ${requestorEmail}</p>
+        </div>
+      `,
+      text: `GDPR Data Export generated for ${user.email}. Target size: ${zipSizeStr}.`,
+    });
   }
 }

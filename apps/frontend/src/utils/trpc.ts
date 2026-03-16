@@ -10,9 +10,19 @@ export function getTRPCClient(getToken: () => Promise<string | null>) {
         url: '/trpc',
         async headers() {
           const token = await getToken();
-          return {
+          const headers: Record<string, string> = {
             authorization: token ? `Bearer ${token}` : '',
           };
+
+          if (typeof window !== 'undefined') {
+            const params = new URLSearchParams(window.location.search);
+            const masqueradeId = params.get('masquerade');
+            if (masqueradeId) {
+              headers['x-masquerade-session'] = masqueradeId;
+            }
+          }
+
+          return headers;
         },
       }),
     ],

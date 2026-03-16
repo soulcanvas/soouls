@@ -1,10 +1,24 @@
+import * as Sentry from '@sentry/nestjs';
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
+import pino from 'pino-http';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    tracesSampleRate: 1.0,
+    profilesSampleRate: 1.0,
+  });
+
   const app = await NestFactory.create(AppModule);
+
+  app.use(
+    pino({
+      autoLogging: true,
+    }),
+  );
   const isDevelopment = process.env.NODE_ENV !== 'production';
   const appWithBodyParser = app as typeof app & {
     useBodyParser: (

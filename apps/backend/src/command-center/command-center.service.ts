@@ -1,11 +1,13 @@
 import { createHash, randomBytes } from 'node:crypto';
 import { createClerkClient } from '@clerk/backend';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { getRateLimitStore } from '@soulcanvas/api/rate-limit';
 import { and, db, desc, eq, inArray, or, sql } from '@soulcanvas/database/client';
 import {
   adminAuditLogs,
   adminInvites,
   adminUsers,
+  aiUsageLogs,
   canvasNodes,
   developerApiKeys,
   featureFlags,
@@ -13,6 +15,7 @@ import {
   messageCampaigns,
   messageDeliveries,
   serviceControls,
+  stripeWebhooks,
   users,
 } from '@soulcanvas/database/schema';
 import { parseEnvList } from '../notifications/notification.constants';
@@ -1077,5 +1080,125 @@ export class CommandCenterService {
     });
 
     return campaign;
+  }
+
+  async getBillingOverview(clerkId: string, ipAddress?: string | null) {
+    const actor = await this.ensureAuthorizedAdmin(clerkId, ipAddress);
+    assertPermission(actor, 'view:all');
+
+    const mrrResult = await db
+      .select({
+        mrr: sql<number>`sum(case when ${users.billingTier} = 'premium' then 15 when ${users.billingTier} = 'enterprise' then 49 else 0 end)`,
+        subscribers: sql<number>`count(case when ${users.billingTier} != 'free' then 1 end)`,
+      })
+      .from(users);
+
+    const churnRateResult = 2.4; // Mocked for now until we store active/canceled subscriptions
+
+    // Mock recent revenue for chart
+    const recentRevenue = [
+      { date: 'Mon', amount: 320 },
+      { date: 'Tue', amount: 450 },
+      { date: 'Wed', amount: 390 },
+      { date: 'Thu', amount: 510 },
+      { date: 'Fri', amount: 480 },
+      { date: 'Sat', amount: 620 },
+      { date: 'Sun', amount: 590 },
+    ];
+
+    const webhooks = await db
+      .select()
+      .from(stripeWebhooks)
+      .orderBy(desc(stripeWebhooks.createdAt))
+      .limit(10);
+
+    return {
+      mrr: Number(mrrResult[0]?.mrr || 0),
+      activeSubscribers: Number(mrrResult[0]?.subscribers || 0),
+      churnRate: churnRateResult,
+      recentRevenue,
+      recentWebhooks: webhooks,
+    };
+  }
+
+  async getAiTelemetry(clerkId: string, ipAddress?: string | null) {
+    const actor = await this.ensureAuthorizedAdmin(clerkId, ipAddress);
+    assertPermission(actor, 'view:all');
+
+    const totalCostResult = await db
+      .select({
+        totalUsd: sql<number>`sum(${aiUsageLogs.estimatedCostUsd})`,
+        totalTokens: sql<number>`sum(${aiUsageLogs.totalTokens})`,
+      })
+      .from(aiUsageLogs);
+
+    const burnRateGraph = await db
+      .select({
+        date: sql<string>`date_trunc('day', ${aiUsageLogs.createdAt})::date::text`,
+        cost: sql<number>`sum(${aiUsageLogs.estimatedCostUsd})`,
+        tokens: sql<number>`sum(${aiUsageLogs.totalTokens})`,
+      })
+      .from(aiUsageLogs)
+      .groupBy(sql`date_trunc('day', ${aiUsageLogs.createdAt})::date::text`)
+      .orderBy(desc(sql`date_trunc('day', ${aiUsageLogs.createdAt})::date`))
+      .limit(30);
+
+    const costPerUser = await db
+      .select({
+        userId: users.id,
+        email: users.email,
+        totalCost: sql<number>`sum(${aiUsageLogs.estimatedCostUsd})`,
+      })
+      .from(aiUsageLogs)
+      .innerJoin(users, eq(aiUsageLogs.userId, users.id))
+      .groupBy(users.id, users.email)
+      .orderBy(desc(sql<number>`sum(${aiUsageLogs.estimatedCostUsd})`))
+      .limit(10);
+
+    const killSwitch = await db
+      .select()
+      .from(serviceControls)
+      .where(eq(serviceControls.key, 'ai_weaver'))
+      .limit(1)
+      .then((res) => res[0]);
+
+    return {
+      globalTotalUsd: Number(totalCostResult[0]?.totalUsd || 0),
+      globalTotalTokens: Number(totalCostResult[0]?.totalTokens || 0),
+      burnRateGraph: burnRateGraph.map((g) => ({ ...g, cost: Number(g.cost) })).reverse(),
+      costPerUser: costPerUser.map((u) => ({ ...u, totalCost: Number(u.totalCost) })),
+      killSwitchEnabled: killSwitch?.enabled ?? false,
+    };
+  }
+
+  async queueGdprExport(adminClerkId: string, targetUserId: string, ipAddress?: string | null) {
+    const actor = await this.ensureAuthorizedAdmin(adminClerkId, ipAddress);
+    assertPermission(actor, 'view:all');
+
+    const [target] = await db
+      .select({ id: users.id, email: users.email })
+      .from(users)
+      .where(eq(users.id, targetUserId))
+      .limit(1);
+    if (!target) throw new Error('Target user not found.');
+
+    await this.notificationQueue.enqueueGdprExport(targetUserId, actor.email);
+
+    await db.insert(adminAuditLogs).values({
+      adminUserId: actor.id,
+      actorEmail: actor.email,
+      action: 'GDPR_EXPORT_QUEUED',
+      targetType: 'users',
+      targetId: targetUserId,
+      metadata: { requestorEmail: actor.email },
+    });
+
+    return { success: true };
+  }
+
+  async getRateLimits(adminClerkId: string, ipAddress?: string | null) {
+    const actor = await this.ensureAuthorizedAdmin(adminClerkId, ipAddress);
+    assertPermission(actor, 'view:all');
+    return getRateLimitStore();
   }
 }

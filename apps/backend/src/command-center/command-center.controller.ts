@@ -217,6 +217,11 @@ export class CommandCenterController {
       ctaLabel?: string;
       ctaUrl?: string;
       channels: Array<'email' | 'whatsapp'>;
+      targeting?: {
+        nodeCount?: string;
+        signupDate?: string;
+        lastLogin?: string;
+      };
     },
   ) {
     return this.commandCenterService.createMessagingCampaign(
@@ -224,5 +229,25 @@ export class CommandCenterController {
       body,
       request.ip,
     );
+  }
+
+  @Get('billing')
+  async billing(@Req() request: CommandCenterRequest) {
+    return this.commandCenterService.getBillingOverview(this.getClerkId(request), request.ip);
+  }
+
+  @Get('ai-telemetry')
+  async aiTelemetry(@Req() request: CommandCenterRequest) {
+    return this.commandCenterService.getAiTelemetry(this.getClerkId(request), request.ip);
+  }
+
+  @Post('users/:id/gdpr-export')
+  async queueGdprExport(@Req() request: CommandCenterRequest, @Param('id') userId: string) {
+    return this.commandCenterService.queueGdprExport(this.getClerkId(request), userId, request.ip);
+  }
+
+  @Get('rate-limits')
+  async getRateLimits(@Req() request: CommandCenterRequest) {
+    return this.commandCenterService.getRateLimits(this.getClerkId(request), request.ip);
   }
 }

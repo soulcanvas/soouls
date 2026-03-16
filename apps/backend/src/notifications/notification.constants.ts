@@ -8,6 +8,7 @@ export type NotificationJobMap = {
   'secure-access': { email: string };
   'admin-invite': { inviteId: string };
   'campaign-dispatch': { campaignId: string };
+  'gdpr-export': { userId: string; requestorEmail: string };
 };
 
 export type NotificationJobName = keyof NotificationJobMap;

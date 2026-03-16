@@ -3,84 +3,96 @@ name: soulcanvas-architecture
 description: Technical Architecture and Design guidelines for the SoulCanvas project.
 ---
 
-# **🚀 Technical Design: Journaling app**
+# 🚀 SoulCanvas Technical Architecture
 
 **Architecture Style:** Distributed Monorepo (Bun + Turborepo Workspaces)
 
 ---
 
-## **1. System High-Level Overview**
-The system is divided into **"The Shells"** (Platforms users touch) and **"The Core"** (Shared logic and data).
-- **Platform Shells:** Next.js (Web), Expo (Mobile), Tauri (Desktop).
-- **The Core Logic:** Shared TypeScript packages for Database, API Client, and Types.
-- **The Data Engine:** NestJS Backend + PostgreSQL + Vector Search (AI).
-- **Communication:** **tRPC** (End-to-End Type Safety). 
-- **The Orchestrator:** **Turborepo**.
+## 1. System High-Level Overview
 
-## 🛰️ 2. Architecture: The "Edge-Heavy" Monorepo
-- **API Protocol:** Upgrade tRPC to **tRPC v11** with **Standard Schema** (using `ArkType` or `Valibot`).
-- **The "Core" Package:** Add a `packages/logic` folder for "Pure Functions" running in both Browser and Server for **Optimistic UI**.
+| Layer | Technology |
+|-------|-----------|
+| **Platform Shells** | Next.js 16 (Web), Expo (Mobile — future), Tauri (Desktop — future) |
+| **Internal Ops** | SoulLabs Command Center (Next.js Admin Dashboard) |
+| **Core Logic** | Shared TypeScript packages (database, API, logic, AI, UI) |
+| **Data Engine** | NestJS Backend + PostgreSQL (Neon) + BullMQ (Redis) |
+| **Communication** | tRPC v11 (end-to-end type safety) |
+| **Auth** | Clerk (frontend + backend + admin) |
+| **Orchestrator** | Turborepo |
 
-## **4. The Frontend Architecture (The Canvas)**
-- **Framework:** Next.js 14+ (App Router).
-- **Rendering Engine:** **React Three Fiber (Three.js)**.
-- **Styling:** Tailwind CSS + Framer Motion.
-- **State Management:** **TanStack Query (v5)**.
-- **Offline-First (PWA):** Use **TanStack Query + Persist.**
-- **Micro-Animations:** Use **Rive**.
+## 2. Monorepo Map
 
-## 🎨 5. Frontend: The "Performance Art" Engine
-- **Rendering:** Move heavy calculations to **Web Workers**.
-- **Asset Pipeline:** Use **Cloudflare Image Optimization**.
-- **Shaders:** Use **Custom GLSL Shaders** for the "Luminous" effect.
-
-## **6. The Backend Architecture (The Reflection Engine)**
-- **Runtime:** **Bun**.
-- **Framework:** **NestJS**.
-- **Auth:** **NextAuth.js** or **Clerk**.
-- **API Protocol:** **tRPC**.
-- **Security (Encryption at Rest):** **AES-256 bit encryption**.
-
-### **Key Modules:**
-1. **Canvas Module:** Calculates "Distance" between nodes.
-2. **AI Module:** Interfaces with OpenAI/Anthropic.
-3. **Scrapbook Module:** Manages binary uploads to S3 buckets.
-
-## **7. The Data Layer (The Memory)**
-### **1. Relational DB (PostgreSQL + Drizzle ORM / Neon Serverless Postgres)**
-### **2. Vector Database (Pinecone or pgvector)**
-### **3. Cache Layer (Redis)**
-### **4. Search: Meilisearch**
-### **5. AI & Analytics: MindsDB**
-
-## 🧠 AI: The "Hybrid Brain" (Privacy-First)
-1. **Tier 1 (Local):** Use **Transformers.js** or **Wasm-based Embeddings** inside the browser/app. The "Meaning" of the journal is calculated *on-device*.
-2. **Tier 2 (Private Cloud):** Store vectors in **pgvector**.
-3. **Tier 3 (LLM):** Send *anonymized* snippets to Anthropic/OpenAI.
-
-## 🛡️ Security: The "Journal Sanctuary" 2.0
-- **End-to-End Encryption (E2EE):** Use the **Web Crypto API**. Encrypt the text using a key derived from the user's password *before* it leaves their device.
-
-## **7. Project Directory (Monorepo Map)**
-/life-canvas
+```
+soulcanvas/
 ├── apps/
-│   ├── web/             # Next.js
-│   ├── api/             # NestJS
-│   └── mobile/          # Expo
+│   ├── frontend/          # Next.js 16, port 3001
+│   ├── backend/           # NestJS on Bun, port 3000
+│   └── admin-dashboard/   # Command Center, port 3002
 ├── packages/
-│   ├── database/        # Drizzle schemas
-│   ├── ai-engine/       # Prompt templates & LLM logic
-│   ├── ui-kit/          # Design system
-│   └── config/          # Shared biome /TS configs
-├── package.json         # Root workspace config
-└── bun.lockb            # Single lockfile
+│   ├── database/          # Drizzle ORM schemas + Neon client
+│   ├── api/               # tRPC router + rate-limiting + masquerade
+│   ├── ai-engine/         # AI prompts & LLM integration
+│   ├── logic/             # Pure canvas calculations
+│   ├── ui-kit/            # Design system
+│   └── typescript-config/ # Shared TS configs
+```
 
-## **1. Quality & Consistency**
-- **Biome (instead of ESLint/Prettier)**
-- **Husky + lint-staged**
-- **Knip**
+## 3. Frontend Architecture
 
-## **Observability & Ops**
-- **Sentry**, **PostHog**, **Logtail (Better Stack)**.
-- **Drizzle Studio**, **Uploadthing**, **Resend + React Email**.
-- **Infisical**, **Snyk**, **Cloudflare Turnstile**.
+- **Framework:** Next.js 16 (App Router + Turbopack)
+- **3D Engine:** React Three Fiber (Three.js)
+- **Styling:** Tailwind CSS + Framer Motion
+- **State:** TanStack Query v5
+- **Auth:** Clerk (`@clerk/nextjs`)
+- **Observability:** Sentry + PostHog + Vercel Analytics
+
+## 4. Backend Architecture
+
+- **Runtime:** Bun
+- **Framework:** NestJS
+- **Auth:** Clerk (`@clerk/backend`)
+- **API:** tRPC v11 (type-safe contract in `@soulcanvas/api`)
+- **Database:** PostgreSQL (Neon) via Drizzle ORM
+- **Job Queue:** BullMQ (Redis) for notifications, GDPR exports
+- **Logging:** Pino + Pino-HTTP
+- **Security:** Helmet, AES-256-GCM encryption, sliding-window rate limiter
+- **Monitoring:** Sentry (`@sentry/nestjs`)
+
+## 5. Command Center (Admin Dashboard)
+
+- **Auth:** Clerk RBAC (Super Admin → Engineer → Support)
+- **Modules:**
+  - User Management (CRUD, account status, billing tier)
+  - Team Fleet Management (invites, permissions matrix)
+  - Broadcast Engine (email/WhatsApp campaigns via BullMQ)
+  - AI Weaver Telemetry (token burn rate, cost per user)
+  - Financial Hub (MRR, Stripe webhook logs)
+  - Command Palette (CMD+K global search)
+  - Zero-Knowledge Masquerade (impersonation with data scrambling)
+  - Compliance Engine (GDPR export, 30-day data purge, rate limit visualizer)
+  - Audit Logs (all admin actions tracked)
+
+## 6. Security Model
+
+- **E2E Encryption:** Journal content encrypted with AES-256-GCM before storage
+- **Rate Limiting:** Per-IP sliding window on every tRPC route
+- **RBAC:** Clerk-backed roles with permission wilcard (`['*']` for super admins)
+- **Masquerade:** Support impersonation with tRPC middleware scrambling all text fields
+
+## 7. Observability
+
+| Tool | Purpose |
+|------|---------|
+| **Sentry** | Error tracking (frontend + backend + admin) |
+| **PostHog** | Product analytics, session replays |
+| **Pino** | Structured backend logging |
+| **Vercel Analytics** | Web vitals & speed insights |
+| **BullBoard** | BullMQ job queue monitoring |
+
+## 8. Quality & Consistency
+
+- **Biome** (replaces ESLint/Prettier — 20x faster)
+- **Husky + lint-staged** (pre-commit checks)
+- **Knip** (dead code detection)
+- **TypeScript strict mode** across all packages

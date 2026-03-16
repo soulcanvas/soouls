@@ -323,6 +323,7 @@ function DoodleModal({ onClose, onSave }: { onClose: () => void; onSave: (d: str
     snap();
     drawing.current = true;
     const p = getPos(e);
+    if (!p) return;
     last.current = p;
     const ctx = canvasRef.current?.getContext('2d');
     if (!ctx) return;
@@ -335,6 +336,7 @@ function DoodleModal({ onClose, onSave }: { onClose: () => void; onSave: (d: str
     e.preventDefault();
     if (!drawing.current || !last.current) return;
     const p = getPos(e);
+    if (!p) return;
     const ctx = canvasRef.current?.getContext('2d');
     if (!ctx) return;
     ctx.beginPath();

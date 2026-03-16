@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import type { Viewer } from '../lib/api';
 import { api } from '../lib/api';
+import { CommandPalette } from './CommandPalette';
 import Sidebar from './Sidebar';
 
 type ShellContextValue = {
@@ -199,6 +200,7 @@ export default function ClientShell({ children }: { children: React.ReactNode })
           <div className="p-8">{children}</div>
         </main>
       </div>
+      <CommandPalette />
     </ShellContext.Provider>
   );
 }

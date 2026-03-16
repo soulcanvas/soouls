@@ -89,6 +89,7 @@ export const users = pgTable('users', {
   lastSecureAccessSentAt: timestamp('last_secure_access_sent_at'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  deletedAt: timestamp('deleted_at'),
 });
 
 // ────────────────────────────────────────
@@ -137,7 +138,8 @@ export const journalEntries = pgTable('journal_entries', {
   isPinned: boolean('is_pinned').default(false).notNull(),
   wordCount: integer('word_count').default(0),
   taskStatus: text('task_status').default('pending'),
-  attachments: jsonb('attachments'),
+  attachments: jsonb('attachments'), // legacy blobs
+  mediaUrl: text('media_url'), // R2 media linkage
   tags: jsonb('tags'),
 
   createdAt: timestamp('created_at').defaultNow().notNull(),
@@ -257,6 +259,11 @@ export const messageCampaigns = pgTable('message_campaigns', {
   ctaLabel: text('cta_label'),
   ctaUrl: text('cta_url'),
   audience: messageCampaignAudienceEnum('audience').default('all_users').notNull(),
+  targeting: jsonb('targeting').$type<{
+    nodeCount?: string;
+    signupDate?: string;
+    lastLogin?: string;
+  }>(),
   channels: jsonb('channels').$type<Array<'email' | 'whatsapp'>>().notNull(),
   status: messageCampaignStatusEnum('status').default('draft').notNull(),
   totalRecipients: integer('total_recipients').default(0).notNull(),
@@ -285,4 +292,35 @@ export const messageDeliveries = pgTable('message_deliveries', {
   sentAt: timestamp('sent_at'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+// ────────────────────────────────────────
+// Billing tables (Stripe)
+// ────────────────────────────────────────
+export const stripeWebhooks = pgTable('stripe_webhooks', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  stripeEventId: text('stripe_event_id').notNull().unique(),
+  eventType: text('event_type').notNull(),
+  status: text('status').default('success').notNull(), // 'success', 'failed'
+  customerId: text('customer_id'),
+  amount: real('amount'),
+  metadata: jsonb('metadata').$type<Record<string, unknown> | null>(),
+  processedAt: timestamp('processed_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+// ────────────────────────────────────────
+// Telemetry tables (AI Cost Control)
+// ────────────────────────────────────────
+export const aiUsageLogs = pgTable('ai_usage_logs', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id').references(() => users.id),
+  action: text('action').notNull(), // 'weaver_generation', 'embedding_indexing'
+  model: text('model').notNull(), // 'gpt-4o', 'text-embedding-3-small'
+  promptTokens: integer('prompt_tokens').default(0).notNull(),
+  completionTokens: integer('completion_tokens').default(0).notNull(),
+  totalTokens: integer('total_tokens').default(0).notNull(),
+  estimatedCostUsd: real('estimated_cost_usd').notNull(), // E.g., 0.002
+  metadata: jsonb('metadata').$type<Record<string, unknown> | null>(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 });

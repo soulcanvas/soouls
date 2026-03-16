@@ -6,7 +6,17 @@ import { useMemo, useState } from 'react';
 import { getTRPCClient, trpc } from '../utils/trpc';
 
 export function TRPCProvider({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 5 * 60 * 1000, // 5 minutes
+            refetchOnWindowFocus: false,
+          },
+        },
+      }),
+  );
   const { getToken } = useAuth();
 
   // Memoize the tRPC client to prevent recreating it on every render

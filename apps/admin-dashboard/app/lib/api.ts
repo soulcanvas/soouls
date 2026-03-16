@@ -78,6 +78,7 @@ export type UserRecord = {
 };
 
 export type UserProfile = UserRecord & {
+  clerkId: string;
   phoneNumber: string | null;
   sentimentSummary: Array<{ label: string | null; count: number }>;
   rawEntryAccess: false;
@@ -136,6 +137,39 @@ export type HealthPayload = {
     databaseConnections: number;
   };
   messaging: Messaging;
+};
+
+export type BillingPayload = {
+  mrr: number;
+  activeSubscribers: number;
+  churnRate: number;
+  recentRevenue: Array<{ date: string; amount: number }>;
+  recentWebhooks: Array<{
+    id: string;
+    stripeEventId: string;
+    eventType: string;
+    status: string;
+    customerId: string | null;
+    amount: number | null;
+    metadata: Record<string, unknown> | null;
+    processedAt: string;
+    createdAt: string;
+  }>;
+};
+
+export type AiTelemetryPayload = {
+  globalTotalUsd: number;
+  globalTotalTokens: number;
+  burnRateGraph: Array<{ date: string; cost: number; tokens: number }>;
+  costPerUser: Array<{ userId: string; email: string; totalCost: number }>;
+  killSwitchEnabled: boolean;
+};
+
+export type RateLimitEntry = {
+  key: string;
+  count: number;
+  oldest: number | null;
+  newest: number | null;
 };
 
 export async function api<T>(url: string, init?: RequestInit): Promise<T> {

@@ -71,16 +71,24 @@ git push origin yourname/my-awesome-feature
 ### Quick Start
 1.  Clone the repository.
 2.  Install dependencies: `bun install`
-3.  Set up env vars: `cp .env.example .env`
-4.  Start dev servers: `bun run dev` (starts both frontend and backend).
+3.  Set up env vars: `cp .env.example .env` (see [SETUP.md](./SETUP.md) for all vars)
+4.  Push database schema: `cd packages/database && bun run db:push`
+5.  Start dev servers: `bun run dev` (starts frontend:3001, backend:3000, admin:3002)
 
 ### Important Commands
 *   **Database Migrations:** `cd packages/database && bun run db:push`
-*   **Format & Lint:** `bun run lint` (We use Biome for blazing fast formatting).
+*   **Format & Lint:** `bun run lint` (Biome — blazing fast)
 *   **Type Check:** `bun run check-types`
+*   **Dead Code Detection:** `bun run knip`
+
+### Apps Overview
+| App | Port | URL |
+|-----|------|-----|
+| Frontend | 3001 | `http://localhost:3001` |
+| Backend (NestJS) | 3000 | `http://localhost:3000` |
+| Admin Dashboard | 3002 | `http://localhost:3002` |
 
 ### AI Agent Skills & Workflows
-The project includes `.agents/skills/` and `.agents/workflows/` directories. These contain specialized AI instructions for things like Remotion, API Security, and Architecture.
-If you are an AI agent or using one (like Cursor/Gemini), these files provide you with the exact paradigms the SoulCanvas team uses.
+The project includes `.agents/skills/` and `.agent/skills/` directories with specialized AI instructions for architecture, API security, frontend design, Git workflow, and more. If you are an AI agent, these files provide the exact paradigms used by the SoulCanvas team.
 
 Enjoy building SoulCanvas!

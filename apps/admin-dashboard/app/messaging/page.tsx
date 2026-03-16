@@ -30,6 +30,11 @@ export default function MessagingPage() {
   const [composeBody, setComposeBody] = useState('');
   const [composeChannels, setComposeChannels] = useState<Array<'email' | 'whatsapp'>>(['email']);
 
+  // Audience Targeting state
+  const [targetNodeCount, setTargetNodeCount] = useState<string>('any');
+  const [targetSignupDate, setTargetSignupDate] = useState<string>('any');
+  const [targetLastLogin, setTargetLastLogin] = useState<string>('any');
+
   async function handleQueue() {
     if (!composeTitle || !composeSubject || !composeBody) return;
 
@@ -42,6 +47,11 @@ export default function MessagingPage() {
         subject: composeSubject,
         markdownBody: composeBody,
         channels: composeChannels,
+        targeting: {
+          nodeCount: targetNodeCount,
+          signupDate: targetSignupDate,
+          lastLogin: targetLastLogin,
+        },
       }),
     });
 
@@ -156,6 +166,71 @@ export default function MessagingPage() {
                 rows={6}
                 className="w-full resize-y rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 text-sm font-mono text-white placeholder:text-slate-600 outline-none transition-colors focus:border-amber-400/30"
               />
+            </div>
+
+            {/* Audience Builder UI */}
+            <div className="rounded-xl border border-amber-400/20 bg-amber-400/5 p-5">
+              <h3 className="mb-4 text-sm font-semibold text-amber-200">Audience Targeting</h3>
+              <div className="grid gap-4 md:grid-cols-3">
+                <div>
+                  <label className="mb-1.5 block text-xs font-medium text-slate-400">
+                    Node Count
+                  </label>
+                  <select
+                    value={targetNodeCount}
+                    onChange={(e) => setTargetNodeCount(e.target.value)}
+                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-sm text-white outline-none"
+                  >
+                    <option value="any">Any (All Users)</option>
+                    <option value="gt_5">More than 5 nodes</option>
+                    <option value="gt_50">Power users (&gt; 50 nodes)</option>
+                    <option value="eq_0">Zero nodes (Inactive)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-xs font-medium text-slate-400">
+                    Signup Date
+                  </label>
+                  <select
+                    value={targetSignupDate}
+                    onChange={(e) => setTargetSignupDate(e.target.value)}
+                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-sm text-white outline-none"
+                  >
+                    <option value="any">Any Time</option>
+                    <option value="last_7_days">Last 7 Days</option>
+                    <option value="last_30_days">Last 30 Days</option>
+                    <option value="older_than_30">Older than 30 Days</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-xs font-medium text-slate-400">
+                    Last Login
+                  </label>
+                  <select
+                    value={targetLastLogin}
+                    onChange={(e) => setTargetLastLogin(e.target.value)}
+                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-sm text-white outline-none"
+                  >
+                    <option value="any">Any Time</option>
+                    <option value="active_7_days">Active (Last 7 Days)</option>
+                    <option value="inactive_30_days">Inactive (30+ Days)</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Estimated Reach (Mocked locally for now until SQL count is wired) */}
+              <div className="mt-4 flex items-center gap-2 rounded-lg bg-black/20 px-3 py-2 text-xs text-amber-300">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-500" />
+                </span>
+                Estimated Audience: ~
+                {Math.floor(
+                  ((messaging as any).stats?.emailReachable ?? 0) *
+                    (targetNodeCount === 'any' ? 1 : 0.4),
+                )}{' '}
+                recipients
+              </div>
             </div>
 
             <div className="flex items-center justify-between border-t border-white/[0.06] pt-5">

@@ -96,3 +96,12 @@ function pruneExpired(windowMs: number) {
     }
   }
 }
+
+export function getRateLimitStore() {
+  return Array.from(store.entries()).map(([key, timestamps]) => ({
+    key,
+    count: timestamps.length,
+    oldest: timestamps[0] ?? null,
+    newest: timestamps[timestamps.length - 1] ?? null,
+  }));
+}

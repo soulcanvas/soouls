@@ -1,61 +1,89 @@
 # ⚙️ @soulcanvas/backend
 
-Welcome to the SoulCanvas backend server! This is a incredibly fast **NestJS** application running on the **Bun** runtime, utilizing **tRPC** for strictly typed APIs and **Drizzle ORM** for database interaction.
+NestJS API server running on the **Bun** runtime with **tRPC** for type-safe APIs and **Drizzle ORM** for PostgreSQL.
 
 ## 🚀 Quick Start
 
-### 1. Prerequisites
-Ensure you have run `bun install` at the root of the Turborepo monorepo.
-You must also have a running PostgreSQL database (e.g., Neon).
-
-### 2. Environment Setup
-Create a `.env` file at the root of the project:
-```env
-DATABASE_URL=postgres://...
-CLERK_SECRET_KEY=xxx
-FRONTEND_URL=http://localhost:3001
-PORT=3000
-```
-
-### 3. Database Migrations
-Before running the backend, ensure your database schema is up-to-date:
 ```bash
-# From the root of the monorepo:
-cd packages/database
-bun run db:push
-```
-
-### 4. Run the Development Server
-```bash
-# Preferably from the root of the project:
+# From root
+bun install
 bun run dev
 
-# Or directly in this directory:
-bun run dev
+# Or directly
+cd apps/backend && bun run dev
 ```
-The server runs on `http://localhost:3000` by default.
+
+Server runs on `http://localhost:3000`.
 
 ## 🏗 Architecture & Stack
 
-- **Framework:** NestJS
-- **Runtime:** Bun (Blazing fast!)
-- **Database:** PostgreSQL + Drizzle ORM (via `@soulcanvas/database`)
-- **API Contract:** tRPC (via `@soulcanvas/api`)
-- **Security:** Helmet, rate limiting, and AES-256-GCM encryption for stored user strings.
+| Layer | Technology |
+|-------|-----------|
+| **Framework** | NestJS |
+| **Runtime** | Bun |
+| **Database** | PostgreSQL (Neon) + Drizzle ORM |
+| **API Contract** | tRPC v11 (via `@soulcanvas/api`) |
+| **Auth** | Clerk (`@clerk/backend`) |
+| **Job Queue** | BullMQ (Redis) |
+| **Email** | Resend + React Email |
+| **Logging** | Pino + Pino-HTTP |
+| **Security** | Helmet, AES-256-GCM encryption, rate limiting |
+| **Monitoring** | Sentry |
+| **Real-time** | Socket.io WebSocket gateway |
 
-## 🔐 Security & Payload Optimization
+## 🔐 Security
 
-- **End-to-End Encryption:** Journal entries are encrypted using `AES-256-GCM` before being stored in PostgreSQL. They are only decrypted when requested by the specific verified user.
-- **Payload Stripping:** To optimize network latency when requesting massive arrays of data (e.g., the Galaxy View), the backend explicitly targets and strips unneeded heavy blocks (like voice notes and images) from the compressed JSON payload before responding.
-- **Rate Limiting:** Every single tRPC route is safeguarded by an in-memory sliding window rate limiter within the API contract (`packages/api`).
+- **Encryption at Rest:** Journal entries encrypted with AES-256-GCM, decrypted only for the verified user.
+- **Rate Limiting:** In-memory sliding-window rate limiter on every tRPC route (`@soulcanvas/api`).
+- **Helmet:** HTTP security headers on all responses.
+- **CORS:** Strict origin allowlist (frontend + command center URLs only).
+
+## 📂 Module Structure
+
+```
+src/
+├── main.ts                    # App bootstrap (Sentry, Pino, CORS)
+├── app.module.ts              # Root NestJS module
+├── trpc/                      # tRPC controller + module
+├── command-center/            # Internal ops API (admin dashboard)
+│   ├── command-center.controller.ts   # REST endpoints
+│   └── command-center.service.ts      # Business logic
+├── notifications/             # BullMQ notification system
+│   ├── notification.worker.ts         # Queue consumer
+│   ├── notification.queue.ts          # Queue producer
+│   ├── notification-dispatch.service.ts # Email/WhatsApp/GDPR
+│   └── notification.constants.ts      # Job type definitions
+├── tasks/                     # Scheduled cron jobs
+│   └── tasks.service.ts       # Visual mass updates, GDPR purge
+├── websocket/                 # Socket.io gateway
+└── media/                     # Cloudflare R2 presigned URL service
+```
+
+## 📡 Command Center Endpoints
+
+The `/command-api/*` endpoints power the Admin Dashboard:
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/command-api/bootstrap` | Initialize super admin on first sign-in |
+| GET | `/command-api/stats` | Dashboard aggregate statistics |
+| GET | `/command-api/users` | List all users (paginated) |
+| GET | `/command-api/users/:id` | User profile with sentiment data |
+| POST | `/command-api/users/:id/gdpr-export` | Queue GDPR data export |
+| POST | `/command-api/users/:userId/hard-delete` | Permanent user deletion |
+| GET | `/command-api/rate-limits` | Live rate limiter status |
+| GET | `/command-api/feature-flags` | Feature flag management |
+| POST | `/command-api/invites` | Send team invitations |
+| GET | `/command-api/audit-logs` | Admin audit trail |
 
 ## 📂 Adding New Routes
 
-You **DO NOT** add new routes inside `apps/backend/`.
-Instead, you must add the route inside the `packages/api` workspace!
-1. Add the schemas and the handler inside `packages/api/src/namespaces/`
-2. Connect it to the `AppRouter` in `packages/api/src/router.ts`.
-3. Create the required class methods inside `apps/backend/src/.../*.service.ts` and inject them as `Services` to the tRPC handler.
+> **Routes live in `packages/api`, not here.**
+
+1. Create handler in `packages/api/src/namespaces/`
+2. Wire it into `packages/api/src/router.ts`
+3. Add service methods in `apps/backend/src/.../*.service.ts`
 
 ---
-*For more detailed API documentation, read `packages/api/README.md`. For Git workflow and branching guidelines, please refer to the `DEVELOPER_WORKFLOW.md` at the root of the repo.*
+
+*See [SETUP.md](../../SETUP.md) for env vars. See [DEVELOPER_WORKFLOW.md](../../DEVELOPER_WORKFLOW.md) for Git workflow.*

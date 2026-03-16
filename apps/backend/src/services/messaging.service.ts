@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { db, desc, eq, sql } from '@soulcanvas/database/client';
+import { and, db, desc, eq, sql } from '@soulcanvas/database/client';
 import { messageCampaigns, messageDeliveries, users } from '@soulcanvas/database/schema';
 import {
   countValue,
@@ -193,7 +193,36 @@ export class MessagingService {
       whatsappBody: input.whatsappBody,
     });
 
-    const [audienceCountRow] = await db.select({ count: sql<number>`count(*)` }).from(users);
+    const conditions = [];
+
+    // Safety filters to ensure we don't accidentally send to people who opted out
+    if (sanitizedChannels.includes('email')) {
+      conditions.push(sql`${users.email} is not null`);
+      conditions.push(eq(users.marketingEmailOptIn, true));
+    }
+    if (sanitizedChannels.includes('whatsapp')) {
+      conditions.push(sql`${users.phoneNumber} is not null`);
+      conditions.push(eq(users.marketingWhatsappOptIn, true));
+    }
+
+    if (input.targeting) {
+      if (input.targeting.signupDate === 'last_7_days') {
+        conditions.push(sql`${users.createdAt} > now() - interval '7 days'`);
+      } else if (input.targeting.signupDate === 'last_30_days') {
+        conditions.push(sql`${users.createdAt} > now() - interval '30 days'`);
+      } else if (input.targeting.signupDate === 'older_than_30') {
+        conditions.push(sql`${users.createdAt} < now() - interval '30 days'`);
+      }
+
+      // We don't have lastLoginAt on Users yet, so mock or skip it for now.
+    }
+
+    const baseQuery = db.select({ count: sql<number>`count(*)` }).from(users);
+    if (conditions.length > 0) {
+      baseQuery.where(and(...conditions));
+    }
+
+    const [audienceCountRow] = await baseQuery;
     const estimatedRecipients = countValue(audienceCountRow?.count);
 
     const [campaign] = await db
@@ -209,6 +238,7 @@ export class MessagingService {
         ctaLabel: input.ctaLabel,
         ctaUrl: input.ctaUrl,
         channels: sanitizedChannels,
+        targeting: input.targeting as any,
         status: 'sending',
         totalRecipients: estimatedRecipients,
         updatedAt: new Date(),

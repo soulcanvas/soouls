@@ -12,7 +12,12 @@ const queryClient = new QueryClient({
     },
   },
 });
+import { CSPostHogProvider } from './components/posthog-provider';
 
 export function Providers({ children }: { children: ReactNode }) {
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+  return (
+    <CSPostHogProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </CSPostHogProvider>
+  );
 }

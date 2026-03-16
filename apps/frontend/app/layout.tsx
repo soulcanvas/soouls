@@ -3,6 +3,9 @@ import type { Metadata } from 'next';
 import { Playfair_Display, Urbanist } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { CSPostHogProvider } from '../src/providers/posthog-provider';
 import { TRPCProvider } from '../src/providers/trpc-provider';
 
 const geistSans = localFont({
@@ -43,7 +46,11 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${urbanist.variable} font-urbanist`}
           suppressHydrationWarning
         >
-          <TRPCProvider>{children}</TRPCProvider>
+          <CSPostHogProvider>
+            <TRPCProvider>{children}</TRPCProvider>
+            <Analytics />
+            <SpeedInsights />
+          </CSPostHogProvider>
         </body>
       </html>
     </ClerkProvider>

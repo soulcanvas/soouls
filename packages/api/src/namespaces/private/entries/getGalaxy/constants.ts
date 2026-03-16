@@ -12,8 +12,11 @@ import type { RateLimitConfig } from '../../../../rate-limit.js';
 // ---------------------------------------------------------------------------
 // Input schema
 // ---------------------------------------------------------------------------
-/** No client input required — galaxy data is 100% scoped to the authed user. */
-export const schema = z.undefined();
+/** Paginated input for the galaxy to safely stream nodes. */
+export const schema = z.object({
+  cursor: z.number().nullish(), // offset
+  limit: z.number().min(1).max(1000).default(100),
+});
 
 export type Input = z.infer<typeof schema>;
 

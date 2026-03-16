@@ -58,6 +58,12 @@ export class NotificationWorker implements OnModuleInit, OnModuleDestroy {
           (job.data as { campaignId: string }).campaignId,
         );
         return;
+      case 'gdpr-export':
+        await this.dispatcher.processGdprExport(
+          (job.data as { userId: string; requestorEmail: string }).userId,
+          (job.data as { userId: string; requestorEmail: string }).requestorEmail,
+        );
+        return;
       default:
         throw new Error(`Unsupported notification job: ${job.name}`);
     }

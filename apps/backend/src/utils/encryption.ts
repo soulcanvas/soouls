@@ -7,18 +7,25 @@ import * as crypto from 'node:crypto';
 // A mock "user secret" for derivation until a real passkey/password system is in place.
 const MOCK_USER_SECRET = 'soulcanvas-backend-secret-key-2024';
 
+const keyCache = new Map<string, Buffer>();
+
 /**
  * Derives an AES-GCM 256-bit encryption key using PBKDF2.
  * @param internalUserId The user's internal DB UUID (used as a salt).
  */
 function deriveKey(internalUserId: string): Buffer {
-  return crypto.pbkdf2Sync(
+  if (keyCache.has(internalUserId)) {
+    return keyCache.get(internalUserId)!;
+  }
+  const key = crypto.pbkdf2Sync(
     MOCK_USER_SECRET,
     internalUserId,
     100000,
     32, // 256 bits
     'sha256',
   );
+  keyCache.set(internalUserId, key);
+  return key;
 }
 
 /**

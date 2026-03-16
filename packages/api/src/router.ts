@@ -54,7 +54,17 @@ export type EntriesApi = {
   createEntry: (userId: string, content: string, type?: EntryKind) => Promise<{ id: string }>;
   updateEntry: (userId: string, id: string, content: string) => Promise<void>;
   getEntry: (userId: string, id: string) => Promise<{ id: string; content: string } | null>;
-  getGalaxyData: (userId: string) => Promise<GalaxyEntry[]>;
+  getGalaxyData: (
+    userId: string,
+    limit?: number,
+    cursor?: number,
+  ) => Promise<{ items: GalaxyEntry[]; nextCursor: number | null }>;
+  getUploadPresignedUrl: (
+    userId: string,
+    entryId: string,
+    contentType: string,
+  ) => Promise<{ uploadUrl: string; publicUrl: string }>;
+  updateEntryMediaUrl: (userId: string, entryId: string, mediaUrl: string) => Promise<void>;
 };
 
 export type TasksApi = {
@@ -222,8 +232,23 @@ import {
 } from './namespaces/private/entries/getOne/constants.js';
 import { run as getOneRun } from './namespaces/private/entries/getOne/run.js';
 
-import { config as getGalaxyConfig } from './namespaces/private/entries/getGalaxy/constants.js';
+import {
+  config as getGalaxyConfig,
+  schema as getGalaxySchema,
+} from './namespaces/private/entries/getGalaxy/constants.js';
 import { run as getGalaxyRun } from './namespaces/private/entries/getGalaxy/run.js';
+
+import {
+  config as getUploadUrlConfig,
+  schema as getUploadUrlSchema,
+} from './namespaces/private/entries/getUploadUrl/constants.js';
+import { run as getUploadUrlRun } from './namespaces/private/entries/getUploadUrl/run.js';
+
+import {
+  config as updateMediaUrlConfig,
+  schema as updateMediaUrlSchema,
+} from './namespaces/private/entries/updateMediaUrl/constants.js';
+import { run as updateMediaUrlRun } from './namespaces/private/entries/updateMediaUrl/run.js';
 
 import {
   config as getCenterConfig,
@@ -283,7 +308,18 @@ function buildPrivateRouter(services: Services) {
 
       getGalaxy: authedProcedure
         .use(makeRateLimitMiddleware(getGalaxyConfig.rateLimit))
-        .query(({ ctx }) => getGalaxyRun(undefined, ctx, services)),
+        .input(getGalaxySchema) // Use the schema from constants
+        .query(({ input, ctx }) => getGalaxyRun(input, ctx, services)),
+
+      getUploadUrl: authedProcedure
+        .use(makeRateLimitMiddleware(getUploadUrlConfig.rateLimit))
+        .input(getUploadUrlSchema)
+        .mutation(({ input, ctx }) => getUploadUrlRun(input, ctx, services)),
+
+      updateMediaUrl: authedProcedure
+        .use(makeRateLimitMiddleware(updateMediaUrlConfig.rateLimit))
+        .input(updateMediaUrlSchema)
+        .mutation(({ input, ctx }) => updateMediaUrlRun(input, ctx, services)),
     }),
 
     tasks: router({

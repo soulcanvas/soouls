@@ -8,10 +8,12 @@ import type { GalaxyEntry } from '../../../../router.js';
  */
 import type { ProtectedContext, Services } from '../../../../trpc.js';
 
+import type { Input } from './constants.js';
+
 export async function run(
-  _input: undefined,
+  input: Input,
   ctx: ProtectedContext,
   services: Services,
-): Promise<GalaxyEntry[]> {
-  return services.entries.getGalaxyData(ctx.userId);
+): Promise<{ items: GalaxyEntry[]; nextCursor: number | null }> {
+  return services.entries.getGalaxyData(ctx.userId, input.limit, input.cursor ?? 0);
 }

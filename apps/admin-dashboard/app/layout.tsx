@@ -1,4 +1,6 @@
 import { ClerkProvider } from '@clerk/nextjs';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import ClientShell from './components/ClientShell';
@@ -31,6 +33,8 @@ export default function RootLayout({
         <body className={`${inter.variable} ${playfair.variable} font-sans`}>
           <Providers>
             <ClientShell>{children}</ClientShell>
+            <Analytics />
+            <SpeedInsights />
           </Providers>
         </body>
       </html>

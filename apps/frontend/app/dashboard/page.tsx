@@ -37,7 +37,8 @@ function formatRelativeTime(dateInput: string | Date | undefined | null) {
 
 export default function DashboardPage() {
   const { user } = useUser();
-  const { data: galaxyData } = trpc.private.entries.getGalaxy.useQuery();
+  const { data: rawGalaxyData } = trpc.private.entries.getGalaxy.useQuery({ limit: 100 });
+  const galaxyData = rawGalaxyData?.items;
 
   const processedGalaxyData = useMemo(() => {
     if (!galaxyData) return null;

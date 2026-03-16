@@ -179,6 +179,22 @@ export default function UsersPage() {
                   >
                     Force Logout
                   </ActionButton>
+
+                  {/* Zero-Knowledge Masquerade */}
+                  <ActionButton
+                    variant="primary"
+                    onClick={() => {
+                      // Opens the frontend URL with the masquerade trigger
+                      const frontendUrl =
+                        process.env.NEXT_PUBLIC_FRONTEND_URL || 'http://localhost:3001';
+                      window.open(`${frontendUrl}/?masquerade=${selectedUser.clerkId}`, '_blank');
+                    }}
+                  >
+                    <div className="flex items-center gap-1">
+                      <Search className="h-3 w-3" />
+                      Impersonate
+                    </div>
+                  </ActionButton>
                   <ActionButton
                     variant="primary"
                     onClick={() =>
@@ -216,6 +232,16 @@ export default function UsersPage() {
                         }
                       >
                         {selectedUser.accountStatus === 'suspended' ? 'Reactivate' : 'Suspend'}
+                      </ActionButton>
+                      <ActionButton
+                        variant="primary"
+                        onClick={() =>
+                          void api(`/command-api/users/${selectedUser.id}/gdpr-export`, {
+                            method: 'POST',
+                          }).then(() => setFlash('GDPR Export queued. ZIP will be emailed.'))
+                        }
+                      >
+                        1-Click GDPR Export
                       </ActionButton>
                       <ActionButton
                         variant="danger"

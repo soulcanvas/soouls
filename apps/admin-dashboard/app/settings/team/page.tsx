@@ -3,9 +3,9 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Shield, UserPlus } from 'lucide-react';
 import { useState } from 'react';
-import { useShell } from '../components/ClientShell';
-import { ActionButton, EmptyState, Panel, StatusBadge } from '../components/ui';
-import { type AdminRole, type IamPayload, api, formatDate } from '../lib/api';
+import { useShell } from '../../components/ClientShell';
+import { ActionButton, EmptyState, Panel, StatusBadge } from '../../components/ui';
+import { type AdminRole, type IamPayload, api, formatDate } from '../../lib/api';
 
 const ROLE_COLORS: Record<AdminRole, string> = {
   super_admin: 'bg-amber-400/15 text-amber-300 border-amber-400/20',
@@ -235,7 +235,6 @@ export default function IamPage() {
         </div>
       </Panel>
 
-      {/* Active Admins */}
       <Panel title="Active Admins">
         {!iam ? (
           <div className="animate-pulse space-y-3">
@@ -250,38 +249,56 @@ export default function IamPage() {
             description="Start by inviting a team member."
           />
         ) : (
-          <div className="space-y-2">
-            {iam.admins.map((admin) => (
-              <div
-                key={admin.id}
-                className="flex items-center justify-between rounded-xl bg-white/[0.02] px-5 py-4 transition-colors hover:bg-white/[0.04]"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-slate-600 to-slate-700 text-xs font-bold text-white">
-                    {admin.email[0]?.toUpperCase()}
-                  </div>
-                  <div>
-                    <div className="text-sm font-medium text-white">{admin.email}</div>
-                    <div className="mt-0.5 flex items-center gap-2">
+          <div className="overflow-hidden rounded-xl border border-white/[0.08] bg-[#040814]/50">
+            <table className="w-full text-left text-sm text-slate-300">
+              <thead className="border-b border-white/[0.08] bg-white/[0.02] text-xs font-semibold text-slate-400">
+                <tr>
+                  <th className="px-5 py-3.5">User</th>
+                  <th className="px-5 py-3.5">Role</th>
+                  <th className="px-5 py-3.5">Status</th>
+                  <th className="px-5 py-3.5 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/[0.04]">
+                {iam.admins.map((admin: any) => (
+                  <tr key={admin.id} className="transition-colors hover:bg-white/[0.02]">
+                    <td className="px-5 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-slate-600 to-slate-700 text-xs font-bold text-white shadow-sm">
+                          {admin.email[0]?.toUpperCase()}
+                        </div>
+                        <div>
+                          <div className="font-medium text-slate-200">{admin.email}</div>
+                          {admin.name && (
+                            <div className="mt-0.5 text-[11px] text-slate-500">{admin.name}</div>
+                          )}
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-5 py-4">
                       <span
-                        className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-wider ${ROLE_COLORS[admin.role]}`}
+                        className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-wider ${ROLE_COLORS[admin.role as AdminRole]}`}
                       >
-                        {ROLE_LABELS[admin.role]}
+                        {ROLE_LABELS[admin.role as AdminRole]}
                       </span>
+                    </td>
+                    <td className="px-5 py-4">
                       <StatusBadge status={admin.status} />
-                    </div>
-                  </div>
-                </div>
-                {admin.status !== 'revoked' && admin.id !== viewer?.id && (
-                  <ActionButton
-                    variant="danger"
-                    onClick={() => void handleRevoke(admin.id, admin.email)}
-                  >
-                    Revoke Access
-                  </ActionButton>
-                )}
-              </div>
-            ))}
+                    </td>
+                    <td className="px-5 py-4 text-right">
+                      {admin.status !== 'revoked' && admin.id !== viewer?.id && (
+                        <button
+                          onClick={() => void handleRevoke(admin.id, admin.email)}
+                          className="rounded-lg px-3 py-1.5 text-xs font-medium text-rose-400 hover:bg-rose-400/10 transition-colors"
+                        >
+                          Revoke Access
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </Panel>
@@ -289,26 +306,37 @@ export default function IamPage() {
       {/* Pending Invites */}
       {iam && iam.invites.length > 0 && (
         <Panel title="Pending Invitations">
-          <div className="space-y-2">
-            {iam.invites.map((invite) => (
-              <div
-                key={invite.id}
-                className="flex items-center justify-between rounded-xl bg-white/[0.02] px-5 py-4"
-              >
-                <div>
-                  <div className="text-sm text-white">{invite.email}</div>
-                  <div className="mt-0.5 flex items-center gap-2 text-xs text-slate-500">
-                    <span
-                      className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-wider ${ROLE_COLORS[invite.role]}`}
-                    >
-                      {ROLE_LABELS[invite.role]}
-                    </span>
-                    <StatusBadge status={invite.status} />
-                    <span>Expires {formatDate(invite.expiresAt)}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="overflow-hidden rounded-xl border border-white/[0.08] bg-[#040814]/50">
+            <table className="w-full text-left text-sm text-slate-300">
+              <thead className="border-b border-white/[0.08] bg-white/[0.02] text-xs font-semibold text-slate-400">
+                <tr>
+                  <th className="px-5 py-3.5">Email</th>
+                  <th className="px-5 py-3.5">Role</th>
+                  <th className="px-5 py-3.5">Status</th>
+                  <th className="px-5 py-3.5 text-right">Expiration</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/[0.04]">
+                {iam.invites.map((invite: any) => (
+                  <tr key={invite.id} className="transition-colors hover:bg-white/[0.02]">
+                    <td className="px-5 py-4 font-medium text-slate-200">{invite.email}</td>
+                    <td className="px-5 py-4">
+                      <span
+                        className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-wider ${ROLE_COLORS[invite.role as AdminRole]}`}
+                      >
+                        {ROLE_LABELS[invite.role as AdminRole]}
+                      </span>
+                    </td>
+                    <td className="px-5 py-4">
+                      <StatusBadge status={invite.status} />
+                    </td>
+                    <td className="px-5 py-4 text-right text-xs text-slate-500">
+                      {formatDate(invite.expiresAt)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </Panel>
       )}

@@ -1,12 +1,26 @@
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Injectable } from '@nestjs/common';
 import { db } from '@soulcanvas/database/client';
 import { and, eq, sql } from '@soulcanvas/database/client';
 import { canvasNodes, journalEntries } from '@soulcanvas/database/schema';
 import LZString from 'lz-string';
+import type { RedisService } from '../redis/redis.service';
 import { decryptData, encryptData } from '../utils/encryption';
+
+const s3 = new S3Client({
+  region: 'auto',
+  endpoint: process.env.CLOUDFLARE_R2_ENDPOINT || '',
+  credentials: {
+    accessKeyId: process.env.CLOUDFLARE_R2_ACCESS_KEY_ID || '',
+    secretAccessKey: process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY || '',
+  },
+});
 
 @Injectable()
 export class EntriesService {
+  constructor(private readonly redis: RedisService) {}
+
   async createEntry(userId: string, content: string, type: 'entry' | 'task' = 'entry') {
     // Encrypt and save immediately — no AI processing
     const encryptedContent = encryptData(content, userId);
@@ -29,6 +43,9 @@ export class EntriesService {
       z: Math.random() * 10 - 5,
       visualMass: type === 'task' ? 2.0 : 1.0,
     });
+
+    // Invalidate galaxy cache
+    await this.redis.del(`galaxy_map_${userId}`);
 
     return entry;
   }
@@ -66,6 +83,57 @@ export class EntriesService {
         updatedAt: new Date(),
       })
       .where(and(eq(journalEntries.id, id), eq(journalEntries.userId, userId)));
+
+    // Invalidate galaxy cache
+    await this.redis.del(`galaxy_map_${userId}`);
+  }
+
+  async getUploadPresignedUrl(userId: string, entryId: string, contentType: string) {
+    // Verify ownership
+    const existing = await db
+      .select({ id: journalEntries.id })
+      .from(journalEntries)
+      .where(and(eq(journalEntries.id, entryId), eq(journalEntries.userId, userId)))
+      .limit(1);
+
+    if (existing.length === 0) {
+      throw new Error('Unauthorized or entry not found.');
+    }
+
+    const bucketParams = {
+      Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME || 'soulcanvas-media',
+      Key: `entries/${userId}/${entryId}/${Date.now()}`,
+      ContentType: contentType,
+    };
+
+    const command = new PutObjectCommand(bucketParams);
+    const signedUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+
+    // Construct the final public URL the client will report back
+    const publicUrl = `${process.env.CLOUDFLARE_R2_PUBLIC_URL}/${bucketParams.Key}`;
+
+    return { uploadUrl: signedUrl, publicUrl };
+  }
+
+  async updateEntryMediaUrl(userId: string, entryId: string, mediaUrl: string) {
+    // Verify ownership
+    const existing = await db
+      .select({ id: journalEntries.id })
+      .from(journalEntries)
+      .where(and(eq(journalEntries.id, entryId), eq(journalEntries.userId, userId)))
+      .limit(1);
+
+    if (existing.length === 0) {
+      throw new Error('Unauthorized or entry not found.');
+    }
+
+    await db
+      .update(journalEntries)
+      .set({ mediaUrl })
+      .where(and(eq(journalEntries.id, entryId), eq(journalEntries.userId, userId)));
+
+    // Invalidate galaxy cache
+    await this.redis.del(`galaxy_map_${userId}`);
   }
 
   async findSimilarEntries(
@@ -83,7 +151,11 @@ export class EntriesService {
     return rows as unknown as Array<{ id: string }>;
   }
 
-  async getGalaxyData(userId: string) {
+  async getGalaxyData(userId: string, limit = 100, cursor = 0) {
+    const cacheKey = `galaxy_map_${userId}_${limit}_${cursor}`;
+    const cached = await this.redis.get<{ items: any[]; nextCursor: number | null }>(cacheKey);
+    if (cached) return cached;
+
     const rawData = await db
       .select({
         id: journalEntries.id,
@@ -99,10 +171,20 @@ export class EntriesService {
       })
       .from(journalEntries)
       .innerJoin(canvasNodes, eq(journalEntries.id, canvasNodes.entryId))
-      .where(eq(journalEntries.userId, userId));
+      .where(eq(journalEntries.userId, userId))
+      .limit(limit + 1)
+      .offset(cursor);
+
+    let nextCursor: number | null = null;
+    let itemsToReturn = rawData;
+
+    if (rawData.length > limit) {
+      itemsToReturn = rawData.slice(0, limit);
+      nextCursor = cursor + limit;
+    }
 
     // Decrypt on the way out
-    return rawData.map((entry) => {
+    const items = itemsToReturn.map((entry) => {
       const dec = decryptData(entry.content, userId);
       let optimizedContent = dec;
       try {
@@ -121,5 +203,10 @@ export class EntriesService {
         content: optimizedContent,
       };
     });
+
+    const result = { items, nextCursor };
+    await this.redis.set(cacheKey, result, 3600); // cache for 1 hour
+
+    return result;
   }
 }

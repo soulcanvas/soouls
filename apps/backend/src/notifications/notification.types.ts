@@ -54,6 +54,11 @@ export type CampaignInput = {
   ctaLabel?: string;
   ctaUrl?: string;
   channels: Channel[];
+  targeting?: {
+    nodeCount?: string;
+    signupDate?: string;
+    lastLogin?: string;
+  };
 };
 
 export type PreferencesInput = {
