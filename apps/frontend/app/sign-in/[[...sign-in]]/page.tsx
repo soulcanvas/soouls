@@ -47,7 +47,11 @@ export default function SignInPage() {
         </section>
 
         <div className="flex items-center justify-center">
-          <SignIn />
+          <SignIn
+            fallbackRedirectUrl="/dashboard"
+            forceRedirectUrl="/dashboard"
+            signUpFallbackRedirectUrl="/dashboard"
+          />
         </div>
       </div>
     </div>

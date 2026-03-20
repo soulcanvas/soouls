@@ -54,6 +54,7 @@ export type IamPayload = {
     role: AdminRole;
     status: string;
     lastLoginAt: string | null;
+    permissions: string[];
   }>;
   invites: Array<{
     id: string;
@@ -61,6 +62,7 @@ export type IamPayload = {
     role: AdminRole;
     status: string;
     expiresAt: string;
+    permissions?: string[];
   }>;
 };
 
@@ -137,6 +139,12 @@ export type HealthPayload = {
     databaseConnections: number;
   };
   messaging: Messaging;
+  redis: {
+    connected: boolean;
+    latencyMs: number;
+    usedMemory: string;
+    connectedClients: number;
+  };
 };
 
 export type BillingPayload = {
@@ -160,8 +168,42 @@ export type BillingPayload = {
 export type AiTelemetryPayload = {
   globalTotalUsd: number;
   globalTotalTokens: number;
-  burnRateGraph: Array<{ date: string; cost: number; tokens: number }>;
-  costPerUser: Array<{ userId: string; email: string; totalCost: number }>;
+  totalRequests: number;
+  burnRateGraph: Array<{ date: string; cost: number; tokens: number; requests: number }>;
+  costPerUser: Array<{
+    userId: string;
+    email: string;
+    totalCost: number;
+    totalTokens: number;
+    totalRequests: number;
+  }>;
+  costByModel: Array<{
+    model: string;
+    totalCost: number;
+    totalTokens: number;
+    totalRequests: number;
+  }>;
+  costByAction: Array<{
+    action: string;
+    totalCost: number;
+    totalTokens: number;
+    totalRequests: number;
+  }>;
+  recentLogs: Array<{
+    id: string;
+    userId: string;
+    email: string;
+    action: string;
+    model: string;
+    promptTokens: number;
+    completionTokens: number;
+    totalTokens: number;
+    estimatedCostUsd: number;
+    createdAt: string;
+  }>;
+  avgCostPerRequest: number;
+  weeklyCost: number;
+  monthlyCost: number;
   killSwitchEnabled: boolean;
 };
 
@@ -172,8 +214,53 @@ export type RateLimitEntry = {
   newest: number | null;
 };
 
-export async function api<T>(url: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(url, { ...init, cache: 'no-store' });
+export type AdminEntryRecord = {
+  id: string;
+  userId: string;
+  userEmail: string;
+  userName: string | null;
+  type: 'entry' | 'task';
+  title: string | null;
+  content: string;
+  mediaUrl: string | null;
+  sentimentColor: string | null;
+  sentimentLabel: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type EntriesPayload = {
+  items: AdminEntryRecord[];
+  total: number;
+};
+
+export type CacheConfig = {
+  revalidate?: number;
+  staleWhileRevalidate?: number;
+};
+
+const CACHE_CONFIGS: Record<string, CacheConfig> = {
+  '/api/admin/overview': { revalidate: 60, staleWhileRevalidate: 300 },
+  '/api/admin/users': { revalidate: 120, staleWhileRevalidate: 600 },
+  '/api/admin/messaging': { revalidate: 30, staleWhileRevalidate: 120 },
+  '/api/admin/health': { revalidate: 10, staleWhileRevalidate: 30 },
+  '/api/admin/entries': { revalidate: 60, staleWhileRevalidate: 300 },
+};
+
+export async function api<T>(
+  url: string,
+  init?: RequestInit & { cache?: RequestCache },
+): Promise<T> {
+  const cacheConfig = CACHE_CONFIGS[url] || { revalidate: 60 };
+
+  const response = await fetch(url, {
+    ...init,
+    cache: init?.cache || (cacheConfig.staleWhileRevalidate ? 'force-cache' : 'no-store'),
+    next: {
+      revalidate: cacheConfig.revalidate,
+    },
+  });
+
   const payload = (await response.json().catch(() => null)) as T | { message?: string } | null;
   if (!response.ok) {
     throw new Error(
@@ -183,6 +270,10 @@ export async function api<T>(url: string, init?: RequestInit): Promise<T> {
     );
   }
   return payload as T;
+}
+
+export async function apiFresh<T>(url: string, init?: RequestInit): Promise<T> {
+  return api<T>(url, { ...init, cache: 'no-store' });
 }
 
 export function formatDate(value: string | null | undefined) {

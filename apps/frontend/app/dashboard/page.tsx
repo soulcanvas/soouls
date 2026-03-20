@@ -2,10 +2,20 @@
 
 import { UserButton, useUser } from '@clerk/nextjs';
 import { ActionButton, DashboardLayout, StatsWidget, WidgetCard } from '@soulcanvas/ui-kit';
-import { CheckCircle2, ChevronRight, Folder, Mic, PenLine, Plus } from 'lucide-react'; // Fixed imports
+import {
+  CheckCircle2,
+  ChevronRight,
+  Folder,
+  Image as ImageIcon,
+  Mic,
+  PenLine,
+  Plus,
+} from 'lucide-react'; // Fixed imports
 import LZString from 'lz-string';
 import Link from 'next/link';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { usePrefetchEntries } from '../../src/utils/cache/hooks';
+import { getOptimizedImageUrl } from '../../src/utils/images';
 import { trpc } from '../../src/utils/trpc'; // Relative path
 
 function decodeEntryContent(rawContent: string | null | undefined): string {
@@ -35,43 +45,72 @@ function formatRelativeTime(dateInput: string | Date | undefined | null) {
   return `${Math.floor(diffInDays / 365)} years ago`;
 }
 
+function MigrationButton() {
+  const utils = trpc.useContext();
+  const mutation = trpc.private.entries.migrateMedia.useMutation({
+    onSuccess: (data) => {
+      if (data.migratedCount > 0) {
+        alert(`Successfully migrated ${data.migratedCount} media blocks to cloud storage!`);
+        utils.private.entries.getGalaxy.invalidate();
+      } else {
+        alert('No legacy base64 media found to migrate.');
+      }
+    },
+    onError: (error) => {
+      alert(`Migration failed: ${error.message}`);
+    },
+  });
+
+  return (
+    <ActionButton
+      variant="secondary"
+      icon={mutation.isPending ? undefined : ChevronRight}
+      onClick={() => mutation.mutate({})}
+      disabled={mutation.isPending}
+      className={mutation.isPending ? 'opacity-50 cursor-not-allowed' : ''}
+    >
+      {mutation.isPending ? 'Syncing...' : 'Sync Cloud Storage'}
+    </ActionButton>
+  );
+}
+
 export default function DashboardPage() {
   const { user } = useUser();
+  const { prefetchGalaxy, prefetchAllEntries } = usePrefetchEntries();
+
   const { data: rawGalaxyData } = trpc.private.entries.getGalaxy.useQuery({ limit: 100 });
   const galaxyData = rawGalaxyData?.items;
 
-  const processedGalaxyData = useMemo(() => {
-    if (!galaxyData) return null;
-    return galaxyData.map((entry) => {
-      const decodedContent = decodeEntryContent(entry.content);
-      const firstLineMatches = (decodedContent || '')
-        .split('\n')
-        .filter((l) => l.trim().length > 0);
-      const firstLine = firstLineMatches[0] ?? 'Empty entry';
-      const display = firstLine.length > 30 ? `${firstLine.substring(0, 30)}...` : firstLine;
+  const { data: rawTimelineData } = trpc.private.entries.getAll.useQuery({ limit: 50 });
+  const timelineData = rawTimelineData?.items;
 
-      return {
-        ...entry,
-        decodedContent,
-        displayTitleTimeline: display,
-      };
-    });
+  useEffect(() => {
+    // Redundant prefetches removed as useQuery already handles this on mount
+  }, []);
+
+  const processedGalaxyData = useMemo(() => {
+    if (!galaxyData || galaxyData.length === 0) return [];
+    return galaxyData.map((entry) => ({
+      ...entry,
+      displayTitleTimeline:
+        (entry.previewText || '').length > 30
+          ? `${(entry.previewText || '').substring(0, 30)}...`
+          : entry.previewText || 'Empty entry',
+    }));
   }, [galaxyData]);
 
   const totalEntries = processedGalaxyData?.length || 0;
 
   const latestEntry =
-    processedGalaxyData && processedGalaxyData.length > 0
-      ? processedGalaxyData[processedGalaxyData.length - 1]
-      : null;
+    processedGalaxyData && processedGalaxyData.length > 0 ? processedGalaxyData[0] : null;
 
   const latestEntryId = latestEntry ? latestEntry.id : null;
   const continueLink = latestEntryId
     ? `/dashboard/new-entry?id=${latestEntryId}`
     : '/dashboard/new-entry';
 
-  // Use raw content from latest entry (it arrives decrypted from backend)
-  const decodedLatestContent = latestEntry ? latestEntry.decodedContent : '';
+  // Use previewText from latest entry
+  const decodedLatestContent = latestEntry ? latestEntry.previewText : '';
   const firstLine = decodedLatestContent
     ? decodedLatestContent.split('\n').find((l) => l.trim().length > 0)
     : null;
@@ -114,7 +153,7 @@ export default function DashboardPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0F0F0F] z-10" />
 
           <div className="relative z-0 opacity-80 mb-8 max-w-2xl">
-            {galaxyData && galaxyData.length > 0 ? (
+            {processedGalaxyData && processedGalaxyData.length > 0 ? (
               <Link href={continueLink} className="block group">
                 <h4 className="font-editorial text-2xl text-slate-300 group-hover:text-amber-500 transition-colors">
                   {displayTitle}
@@ -143,6 +182,7 @@ export default function DashboardPage() {
               </span>
             </div>
             <div className="ml-auto flex items-center gap-3">
+              <MigrationButton />
               {latestEntryId && (
                 <Link href="/dashboard/new-entry">
                   <ActionButton variant="secondary" icon={Plus}>
@@ -260,8 +300,8 @@ export default function DashboardPage() {
         </WidgetCard>
       </div>
 
-      {/* Historical Entries Timeline */}
-      {processedGalaxyData && processedGalaxyData.length > 0 && (
+      {/* Historical Entries Timeline (using getAll for full content) */}
+      {timelineData && timelineData.length > 0 && (
         <section className="mt-16 mb-8">
           <div className="flex items-center justify-between mb-8">
             <h2 className="font-editorial text-3xl text-base-cream">Your Timeline</h2>
@@ -274,40 +314,57 @@ export default function DashboardPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {processedGalaxyData
-              .slice()
-              .reverse()
-              .map((entry) => {
-                return (
-                  <Link
-                    key={entry.id}
-                    href={`/dashboard/new-entry?id=${entry.id}`}
-                    className="block group"
-                  >
-                    <div className="p-6 rounded-[24px] bg-[#0F0F0F] border border-white/5 hover:bg-[#e07a5f]/10 hover:border-[#e07a5f]/20 hover:shadow-[0_0_15px_rgba(224,122,95,0.15)] transition-all duration-300 h-full flex flex-col justify-between min-h-[160px]">
-                      <div>
-                        <div className="flex justify-between items-start mb-4">
-                          <span className="text-[10px] font-clarity uppercase text-slate-500 tracking-widest">
-                            {/* @ts-expect-error - TRPC client passes createdAt safely after regeneration */}
-                            {formatRelativeTime(entry.createdAt)}
-                          </span>
-                          {entry.type === 'task' ? (
-                            <CheckCircle2 className="w-4 h-4 text-slate-600" />
-                          ) : (
-                            <PenLine className="w-4 h-4 text-slate-600" />
-                          )}
+            {timelineData.map((entry) => {
+              const firstLineMatches = (entry.content || '')
+                .split('\n')
+                .filter((l) => l.trim().length > 0);
+              const firstLine = firstLineMatches[0] ?? 'Empty entry';
+              const displayTitle =
+                firstLine.length > 30 ? `${firstLine.substring(0, 30)}...` : firstLine;
+
+              return (
+                <Link
+                  key={entry.id}
+                  href={`/dashboard/new-entry?id=${entry.id}`}
+                  className="block group"
+                >
+                  <div className="p-6 rounded-[24px] bg-[#0F0F0F] border border-white/5 hover:bg-[#e07a5f]/10 hover:border-[#e07a5f]/20 hover:shadow-[0_0_15px_rgba(224,122,95,0.15)] transition-all duration-300 h-full flex flex-col justify-between min-h-[160px]">
+                    {/* Media thumbnail */}
+                    {entry.mediaUrl && (
+                      <div className="mb-3 relative w-full h-28 rounded-xl overflow-hidden bg-slate-900/50">
+                        <img
+                          src={getOptimizedImageUrl(entry.mediaUrl, { width: 600, quality: 85 })}
+                          alt="Entry media"
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                        <div className="absolute top-2 right-2">
+                          <ImageIcon className="w-4 h-4 text-white/70" />
                         </div>
-                        <h4 className="font-editorial text-xl text-slate-300 group-hover:text-amber-500 transition-colors">
-                          {entry.displayTitleTimeline}
-                        </h4>
                       </div>
-                      <p className="font-clarity text-sm text-slate-500 mt-3 line-clamp-2 leading-relaxed">
-                        {entry.decodedContent}
-                      </p>
+                    )}
+                    <div>
+                      <div className="flex justify-between items-start mb-4">
+                        <span className="text-[10px] font-clarity uppercase text-slate-500 tracking-widest">
+                          {formatRelativeTime(entry.createdAt)}
+                        </span>
+                        {entry.type === 'task' ? (
+                          <CheckCircle2 className="w-4 h-4 text-slate-600" />
+                        ) : (
+                          <PenLine className="w-4 h-4 text-slate-600" />
+                        )}
+                      </div>
+                      <h4 className="font-editorial text-xl text-slate-300 group-hover:text-amber-500 transition-colors">
+                        {displayTitle}
+                      </h4>
                     </div>
-                  </Link>
-                );
-              })}
+                    <p className="font-clarity text-sm text-slate-500 mt-3 line-clamp-2 leading-relaxed">
+                      {entry.content}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </section>
       )}

@@ -2,15 +2,17 @@
 
 import { SignIn, useAuth } from '@clerk/nextjs';
 import { Fingerprint, Orbit, Shield, Sparkles } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function CommandCenterLandingPage() {
   const [showClerk, setShowClerk] = useState(false);
   const { isSignedIn } = useAuth();
+  const router = useRouter();
 
   // If already signed-in, redirect via Clerk's fallback
   if (isSignedIn) {
-    if (typeof window !== 'undefined') window.location.href = '/';
+    router.replace('/');
     return null;
   }
 
@@ -111,6 +113,8 @@ export default function CommandCenterLandingPage() {
                   fallbackRedirectUrl="/"
                   signUpFallbackRedirectUrl="/"
                   forceRedirectUrl="/"
+                  afterSignInUrl="/"
+                  afterSignUpUrl="/"
                   signUpUrl="/sign-in"
                   appearance={{
                     elements: {

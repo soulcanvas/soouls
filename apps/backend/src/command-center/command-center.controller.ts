@@ -204,6 +204,22 @@ export class CommandCenterController {
     return this.commandCenterService.getMessagingCenter(this.getClerkId(request), request.ip);
   }
 
+  @Post('messaging/test-email')
+  async sendTestEmail(
+    @Req() request: CommandCenterRequest,
+    @Body()
+    body: {
+      to: string;
+      subject: string;
+      markdownBody: string;
+      ctaLabel?: string;
+      ctaUrl?: string;
+      brandKey?: 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk';
+    },
+  ) {
+    return this.commandCenterService.sendTestEmail(this.getClerkId(request), body, request.ip);
+  }
+
   @Post('messaging/campaigns')
   async createCampaign(
     @Req() request: CommandCenterRequest,
@@ -249,5 +265,49 @@ export class CommandCenterController {
   @Get('rate-limits')
   async getRateLimits(@Req() request: CommandCenterRequest) {
     return this.commandCenterService.getRateLimits(this.getClerkId(request), request.ip);
+  }
+
+  @Post('permission-requests')
+  async requestPermission(
+    @Req() request: CommandCenterRequest,
+    @Body() body: { permission: string; requestedBy: string; requestedByName?: string },
+  ) {
+    return this.commandCenterService.requestPermission(this.getClerkId(request), body, request.ip);
+  }
+
+  @Get('permission-requests')
+  async listPermissionRequests(
+    @Req() request: CommandCenterRequest,
+    @Query('status') status?: 'pending' | 'approved' | 'denied',
+  ) {
+    return this.commandCenterService.listPermissionRequests(this.getClerkId(request), status);
+  }
+
+  @Patch('permission-requests/:id')
+  async reviewPermissionRequest(
+    @Req() request: CommandCenterRequest,
+    @Param('id') id: string,
+    @Body() body: { decision: 'approved' | 'denied'; note?: string },
+  ) {
+    return this.commandCenterService.reviewPermissionRequest(
+      this.getClerkId(request),
+      id,
+      body.decision,
+      body.note,
+    );
+  }
+
+  @Get('entries')
+  async entries(
+    @Req() request: CommandCenterRequest,
+    @Query('limit') limit = '50',
+    @Query('offset') offset = '0',
+  ) {
+    return this.commandCenterService.listEntries(
+      this.getClerkId(request),
+      Math.min(Number(limit) || 50, 200),
+      Number(offset) || 0,
+      request.ip,
+    );
   }
 }

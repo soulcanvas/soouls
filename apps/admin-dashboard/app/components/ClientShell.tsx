@@ -1,13 +1,12 @@
 'use client';
 
-import { useAuth, useClerk } from '@clerk/nextjs';
-import { Loader2, RefreshCw } from 'lucide-react';
+import { useAuth } from '@clerk/nextjs';
+import { Loader2 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import type { Viewer } from '../lib/api';
 import { api } from '../lib/api';
-import { CommandPalette } from './CommandPalette';
-import Sidebar from './Sidebar';
+import { DashboardShell } from './DashboardShell';
 
 type ShellContextValue = {
   viewer: Viewer | null;
@@ -27,10 +26,6 @@ export function useShell() {
   return useContext(ShellContext);
 }
 
-/**
- * When the backend returns 401 (unauthorized), sign the user out and redirect to /sign-in.
- * Non-admin users can never stay on the dashboard.
- */
 function UnauthorizedRedirect() {
   const { signOut } = useClerk();
   const router = useRouter();
@@ -60,6 +55,8 @@ function UnauthorizedRedirect() {
   );
 }
 
+import { useClerk } from '@clerk/nextjs';
+
 export default function ClientShell({ children }: { children: React.ReactNode }) {
   const [viewer, setViewer] = useState<Viewer | null>(null);
   const [loading, setLoading] = useState(true);
@@ -80,7 +77,6 @@ export default function ClientShell({ children }: { children: React.ReactNode })
       setIsUnauthorized(false);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unable to load Command Center.';
-      // Check if it's an authorization rejection from the backend
       if (
         message.includes('not been invited') ||
         message.includes('revoked') ||
@@ -96,17 +92,14 @@ export default function ClientShell({ children }: { children: React.ReactNode })
     }
   }, []);
 
-  // Wait for Clerk to load, then check auth status
   useEffect(() => {
     if (!authLoaded || isSignInPage) return;
 
-    // Not signed in via Clerk → redirect to sign-in (no sign-out needed)
     if (!isSignedIn) {
       router.replace('/sign-in');
       return;
     }
 
-    // Signed in → fetch viewer from backend
     let cancelled = false;
     async function boot() {
       setLoading(true);
@@ -119,19 +112,16 @@ export default function ClientShell({ children }: { children: React.ReactNode })
     };
   }, [authLoaded, isSignedIn, isSignInPage, loadViewer, router]);
 
-  // Auto-dismiss flash
   useEffect(() => {
     if (!flash) return;
     const timeout = setTimeout(() => setFlash(null), 4000);
     return () => clearTimeout(timeout);
   }, [flash]);
 
-  // Sign-in page: just render children, no auth needed
   if (isSignInPage) {
     return <>{children}</>;
   }
 
-  // Still waiting for Clerk or viewer data
   if (!authLoaded || loading) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#040814]">
@@ -149,12 +139,10 @@ export default function ClientShell({ children }: { children: React.ReactNode })
     );
   }
 
-  // Backend explicitly rejected — sign out and redirect
   if (isUnauthorized) {
     return <UnauthorizedRedirect />;
   }
 
-  // Network/server error — show error with retry (don't sign out)
   if (error || !viewer) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#040814] px-6">
@@ -175,7 +163,7 @@ export default function ClientShell({ children }: { children: React.ReactNode })
             }}
             className="mt-4 inline-flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2 text-sm text-white transition-colors hover:bg-white/20"
           >
-            <RefreshCw className="h-4 w-4" />
+            <Loader2 className="h-4 w-4" />
             Retry
           </button>
         </div>
@@ -185,22 +173,7 @@ export default function ClientShell({ children }: { children: React.ReactNode })
 
   return (
     <ShellContext.Provider value={{ viewer, flash, setFlash, refreshViewer: loadViewer }}>
-      <div className="flex min-h-screen">
-        <Sidebar viewer={viewer} />
-        <main className="ml-[260px] flex-1 overflow-y-auto">
-          {/* Flash notification */}
-          {flash && (
-            <div className="fixed right-6 top-6 z-50 animate-fade-in rounded-xl border border-emerald-400/20 bg-emerald-400/10 px-5 py-3 text-sm text-emerald-200 shadow-lg shadow-emerald-500/10 backdrop-blur-md">
-              <div className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                {flash}
-              </div>
-            </div>
-          )}
-          <div className="p-8">{children}</div>
-        </main>
-      </div>
-      <CommandPalette />
+      <DashboardShell viewer={viewer} />
     </ShellContext.Provider>
   );
 }

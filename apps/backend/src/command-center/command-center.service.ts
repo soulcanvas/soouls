@@ -1,7 +1,7 @@
 import { createHash, randomBytes } from 'node:crypto';
 import { createClerkClient } from '@clerk/backend';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { getRateLimitStore } from '@soulcanvas/api/rate-limit';
+import { getRateLimitStats } from '@soulcanvas/api/rate-limit';
 import { and, db, desc, eq, inArray, or, sql } from '@soulcanvas/database/client';
 import {
   adminAuditLogs,
@@ -14,12 +14,16 @@ import {
   journalEntries,
   messageCampaigns,
   messageDeliveries,
+  permissionRequests,
   serviceControls,
   stripeWebhooks,
   users,
 } from '@soulcanvas/database/schema';
+import { Resend } from 'resend';
+import { EntriesService } from '../entries/entries.service';
 import { parseEnvList } from '../notifications/notification.constants';
 import { NotificationQueueService } from '../notifications/notification.queue';
+import { RedisService } from '../redis/redis.service';
 import { MessagingService } from '../services/messaging.service';
 
 type AdminRole = 'support' | 'engineer' | 'super_admin';
@@ -124,6 +128,8 @@ export class CommandCenterService {
     @Inject(MessagingService) private readonly messagingService: MessagingService,
     @Inject(NotificationQueueService)
     private readonly notificationQueue: NotificationQueueService,
+    @Inject(EntriesService) private readonly entriesService: EntriesService,
+    @Inject(RedisService) private readonly redisService: RedisService,
   ) {}
 
   private async ensureDefaultControls() {
@@ -328,7 +334,9 @@ export class CommandCenterService {
       }
     }
 
-    return {
+    const isNewAdmin = !existingAdmin;
+
+    const actor = {
       id: admin.id,
       clerkId: admin.clerkId,
       email: admin.email,
@@ -338,6 +346,21 @@ export class CommandCenterService {
       status: admin.status,
       ipAddress: ipAddress ?? null,
     } satisfies AdminActor & { ipAddress: string | null };
+
+    await this.writeAuditLog({
+      actor,
+      action: isNewAdmin ? 'admin.activated' : 'admin.login',
+      targetType: 'admin_user',
+      targetId: admin.id,
+      ipAddress,
+      metadata: {
+        isNewAdmin,
+        role: admin.role,
+        email: admin.email,
+      },
+    });
+
+    return actor;
   }
 
   async getViewer(clerkId: string, ipAddress?: string | null) {
@@ -1032,8 +1055,16 @@ export class CommandCenterService {
     const dbProbeStartedAt = Date.now();
     const dbPing = await db.execute<{ value: number }>(sql`select 1 as value`);
     const dbLatencyMs = Date.now() - dbProbeStartedAt;
+
+    const [activeConnectionsRow] = await db.execute<{ count: string }>(
+      sql`SELECT count(*) as count FROM pg_stat_activity WHERE datname = current_database()`,
+    );
+    const databaseConnections = Number(activeConnectionsRow?.count ?? 0);
+
     const queue = await this.notificationQueue.getCounts();
     const messaging = await this.messagingService.getAdminCenter();
+    const redisPing = await this.redisService.ping();
+    const redisInfo = await this.redisService.getInfo();
 
     return {
       queue,
@@ -1041,8 +1072,15 @@ export class CommandCenterService {
         websocketConnections: 0,
         databaseLatencyMs: dbLatencyMs,
         databaseHealthy: dbPing.length > 0,
+        databaseConnections,
       },
       messaging,
+      redis: {
+        connected: redisPing.connected,
+        latencyMs: redisPing.latencyMs,
+        usedMemory: redisInfo?.used_memory_human ?? 'N/A',
+        connectedClients: Number(redisInfo?.connected_clients ?? 0),
+      },
     };
   }
 
@@ -1056,6 +1094,45 @@ export class CommandCenterService {
     const actor = await this.ensureAuthorizedAdmin(clerkId, ipAddress);
     assertPermission(actor, 'view:all');
     return this.messagingService.getAdminCenter();
+  }
+
+  async sendTestEmail(
+    clerkId: string,
+    input: {
+      to: string;
+      subject: string;
+      markdownBody: string;
+      ctaLabel?: string;
+      ctaUrl?: string;
+      brandKey?: 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk';
+    },
+    ipAddress?: string | null,
+  ) {
+    const actor = await this.ensureAuthorizedAdmin(clerkId, ipAddress);
+    assertPermission(actor, 'mutate:messaging');
+
+    const result = await this.messagingService.sendTestEmail({
+      to: input.to,
+      subject: input.subject,
+      markdownBody: input.markdownBody,
+      ctaLabel: input.ctaLabel,
+      ctaUrl: input.ctaUrl,
+      brandKey: input.brandKey || 'soulcanvas',
+    });
+
+    await this.writeAuditLog({
+      actor,
+      action: 'messaging.test_email_sent',
+      targetType: 'message_delivery',
+      targetId: result.deliveryId,
+      ipAddress,
+      metadata: {
+        to: input.to,
+        subject: input.subject,
+      },
+    });
+
+    return result;
   }
 
   async createMessagingCampaign(
@@ -1129,6 +1206,7 @@ export class CommandCenterService {
       .select({
         totalUsd: sql<number>`sum(${aiUsageLogs.estimatedCostUsd})`,
         totalTokens: sql<number>`sum(${aiUsageLogs.totalTokens})`,
+        totalRequests: sql<number>`count(*)`,
       })
       .from(aiUsageLogs);
 
@@ -1137,23 +1215,96 @@ export class CommandCenterService {
         date: sql<string>`date_trunc('day', ${aiUsageLogs.createdAt})::date::text`,
         cost: sql<number>`sum(${aiUsageLogs.estimatedCostUsd})`,
         tokens: sql<number>`sum(${aiUsageLogs.totalTokens})`,
+        requests: sql<number>`count(*)`,
       })
       .from(aiUsageLogs)
       .groupBy(sql`date_trunc('day', ${aiUsageLogs.createdAt})::date::text`)
       .orderBy(desc(sql`date_trunc('day', ${aiUsageLogs.createdAt})::date`))
       .limit(30);
 
+    const burnRateGraph7d = await db
+      .select({
+        date: sql<string>`date_trunc('day', ${aiUsageLogs.createdAt})::date::text`,
+        cost: sql<number>`sum(${aiUsageLogs.estimatedCostUsd})`,
+      })
+      .from(aiUsageLogs)
+      .where(sql`${aiUsageLogs.createdAt} > NOW() - INTERVAL '7 days'`)
+      .groupBy(sql`date_trunc('day', ${aiUsageLogs.createdAt})::date::text`)
+      .orderBy(desc(sql`date_trunc('day', ${aiUsageLogs.createdAt})::date`))
+      .limit(7);
+
     const costPerUser = await db
       .select({
         userId: users.id,
         email: users.email,
         totalCost: sql<number>`sum(${aiUsageLogs.estimatedCostUsd})`,
+        totalTokens: sql<number>`sum(${aiUsageLogs.totalTokens})`,
+        totalRequests: sql<number>`count(*)`,
       })
       .from(aiUsageLogs)
       .innerJoin(users, eq(aiUsageLogs.userId, users.id))
       .groupBy(users.id, users.email)
       .orderBy(desc(sql<number>`sum(${aiUsageLogs.estimatedCostUsd})`))
       .limit(10);
+
+    const costByModel = await db
+      .select({
+        model: aiUsageLogs.model,
+        totalCost: sql<number>`sum(${aiUsageLogs.estimatedCostUsd})`,
+        totalTokens: sql<number>`sum(${aiUsageLogs.totalTokens})`,
+        totalRequests: sql<number>`count(*)`,
+      })
+      .from(aiUsageLogs)
+      .groupBy(aiUsageLogs.model)
+      .orderBy(desc(sql`sum(${aiUsageLogs.estimatedCostUsd})`));
+
+    const costByAction = await db
+      .select({
+        action: aiUsageLogs.action,
+        totalCost: sql<number>`sum(${aiUsageLogs.estimatedCostUsd})`,
+        totalTokens: sql<number>`sum(${aiUsageLogs.totalTokens})`,
+        totalRequests: sql<number>`count(*)`,
+      })
+      .from(aiUsageLogs)
+      .groupBy(aiUsageLogs.action)
+      .orderBy(desc(sql`sum(${aiUsageLogs.estimatedCostUsd})`));
+
+    const recentLogs = await db
+      .select({
+        id: aiUsageLogs.id,
+        userId: aiUsageLogs.userId,
+        action: aiUsageLogs.action,
+        model: aiUsageLogs.model,
+        promptTokens: aiUsageLogs.promptTokens,
+        completionTokens: aiUsageLogs.completionTokens,
+        totalTokens: aiUsageLogs.totalTokens,
+        estimatedCostUsd: aiUsageLogs.estimatedCostUsd,
+        createdAt: aiUsageLogs.createdAt,
+      })
+      .from(aiUsageLogs)
+      .orderBy(desc(aiUsageLogs.createdAt))
+      .limit(20);
+
+    const recentLogsWithEmail = await Promise.all(
+      recentLogs.map(async (log) => {
+        const [user] = await db
+          .select({ email: users.email })
+          .from(users)
+          .where(eq(users.id, log.userId))
+          .limit(1);
+        return {
+          ...log,
+          email: user?.email ?? 'Unknown',
+        };
+      }),
+    );
+
+    const avgCostPerRequest = totalCostResult[0]?.totalRequests
+      ? Number(totalCostResult[0]?.totalUsd || 0) / Number(totalCostResult[0]?.totalRequests)
+      : 0;
+
+    const weeklyCost = burnRateGraph7d.reduce((sum, day) => sum + Number(day.cost), 0);
+    const monthlyCost = burnRateGraph.reduce((sum, day) => sum + Number(day.cost), 0);
 
     const killSwitch = await db
       .select()
@@ -1165,8 +1316,41 @@ export class CommandCenterService {
     return {
       globalTotalUsd: Number(totalCostResult[0]?.totalUsd || 0),
       globalTotalTokens: Number(totalCostResult[0]?.totalTokens || 0),
-      burnRateGraph: burnRateGraph.map((g) => ({ ...g, cost: Number(g.cost) })).reverse(),
-      costPerUser: costPerUser.map((u) => ({ ...u, totalCost: Number(u.totalCost) })),
+      totalRequests: Number(totalCostResult[0]?.totalRequests || 0),
+      burnRateGraph: burnRateGraph
+        .map((g) => ({
+          date: g.date,
+          cost: Number(g.cost),
+          tokens: Number(g.tokens),
+          requests: Number(g.requests),
+        }))
+        .reverse(),
+      costPerUser: costPerUser.map((u) => ({
+        userId: u.userId,
+        email: u.email,
+        totalCost: Number(u.totalCost),
+        totalTokens: Number(u.totalTokens),
+        totalRequests: Number(u.totalRequests),
+      })),
+      costByModel: costByModel.map((m) => ({
+        model: m.model,
+        totalCost: Number(m.totalCost),
+        totalTokens: Number(m.totalTokens),
+        totalRequests: Number(m.totalRequests),
+      })),
+      costByAction: costByAction.map((a) => ({
+        action: a.action,
+        totalCost: Number(a.totalCost),
+        totalTokens: Number(a.totalTokens),
+        totalRequests: Number(a.totalRequests),
+      })),
+      recentLogs: recentLogsWithEmail.map((log) => ({
+        ...log,
+        estimatedCostUsd: Number(log.estimatedCostUsd),
+      })),
+      avgCostPerRequest: avgCostPerRequest,
+      weeklyCost: weeklyCost,
+      monthlyCost: monthlyCost,
       killSwitchEnabled: killSwitch?.enabled ?? false,
     };
   }
@@ -1199,6 +1383,166 @@ export class CommandCenterService {
   async getRateLimits(adminClerkId: string, ipAddress?: string | null) {
     const actor = await this.ensureAuthorizedAdmin(adminClerkId, ipAddress);
     assertPermission(actor, 'view:all');
-    return getRateLimitStore();
+    return getRateLimitStats();
+  }
+
+  async listEntries(clerkId: string, limit: number, offset: number, ipAddress?: string | null) {
+    const actor = await this.ensureAuthorizedAdmin(clerkId, ipAddress);
+    assertPermission(actor, 'view:all');
+
+    await this.writeAuditLog({
+      actor,
+      action: 'entries.list',
+      targetType: 'journal_entries',
+      ipAddress,
+    });
+
+    return this.entriesService.listAllEntriesAdmin(limit, offset);
+  }
+
+  async requestPermission(
+    clerkId: string,
+    input: { permission: string; requestedBy: string; requestedByName?: string },
+    ipAddress?: string | null,
+  ) {
+    const actor = await this.ensureAuthorizedAdmin(clerkId, ipAddress);
+
+    const permissionLabels: Record<string, string> = {
+      'view:all': 'View All Data',
+      'mutate:users': 'Manage Users',
+      'mutate:invites': 'Manage Team Invites',
+      'mutate:api_keys': 'Manage API Keys',
+      'mutate:feature_flags': 'Toggle Feature Flags',
+      'mutate:service_controls': 'Control Services',
+      'mutate:queues': 'Manage Queues',
+      'mutate:messaging': 'Send Campaigns',
+    };
+
+    await this.writeAuditLog({
+      actor,
+      action: 'permission.requested',
+      targetType: 'permission',
+      ipAddress,
+      metadata: {
+        requestedPermission: input.permission,
+        requestedBy: input.requestedBy,
+      },
+    });
+
+    const apiKey = process.env.RESEND_API_KEY;
+    const fromEmail = process.env.MESSAGING_FROM_EMAIL;
+    const fromName = process.env.MESSAGING_FROM_NAME ?? 'SoulCanvas';
+
+    if (apiKey && fromEmail) {
+      const resend = new Resend(apiKey);
+      await resend.emails.send({
+        from: `${fromName} <${fromEmail}>`,
+        to: ['rudra195957@gmail.com'],
+        subject: `[SoulCanvas] Permission Request: ${permissionLabels[input.permission] || input.permission}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #f97316;">Permission Request</h2>
+            <p><strong>${input.requestedByName || input.requestedBy}</strong> has requested permission to:</p>
+            <blockquote style="border-left: 4px solid #f97316; padding-left: 16px; margin: 16px 0;">
+              <strong>${permissionLabels[input.permission] || input.permission}</strong>
+              <br/>
+              <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px;">${input.permission}</code>
+            </blockquote>
+            <p><strong>Email:</strong> ${input.requestedBy}</p>
+            <p><strong>IP Address:</strong> ${ipAddress || 'Unknown'}</p>
+            <p style="margin-top: 24px;">To grant this permission, go to the Command Center and update their role.</p>
+          </div>
+        `,
+      });
+    }
+
+    return {
+      success: true,
+      message: `Permission request sent for: ${permissionLabels[input.permission] || input.permission}`,
+    };
+  }
+
+  async listPermissionRequests(clerkId: string, status?: 'pending' | 'approved' | 'denied') {
+    const actor = await this.ensureAuthorizedAdmin(clerkId, null);
+
+    const requests = await db
+      .select()
+      .from(permissionRequests)
+      .where(status ? eq(permissionRequests.status, status) : undefined)
+      .orderBy(desc(permissionRequests.createdAt))
+      .limit(100);
+
+    return requests;
+  }
+
+  async reviewPermissionRequest(
+    clerkId: string,
+    requestId: string,
+    decision: 'approved' | 'denied',
+    note?: string,
+  ) {
+    const actor = await this.ensureAuthorizedAdmin(clerkId, null);
+
+    if (actor.role !== 'super_admin') {
+      throw new UnauthorizedException('Only super admins can review permission requests.');
+    }
+
+    const [existingRequest] = await db
+      .select()
+      .from(permissionRequests)
+      .where(eq(permissionRequests.id, requestId))
+      .limit(1);
+
+    if (!existingRequest) {
+      throw new Error('Permission request not found.');
+    }
+
+    await db
+      .update(permissionRequests)
+      .set({
+        status: decision,
+        reviewedByClerkId: actor.clerkId,
+        reviewedByEmail: actor.email,
+        reviewedAt: new Date(),
+        responseNote: note || null,
+      })
+      .where(eq(permissionRequests.id, requestId));
+
+    if (decision === 'approved') {
+      const [admin] = await db
+        .select()
+        .from(adminUsers)
+        .where(eq(adminUsers.clerkId, existingRequest.requestedByClerkId))
+        .limit(1);
+
+      if (admin) {
+        const currentPermissions = admin.permissions || [];
+        if (!currentPermissions.includes(existingRequest.requestedPermission)) {
+          await db
+            .update(adminUsers)
+            .set({
+              permissions: [...currentPermissions, existingRequest.requestedPermission],
+              updatedAt: new Date(),
+            })
+            .where(eq(adminUsers.id, admin.id));
+        }
+      }
+    }
+
+    await this.writeAuditLog({
+      actor,
+      action: `permission.${decision}d`,
+      targetType: 'permission_request',
+      targetId: requestId,
+      ipAddress: null,
+      metadata: {
+        requestedBy: existingRequest.requestedByEmail,
+        requestedPermission: existingRequest.requestedPermission,
+        decision,
+        note,
+      },
+    });
+
+    return { success: true, message: `Permission request ${decision}.` };
   }
 }

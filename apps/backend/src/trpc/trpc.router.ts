@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { createAppRouter } from '@soulcanvas/api/router';
-import type { AppRouter } from '@soulcanvas/api/router';
+import type { AppRouter, EntriesApi, MessagingApi } from '@soulcanvas/api/router';
 import { EntriesService } from '../entries/entries.service';
 import { MessagingService } from '../services/messaging.service';
 import { TasksService } from '../tasks/tasks.service';
@@ -17,8 +17,8 @@ export class TrpcRouter {
     @Inject(UsersService) private readonly usersService: UsersService,
   ) {
     this.appRouter = createAppRouter({
-      entries: this.entriesService,
-      messaging: this.messagingService,
+      entries: this.entriesService as unknown as EntriesApi,
+      messaging: this.messagingService as unknown as MessagingApi,
       tasks: this.tasksService,
       users: this.usersService,
     });

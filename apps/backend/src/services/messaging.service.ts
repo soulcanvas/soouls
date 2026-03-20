@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { and, db, desc, eq, sql } from '@soulcanvas/database/client';
 import { messageCampaigns, messageDeliveries, users } from '@soulcanvas/database/schema';
+import { Resend } from 'resend';
 import {
   countValue,
   normalizePhoneNumber,
@@ -16,15 +17,110 @@ import {
   type UserMessagingProfile,
   getBrandPreset,
 } from '../notifications/notification.types';
+import { RedisService } from '../redis/redis.service';
+
+type BrandKey = 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk';
+type CampaignStatus = 'draft' | 'sending' | 'sent' | 'partially_sent' | 'failed';
+type DeliveryCategory = 'transactional' | 'marketing' | 'security' | 'product';
+type DeliveryStatus = 'pending' | 'sent' | 'failed' | 'skipped';
+
+interface CampaignRecord {
+  id: string;
+  brandKey: BrandKey;
+  title: string;
+  subject: string;
+  status: CampaignStatus;
+  channels: Channel[];
+  totalRecipients: number;
+  emailRecipients: number;
+  whatsappRecipients: number;
+  lastSentAt: Date | null;
+  createdAt: Date;
+}
+
+interface DeliveryRecord {
+  id: string;
+  brandKey: BrandKey;
+  channel: Channel;
+  category: DeliveryCategory;
+  templateKey: string;
+  status: DeliveryStatus;
+  recipient: string;
+  subject: string | null;
+  provider: string;
+  createdAt: Date;
+}
+
+export interface CachedCenterData {
+  providerHealth: {
+    emailConfigured: boolean;
+    whatsappConfigured: boolean;
+    queueConfigured: boolean;
+    newsletterConfigured: boolean;
+    commandCenterConfigured: boolean;
+  };
+  queue: { waiting: number; active: number; delayed: number; failed: number };
+  stats: {
+    totalUsers: number;
+    emailReachable: number;
+    whatsappReachable: number;
+    campaignsSent: number;
+  };
+  brands: Array<{ key: string; label: string; eyebrow: string }>;
+  campaigns: CampaignRecord[];
+  recentDeliveries: DeliveryRecord[];
+  templates: Array<{ key: string; label: string; description: string }>;
+}
+
+type UserCenterResponse = {
+  viewer: {
+    email: string;
+    name: string | null;
+    canManageCampaigns: boolean;
+  };
+  preferences: {
+    phoneNumber: string | null;
+    marketingEmailOptIn: boolean;
+    marketingWhatsappOptIn: boolean;
+    transactionalEmailOptIn: boolean;
+    transactionalWhatsappOptIn: boolean;
+    welcomeEmailSentAt: Date | null;
+    welcomeWhatsappSentAt: Date | null;
+    lastSecureAccessSentAt: Date | null;
+  };
+  providerHealth: {
+    emailConfigured: boolean;
+    whatsappConfigured: boolean;
+    queueConfigured: boolean;
+    newsletterConfigured: boolean;
+    commandCenterConfigured: boolean;
+  };
+  templates: Array<{ key: string; label: string; description: string }>;
+  stats: {
+    totalUsers: number;
+    emailReachable: number;
+    whatsappReachable: number;
+    campaignsSent: number;
+  } | null;
+  brands: Array<{ key: string; label: string; eyebrow: string }>;
+  campaigns: CampaignRecord[];
+  recentDeliveries: DeliveryRecord[];
+};
 
 @Injectable()
 export class MessagingService {
   private readonly adminEmails = parseEnvList(process.env.MESSAGING_ADMIN_EMAILS);
   private readonly adminClerkIds = parseEnvList(process.env.MESSAGING_ADMIN_CLERK_IDS);
+  private readonly CACHE_TTL = {
+    ADMIN_CENTER: 120,
+    USER_CENTER: 300,
+  };
 
   constructor(
     @Inject(NotificationQueueService)
     private readonly notificationQueue: NotificationQueueService,
+    @Inject(RedisService)
+    private readonly redis: RedisService,
   ) {}
 
   private isAdmin(user: Pick<UserMessagingProfile, 'email' | 'clerkId'>) {
@@ -81,7 +177,11 @@ export class MessagingService {
     return user satisfies UserMessagingProfile;
   }
 
-  private async buildCenterData() {
+  private async buildCenterData(): Promise<CachedCenterData> {
+    const cacheKey = 'messaging:admin:center';
+    const cached = await this.redis.get<CachedCenterData>(cacheKey);
+    if (cached) return cached;
+
     const [usersCountRow] = await db.select({ count: sql<number>`count(*)` }).from(users);
     const [emailReachableRow] = await db
       .select({ count: sql<number>`count(*)` })
@@ -139,7 +239,7 @@ export class MessagingService {
 
     const queue = await this.notificationQueue.getCounts();
 
-    return {
+    const result: CachedCenterData = {
       providerHealth: this.getProviderHealth(),
       queue,
       stats: {
@@ -173,6 +273,9 @@ export class MessagingService {
         },
       ],
     };
+
+    await this.redis.set(cacheKey, result, this.CACHE_TTL.ADMIN_CENTER);
+    return result;
   }
 
   private async queueCampaign(input: CampaignInput, createdByUserId?: string | null) {
@@ -246,6 +349,7 @@ export class MessagingService {
       .returning({ id: messageCampaigns.id });
 
     await this.notificationQueue.enqueueCampaignDispatch(campaign.id);
+    await this.redis.del('messaging:admin:center');
 
     return {
       campaignId: campaign.id,
@@ -271,12 +375,16 @@ export class MessagingService {
     return { accepted: true };
   }
 
-  async getCenter(userId: string) {
+  async getCenter(userId: string): Promise<UserCenterResponse & Omit<CachedCenterData, 'queue'>> {
+    const cacheKey = `messaging:center:${userId}`;
     const viewer = await this.getUserByDbId(userId);
     const canManageCampaigns = this.isAdmin(viewer);
 
     if (!canManageCampaigns) {
-      return {
+      const cachedResponse = await this.redis.get<UserCenterResponse>(cacheKey);
+      if (cachedResponse) return cachedResponse;
+
+      const response: UserCenterResponse = {
         viewer: {
           email: viewer.email,
           name: viewer.name,
@@ -319,6 +427,9 @@ export class MessagingService {
         campaigns: [],
         recentDeliveries: [],
       };
+
+      await this.redis.set(cacheKey, response, this.CACHE_TTL.USER_CENTER);
+      return response;
     }
 
     const center = await this.buildCenterData();
@@ -370,6 +481,8 @@ export class MessagingService {
         lastSecureAccessSentAt: users.lastSecureAccessSentAt,
       });
 
+    await this.redis.del(`messaging:center:${userId}`);
+
     return updated;
   }
 
@@ -380,6 +493,71 @@ export class MessagingService {
     }
 
     return this.queueCampaign(input, sender.id);
+  }
+
+  async sendTestEmail(input: {
+    to: string;
+    subject: string;
+    markdownBody: string;
+    ctaLabel?: string;
+    ctaUrl?: string;
+    brandKey?: 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk';
+  }) {
+    const apiKey = process.env.RESEND_API_KEY;
+    const fromEmail = process.env.MESSAGING_FROM_EMAIL;
+    const fromName = process.env.MESSAGING_FROM_NAME ?? 'SoulCanvas';
+
+    if (!apiKey || !fromEmail) {
+      throw new Error(
+        'Email provider not configured. Set RESEND_API_KEY and MESSAGING_FROM_EMAIL.',
+      );
+    }
+
+    const template = buildCampaignTemplate({
+      brandKey: input.brandKey || 'soulcanvas',
+      subject: input.subject,
+      markdownBody: input.markdownBody,
+      ctaLabel: input.ctaLabel,
+      ctaUrl: input.ctaUrl,
+    });
+
+    const resend = new Resend(apiKey);
+    const response = await resend.emails.send({
+      from: `${fromName} <${fromEmail}>`,
+      to: [input.to],
+      subject: input.subject,
+      html: template.html,
+      text: template.text,
+    });
+
+    if (response.error) {
+      throw new Error(`Failed to send email: ${response.error.message}`);
+    }
+
+    const deliveryId = crypto.randomUUID();
+
+    await db.insert(messageDeliveries).values({
+      id: deliveryId,
+      userId: null,
+      campaignId: null,
+      brandKey: input.brandKey || 'soulcanvas',
+      channel: 'email',
+      category: 'marketing',
+      templateKey: 'campaign',
+      subject: input.subject,
+      recipient: input.to,
+      provider: 'resend',
+      providerMessageId: response.data?.id || null,
+      status: 'sent',
+      sentAt: new Date(),
+    });
+
+    return {
+      deliveryId,
+      status: 'sent',
+      provider: 'resend',
+      messageId: response.data?.id,
+    };
   }
 
   async createAdminCampaign(input: CampaignInput) {

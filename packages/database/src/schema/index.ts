@@ -209,6 +209,21 @@ export const adminAuditLogs = pgTable('admin_audit_logs', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+export const permissionRequests = pgTable('permission_requests', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  requestedByClerkId: text('requested_by_clerk_id').notNull(),
+  requestedByEmail: text('requested_by_email').notNull(),
+  requestedByName: text('requested_by_name'),
+  requestedPermission: text('requested_permission').notNull(),
+  status: text('status').default('pending').notNull(), // pending, approved, denied
+  reviewedByClerkId: text('reviewed_by_clerk_id'),
+  reviewedByEmail: text('reviewed_by_email'),
+  reviewedAt: timestamp('reviewed_at'),
+  responseNote: text('response_note'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  expiresAt: timestamp('expires_at').defaultNow().notNull(),
+});
+
 export const featureFlags = pgTable('feature_flags', {
   id: uuid('id').primaryKey().defaultRandom(),
   key: text('key').notNull().unique(),

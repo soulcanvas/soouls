@@ -4,12 +4,12 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun run --env-file=../../.env scripts/run.ts next dev --port 3002",
-    "build": "bun run --env-file=../../.env scripts/run.ts next build",
-    "start": "bun run --env-file=../../.env scripts/run.ts next start --port 3002",
+    "dev": "node --env-file=../../.env scripts/run.mjs next dev --port 3002",
+    "build": "node --env-file=../../.env scripts/run.mjs next build",
+    "start": "node --env-file=../../.env scripts/run.mjs next start --port 3002",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "check-types": "bun run --env-file=../../.env scripts/run.ts bunx tsc --noEmit -p tsconfig.json"
+    "check-types": "node --env-file=../../.env scripts/run.mjs npx tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.7.0",

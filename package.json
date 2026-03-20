@@ -15,9 +15,9 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "husky": "^9.1.7",
-    "knip": "^5.86.0",
+    "knip": "^5.88.1",
     "peakroute": "^0.6.0",
-    "turbo": "^2.8.17",
+    "turbo": "^2.8.20",
     "typescript": "5.9.2"
   },
   "engines": {
@@ -29,6 +29,6 @@
     "mime": "1.6.0"
   },
   "dependencies": {
-    "@sentry/nextjs": "^10.43.0"
+    "@sentry/nextjs": "^10.45.0"
   }
 }

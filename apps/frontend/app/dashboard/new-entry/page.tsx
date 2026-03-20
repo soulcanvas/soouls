@@ -24,6 +24,7 @@ import {
 import LZString from 'lz-string';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { getOptimizedImageUrl } from '../../../src/utils/images';
 import { trpc } from '../../../src/utils/trpc';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -711,7 +712,11 @@ function ImageCard({
 }: { b: Extract<Block, { type: 'image' }>; onRemove: () => void }) {
   return (
     <Card onRemove={onRemove}>
-      <img src={b.dataUrl} alt={b.name} className="w-full h-36 object-cover rounded-xl" />
+      <img
+        src={getOptimizedImageUrl(b.dataUrl, { width: 1200 })}
+        alt={b.name}
+        className="w-full h-36 object-cover rounded-xl"
+      />
       <Badge>Image added</Badge>
     </Card>
   );
@@ -998,8 +1003,16 @@ export default function NewEntryPage() {
   const initialId = searchParams.get('id');
 
   // ── Persisted state (text + blocks survive refresh) ────────────────────────
-  const { textContent, setTextContent, blocks, setBlocks, hydrated, saveStatus, clearAll } =
-    usePersistedEntry(initialId);
+  const {
+    textContent,
+    setTextContent,
+    blocks,
+    setBlocks,
+    hydrated,
+    saveStatus,
+    clearAll,
+    migrateKey,
+  } = usePersistedEntry(initialId);
   const [modal, setModal] = useState<null | 'image' | 'doodle' | 'goal' | 'tasklist'>(null);
 
   // ── tRPC auto-save (syncs to DB in addition to localStorage) ──────────────
@@ -1049,16 +1062,61 @@ export default function NewEntryPage() {
     }
   }, [existingEntry]); // eslint-disable-line
 
+  const getUploadUrlMutation = trpc.private.entries.getUploadUrl.useMutation();
+  const updateMediaUrlMutation = trpc.private.entries.updateMediaUrl.useMutation();
+
   const performDbSave = useRef(async (text: string, blks: Block[], id: string | null) => {
     if (!userIdRef.current || isSaving.current) return;
     isSaving.current = true;
     try {
-      const payloadString = JSON.stringify({ textContent: text, blocks: blks });
+      // 1. Handle image uploads if needed
+      const updatedBlocks = [...blks];
+      let blocksChanged = false;
+
+      for (let i = 0; i < updatedBlocks.length; i++) {
+        const block = updatedBlocks[i];
+        if (!block || block.type !== 'image') continue;
+        if (!('dataUrl' in block) || !block.dataUrl.startsWith('data:')) continue;
+
+        const blockDataUrl = block.dataUrl;
+        try {
+          const tempId = id || 'temp-' + Date.now();
+          const mimePart = blockDataUrl.split(';')[0];
+          const contentType = mimePart?.split(':')[1] ?? 'image/png';
+          const { uploadUrl, publicUrl } = await getUploadUrlMutation.mutateAsync({
+            entryId: tempId,
+            contentType,
+          });
+
+          const response = await fetch(blockDataUrl);
+          const blob = await response.blob();
+
+          await fetch(uploadUrl, {
+            method: 'PUT',
+            body: blob,
+            headers: { 'Content-Type': blob.type },
+          });
+
+          updatedBlocks[i] = { ...block, dataUrl: publicUrl };
+          blocksChanged = true;
+        } catch (uploadErr) {
+          console.error('Failed to upload image:', uploadErr);
+        }
+      }
+
+      if (blocksChanged) {
+        setBlocks((_prev) => updatedBlocks);
+      }
+
+      const payloadString = JSON.stringify({ textContent: text, blocks: updatedBlocks });
       const payload = LZString.compressToUTF16(payloadString);
+
       if (!id) {
-        const e = await createRef.current({ content: text, type: 'entry' });
+        const e = await createRef.current({ content: payload, type: 'entry' });
         setEntryId(e.id);
         entryIdRef.current = e.id;
+        migrateKey(e.id);
+        router.replace(`/dashboard/new-entry?id=${e.id}`);
       } else {
         await updateRef.current({ id, content: payload });
       }
@@ -1080,7 +1138,7 @@ export default function NewEntryPage() {
     return () => {
       if (dbDebounce.current) clearTimeout(dbDebounce.current);
     };
-  }, [textContent]);
+  }, [textContent, blocks]);
 
   const handleHome = async () => {
     if (dbDebounce.current) clearTimeout(dbDebounce.current);

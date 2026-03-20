@@ -17,18 +17,26 @@ export class CommandCenterAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest<CommandCenterRequest>();
     const authorization = request.headers.authorization;
+    const forwardedUserId = request.headers['x-forwarded-user-id'] as string | undefined;
     const token = authorization?.replace('Bearer ', '');
 
-    if (!token) {
+    let clerkId: string | null = null;
+
+    if (token) {
+      const session = await verifyToken(token, {
+        secretKey: process.env.CLERK_SECRET_KEY || '',
+      });
+      clerkId = session.sub;
+    } else if (forwardedUserId) {
+      clerkId = forwardedUserId;
+    }
+
+    if (!clerkId) {
       return false;
     }
 
-    const session = await verifyToken(token, {
-      secretKey: process.env.CLERK_SECRET_KEY || '',
-    });
-
     request.commandCenterAdmin = await this.commandCenterService.ensureAuthorizedAdmin(
-      session.sub,
+      clerkId,
       request.ip ??
         (request.headers['x-forwarded-for'] as string | undefined)?.split(',')[0]?.trim() ??
         null,

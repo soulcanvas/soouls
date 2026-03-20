@@ -62,7 +62,7 @@ export const router = t.router;
 export function makeRateLimitMiddleware(config: RateLimitConfig = DEFAULT_RATE_LIMIT) {
   return t.middleware(async ({ ctx, path, next }) => {
     const ip = ctx.ip ?? '127.0.0.1';
-    const result = checkRateLimit(ip, path, config);
+    const result = await checkRateLimit(ip, path, config);
 
     if (!result.ok) {
       const retryAfterSec = Math.ceil(result.retryAfterMs / 1000);

@@ -1,6 +1,47 @@
 'use client';
 
+import * as DialogPrimitive from '@radix-ui/react-dialog';
+import { X } from 'lucide-react';
 import type { ReactNode } from 'react';
+
+export function Dialog({
+  children,
+  open,
+  onOpenChange,
+}: {
+  children: ReactNode;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
+  return (
+    <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
+      {children}
+    </DialogPrimitive.Root>
+  );
+}
+
+export function DialogTrigger({ children, asChild }: { children: ReactNode; asChild?: boolean }) {
+  return <DialogPrimitive.Trigger asChild={asChild}>{children}</DialogPrimitive.Trigger>;
+}
+
+export function DialogContent({ children, title }: { children: ReactNode; title: string }) {
+  return (
+    <DialogPrimitive.Portal>
+      <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" />
+      <DialogPrimitive.Content className="fixed left-1/2 top-1/2 z-50 w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 space-y-4 rounded-2xl border border-white/[0.08] bg-[#040814] p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+        <div className="flex items-center justify-between">
+          <DialogPrimitive.Title className="font-display text-xl text-white">
+            {title}
+          </DialogPrimitive.Title>
+          <DialogPrimitive.Close className="rounded-lg p-1.5 text-slate-400 hover:bg-white/5 hover:text-white transition-colors">
+            <X className="h-5 w-5" />
+          </DialogPrimitive.Close>
+        </div>
+        {children}
+      </DialogPrimitive.Content>
+    </DialogPrimitive.Portal>
+  );
+}
 
 export function StatCard({
   icon,
