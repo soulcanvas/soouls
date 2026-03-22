@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/create-next-app).
+# 🎨 @soulcanvas/frontend
 
-## Getting Started
+Next.js 16 frontend app — 3D galaxy canvas, journaling UI, and full user experience.
 
-First, run the development server:
+## 🚀 Quick Start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# From root
+bun install && bun run dev
+
+# Or directly
+cd apps/frontend && bun run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3001](http://localhost:3001).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🏗 Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load Inter, a custom Google Font.
+| Layer | Technology |
+|-------|-----------|
+| **Framework** | Next.js 16 (App Router + Turbopack) |
+| **3D Canvas** | React Three Fiber (`@react-three/fiber`, `@react-three/drei`) |
+| **Styling** | Tailwind CSS + Framer Motion |
+| **Data** | TanStack Query v5 + tRPC v11 |
+| **Auth** | Clerk (`@clerk/nextjs`) |
+| **Analytics** | PostHog + Vercel Analytics + Speed Insights |
+| **Monitoring** | Sentry (`@sentry/nextjs`) |
 
-## Learn More
+## 📂 Key Directories
 
-To learn more about Next.js, take a look at the following resources:
+```
+app/
+├── dashboard/          # Core app after login
+│   ├── new-entry/      # Journal entry creator with drawing canvas
+│   └── calendar/       # Calendar view
+├── sign-in/            # Clerk authentication
+├── sign-up/            # Clerk registration
+└── layout.tsx          # Root layout with providers
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+src/
+├── utils/trpc.ts       # tRPC client (with masquerade header injection)
+├── providers/          # PostHog, theme, query providers
+└── components/         # App-specific UI components
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ⚡ Performance
 
-## Deploy on Vercel
+- **LZ-String Compression:** Large JSON payloads decompressed client-side
+- **`useMemo` Optimizations:** Heavy 3D data processing is memoized
+- **Turbopack:** Fast HMR in development
+- **Sentry Instrumentation:** Server + client + edge error tracking
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔗 Environment Variables
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All shared from root `.env`:
+```
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+NEXT_PUBLIC_BACKEND_URL
+NEXT_PUBLIC_SENTRY_DSN
+NEXT_PUBLIC_POSTHOG_KEY
+```
+
+---
+*See [SETUP.md](../../SETUP.md) for full env reference. See [DEVELOPER_WORKFLOW.md](../../DEVELOPER_WORKFLOW.md) for Git workflow.*

@@ -1,0 +1,18 @@
+﻿bun : $ peakroute web --force bun run --env-file=../../.env scripts/dev.ts
+At line:1 char:1
++ bun run dev > web.log 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ peakroute web... scripts/dev.ts:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+peakroute
+
+-- web.localhost (auto-resolves to 127.0.0.1)
+-- Proxy is running
+-- Using port 4905
+
+  -> http://web.localhost:1355
+
+Running: PORT=4905 HOST=127.0.0.1 bun run --env-file=../../.env scripts/dev.ts
+

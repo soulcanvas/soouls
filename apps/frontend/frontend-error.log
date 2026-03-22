@@ -1,0 +1,29 @@
+﻿bun : $ peakroute web bun run 
+--env-file=../../.env 
+scripts/dev.ts
+At line:1 char:1
++ bun run dev > frontend-error.log 
+2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~
+    + CategoryInfo          : NotS 
+   pecified: ($ peakroute web...   
+  scripts/dev.ts:String) [], Rem   
+ oteException
+    + FullyQualifiedErrorId : Nati 
+   veCommandError
+ 
+
+peakroute
+
+-- web.localhost (auto-resolves to 127.0.0.1)
+Starting proxy...
+HTTP proxy started on port 1355
+Proxy started in background
+-- Using port 4731
+Error: "web.localhost" is already 
+registered by a running process 
+(PID 34216). Use --force to 
+override.
+error: script "dev" exited with 
+code 1

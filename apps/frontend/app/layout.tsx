@@ -1,8 +1,11 @@
 import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from 'next';
-import { Playfair_Display } from 'next/font/google';
+import { Playfair_Display, Urbanist } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { CSPostHogProvider } from '../src/providers/posthog-provider';
 import { TRPCProvider } from '../src/providers/trpc-provider';
 
 const geistSans = localFont({
@@ -19,9 +22,16 @@ const playfair = Playfair_Display({
   variable: '--font-playfair',
 });
 
+const urbanist = Urbanist({
+  subsets: ['latin'],
+  variable: '--font-urbanist',
+  weight: ['300', '400', '500', '600', '700'],
+});
+
 export const metadata: Metadata = {
-  title: 'SoulCanvas - Your Life Journal',
-  description: 'A beautiful 3D digital life archive',
+  title: 'Soulcanvas — A quieter way to think',
+  description:
+    'Non-linear journaling designed for depth. Capture your thoughts as they happen. Build a map of your mind.',
 };
 
 export default function RootLayout({
@@ -33,10 +43,14 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} font-clarity`}
+          className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${urbanist.variable} font-urbanist`}
           suppressHydrationWarning
         >
-          <TRPCProvider>{children}</TRPCProvider>
+          <CSPostHogProvider>
+            <TRPCProvider>{children}</TRPCProvider>
+            <Analytics />
+            <SpeedInsights />
+          </CSPostHogProvider>
         </body>
       </html>
     </ClerkProvider>

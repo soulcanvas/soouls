@@ -100,8 +100,8 @@ export const LifeCanvas3D = () => {
         <pointLight position={[10, 10, 10]} intensity={1} />
         <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
 
-        {orbs.map((orb, i) => (
-          <Orb key={i} {...orb} />
+        {orbs.map((orb) => (
+          <Orb key={`${orb.color}-${orb.speed}`} {...orb} />
         ))}
 
         {/* Dynamic Lines (Simplified for now) */}
