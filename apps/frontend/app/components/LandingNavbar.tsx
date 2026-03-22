@@ -161,27 +161,43 @@ export default function LandingNavbar({ links = defaultLinks }: LandingNavbarPro
         </div>
 
         {/* Right side — CTA */}
-        <div className="flex-shrink-0 flex items-center justify-end w-[80px] md:w-[200px]">
+        <div className="flex-shrink-0 flex items-center justify-end w-auto md:w-[200px] gap-6">
           <Link
-            href="#waitlist"
+            href="#login"
+            className="hidden md:block font-urbanist transition-colors"
+            style={{ 
+              color: '#E07A5F',
+              fontSize: '14px', 
+              fontWeight: 500
+            }}
+            onMouseEnter={(e) => {
+              (e.target as HTMLElement).style.color = '#EFEBDD';
+            }}
+            onMouseLeave={(e) => {
+              (e.target as HTMLElement).style.color = '#E07A5F';
+            }}
+          >
+            Login
+          </Link>
+          <Link
+            href="#start-writing"
             className="font-urbanist font-bold transition-all duration-300 flex justify-center items-center"
             style={{
-              backgroundColor: scrolled ? '#A8A8A8' : '#D6C2A3',
+              backgroundColor: '#E07A5F',
               color: '#111111',
               padding: '10px 16px', // Slightly smaller for mobile
               borderRadius: '8px',
               fontSize: '11px', // Smaller font for mobile
-              letterSpacing: '0.05em',
               whiteSpace: 'nowrap',
             }}
             onMouseEnter={(e) => {
               (e.target as HTMLElement).style.backgroundColor = '#EFEBDD';
             }}
             onMouseLeave={(e) => {
-              (e.target as HTMLElement).style.backgroundColor = scrolled ? '#A8A8A8' : '#D6C2A3';
+              (e.target as HTMLElement).style.backgroundColor = '#E07A5F';
             }}
           >
-            JOIN WAITLIST
+            Start Writing
           </Link>
         </div>
       </nav>
