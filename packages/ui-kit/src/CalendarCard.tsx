@@ -1,15 +1,15 @@
-import React from "react";
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
+import type React from 'react';
 
 interface CalendarCardProps {
   children: React.ReactNode;
   className?: string;
-  variant?: "default" | "compact";
+  variant?: 'default' | 'compact';
 }
 
 const variantStyles = {
-  default: "p-10",
-  compact: "p-6",
+  default: 'p-10',
+  compact: 'p-6',
 };
 
 /**
@@ -17,8 +17,8 @@ const variantStyles = {
  */
 export const CalendarCard = ({
   children,
-  className = "",
-  variant = "default",
+  className = '',
+  variant = 'default',
 }: CalendarCardProps) => {
   return (
     <motion.div

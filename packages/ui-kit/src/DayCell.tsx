@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
+import React from 'react';
 
 export interface CalendarEvent {
   id: string;
@@ -21,13 +21,11 @@ interface DayCellProps {
  * Atomic Calendar Day Cell
  */
 export const DayCell = React.memo(
-  ({ day, isToday, events = [], onClick, className = "" }: DayCellProps) => {
+  ({ day, isToday, events = [], onClick, className = '' }: DayCellProps) => {
     if (!day) return <div className="h-20" />;
 
     return (
-      <div
-        className={`relative flex flex-col justify-center items-center group h-20 ${className}`}
-      >
+      <div className={`relative flex flex-col justify-center items-center group h-20 ${className}`}>
         <motion.div
           whileHover={{ scale: 1.1 }}
           onClick={onClick}
@@ -36,8 +34,8 @@ export const DayCell = React.memo(
             transition-all duration-300 rounded-2xl relative
             ${
               isToday
-                ? "bg-[#e67e65] text-white shadow-2xl shadow-[#e67e65]/40"
-                : "text-gray-300 hover:bg-white/5"
+                ? 'bg-[#e67e65] text-white shadow-2xl shadow-[#e67e65]/40'
+                : 'text-gray-300 hover:bg-white/5'
             }
           `}
         >
@@ -48,9 +46,7 @@ export const DayCell = React.memo(
               {events.map((event) => (
                 <span
                   key={event.id}
-                  className={`w-1 h-1 rounded-full ${
-                    isToday ? "bg-white" : "bg-[#e67e65]"
-                  }`}
+                  className={`w-1 h-1 rounded-full ${isToday ? 'bg-white' : 'bg-[#e67e65]'}`}
                 />
               ))}
             </div>
@@ -58,7 +54,7 @@ export const DayCell = React.memo(
         </motion.div>
       </div>
     );
-  }
+  },
 );
 
-DayCell.displayName = "DayCell";
+DayCell.displayName = 'DayCell';
