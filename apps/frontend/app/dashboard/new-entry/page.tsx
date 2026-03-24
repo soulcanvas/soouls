@@ -36,11 +36,11 @@ type Block =
   | { id: string; type: 'doodle'; dataUrl: string }
   | { id: string; type: 'goal'; goal: string; label: string; seconds: number; running: boolean }
   | {
-      id: string;
-      type: 'tasklist';
-      title: string;
-      tasks: { id: string; text: string; done: boolean }[];
-    };
+    id: string;
+    type: 'tasklist';
+    title: string;
+    tasks: { id: string; text: string; done: boolean }[];
+  };
 
 interface PersistedState {
   textContent: string;
