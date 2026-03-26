@@ -1,7 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-
 interface NavLink {
   label: string;
   href: string;
@@ -72,35 +70,14 @@ export default function LandingDock({ links = defaultLinks }: LandingNavbarProps
       </nav>
 
       {/* Call To Actions */}
-      <div className="flex flex-row items-center gap-[24px]">
-        <Link
-          href="/sign-in"
-          className="font-urbanist font-semibold"
-          style={{
-            color: '#E07C60',
-            fontSize: '18px', // Scaled from 26px
-            lineHeight: '1em',
-            letterSpacing: '-0.035em',
-            transition: 'color 0.2s',
-          }}
-          onMouseEnter={(e) => {
-            (e.target as HTMLElement).style.color = '#EFEBDD';
-          }}
-          onMouseLeave={(e) => {
-            (e.target as HTMLElement).style.color = '#E07C60';
-          }}
-        >
-          Login
-        </Link>
-
-        {/* Start Writing Button Component Match */}
-        <Link
-          href="/sign-up"
+      <div className="flex flex-row items-center">
+        <a
+          href="#waitlist"
           className="font-urbanist font-semibold transition-all duration-300 flex justify-center items-center"
           style={{
             backgroundColor: '#E07C60',
             color: '#222222',
-            fontSize: '16px', // Scaled from 24px
+            fontSize: '16px',
             lineHeight: '1em',
             letterSpacing: '-0.035em',
             padding: '12px 20px',
@@ -116,8 +93,8 @@ export default function LandingDock({ links = defaultLinks }: LandingNavbarProps
             (e.currentTarget as HTMLElement).style.backgroundColor = '#E07C60';
           }}
         >
-          Start Writing
-        </Link>
+          Join the Waitlist
+        </a>
       </div>
     </div>
   );
