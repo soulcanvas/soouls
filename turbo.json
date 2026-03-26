@@ -4,6 +4,27 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
+      "env": [
+        "DATABASE_URL",
+        "CLERK_SECRET_KEY",
+        "CLERK_CLOCK_SKEW",
+        "BACKEND_URL",
+        "FRONTEND_URL",
+        "COMMAND_CENTER_URL",
+        "REDIS_URL",
+        "NOTIFICATION_WORKER_CONCURRENCY",
+        "RESEND_API_KEY",
+        "MESSAGING_FROM_EMAIL",
+        "MESSAGING_FROM_NAME",
+        "TWILIO_ACCOUNT_SID",
+        "TWILIO_AUTH_TOKEN",
+        "TWILIO_WHATSAPP_FROM",
+        "COMMAND_CENTER_BOOTSTRAP_SUPER_ADMINS",
+        "SENTRY_DSN",
+        "R2_BUCKET_NAME",
+        "LOG_LEVEL",
+        "NODE_ENV"
+      ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
