@@ -26,13 +26,13 @@ export default function SundayReviewSection() {
     <section
       ref={sectionRef}
       id="sunday-review"
-      className="relative flex items-center overflow-hidden"
+      className="relative flex items-center overflow-hidden w-full"
       style={{
-        background: 'linear-gradient(to bottom, #1B1B1B 20%, #40321F 65%, #C29557 100%)',
+        background: 'linear-gradient(to bottom, #1B1E23 0%, #2A2118 45%, #C29557 100%)',
         minHeight: '100svh',
-        padding: '120px 60px',
       }}
     >
+      <div className="absolute inset-0 px-6 py-20 lg:px-[60px] lg:py-[120px] pointer-events-none" />
       {/* Soft ambient light overlay for extra richness from the bottom */}
       <div
         className="absolute inset-0 pointer-events-none z-0"
@@ -42,17 +42,16 @@ export default function SundayReviewSection() {
         }}
       />
 
-      <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col lg:flex-row gap-[80px] items-center justify-between">
+      <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col-reverse lg:flex-row gap-12 lg:gap-[80px] items-center justify-between px-6 lg:px-0 py-20 lg:py-0">
         {/* Left: Sunday Review App Canvas Card */}
         <div className="reveal flex justify-center w-full lg:w-1/2">
           {/* Card Container */}
           <div
-            className="relative font-urbanist"
+            className="relative font-urbanist w-full max-w-[410px]"
             style={{
-              width: '410px',
               background: 'linear-gradient(145deg, #1C1B19 0%, #151412 100%)', // Rich dark coffee/slate
               borderRadius: '28px',
-              padding: '40px',
+              padding: '32px 24px',
               boxShadow: '0 40px 80px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.05)',
               border: '1px solid rgba(255,255,255,0.03)',
             }}
@@ -249,7 +248,7 @@ export default function SundayReviewSection() {
           <h2
             className="font-playfair font-normal"
             style={{
-              fontSize: 'clamp(48px, 6vw, 96px)', // Scaled massively based on image
+              fontSize: 'clamp(40px, 6vw, 96px)', // Scaled massively based on image
               lineHeight: '1em',
               letterSpacing: '-0.035em',
               color: '#E5D4B3', // Matching golden font hue
@@ -259,18 +258,18 @@ export default function SundayReviewSection() {
             The Sunday Review
           </h2>
           <p
-            className="font-urbanist"
+            className="font-urbanist mt-6"
             style={{
-              fontSize: 'clamp(18px, 2vw, 24px)',
-              lineHeight: '1.3em',
+              fontSize: 'clamp(16px, 2vw, 24px)',
+              lineHeight: '1.4em',
               letterSpacing: '-0.02em',
               color: '#FFFFFF',
               maxWidth: '540px',
               fontWeight: 400,
             }}
           >
-            A beautifully typeset, single-screen summary of your week. Synthesized by intent
-            delivered with care
+            A beautifully typeset, single-screen summary of your week. Synthesized by intent,
+            delivered with care.
           </p>
         </div>
       </div>

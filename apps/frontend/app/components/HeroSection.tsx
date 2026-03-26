@@ -6,14 +6,13 @@ export default function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [_scrolled, _setScrolled] = useState(false);
-  const [videoStarted, setVideoStarted] = useState(false);
-
   useEffect(() => {
-    // Reveal video cleanly after 1.5 seconds via CSS opacity instead of relying on unpredictable programmatic play()
-    const _timer = setTimeout(() => {
-      setVideoStarted(true);
-    }, 1500);
+    // Explicitly play video to ensure it starts immediately
+    if (videoRef.current) {
+      videoRef.current.play().catch((err) => {
+        console.warn('Video autoplay failed:', err);
+      });
+    }
 
     const handleScroll = () => {
       if (!sectionRef.current || !contentRef.current) return;
@@ -41,9 +40,7 @@ export default function HeroSection() {
       }}
     >
       {/* Hero Background Video */}
-      <div
-        className={`absolute inset-0 z-0 pointer-events-none transition-opacity duration-[1500ms] ${videoStarted ? 'opacity-100' : 'opacity-0'}`}
-      >
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-100">
         <video
           ref={videoRef}
           autoPlay
@@ -111,11 +108,11 @@ export default function HeroSection() {
         </p>
 
         <a
-          href="#waitlist"
+          href="#start-writing"
           className="font-urbanist font-semibold bg-[#E07A5F] text-[#222222] px-8 h-16 rounded-xl flex items-center transition-transform hover:scale-105 active:scale-95"
           style={{ fontSize: '20px' }}
         >
-          Join Waitlist
+          Start Writing
         </a>
 
         <p className="font-playfair italic mt-10 text-[#D9D9D9] opacity-80 text-2xl">
@@ -128,15 +125,15 @@ export default function HeroSection() {
             <title>Scroll Down</title>
             <path
               d="M6 8L12 14L18 8"
-              stroke="#D6C2A3"
-              strokeWidth="1.5"
+              stroke="#E07A5F"
+              strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
             <path
               d="M6 14L12 20L18 14"
-              stroke="#D6C2A3"
-              strokeWidth="1.5"
+              stroke="#E07A5F"
+              strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
             />

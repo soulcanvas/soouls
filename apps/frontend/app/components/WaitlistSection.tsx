@@ -37,12 +37,7 @@ export default function WaitlistSection() {
     <section
       ref={sectionRef}
       id="waitlist"
-      className="relative overflow-hidden"
-      style={{
-        backgroundColor: '#222222',
-        minHeight: '80svh',
-        padding: '120px 60px',
-      }}
+      className="relative overflow-hidden bg-[#222222] min-h-[80svh] px-6 py-20 md:px-[60px] md:py-[120px]"
     >
       {/* Clover / decorative SVG elements (subtle) */}
       <div
@@ -167,12 +162,10 @@ export default function WaitlistSection() {
         </div>
 
         {/* Headline */}
-        <div className="reveal mb-[64px]">
+        <div className="reveal mb-10 md:mb-[64px]">
           <h2
-            className="font-playfair font-medium text-center"
+            className="font-playfair font-medium text-center text-[40px] md:text-[80px] leading-[1.05em]"
             style={{
-              fontSize: '80px',
-              lineHeight: '1.05em',
               letterSpacing: '-0.035em',
             }}
           >
@@ -259,19 +252,14 @@ export default function WaitlistSection() {
         )}
 
         {/* Meta info row */}
-        <div className="reveal flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="reveal flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-center mt-12 md:mt-0">
           <span
-            className="font-urbanist"
-            style={{
-              fontSize: '13px',
-              letterSpacing: '0.1em',
-              color: '#A8A8A8',
-            }}
+            className="font-urbanist text-[11px] md:text-[13px] tracking-[0.1em] text-[#A8A8A8]"
           >
             LAUNCHING FALL 2026
           </span>
-          <span style={{ color: '#A8A8A8', opacity: 0.4 }}>—</span>
-          <span className="font-urbanist" style={{ fontSize: '13px', color: '#A8A8A8' }}>
+          <span className="hidden sm:inline" style={{ color: '#A8A8A8', opacity: 0.4 }}>—</span>
+          <span className="font-urbanist text-[11px] md:text-[13px] text-[#A8A8A8]">
             Private early access. Human centered design.
           </span>
         </div>

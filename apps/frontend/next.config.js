@@ -2,7 +2,7 @@ import { fileURLToPath } from 'node:url';
 
 const backendUrl =
   process.env.NEXT_PUBLIC_BACKEND_URL ?? process.env.BACKEND_URL ?? 'http://localhost:3000';
-const projectRoot = fileURLToPath(new URL('.', import.meta.url));
+const monorepoRoot = fileURLToPath(new URL('../../', import.meta.url));
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -10,8 +10,9 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
+  outputFileTracingRoot: monorepoRoot,
   turbopack: {
-    root: projectRoot,
+    root: monorepoRoot,
   },
   async rewrites() {
     return [
