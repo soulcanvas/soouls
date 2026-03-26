@@ -993,10 +993,20 @@ function useVoiceRecorder(onDone: (dataUrl: string, duration: number) => void) {
   return { recording, elapsed, start, stop };
 }
 
+import { Suspense } from 'react';
+
 // ══════════════════════════════════════════════════════════════════════════════
-// MAIN PAGE
+// MAIN PAGE (wrapped in Suspense for useSearchParams)
 // ══════════════════════════════════════════════════════════════════════════════
 export default function NewEntryPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#0a0a0a]" />}>
+      <NewEntryContent />
+    </Suspense>
+  );
+}
+
+function NewEntryContent() {
   const { user } = useUser();
   const router = useRouter();
   const searchParams = useSearchParams();
