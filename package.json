@@ -29,6 +29,7 @@
     "mime": "1.6.0"
   },
   "dependencies": {
-    "lz-string": "^1.5.0"
+    "lz-string": "^1.5.0",
+    "next": "^16.2.1"
   }
 }
