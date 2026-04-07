@@ -1,6 +1,7 @@
 'use client';
 
-import { SiDiscord, SiInstagram, SiLinkedin, SiX } from 'react-icons/si';
+import { SiDiscord, SiInstagram, SiX } from 'react-icons/si';
+import { FaLinkedinIn } from 'react-icons/fa6';
 
 export default function FooterSection() {
   return (
@@ -88,7 +89,7 @@ export default function FooterSection() {
                 rel="noopener noreferrer"
                 className="opacity-80 hover:opacity-100 transition-opacity hover:text-[#E07A5F] text-[#D8D8D8]"
               >
-                <SiLinkedin size={20} />
+                <FaLinkedinIn size={20} />
               </a>
               <a
                 href="https://instagram.com/soulcanvas_app"
