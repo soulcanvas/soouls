@@ -1,6 +1,6 @@
-# `@soulcanvas/api` — The API Contract Package
+# `@soouls/api` — The API Contract Package
 
-This package is the **single source of truth** for all tRPC routes in SoulCanvas. It is imported by both the **backend** (to build the router) and the **frontend** (for end-to-end type safety). No code generation. No REST. Pure TypeScript.
+This package is the **single source of truth** for all tRPC routes in Soouls. It is imported by both the **backend** (to build the router) and the **frontend** (for end-to-end type safety). No code generation. No REST. Pure TypeScript.
 
 ---
 

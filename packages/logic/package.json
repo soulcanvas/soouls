@@ -1,5 +1,5 @@
 {
-  "name": "@soulcanvas/logic",
+  "name": "@soouls/logic",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -13,7 +13,7 @@
     "check-types": "tsc --noEmit"
   },
   "devDependencies": {
-    "@soulcanvas/typescript-config": "*",
+    "@soouls/typescript-config": "*",
     "typescript": "5.9.2"
   }
 }

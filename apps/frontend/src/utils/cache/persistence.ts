@@ -2,7 +2,7 @@ import type { PersistedClient, Persister } from '@tanstack/react-query-persist-c
 import { del, get, set } from 'idb-keyval';
 
 const CACHE_VERSION = 1;
-const STORE_KEY = 'soulcanvas-query-cache';
+const STORE_KEY = 'soouls-query-cache';
 const DEFAULT_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
 
 export interface CacheConfig {
@@ -92,7 +92,7 @@ export async function getCacheSize(): Promise<number> {
 export function setupCacheSync(): () => void {
   if (typeof window === 'undefined') return () => {};
 
-  const channel = new BroadcastChannel('soulcanvas-cache-sync');
+  const channel = new BroadcastChannel('soouls-cache-sync');
 
   channel.onmessage = (event) => {
     if (event.data?.type === 'CACHE_INVALIDATED') {
@@ -112,7 +112,7 @@ export function setupCacheSync(): () => void {
 export function invalidateCacheRemotely(queryKey: unknown[]): void {
   if (typeof window === 'undefined') return;
 
-  const channel = new BroadcastChannel('soulcanvas-cache-sync');
+  const channel = new BroadcastChannel('soouls-cache-sync');
   channel.postMessage({ type: 'CACHE_INVALIDATED', queryKey });
   channel.close();
 }

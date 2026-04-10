@@ -1,6 +1,6 @@
-# 🚀 SoulCanvas Setup Guide
+# 🚀 Soouls Setup Guide
 
-Complete setup reference for the SoulCanvas monorepo.
+Complete setup reference for the Soouls monorepo.
 
 ## Prerequisites
 
@@ -39,7 +39,7 @@ This launches 3 apps simultaneously via Turborepo:
 ## Monorepo Structure
 
 ```
-soulcanvas/
+soouls/
 ├── apps/
 │   ├── frontend/          # Next.js 16 (user-facing)
 │   ├── backend/           # NestJS + tRPC + BullMQ
@@ -133,11 +133,11 @@ All apps read from the root `.env` file via `bun run --env-file=../../.env`.
 - **cmdk** — global command palette (CMD+K)
 
 ### Shared Packages
-- **@soulcanvas/database** — Drizzle schema + client
-- **@soulcanvas/api** — tRPC router, rate-limiting, masquerade middleware
-- **@soulcanvas/ai-engine** — AI integration layer
-- **@soulcanvas/logic** — pure canvas calculation functions
-- **@soulcanvas/ui-kit** — design system
+- **@soouls/database** — Drizzle schema + client
+- **@soouls/api** — tRPC router, rate-limiting, masquerade middleware
+- **@soouls/ai-engine** — AI integration layer
+- **@soouls/logic** — pure canvas calculation functions
+- **@soouls/ui-kit** — design system
 
 ## Common Commands
 
@@ -217,7 +217,7 @@ Required for sending emails, WhatsApp messages, and GDPR exports securely withou
 ### 7. Media Storage (Cloudflare R2)
 We use R2 instead of Amazon S3 because it has $0 egress fees.
 1. Go to the [Cloudflare Dashboard](https://dash.cloudflare.com) > **R2 Object Storage**.
-2. Click **Create Bucket**, name it `soulcanvas-media`.
+2. Click **Create Bucket**, name it `soouls-media`.
 3. Go to R2 Settings, find your **Account ID** and paste it to `R2_ACCOUNT_ID`.
 4. Click **Manage R2 API Tokens** > **Create Token** (Edit access).
 5. Copy the `Access Key ID` and `Secret Access Key` into the `.env`.

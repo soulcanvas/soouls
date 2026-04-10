@@ -7,32 +7,32 @@ At line:1 char:1
     + FullyQualifiedErrorId : NativeCommandError
  
 ΓÇó turbo 2.8.17
-ΓÇó Packages in scope: @soulcanvas/admin-dashboard, @soulcanvas/ai-engine, @soulcanvas/api, @soulcanvas/backend, @soulcanvas/database, @soulcanvas/frontend, @soulcanvas/logic, @soulcanvas/typescript-config, @soulcanvas/ui-kit
+ΓÇó Packages in scope: @soouls/admin-dashboard, @soouls/ai-engine, @soouls/api, @soouls/backend, @soouls/database, @soouls/frontend, @soouls/logic, @soouls/typescript-config, @soouls/ui-kit
 ΓÇó Running check-types in 9 packages
 ΓÇó Remote caching disabled
-@soulcanvas/admin-dashboard:check-types: cache hit, replaying logs 6d6429338e5a596b
-@soulcanvas/admin-dashboard:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mbun run --env-file=../../.env scripts/run.ts bunx tsc --noEmit -p tsconfig.json
-@soulcanvas/admin-dashboard:check-types: [22m[?9001l[?1004l
-@soulcanvas/ui-kit:check-types: cache hit, replaying logs 3597905c14a86da5
-@soulcanvas/ui-kit:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
-@soulcanvas/ui-kit:check-types: [22m[?9001l[?1004l
-@soulcanvas/database:check-types: cache hit, replaying logs a5ae4139b30153b9
-@soulcanvas/database:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
-@soulcanvas/database:check-types: [?9001l[?1004l[22m
-@soulcanvas/logic:check-types: cache hit, replaying logs 78169d9c5fb11d42
-@soulcanvas/logic:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
-@soulcanvas/logic:check-types: [22m[?9001l[?1004l
-@soulcanvas/ai-engine:check-types: cache hit, replaying logs 9fe58eb391494f1c
-@soulcanvas/ai-engine:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
-@soulcanvas/ai-engine:check-types: [?9001l[?1004l[22m
-@soulcanvas/api:check-types: cache miss, executing c2c5941243fde9ae
-@soulcanvas/api:check-types: $ tsc --noEmit
-@soulcanvas/backend:check-types: cache miss, executing ead5df0063c551b0
-@soulcanvas/frontend:check-types: cache miss, executing 0c2d03fe67eb960a
-@soulcanvas/backend:check-types: $ tsc --noEmit
-@soulcanvas/frontend:check-types: $ next typegen && tsc --noEmit
-@soulcanvas/frontend:check-types: Generating route types...
-@soulcanvas/frontend:check-types: Γ£ô Types generated successfully
+@soouls/admin-dashboard:check-types: cache hit, replaying logs 6d6429338e5a596b
+@soouls/admin-dashboard:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mbun run --env-file=../../.env scripts/run.ts bunx tsc --noEmit -p tsconfig.json
+@soouls/admin-dashboard:check-types: [22m[?9001l[?1004l
+@soouls/ui-kit:check-types: cache hit, replaying logs 3597905c14a86da5
+@soouls/ui-kit:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soouls/ui-kit:check-types: [22m[?9001l[?1004l
+@soouls/database:check-types: cache hit, replaying logs a5ae4139b30153b9
+@soouls/database:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soouls/database:check-types: [?9001l[?1004l[22m
+@soouls/logic:check-types: cache hit, replaying logs 78169d9c5fb11d42
+@soouls/logic:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soouls/logic:check-types: [22m[?9001l[?1004l
+@soouls/ai-engine:check-types: cache hit, replaying logs 9fe58eb391494f1c
+@soouls/ai-engine:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soouls/ai-engine:check-types: [?9001l[?1004l[22m
+@soouls/api:check-types: cache miss, executing c2c5941243fde9ae
+@soouls/api:check-types: $ tsc --noEmit
+@soouls/backend:check-types: cache miss, executing ead5df0063c551b0
+@soouls/frontend:check-types: cache miss, executing 0c2d03fe67eb960a
+@soouls/backend:check-types: $ tsc --noEmit
+@soouls/frontend:check-types: $ next typegen && tsc --noEmit
+@soouls/frontend:check-types: Generating route types...
+@soouls/frontend:check-types: Γ£ô Types generated successfully
 
  Tasks:    8 successful, 8 total
 Cached:    5 cached, 8 total

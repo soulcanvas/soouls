@@ -1,5 +1,5 @@
 /**
- * @soulcanvas/api — AppRouter barrel
+ * @soouls/api — AppRouter barrel
  *
  * Architecture:
  *   namespaces/
@@ -143,13 +143,13 @@ export type MessagingApi = {
       campaignsSent: number;
     } | null;
     brands: Array<{
-      key: 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk';
+      key: 'soouls' | 'soouls-studio' | 'founder-desk';
       label: string;
       eyebrow: string;
     }>;
     campaigns: Array<{
       id: string;
-      brandKey: 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk';
+      brandKey: 'soouls' | 'soouls-studio' | 'founder-desk';
       title: string;
       subject: string;
       status: 'draft' | 'sending' | 'sent' | 'partially_sent' | 'failed';
@@ -195,7 +195,7 @@ export type MessagingApi = {
   sendCampaign: (
     userId: string,
     input: {
-      brandKey: 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk';
+      brandKey: 'soouls' | 'soouls-studio' | 'founder-desk';
       title: string;
       subject: string;
       markdownBody: string;

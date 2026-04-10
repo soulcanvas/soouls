@@ -36,7 +36,7 @@ export function Footer({
   description = 'Find your oasis within. A mindful journaling experience.',
   columns = [],
   socialLinks = [],
-  copyright = `© ${new Date().getFullYear()} SoulCanvas. All rights reserved.`,
+  copyright = `© ${new Date().getFullYear()} Soouls. All rights reserved.`,
   className = '',
 }: FooterProps) {
   return (

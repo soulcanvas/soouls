@@ -24,5 +24,5 @@ http
     void handle(req, res);
   })
   .listen(port, hostname, () => {
-    console.log(`[SoulCanvas Frontend] Listening on http://${hostname}:${port}`);
+    console.log(`[Soouls Frontend] Listening on http://${hostname}:${port}`);
   });

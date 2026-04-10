@@ -16,7 +16,7 @@ export default function GlobalError({
   return (
     <html>
       <body>
-        <Error statusCode={500} title="SoulCanvas experienced an unexpected error." />
+        <Error statusCode={500} title="Soouls experienced an unexpected error." />
       </body>
     </html>
   );

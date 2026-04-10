@@ -1,4 +1,4 @@
-# 🎨 SoulCanvas — 3D Life Journaling Platform
+# 🎨 Soouls — 3D Life Journaling Platform
 
 A privacy-first, 3D journaling application where thoughts become stars in your personal galaxy.
 
@@ -10,20 +10,20 @@ A privacy-first, 3D journaling application where thoughts become stars in your p
 
 | App | Package | Port | Description |
 |-----|---------|------|-------------|
-| **Frontend** | `@soulcanvas/frontend` | 3001 | Next.js 16 — 3D galaxy canvas, journaling UI |
-| **Backend** | `@soulcanvas/backend` | 3000 | NestJS — tRPC API, BullMQ workers, WebSocket |
-| **Admin Dashboard** | `@soulcanvas/admin-dashboard` | 3002 | SoulLabs Command Center — RBAC, telemetry, ops |
+| **Frontend** | `@soouls/frontend` | 3001 | Next.js 16 — 3D galaxy canvas, journaling UI |
+| **Backend** | `@soouls/backend` | 3000 | NestJS — tRPC API, BullMQ workers, WebSocket |
+| **Admin Dashboard** | `@soouls/admin-dashboard` | 3002 | SoulLabs Command Center — RBAC, telemetry, ops |
 
 ### Shared Packages
 
 | Package | Description |
 |---------|-------------|
-| `@soulcanvas/database` | Drizzle ORM schemas + Neon PostgreSQL client |
-| `@soulcanvas/api` | Shared tRPC v11 router, rate-limiting, masquerade middleware |
-| `@soulcanvas/ai-engine` | AI prompts, embeddings, LLM integration (OpenAI/Anthropic) |
-| `@soulcanvas/logic` | Pure functions — canvas node calculations, emotion scoring |
-| `@soulcanvas/ui-kit` | Design system components (shared across all apps) |
-| `@soulcanvas/typescript-config` | Shared TypeScript path and compiler configs |
+| `@soouls/database` | Drizzle ORM schemas + Neon PostgreSQL client |
+| `@soouls/api` | Shared tRPC v11 router, rate-limiting, masquerade middleware |
+| `@soouls/ai-engine` | AI prompts, embeddings, LLM integration (OpenAI/Anthropic) |
+| `@soouls/logic` | Pure functions — canvas node calculations, emotion scoring |
+| `@soouls/ui-kit` | Design system components (shared across all apps) |
+| `@soouls/typescript-config` | Shared TypeScript path and compiler configs |
 
 ## 🚀 Getting Started
 

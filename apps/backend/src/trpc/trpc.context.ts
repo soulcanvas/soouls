@@ -1,6 +1,6 @@
 import { verifyToken } from '@clerk/backend';
-import { db, eq } from '@soulcanvas/database/client';
-import { adminUsers } from '@soulcanvas/database/schema';
+import { db, eq } from '@soouls/database/client';
+import { adminUsers } from '@soouls/database/schema';
 import type { Request } from 'express';
 
 export async function createTrpcContext(req: Request) {

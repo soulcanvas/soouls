@@ -2,7 +2,7 @@ import { z } from 'zod';
 import type { RateLimitConfig } from '../../../../rate-limit.js';
 
 export const schema = z.object({
-  brandKey: z.enum(['soulcanvas', 'soulcanvas-studio', 'founder-desk']),
+  brandKey: z.enum(['soouls', 'soouls-studio', 'founder-desk']),
   title: z.string().trim().min(3).max(120),
   subject: z.string().trim().min(3).max(160),
   markdownBody: z.string().trim().min(10).max(20_000),

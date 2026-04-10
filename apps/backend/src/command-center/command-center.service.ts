@@ -1,8 +1,8 @@
 import { createHash, randomBytes } from 'node:crypto';
 import { createClerkClient } from '@clerk/backend';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { getRateLimitStats } from '@soulcanvas/api/rate-limit';
-import { and, db, desc, eq, inArray, or, sql } from '@soulcanvas/database/client';
+import { getRateLimitStats } from '@soouls/api/rate-limit';
+import { and, db, desc, eq, inArray, or, sql } from '@soouls/database/client';
 import {
   adminAuditLogs,
   adminInvites,
@@ -18,7 +18,7 @@ import {
   serviceControls,
   stripeWebhooks,
   users,
-} from '@soulcanvas/database/schema';
+} from '@soouls/database/schema';
 import { Resend } from 'resend';
 import { EntriesService } from '../entries/entries.service';
 import { parseEnvList } from '../notifications/notification.constants';
@@ -1104,7 +1104,7 @@ export class CommandCenterService {
       markdownBody: string;
       ctaLabel?: string;
       ctaUrl?: string;
-      brandKey?: 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk';
+      brandKey?: 'soouls' | 'soouls-studio' | 'founder-desk';
     },
     ipAddress?: string | null,
   ) {
@@ -1117,7 +1117,7 @@ export class CommandCenterService {
       markdownBody: input.markdownBody,
       ctaLabel: input.ctaLabel,
       ctaUrl: input.ctaUrl,
-      brandKey: input.brandKey || 'soulcanvas',
+      brandKey: input.brandKey || 'soouls',
     });
 
     await this.writeAuditLog({
@@ -1431,14 +1431,14 @@ export class CommandCenterService {
 
     const apiKey = process.env.RESEND_API_KEY;
     const fromEmail = process.env.MESSAGING_FROM_EMAIL;
-    const fromName = process.env.MESSAGING_FROM_NAME ?? 'SoulCanvas';
+    const fromName = process.env.MESSAGING_FROM_NAME ?? 'Soouls';
 
     if (apiKey && fromEmail) {
       const resend = new Resend(apiKey);
       await resend.emails.send({
         from: `${fromName} <${fromEmail}>`,
         to: ['rudra195957@gmail.com'],
-        subject: `[SoulCanvas] Permission Request: ${permissionLabels[input.permission] || input.permission}`,
+        subject: `[Soouls] Permission Request: ${permissionLabels[input.permission] || input.permission}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #f97316;">Permission Request</h2>

@@ -15,8 +15,8 @@ export interface ImageOptions {
 
 /**
  * Transforms an R2 public URL into a Cloudflare Optimized URL.
- * Example input:  https://media.soulcanvas.app/entries/user_123/entry_456/img.jpg
- * Example output: https://media.soulcanvas.app/cdn-cgi/image/width=1200,format=auto,quality=85/entries/user_123/entry_456/img.jpg
+ * Example input:  https://media.soouls.app/entries/user_123/entry_456/img.jpg
+ * Example output: https://media.soouls.app/cdn-cgi/image/width=1200,format=auto,quality=85/entries/user_123/entry_456/img.jpg
  */
 export function getOptimizedImageUrl(url: string | null | undefined, options: ImageOptions = {}) {
   if (!url) return '';

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { and, db, desc, eq, sql } from '@soulcanvas/database/client';
-import { messageCampaigns, messageDeliveries, users } from '@soulcanvas/database/schema';
+import { and, db, desc, eq, sql } from '@soouls/database/client';
+import { messageCampaigns, messageDeliveries, users } from '@soouls/database/schema';
 import { Resend } from 'resend';
 import {
   countValue,
@@ -19,7 +19,7 @@ import {
 } from '../notifications/notification.types';
 import { RedisService } from '../redis/redis.service';
 
-type BrandKey = 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk';
+type BrandKey = 'soouls' | 'soouls-studio' | 'founder-desk';
 type CampaignStatus = 'draft' | 'sending' | 'sent' | 'partially_sent' | 'failed';
 type DeliveryCategory = 'transactional' | 'marketing' | 'security' | 'product';
 type DeliveryStatus = 'pending' | 'sent' | 'failed' | 'skipped';
@@ -405,7 +405,7 @@ export class MessagingService {
           {
             key: 'welcome',
             label: 'Welcome',
-            description: 'Sent the first time a SoulCanvas user is synced into the product.',
+            description: 'Sent the first time a Soouls user is synced into the product.',
           },
           {
             key: 'secure-access',
@@ -501,11 +501,11 @@ export class MessagingService {
     markdownBody: string;
     ctaLabel?: string;
     ctaUrl?: string;
-    brandKey?: 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk';
+    brandKey?: 'soouls' | 'soouls-studio' | 'founder-desk';
   }) {
     const apiKey = process.env.RESEND_API_KEY;
     const fromEmail = process.env.MESSAGING_FROM_EMAIL;
-    const fromName = process.env.MESSAGING_FROM_NAME ?? 'SoulCanvas';
+    const fromName = process.env.MESSAGING_FROM_NAME ?? 'Soouls';
 
     if (!apiKey || !fromEmail) {
       throw new Error(
@@ -514,7 +514,7 @@ export class MessagingService {
     }
 
     const template = buildCampaignTemplate({
-      brandKey: input.brandKey || 'soulcanvas',
+      brandKey: input.brandKey || 'soouls',
       subject: input.subject,
       markdownBody: input.markdownBody,
       ctaLabel: input.ctaLabel,
@@ -540,7 +540,7 @@ export class MessagingService {
       id: deliveryId,
       userId: null,
       campaignId: null,
-      brandKey: input.brandKey || 'soulcanvas',
+      brandKey: input.brandKey || 'soouls',
       channel: 'email',
       category: 'marketing',
       templateKey: 'campaign',

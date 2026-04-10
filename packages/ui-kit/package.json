@@ -1,5 +1,5 @@
 {
-  "name": "@soulcanvas/ui-kit",
+  "name": "@soouls/ui-kit",
   "version": "0.0.0",
   "private": true,
   "exports": {
@@ -36,7 +36,7 @@
     "@clerk/nextjs": "^6.7.0"
   },
   "devDependencies": {
-    "@soulcanvas/typescript-config": "*",
+    "@soouls/typescript-config": "*",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
     "typescript": "5.9.2",

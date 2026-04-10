@@ -32,7 +32,7 @@ export function Sidebar() {
     <aside className="fixed left-0 top-0 hidden h-screen w-64 flex-col border-r border-white/5 bg-base-charcoal p-6 lg:flex">
       <div className="mb-10 flex items-center gap-3 px-2">
         <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-amber-400 to-orange-500" />
-        <span className="font-editorial text-xl text-base-cream">SoulCanvas</span>
+        <span className="font-editorial text-xl text-base-cream">Soouls</span>
       </div>
 
       <nav className="flex-1 space-y-2">

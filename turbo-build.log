@@ -1,37 +1,37 @@
 $ turbo run build
 • turbo 2.8.17
-• Packages in scope: @soulcanvas/admin-dashboard, @soulcanvas/ai-engine, @soulcanvas/api, @soulcanvas/backend, @soulcanvas/database, @soulcanvas/frontend, @soulcanvas/logic, @soulcanvas/typescript-config, @soulcanvas/ui-kit
+• Packages in scope: @soouls/admin-dashboard, @soouls/ai-engine, @soouls/api, @soouls/backend, @soouls/database, @soouls/frontend, @soouls/logic, @soouls/typescript-config, @soouls/ui-kit
 • Running build in 9 packages
 • Remote caching disabled
-@soulcanvas/admin-dashboard:build: cache miss, executing 130a65a899019cdf
-@soulcanvas/backend:build: cache miss, executing a63455907de136bc
-@soulcanvas/frontend:build: cache miss, executing 476a96b03c2dee5a
-@soulcanvas/admin-dashboard:build: $ bun run --env-file=../../.env scripts/run.ts next build
-@soulcanvas/frontend:build: $ bun --bun next build
-@soulcanvas/backend:build: $ nest build
-@soulcanvas/admin-dashboard:build: ▲ Next.js 16.1.0 (Turbopack)
-@soulcanvas/admin-dashboard:build: - Environments: .env
-@soulcanvas/admin-dashboard:build: 
-@soulcanvas/admin-dashboard:build:   Creating an optimized production build ...
-@soulcanvas/admin-dashboard:build: 
-@soulcanvas/admin-dashboard:build: > Build error occurred
-@soulcanvas/admin-dashboard:build: Error: Turbopack build failed with 1 errors:
-@soulcanvas/admin-dashboard:build: ./app
-@soulcanvas/admin-dashboard:build: Error: Next.js inferred your workspace root, but it may not be correct.
-@soulcanvas/admin-dashboard:build:     We couldn't find the Next.js package (next/package.json) from the project directory: C:\Users\HP\Videos\projects\soulcanvas\apps\admin-dashboard\app
-@soulcanvas/admin-dashboard:build:      To fix this, set turbopack.root in your Next.js config, or ensure the Next.js package is resolvable from this directory.
-@soulcanvas/admin-dashboard:build:     Note: For security and performance reasons, files outside of the project directory will not be compiled.
-@soulcanvas/admin-dashboard:build:     See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
-@soulcanvas/admin-dashboard:build: 
-@soulcanvas/admin-dashboard:build:     at ignore-listed frames
-@soulcanvas/admin-dashboard:build: error: script "build" exited with code 1
-@soulcanvas/admin-dashboard:build: ERROR: command finished with error: command (C:\Users\HP\Videos\projects\soulcanvas\apps\admin-dashboard) C:\Users\HP\.bun\bin\bun.exe run build exited (1)
-@soulcanvas/admin-dashboard#build: command (C:\Users\HP\Videos\projects\soulcanvas\apps\admin-dashboard) C:\Users\HP\.bun\bin\bun.exe run build exited (1)
+@soouls/admin-dashboard:build: cache miss, executing 130a65a899019cdf
+@soouls/backend:build: cache miss, executing a63455907de136bc
+@soouls/frontend:build: cache miss, executing 476a96b03c2dee5a
+@soouls/admin-dashboard:build: $ bun run --env-file=../../.env scripts/run.ts next build
+@soouls/frontend:build: $ bun --bun next build
+@soouls/backend:build: $ nest build
+@soouls/admin-dashboard:build: ▲ Next.js 16.1.0 (Turbopack)
+@soouls/admin-dashboard:build: - Environments: .env
+@soouls/admin-dashboard:build: 
+@soouls/admin-dashboard:build:   Creating an optimized production build ...
+@soouls/admin-dashboard:build: 
+@soouls/admin-dashboard:build: > Build error occurred
+@soouls/admin-dashboard:build: Error: Turbopack build failed with 1 errors:
+@soouls/admin-dashboard:build: ./app
+@soouls/admin-dashboard:build: Error: Next.js inferred your workspace root, but it may not be correct.
+@soouls/admin-dashboard:build:     We couldn't find the Next.js package (next/package.json) from the project directory: C:\Users\HP\Videos\projects\soouls\apps\admin-dashboard\app
+@soouls/admin-dashboard:build:      To fix this, set turbopack.root in your Next.js config, or ensure the Next.js package is resolvable from this directory.
+@soouls/admin-dashboard:build:     Note: For security and performance reasons, files outside of the project directory will not be compiled.
+@soouls/admin-dashboard:build:     See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+@soouls/admin-dashboard:build: 
+@soouls/admin-dashboard:build:     at ignore-listed frames
+@soouls/admin-dashboard:build: error: script "build" exited with code 1
+@soouls/admin-dashboard:build: ERROR: command finished with error: command (C:\Users\HP\Videos\projects\soouls\apps\admin-dashboard) C:\Users\HP\.bun\bin\bun.exe run build exited (1)
+@soouls/admin-dashboard#build: command (C:\Users\HP\Videos\projects\soouls\apps\admin-dashboard) C:\Users\HP\.bun\bin\bun.exe run build exited (1)
 
  Tasks:    0 successful, 3 total
 Cached:    0 cached, 3 total
   Time:    7.464s 
-Failed:    @soulcanvas/admin-dashboard#build
+Failed:    @soouls/admin-dashboard#build
 
  ERROR  run failed: command  exited (1)
 error: script "build" exited with code 1

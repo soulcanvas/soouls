@@ -1,5 +1,5 @@
 {
-  "extends": "@soulcanvas/typescript-config/node.json",
+  "extends": "@soouls/typescript-config/node.json",
   "compilerOptions": {
     "declaration": true,
     "removeComments": true,
@@ -8,9 +8,9 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {
-      "@soulcanvas/api/*": ["../../packages/api/src/*"],
-      "@soulcanvas/database/*": ["../../packages/database/src/*"],
-      "@soulcanvas/ai-engine/*": ["../../packages/ai-engine/src/*"]
+      "@soouls/api/*": ["../../packages/api/src/*"],
+      "@soouls/database/*": ["../../packages/database/src/*"],
+      "@soouls/ai-engine/*": ["../../packages/ai-engine/src/*"]
     }
   },
   "include": ["src"],

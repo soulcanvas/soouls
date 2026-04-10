@@ -1,5 +1,5 @@
-import { db } from './apps/backend/node_modules/@soulcanvas/database/client';
-import { adminUsers, users } from './apps/backend/node_modules/@soulcanvas/database/schema';
+import { db } from './apps/backend/node_modules/@soouls/database/client';
+import { adminUsers, users } from './apps/backend/node_modules/@soouls/database/schema';
 
 async function run() {
   const allAdmins = await db.select().from(adminUsers);

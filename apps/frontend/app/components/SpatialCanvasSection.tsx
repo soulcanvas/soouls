@@ -53,7 +53,7 @@ export default function SpatialCanvasSection() {
         <p
           className="font-urbanist reveal mt-4 md:mt-6 text-[#D9D9D9] opacity-85 text-[16px] md:text-[22px] leading-[1.4em] tracking-tight max-w-[900px] mx-auto"
         >
-          Soulcanvas gives you a spatial entry field where ideas, emotions, voice, notes, sketches,
+          Soouls gives you a spatial entry field where ideas, emotions, voice, notes, sketches,
           and tasks can coexist naturally arranged the way your mind works
         </p>
       </div>

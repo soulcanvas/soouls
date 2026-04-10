@@ -1,4 +1,4 @@
-import type { AppRouter } from '@soulcanvas/api/router';
+import type { AppRouter } from '@soouls/api/router';
 import { type CreateTRPCReact, createTRPCReact, httpBatchLink } from '@trpc/react-query';
 
 export const trpc: CreateTRPCReact<AppRouter, unknown> = createTRPCReact<AppRouter>();

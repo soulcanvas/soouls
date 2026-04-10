@@ -1,7 +1,7 @@
 'use client';
 
 import { UserButton, useUser } from '@clerk/nextjs';
-import { ActionButton, DashboardLayout, StatsWidget, WidgetCard } from '@soulcanvas/ui-kit';
+import { ActionButton, DashboardLayout, StatsWidget, WidgetCard } from '@soouls/ui-kit';
 import {
   CheckCircle2,
   ChevronRight,

@@ -1,5 +1,5 @@
 {
-  "name": "@soulcanvas/database",
+  "name": "@soouls/database",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -21,7 +21,7 @@
     "postgres": "^3.4.5"
   },
   "devDependencies": {
-    "@soulcanvas/typescript-config": "*",
+    "@soouls/typescript-config": "*",
     "drizzle-kit": "^0.31.8",
     "typescript": "5.9.2"
   }

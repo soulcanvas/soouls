@@ -29,7 +29,7 @@ const urbanist = Urbanist({
 });
 
 export const metadata: Metadata = {
-  title: 'Soulcanvas — A quieter way to think',
+  title: 'Soouls — A quieter way to think',
   description:
     'Non-linear journaling designed for depth. Capture your thoughts as they happen. Build a map of your mind.',
 };

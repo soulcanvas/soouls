@@ -10,7 +10,7 @@ import {
   Text,
 } from '@react-email/components';
 import { render } from '@react-email/render';
-import { buildExcerpt, markdownToHtml, markdownToText } from '@soulcanvas/logic/messaging';
+import { buildExcerpt, markdownToHtml, markdownToText } from '@soouls/logic/messaging';
 import React from 'react';
 import { getCommandCenterUrl, makeAbsoluteUrl } from './notification.constants';
 import {
@@ -337,7 +337,7 @@ async function renderTransactionalTemplate(options: {
 
   const html = await render(reactTree);
   const text = options.ctaUrl
-    ? `${options.bodyText}\n\n${options.ctaLabel ?? 'Open SoulCanvas'}: ${options.ctaUrl}`
+    ? `${options.bodyText}\n\n${options.ctaLabel ?? 'Open Soouls'}: ${options.ctaUrl}`
     : options.bodyText;
 
   return {
@@ -411,17 +411,17 @@ export function buildCampaignTemplate(input: {
     previewText,
     html,
     text: input.ctaUrl
-      ? `${textBody}\n\n${input.ctaLabel ?? 'Open SoulCanvas'}: ${input.ctaUrl}`
+      ? `${textBody}\n\n${input.ctaLabel ?? 'Open Soouls'}: ${input.ctaUrl}`
       : textBody,
     whatsappBody,
   } satisfies MessageTemplate;
 }
 
 export async function buildWelcomeTemplate(recipient: UserMessagingProfile) {
-  const brand = BRAND_PRESETS.soulcanvas;
+  const brand = BRAND_PRESETS.soouls;
   const firstName = recipient.name?.split(' ')[0] || 'there';
   const dashboardUrl = makeAbsoluteUrl('/dashboard');
-  const markdownBody = `# Welcome to SoulCanvas
+  const markdownBody = `# Welcome to Soouls
 
 Hi **${firstName}**,
 
@@ -436,14 +436,14 @@ We're glad you're here.`;
   return renderTransactionalTemplate({
     brandKey: brand.key,
     eyebrow: brand.eyebrow,
-    title: 'Welcome to SoulCanvas',
-    previewText: 'Your SoulCanvas account is live, and your reflective workspace is ready.',
+    title: 'Welcome to Soouls',
+    previewText: 'Your Soouls account is live, and your reflective workspace is ready.',
     bodyMarkdown: markdownBody,
     bodyText: markdownToText(markdownBody),
     ctaLabel: 'Open Your Dashboard',
     ctaUrl: dashboardUrl,
     footer: brand.footer,
-    whatsappBody: `Welcome to SoulCanvas, ${firstName}. Your space is ready. Open your dashboard and start your first entry.`,
+    whatsappBody: `Welcome to Soouls, ${firstName}. Your space is ready. Open your dashboard and start your first entry.`,
   });
 }
 
@@ -451,10 +451,10 @@ export async function buildSecureAccessTemplate(
   recipient: UserMessagingProfile,
   secureLink: string,
 ) {
-  const brand = BRAND_PRESETS.soulcanvas;
+  const brand = BRAND_PRESETS.soouls;
   const firstName = recipient.name?.split(' ')[0] || 'there';
   const settingsUrl = makeAbsoluteUrl('/dashboard/settings');
-  const markdownBody = `# Secure access for your SoulCanvas account
+  const markdownBody = `# Secure access for your Soouls account
 
 Hi **${firstName}**,
 
@@ -467,16 +467,16 @@ Use the secure link below to get back into your account. Once you're inside, hea
   return renderTransactionalTemplate({
     brandKey: brand.key,
     eyebrow: brand.eyebrow,
-    title: 'Your SoulCanvas secure access link',
+    title: 'Your Soouls secure access link',
     previewText:
-      'Use this secure access link to get back into SoulCanvas and refresh your password safely.',
+      'Use this secure access link to get back into Soouls and refresh your password safely.',
     bodyMarkdown: markdownBody,
     bodyText: markdownToText(markdownBody),
     ctaLabel: 'Open Secure Access Link',
     ctaUrl: secureLink,
     footer: brand.footer,
     whatsappBody:
-      'Here is your SoulCanvas secure access link. Open it soon, then update your password from Settings once you are signed in.',
+      'Here is your Soouls secure access link. Open it soon, then update your password from Settings once you are signed in.',
   });
 }
 
