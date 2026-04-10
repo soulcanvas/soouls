@@ -4,7 +4,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 
 import { Search } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, PanInfo } from 'framer-motion';
+
+interface Entry {
+  id: string;
+  title: string;
+}
+
+interface DroppedItem extends Entry {
+  instanceId: number;
+  x: number;
+  y: number;
+}
 
 /**
  * Custom Folder Component based on the latest dark-themed design.
@@ -50,7 +61,7 @@ export default function CanvasPage() {
 
   // Replaced searchParams logic with local state for the standalone preview
   const [query, setQuery] = useState('');
-  const [droppedItems, setDroppedItems] = useState([]);
+  const [droppedItems, setDroppedItems] = useState<DroppedItem[]>([]);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
 
   // Mock user data to replace Clerk dependency for preview
@@ -72,7 +83,7 @@ export default function CanvasPage() {
 
   // ⌨️ Cmd/Ctrl + K (Original Logic Kept)
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         inputRef.current?.focus();
@@ -87,7 +98,7 @@ export default function CanvasPage() {
   );
 
   // Drag and Drop Logic
-  const handleDragEnd = (event, info, entry) => {
+  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo, entry: Entry) => {
     const dropZone = dropZoneRef.current?.getBoundingClientRect();
     if (!dropZone) return;
 
