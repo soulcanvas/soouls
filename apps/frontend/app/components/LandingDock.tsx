@@ -40,7 +40,7 @@ export default function LandingDock({ links = defaultLinks }: LandingNavbarProps
             letterSpacing: '-0.035em',
           }}
         >
-          Soulcanvas
+          Soouls
         </span>
       </div>
 

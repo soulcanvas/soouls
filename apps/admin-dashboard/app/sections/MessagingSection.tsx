@@ -45,8 +45,8 @@ export function MessagingSection() {
   const [showTestDialog, setShowTestDialog] = useState(false);
 
   const [composeBrand, setComposeBrand] = useState<
-    'soulcanvas' | 'soulcanvas-studio' | 'founder-desk'
-  >('soulcanvas');
+    'soouls' | 'soouls-studio' | 'founder-desk'
+  >('soouls');
   const [composeTitle, setComposeTitle] = useState('');
   const [composeSubject, setComposeSubject] = useState('');
   const [composeBody, setComposeBody] = useState('');
@@ -265,7 +265,7 @@ export function MessagingSection() {
                   value={composeBrand}
                   onChange={(e) =>
                     setComposeBrand(
-                      e.target.value as 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk',
+                      e.target.value as 'soouls' | 'soouls-studio' | 'founder-desk',
                     )
                   }
                   className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm text-white outline-none"
@@ -290,7 +290,7 @@ export function MessagingSection() {
                 id="composeSubject"
                 value={composeSubject}
                 onChange={(e) => setComposeSubject(e.target.value)}
-                placeholder="What's new in SoulCanvas - March 2026"
+                placeholder="What's new in Soouls - March 2026"
                 className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder:text-slate-600 outline-none transition-colors focus:border-amber-400/30"
               />
             </div>
@@ -342,7 +342,7 @@ export function MessagingSection() {
                   id="composeCtaUrl"
                   value={composeCtaUrl}
                   onChange={(e) => setComposeCtaUrl(e.target.value)}
-                  placeholder="https://soulcanvas.app/dashboard"
+                  placeholder="https://soouls.app/dashboard"
                   className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder:text-slate-600 outline-none transition-colors focus:border-amber-400/30"
                 />
               </div>
@@ -476,7 +476,7 @@ export function MessagingSection() {
           <div className="rounded-xl border border-white/[0.08] bg-gradient-to-b from-slate-900 to-slate-950 p-6">
             <div className="mb-4 border-b border-white/[0.06] pb-4">
               <div className="text-xs text-slate-500">From</div>
-              <div className="text-sm text-white">SoulCanvas &lt;onboarding@resend.dev&gt;</div>
+              <div className="text-sm text-white">Soouls &lt;onboarding@resend.dev&gt;</div>
             </div>
             <div className="mb-4 border-b border-white/[0.06] pb-4">
               <div className="text-xs text-slate-500">Subject</div>

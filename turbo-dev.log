@@ -1,7 +1,6 @@
 ﻿bun : $ turbo run dev 
 --continue --filter=@soulca
-nvas/backend --filter=@soul
-canvas/frontend --filter=@s
+nvas/backend --filter=@soouls/frontend --filter=@s
 oulcanvas/admin-dashboard
 At line:1 char:1
 + bun run dev > 
@@ -17,74 +16,74 @@ emoteException
    d : NativeCommandError
  
 ΓÇó turbo 2.8.17
-ΓÇó Packages in scope: @soulcanvas/admin-dashboard, @soulcanvas/backend, @soulcanvas/frontend
+ΓÇó Packages in scope: @soouls/admin-dashboard, @soouls/backend, @soouls/frontend
 ΓÇó Running dev in 3 packages
 ΓÇó Remote caching disabled
-@soulcanvas/backend:dev: cache bypass, force executing 960deccca91e955e
-@soulcanvas/admin-dashboard:dev: cache bypass, force executing c19083e1925ae4bf
-@soulcanvas/frontend:dev: cache bypass, force executing e9d2e9a6dbe48413
-@soulcanvas/backend:dev: $ peakroute api bun run --env-file=../../.env scripts/dev.ts
-@soulcanvas/admin-dashboard:dev: $ peakroute admin bun run --env-file=../../.env scripts/run.ts next dev
-@soulcanvas/frontend:dev: $ peakroute web bun run --env-file=../../.env scripts/dev.ts
-@soulcanvas/admin-dashboard:dev: error: could not create process
-@soulcanvas/admin-dashboard:dev: 
-@soulcanvas/admin-dashboard:dev: Bun failed to remap this bin to its proper location within node_modules.
-@soulcanvas/admin-dashboard:dev: This is an indication of a corrupted node_modules directory.
-@soulcanvas/admin-dashboard:dev: 
-@soulcanvas/admin-dashboard:dev: Please run 'bun install --force' in the project root and try
-@soulcanvas/admin-dashboard:dev: it again. If this message persists, please open an issue:
-@soulcanvas/admin-dashboard:dev: https://github.com/oven-sh/bun/issues
-@soulcanvas/admin-dashboard:dev: 
-@soulcanvas/admin-dashboard:dev: error: script "dev" exited with code 255
-@soulcanvas/admin-dashboard
+@soouls/backend:dev: cache bypass, force executing 960deccca91e955e
+@soouls/admin-dashboard:dev: cache bypass, force executing c19083e1925ae4bf
+@soouls/frontend:dev: cache bypass, force executing e9d2e9a6dbe48413
+@soouls/backend:dev: $ peakroute api bun run --env-file=../../.env scripts/dev.ts
+@soouls/admin-dashboard:dev: $ peakroute admin bun run --env-file=../../.env scripts/run.ts next dev
+@soouls/frontend:dev: $ peakroute web bun run --env-file=../../.env scripts/dev.ts
+@soouls/admin-dashboard:dev: error: could not create process
+@soouls/admin-dashboard:dev: 
+@soouls/admin-dashboard:dev: Bun failed to remap this bin to its proper location within node_modules.
+@soouls/admin-dashboard:dev: This is an indication of a corrupted node_modules directory.
+@soouls/admin-dashboard:dev: 
+@soouls/admin-dashboard:dev: Please run 'bun install --force' in the project root and try
+@soouls/admin-dashboard:dev: it again. If this message persists, please open an issue:
+@soouls/admin-dashboard:dev: https://github.com/oven-sh/bun/issues
+@soouls/admin-dashboard:dev: 
+@soouls/admin-dashboard:dev: error: script "dev" exited with code 255
+@soouls/admin-dashboard
 :dev: command finished 
 with error, but 
 continuing...
-@soulcanvas/backend:dev: 
-@soulcanvas/backend:dev: peakroute
-@soulcanvas/backend:dev: 
-@soulcanvas/backend:dev: -- api.localhost (auto-resolves to 127.0.0.1)
-@soulcanvas/backend:dev: Starting proxy...
-@soulcanvas/frontend:dev: error: could not create process
-@soulcanvas/frontend:dev: 
-@soulcanvas/frontend:dev: Bun failed to remap this bin to its proper location within node_modules.
-@soulcanvas/frontend:dev: This is an indication of a corrupted node_modules directory.
-@soulcanvas/frontend:dev: 
-@soulcanvas/frontend:dev: Please run 'bun install --force' in the project root and try
-@soulcanvas/frontend:dev: it again. If this message persists, please open an issue:
-@soulcanvas/frontend:dev: https://github.com/oven-sh/bun/issues
-@soulcanvas/frontend:dev: 
-@soulcanvas/backend:dev: HTTP proxy started on port 1355
-@soulcanvas/backend:dev: Proxy started in background
-@soulcanvas/backend:dev: -- Using port 4048
-@soulcanvas/backend:dev: 
-@soulcanvas/backend:dev:   -> http://api.localhost:1355
-@soulcanvas/backend:dev: 
-@soulcanvas/backend:dev: Running: PORT=4048 HOST=127.0.0.1 bun run --env-file=../../.env scripts/dev.ts
-@soulcanvas/backend:dev: 
-@soulcanvas/frontend:dev: error: script "dev" exited with code 255
-@soulcanvas/frontend:dev: 
+@soouls/backend:dev: 
+@soouls/backend:dev: peakroute
+@soouls/backend:dev: 
+@soouls/backend:dev: -- api.localhost (auto-resolves to 127.0.0.1)
+@soouls/backend:dev: Starting proxy...
+@soouls/frontend:dev: error: could not create process
+@soouls/frontend:dev: 
+@soouls/frontend:dev: Bun failed to remap this bin to its proper location within node_modules.
+@soouls/frontend:dev: This is an indication of a corrupted node_modules directory.
+@soouls/frontend:dev: 
+@soouls/frontend:dev: Please run 'bun install --force' in the project root and try
+@soouls/frontend:dev: it again. If this message persists, please open an issue:
+@soouls/frontend:dev: https://github.com/oven-sh/bun/issues
+@soouls/frontend:dev: 
+@soouls/backend:dev: HTTP proxy started on port 1355
+@soouls/backend:dev: Proxy started in background
+@soouls/backend:dev: -- Using port 4048
+@soouls/backend:dev: 
+@soouls/backend:dev:   -> http://api.localhost:1355
+@soouls/backend:dev: 
+@soouls/backend:dev: Running: PORT=4048 HOST=127.0.0.1 bun run --env-file=../../.env scripts/dev.ts
+@soouls/backend:dev: 
+@soouls/frontend:dev: error: script "dev" exited with code 255
+@soouls/frontend:dev: 
 command finished with 
 error, but continuing...
-@soulcanvas/backend:dev: error: script "dev" exited with code 1
-@soulcanvas/backend:dev: 
+@soouls/backend:dev: error: script "dev" exited with code 1
+@soouls/backend:dev: 
 command finished with 
 error, but continuing...
-@soulcanvas/admin-dashboard
+@soouls/admin-dashboard
 #dev: command (C:\Users\HP\
-Videos\projects\soulcanvas\
+Videos\projects\soouls\
 apps\admin-dashboard) C:\Us
 ers\HP\.bun\bin\bun.exe 
 run dev exited (255)
-@soulcanvas/frontend#dev: 
+@soouls/frontend#dev: 
 command (C:\Users\HP\Videos
-\projects\soulcanvas\apps\f
+\projects\soouls\apps\f
 rontend) C:\Users\HP\.bun\b
 in\bun.exe run dev exited 
 (255)
-@soulcanvas/backend#dev: 
+@soouls/backend#dev: 
 command (C:\Users\HP\Videos
-\projects\soulcanvas\apps\b
+\projects\soouls\apps\b
 ackend) C:\Users\HP\.bun\bi
 n\bun.exe run dev exited 
 (1)
@@ -92,7 +91,7 @@ n\bun.exe run dev exited
  Tasks:    0 successful, 3 total
 Cached:    0 cached, 3 total
   Time:    6.43s 
-Failed:    @soulcanvas/admin-dashboard#dev, @soulcanvas/backend#dev, @soulcanvas/frontend#dev
+Failed:    @soouls/admin-dashboard#dev, @soouls/backend#dev, @soouls/frontend#dev
 
  ERROR  run failed: 
 command  exited (255)

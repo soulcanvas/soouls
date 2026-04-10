@@ -51,7 +51,7 @@ interface PersistedState {
 // ─── useLocalStorage hook ─────────────────────────────────────────────────────
 // Reads once on mount, writes on every change. Never SSR-crashes.
 function usePersistedEntry(initialId: string | null) {
-  const lsKeyRef = useRef(`soulcanvas_entry_v1_${initialId || 'new'}`);
+  const lsKeyRef = useRef(`soouls_entry_v1_${initialId || 'new'}`);
 
   const [textContent, setTextContentRaw] = useState('');
   const textContentRef = useRef(textContent);
@@ -150,7 +150,7 @@ function usePersistedEntry(initialId: string | null) {
   // Migrate the localStorage key from 'new' to a real entry ID after first DB save
   const migrateKey = useCallback((newId: string) => {
     const oldKey = lsKeyRef.current;
-    const newKey = `soulcanvas_entry_v1_${newId}`;
+    const newKey = `soouls_entry_v1_${newId}`;
     if (oldKey === newKey) return; // already on the right key
     try {
       const data = localStorage.getItem(oldKey);
@@ -1189,7 +1189,7 @@ function NewEntryContent() {
             WebkitTextStroke: '1.5px rgba(255,255,255,0.55)',
           }}
         >
-          Soulcanvas
+          Soouls
         </span>
       </div>
 

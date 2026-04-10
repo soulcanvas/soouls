@@ -1,8 +1,8 @@
 import { createClerkClient } from '@clerk/backend';
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { and, db, eq, sql } from '@soulcanvas/database/client';
-import { canvasNodes, journalEntries, users } from '@soulcanvas/database/schema';
+import { and, db, eq, sql } from '@soouls/database/client';
+import { canvasNodes, journalEntries, users } from '@soouls/database/schema';
 
 @Injectable()
 export class TasksService {

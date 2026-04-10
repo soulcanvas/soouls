@@ -1,4 +1,4 @@
-# ⚙️ @soulcanvas/backend
+# ⚙️ @soouls/backend
 
 NestJS API server running on the **Bun** runtime with **tRPC** for type-safe APIs and **Drizzle ORM** for PostgreSQL.
 
@@ -22,7 +22,7 @@ Server runs on `http://localhost:3000`.
 | **Framework** | NestJS |
 | **Runtime** | Bun |
 | **Database** | PostgreSQL (Neon) + Drizzle ORM |
-| **API Contract** | tRPC v11 (via `@soulcanvas/api`) |
+| **API Contract** | tRPC v11 (via `@soouls/api`) |
 | **Auth** | Clerk (`@clerk/backend`) |
 | **Job Queue** | BullMQ (Redis) |
 | **Email** | Resend + React Email |
@@ -34,7 +34,7 @@ Server runs on `http://localhost:3000`.
 ## 🔐 Security
 
 - **Encryption at Rest:** Journal entries encrypted with AES-256-GCM, decrypted only for the verified user.
-- **Rate Limiting:** In-memory sliding-window rate limiter on every tRPC route (`@soulcanvas/api`).
+- **Rate Limiting:** In-memory sliding-window rate limiter on every tRPC route (`@soouls/api`).
 - **Helmet:** HTTP security headers on all responses.
 - **CORS:** Strict origin allowlist (frontend + command center URLs only).
 

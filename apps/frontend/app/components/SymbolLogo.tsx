@@ -14,7 +14,7 @@ export function SymbolLogo({ variant = 'outline', ...props }: SymbolLogoProps) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <title>Soulcanvas Clover Logo</title>
+      <title>Soouls Clover Logo</title>
       <path
         d="M48 48 C 20 8, -5 40, 48 48 Z"
         stroke="currentColor"

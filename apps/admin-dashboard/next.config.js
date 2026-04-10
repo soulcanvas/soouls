@@ -16,7 +16,7 @@ const nextConfig = {
 import { withSentryConfig } from '@sentry/nextjs';
 
 export default withSentryConfig(nextConfig, {
-  org: 'soulcanvas',
+  org: 'soouls',
   project: 'admin-dashboard',
   silent: !process.env.CI,
   widenClientFileUpload: true,

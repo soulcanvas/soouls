@@ -1,7 +1,7 @@
 import { createClerkClient } from '@clerk/backend';
 import { Inject, Injectable } from '@nestjs/common';
-import { db, eq } from '@soulcanvas/database/client';
-import { users } from '@soulcanvas/database/schema';
+import { db, eq } from '@soouls/database/client';
+import { users } from '@soouls/database/schema';
 import { MessagingService } from '../services/messaging.service';
 
 @Injectable()

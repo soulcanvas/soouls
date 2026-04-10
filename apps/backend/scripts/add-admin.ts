@@ -1,6 +1,6 @@
 process.env.DATABASE_URL = process.env.DATABASE_URL?.replace('&channel_binding=require', '');
-import { db } from '@soulcanvas/database/client';
-import { adminUsers } from '@soulcanvas/database/schema';
+import { db } from '@soouls/database/client';
+import { adminUsers } from '@soouls/database/schema';
 
 async function run() {
   try {

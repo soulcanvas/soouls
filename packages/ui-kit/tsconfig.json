@@ -1,5 +1,5 @@
 {
-  "extends": "@soulcanvas/typescript-config/react-library.json",
+  "extends": "@soouls/typescript-config/react-library.json",
   "compilerOptions": {
     "outDir": "dist"
   },

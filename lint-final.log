@@ -50,10 +50,10 @@ $ biome check .
     ······· │ 
     104 110 │                     id="composeBrand"
     105 111 │                     value={composeBrand}
-    106     │ - ··················onChange={(e)·=>·setComposeBrand(e.target.value·as·'soulcanvas'·|·'soulcanvas-studio'·|·'founder-desk')}
+    106     │ - ··················onChange={(e)·=>·setComposeBrand(e.target.value·as·'soouls'·|·'soouls-studio'·|·'founder-desk')}
         112 │ + ··················onChange={(e)·=>
         113 │ + ····················setComposeBrand(
-        114 │ + ······················e.target.value·as·'soulcanvas'·|·'soulcanvas-studio'·|·'founder-desk',
+        114 │ + ······················e.target.value·as·'soouls'·|·'soouls-studio'·|·'founder-desk',
         115 │ + ····················)
         116 │ + ··················}
     107 117 │                     className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm text-white outline-none"

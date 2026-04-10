@@ -1,26 +1,26 @@
 $ turbo run check-types
 • turbo 2.8.17
-• Packages in scope: @soulcanvas/admin-dashboard, @soulcanvas/ai-engine, @soulcanvas/api, @soulcanvas/backend, @soulcanvas/database, @soulcanvas/frontend, @soulcanvas/logic, @soulcanvas/typescript-config, @soulcanvas/ui-kit
+• Packages in scope: @soouls/admin-dashboard, @soouls/ai-engine, @soouls/api, @soouls/backend, @soouls/database, @soouls/frontend, @soouls/logic, @soouls/typescript-config, @soouls/ui-kit
 • Running check-types in 9 packages
 • Remote caching disabled
-@soulcanvas/admin-dashboard:check-types: cache hit, replaying logs bab87f040cadbf47
-@soulcanvas/admin-dashboard:check-types: $ bun run --env-file=../../.env scripts/run.ts bunx tsc --noEmit -p tsconfig.json
-@soulcanvas/ui-kit:check-types: cache hit, replaying logs 307e08336f9e796b
-@soulcanvas/database:check-types: cache hit, replaying logs 31a4554f1fbe218f
-@soulcanvas/ui-kit:check-types: $ tsc --noEmit
-@soulcanvas/logic:check-types: cache hit, replaying logs d42fec961377a9bd
-@soulcanvas/database:check-types: $ tsc --noEmit
-@soulcanvas/logic:check-types: $ tsc --noEmit
-@soulcanvas/ai-engine:check-types: cache hit, replaying logs 6228f8783e61b5a9
-@soulcanvas/ai-engine:check-types: $ tsc --noEmit
-@soulcanvas/api:check-types: cache hit, replaying logs 6a2de273b0962abd
-@soulcanvas/api:check-types: $ tsc --noEmit
-@soulcanvas/backend:check-types: cache hit, replaying logs 8462db04931a3fbb
-@soulcanvas/backend:check-types: $ tsc --noEmit
-@soulcanvas/frontend:check-types: cache miss, executing 93c216559b632dc7
-@soulcanvas/frontend:check-types: $ next typegen && tsc --noEmit
-@soulcanvas/frontend:check-types: Generating route types...
-@soulcanvas/frontend:check-types: ✓ Types generated successfully
+@soouls/admin-dashboard:check-types: cache hit, replaying logs bab87f040cadbf47
+@soouls/admin-dashboard:check-types: $ bun run --env-file=../../.env scripts/run.ts bunx tsc --noEmit -p tsconfig.json
+@soouls/ui-kit:check-types: cache hit, replaying logs 307e08336f9e796b
+@soouls/database:check-types: cache hit, replaying logs 31a4554f1fbe218f
+@soouls/ui-kit:check-types: $ tsc --noEmit
+@soouls/logic:check-types: cache hit, replaying logs d42fec961377a9bd
+@soouls/database:check-types: $ tsc --noEmit
+@soouls/logic:check-types: $ tsc --noEmit
+@soouls/ai-engine:check-types: cache hit, replaying logs 6228f8783e61b5a9
+@soouls/ai-engine:check-types: $ tsc --noEmit
+@soouls/api:check-types: cache hit, replaying logs 6a2de273b0962abd
+@soouls/api:check-types: $ tsc --noEmit
+@soouls/backend:check-types: cache hit, replaying logs 8462db04931a3fbb
+@soouls/backend:check-types: $ tsc --noEmit
+@soouls/frontend:check-types: cache miss, executing 93c216559b632dc7
+@soouls/frontend:check-types: $ next typegen && tsc --noEmit
+@soouls/frontend:check-types: Generating route types...
+@soouls/frontend:check-types: ✓ Types generated successfully
 
  Tasks:    8 successful, 8 total
 Cached:    7 cached, 8 total

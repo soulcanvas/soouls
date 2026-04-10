@@ -109,7 +109,7 @@ export default function LandingNavbar({ links = defaultLinks }: LandingNavbarPro
               transition: 'all 0.5s ease',
             }}
           >
-            Soulcanvas
+            Soouls
           </span>
           {/* Symbol Logo */}
           <div

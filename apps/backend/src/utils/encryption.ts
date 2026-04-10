@@ -1,11 +1,11 @@
 /**
- * Backend E2EE Utility for SoulCanvas
+ * Backend E2EE Utility for Soouls
  * Uses Node.js crypto module for AES-GCM encryption.
  */
 import * as crypto from 'node:crypto';
 
 // A mock "user secret" for derivation until a real passkey/password system is in place.
-const MOCK_USER_SECRET = 'soulcanvas-backend-secret-key-2024';
+const MOCK_USER_SECRET = 'soouls-backend-secret-key-2024';
 
 const keyCache = new Map<string, Buffer>();
 

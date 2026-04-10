@@ -1,5 +1,5 @@
 /**
- * tRPC singleton for the SoulCanvas API package.
+ * tRPC singleton for the Soouls API package.
  *
  * Exports:
  *  - `t`                  — raw tRPC instance (rarely needed directly)

@@ -1,4 +1,4 @@
-# 🎨 @soulcanvas/frontend
+# 🎨 @soouls/frontend
 
 Next.js 16 frontend app — 3D galaxy canvas, journaling UI, and full user experience.
 

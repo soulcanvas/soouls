@@ -1,7 +1,7 @@
 'use client';
 
 import { UserProfile } from '@clerk/nextjs';
-import { DashboardLayout } from '@soulcanvas/ui-kit';
+import { DashboardLayout } from '@soouls/ui-kit';
 
 export default function SettingsPage() {
   return (

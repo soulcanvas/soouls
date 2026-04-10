@@ -10,7 +10,7 @@ import type { Input } from './constants.js';
 
 export function run(input: Input): { greeting: string; timestamp: string } {
   return {
-    greeting: `Hello ${input.name}! SoulCanvas API is healthy.`,
+    greeting: `Hello ${input.name}! Soouls API is healthy.`,
     timestamp: new Date().toISOString(),
   };
 }

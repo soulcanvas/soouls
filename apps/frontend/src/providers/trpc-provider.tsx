@@ -40,7 +40,7 @@ export function TRPCProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-const CACHE_KEY = 'soulcanvas-query-cache';
+const CACHE_KEY = 'soouls-query-cache';
 
 export function PersistedTRPCProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(

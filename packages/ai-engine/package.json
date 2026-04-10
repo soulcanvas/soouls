@@ -1,5 +1,5 @@
 {
-  "name": "@soulcanvas/ai-engine",
+  "name": "@soouls/ai-engine",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -18,7 +18,7 @@
     "ai": "^4.3.19"
   },
   "devDependencies": {
-    "@soulcanvas/typescript-config": "*",
+    "@soouls/typescript-config": "*",
     "typescript": "5.9.2"
   }
 }

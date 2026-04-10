@@ -8,7 +8,7 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { db, sql } from '@soulcanvas/database/client';
+import { db, sql } from '@soouls/database/client';
 import type { Server, Socket } from 'socket.io';
 import { NotificationQueueService } from '../notifications/notification.queue';
 

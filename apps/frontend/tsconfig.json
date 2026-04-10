@@ -1,5 +1,5 @@
 {
-  "extends": "@soulcanvas/typescript-config/nextjs.json",
+  "extends": "@soouls/typescript-config/nextjs.json",
   "compilerOptions": {
     "plugins": [
       {

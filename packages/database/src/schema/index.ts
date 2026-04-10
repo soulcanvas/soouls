@@ -265,7 +265,7 @@ export const serviceControls = pgTable('service_controls', {
 export const messageCampaigns = pgTable('message_campaigns', {
   id: uuid('id').primaryKey().defaultRandom(),
   createdByUserId: uuid('created_by_user_id').references(() => users.id),
-  brandKey: text('brand_key').default('soulcanvas').notNull(),
+  brandKey: text('brand_key').default('soouls').notNull(),
   title: text('title').notNull(),
   subject: text('subject').notNull(),
   previewText: text('preview_text'),
@@ -293,7 +293,7 @@ export const messageDeliveries = pgTable('message_deliveries', {
   id: uuid('id').primaryKey().defaultRandom(),
   userId: uuid('user_id').references(() => users.id),
   campaignId: uuid('campaign_id').references(() => messageCampaigns.id),
-  brandKey: text('brand_key').default('soulcanvas').notNull(),
+  brandKey: text('brand_key').default('soouls').notNull(),
   channel: messageChannelEnum('channel').notNull(),
   category: messageCategoryEnum('category').notNull(),
   templateKey: text('template_key').notNull(),

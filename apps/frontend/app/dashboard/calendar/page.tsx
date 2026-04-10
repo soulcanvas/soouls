@@ -1,7 +1,7 @@
 'use client';
 
 import { useUser } from '@clerk/nextjs';
-import { Badge, CalendarCard, DayCell, IconButton } from '@soulcanvas/ui-kit';
+import { Badge, CalendarCard, DayCell, IconButton } from '@soouls/ui-kit';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Loader2, Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState, useMemo, useEffect } from 'react';
@@ -14,7 +14,7 @@ const fetchGoogleEvents = async (_year: number, _month: number) => {
   return [
     { id: '1', day: 2, title: 'Design Sync' },
     { id: '2', day: 7, title: 'Project Kickoff' },
-    { id: '3', day: 17, title: 'Soulcanvas Review' },
+    { id: '3', day: 17, title: 'Soouls Review' },
   ];
 };
 
@@ -216,7 +216,7 @@ export default function CalendarPage() {
           className="text-[16vw] font-bold leading-none tracking-tighter text-transparent opacity-10"
           style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.4)' }}
         >
-          Soulcanvas
+          Soouls
         </h1>
       </div>
 
@@ -365,7 +365,7 @@ export default function CalendarPage() {
                   {task}
           {/* Entry Sidebar */}
           <div className="w-[300px] bg-black/40 border border-white/10 rounded-2xl p-5">
-            <div className="text-xs text-gray-400 mb-1">Soulcanvas</div>
+            <div className="text-xs text-gray-400 mb-1">Soouls</div>
             <div className="text-lg font-semibold mb-3">
               {selectedDay ? `${months[month]} ${selectedDay}` : 'Pick a day'}
             </div>

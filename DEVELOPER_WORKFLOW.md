@@ -1,6 +1,6 @@
-# SoulCanvas Git Workflow & Onboarding
+# Soouls Git Workflow & Onboarding
 
-Welcome to the SoulCanvas codebase! This guide covers everything a new developer needs to know to start contributing, focusing heavily on our 3-layer Git workflow.
+Welcome to the Soouls codebase! This guide covers everything a new developer needs to know to start contributing, focusing heavily on our 3-layer Git workflow.
 
 ## 🌟 The 3-Layer Git Workflow
 
@@ -89,6 +89,6 @@ git push origin yourname/my-awesome-feature
 | Admin Dashboard | 3002 | `http://localhost:3002` |
 
 ### AI Agent Skills & Workflows
-The project includes `.agents/skills/` and `.agent/skills/` directories with specialized AI instructions for architecture, API security, frontend design, Git workflow, and more. If you are an AI agent, these files provide the exact paradigms used by the SoulCanvas team.
+The project includes `.agents/skills/` and `.agent/skills/` directories with specialized AI instructions for architecture, API security, frontend design, Git workflow, and more. If you are an AI agent, these files provide the exact paradigms used by the Soouls team.
 
-Enjoy building SoulCanvas!
+Enjoy building Soouls!

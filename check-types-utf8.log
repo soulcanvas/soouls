@@ -7,56 +7,56 @@ At line:1 char:1
     + FullyQualifiedErrorId : NativeCommandError
  
 ΓÇó turbo 2.8.17
-ΓÇó Packages in scope: @soulcanvas/admin-dashboard, @soulcanvas/ai-engine, @soulcanvas/api, @soulcanvas/backend, @soulcanvas/database, @soulcanvas/frontend, @soulcanvas/logic, @soulcanvas/typescript-config, @soulcanvas/ui-kit
+ΓÇó Packages in scope: @soouls/admin-dashboard, @soouls/ai-engine, @soouls/api, @soouls/backend, @soouls/database, @soouls/frontend, @soouls/logic, @soouls/typescript-config, @soouls/ui-kit
 ΓÇó Running check-types in 9 packages
 ΓÇó Remote caching disabled
-@soulcanvas/admin-dashboard:check-types: cache hit, replaying logs 6d6429338e5a596b
-@soulcanvas/admin-dashboard:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mbun run --env-file=../../.env scripts/run.ts bunx tsc --noEmit -p tsconfig.json
-@soulcanvas/admin-dashboard:check-types: [22m[?9001l[?1004l
-@soulcanvas/database:check-types: cache hit, replaying logs a5ae4139b30153b9
-@soulcanvas/database:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
-@soulcanvas/database:check-types: [?9001l[?1004l[22m
-@soulcanvas/ai-engine:check-types: cache hit, replaying logs 9fe58eb391494f1c
-@soulcanvas/ai-engine:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
-@soulcanvas/ai-engine:check-types: [?9001l[?1004l[22m
-@soulcanvas/logic:check-types: cache hit, replaying logs 78169d9c5fb11d42
-@soulcanvas/logic:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
-@soulcanvas/logic:check-types: [22m[?9001l[?1004l
-@soulcanvas/ui-kit:check-types: cache hit, replaying logs 3597905c14a86da5
-@soulcanvas/ui-kit:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
-@soulcanvas/ui-kit:check-types: [22m[?9001l[?1004l
-@soulcanvas/api:check-types: cache hit, replaying logs 35cd518b8f8d2b06
-@soulcanvas/api:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
-@soulcanvas/api:check-types: [?9001l[?1004l[22m
-@soulcanvas/backend:check-types: cache hit, replaying logs 7bd83432eeeccfd7
-@soulcanvas/backend:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
-@soulcanvas/backend:check-types: [22m[?9001l[?1004l
-@soulcanvas/frontend:check-types: cache miss, executing fa14273d9ca68685
-@soulcanvas/frontend:check-types: $ next typegen && tsc --noEmit
-@soulcanvas/frontend:check-types: Generating route types...
-@soulcanvas/frontend:check-types: Γ£ô Types generated successfully
-@soulcanvas/frontend:check-types: app/components/GalaxyView.tsx(5,10): error TS2614: Module '"./HeroSection"' has no exported member 'HeroSection'. Did you mean to use 'import HeroSection from "./HeroSection"' instead?
-@soulcanvas/frontend:check-types: app/components/GalaxyView.tsx(9,10): error TS2614: Module '"./SundayReviewSection"' has no exported member 'SundayReviewSection'. Did you mean to use 'import SundayReviewSection from "./SundayReviewSection"' instead?
-@soulcanvas/frontend:check-types: app/components/index.ts(3,10): error TS2614: Module '"./HeroSection"' has no exported member 'HeroSection'. Did you mean to use 'import HeroSection from "./HeroSection"' instead?
-@soulcanvas/frontend:check-types: app/components/index.ts(8,10): error TS2614: Module '"./SundayReviewSection"' has no exported member 'SundayReviewSection'. Did you mean to use 'import SundayReviewSection from "./SundayReviewSection"' instead?
-@soulcanvas/frontend:check-types: app/dashboard/new-entry/page.tsx(391,24): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
-@soulcanvas/frontend:check-types:   Type 'undefined' is not assignable to type 'string'.
-@soulcanvas/frontend:check-types: app/dashboard/page.tsx(50,23): error TS18048: 'firstLine' is possibly 'undefined'.
-@soulcanvas/frontend:check-types: app/dashboard/page.tsx(50,50): error TS18048: 'firstLine' is possibly 'undefined'.
-@soulcanvas/frontend:check-types: ../../packages/api/src/rate-limit.ts(72,26): error TS18048: 'oldest' is possibly 'undefined'.
-@soulcanvas/frontend:check-types: ERROR: command 
+@soouls/admin-dashboard:check-types: cache hit, replaying logs 6d6429338e5a596b
+@soouls/admin-dashboard:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mbun run --env-file=../../.env scripts/run.ts bunx tsc --noEmit -p tsconfig.json
+@soouls/admin-dashboard:check-types: [22m[?9001l[?1004l
+@soouls/database:check-types: cache hit, replaying logs a5ae4139b30153b9
+@soouls/database:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soouls/database:check-types: [?9001l[?1004l[22m
+@soouls/ai-engine:check-types: cache hit, replaying logs 9fe58eb391494f1c
+@soouls/ai-engine:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soouls/ai-engine:check-types: [?9001l[?1004l[22m
+@soouls/logic:check-types: cache hit, replaying logs 78169d9c5fb11d42
+@soouls/logic:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soouls/logic:check-types: [22m[?9001l[?1004l
+@soouls/ui-kit:check-types: cache hit, replaying logs 3597905c14a86da5
+@soouls/ui-kit:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soouls/ui-kit:check-types: [22m[?9001l[?1004l
+@soouls/api:check-types: cache hit, replaying logs 35cd518b8f8d2b06
+@soouls/api:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soouls/api:check-types: [?9001l[?1004l[22m
+@soouls/backend:check-types: cache hit, replaying logs 7bd83432eeeccfd7
+@soouls/backend:check-types: [6n[?9001h[?1004h[m]0;C:\Users\HP\.bun\bin\bun.exe[?25h[35m[2m$[m [1m[2mtsc --noEmit
+@soouls/backend:check-types: [22m[?9001l[?1004l
+@soouls/frontend:check-types: cache miss, executing fa14273d9ca68685
+@soouls/frontend:check-types: $ next typegen && tsc --noEmit
+@soouls/frontend:check-types: Generating route types...
+@soouls/frontend:check-types: Γ£ô Types generated successfully
+@soouls/frontend:check-types: app/components/GalaxyView.tsx(5,10): error TS2614: Module '"./HeroSection"' has no exported member 'HeroSection'. Did you mean to use 'import HeroSection from "./HeroSection"' instead?
+@soouls/frontend:check-types: app/components/GalaxyView.tsx(9,10): error TS2614: Module '"./SundayReviewSection"' has no exported member 'SundayReviewSection'. Did you mean to use 'import SundayReviewSection from "./SundayReviewSection"' instead?
+@soouls/frontend:check-types: app/components/index.ts(3,10): error TS2614: Module '"./HeroSection"' has no exported member 'HeroSection'. Did you mean to use 'import HeroSection from "./HeroSection"' instead?
+@soouls/frontend:check-types: app/components/index.ts(8,10): error TS2614: Module '"./SundayReviewSection"' has no exported member 'SundayReviewSection'. Did you mean to use 'import SundayReviewSection from "./SundayReviewSection"' instead?
+@soouls/frontend:check-types: app/dashboard/new-entry/page.tsx(391,24): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+@soouls/frontend:check-types:   Type 'undefined' is not assignable to type 'string'.
+@soouls/frontend:check-types: app/dashboard/page.tsx(50,23): error TS18048: 'firstLine' is possibly 'undefined'.
+@soouls/frontend:check-types: app/dashboard/page.tsx(50,50): error TS18048: 'firstLine' is possibly 'undefined'.
+@soouls/frontend:check-types: ../../packages/api/src/rate-limit.ts(72,26): error TS18048: 'oldest' is possibly 'undefined'.
+@soouls/frontend:check-types: ERROR: command 
 finished with error: command (C:\Users\HP\Videos\proj
-ects\soulcanvas\apps\frontend) 
+ects\soouls\apps\frontend) 
 C:\Users\HP\.bun\bin\bun.exe run check-types exited 
 (2)
-@soulcanvas/frontend#check-types: command (C:\Users\H
-P\Videos\projects\soulcanvas\apps\frontend) 
+@soouls/frontend#check-types: command (C:\Users\H
+P\Videos\projects\soouls\apps\frontend) 
 C:\Users\HP\.bun\bin\bun.exe run check-types exited 
 (2)
 
  Tasks:    7 successful, 8 total
 Cached:    7 cached, 8 total
   Time:    16.438s 
-Failed:    @soulcanvas/frontend#check-types
+Failed:    @soouls/frontend#check-types
 
  ERROR  run failed: command  exited (2)

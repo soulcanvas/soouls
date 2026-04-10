@@ -1,6 +1,6 @@
 import { createClerkClient } from '@clerk/backend';
 import { Injectable } from '@nestjs/common';
-import { and, db, desc, eq, sql } from '@soulcanvas/database/client';
+import { and, db, desc, eq, sql } from '@soouls/database/client';
 import {
   adminInvites,
   adminUsers,
@@ -9,7 +9,7 @@ import {
   messageCampaigns,
   messageDeliveries,
   users,
-} from '@soulcanvas/database/schema';
+} from '@soouls/database/schema';
 import { Resend } from 'resend';
 import {
   NOTIFICATION_BATCH_SIZE,
@@ -130,7 +130,7 @@ export class NotificationDispatchService {
       .from(users);
 
     if (conditions.length > 0) {
-      const { and } = await import('@soulcanvas/database/client');
+      const { and } = await import('@soouls/database/client');
       baseQuery.where(and(...conditions));
     }
 
@@ -155,7 +155,7 @@ export class NotificationDispatchService {
     await db.insert(messageDeliveries).values({
       userId: input.userId,
       campaignId: input.campaignId,
-      brandKey: input.brandKey ?? 'soulcanvas',
+      brandKey: input.brandKey ?? 'soouls',
       channel: input.channel,
       category: input.category,
       templateKey: input.templateKey,
@@ -174,7 +174,7 @@ export class NotificationDispatchService {
   private async sendEmail(message: EmailMessage): Promise<TransportResult> {
     const apiKey = process.env.RESEND_API_KEY;
     const fromEmail = process.env.MESSAGING_FROM_EMAIL;
-    const fromName = process.env.MESSAGING_FROM_NAME ?? 'SoulCanvas';
+    const fromName = process.env.MESSAGING_FROM_NAME ?? 'Soouls';
 
     if (!apiKey || !fromEmail) {
       console.log('[Messaging] Email preview', {
@@ -450,7 +450,7 @@ export class NotificationDispatchService {
         user,
         channel: 'email',
         category: 'transactional',
-        brandKey: 'soulcanvas',
+        brandKey: 'soouls',
         templateKey: 'welcome',
         template,
       });
@@ -471,7 +471,7 @@ export class NotificationDispatchService {
         user,
         channel: 'whatsapp',
         category: 'transactional',
-        brandKey: 'soulcanvas',
+        brandKey: 'soouls',
         templateKey: 'welcome',
         template,
       });
@@ -519,7 +519,7 @@ export class NotificationDispatchService {
       user,
       channel: 'email',
       category: 'security',
-      brandKey: 'soulcanvas',
+      brandKey: 'soouls',
       templateKey: 'secure-access',
       template,
     });
@@ -528,7 +528,7 @@ export class NotificationDispatchService {
       user,
       channel: 'whatsapp',
       category: 'security',
-      brandKey: 'soulcanvas',
+      brandKey: 'soouls',
       templateKey: 'secure-access',
       template,
     });

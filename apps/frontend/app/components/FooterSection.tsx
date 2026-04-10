@@ -37,7 +37,7 @@ export default function FooterSection() {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <title>Soulcanvas Clover Logo</title>
+                <title>Soouls Clover Logo</title>
                 <path
                   d="M48 48 C 20 8, -5 40, 48 48 Z"
                   stroke="#E6D3B8"
@@ -72,11 +72,11 @@ export default function FooterSection() {
               className="font-urbanist tracking-tight mb-[40px] md:mb-[60px]"
               style={{ fontSize: '32px', color: '#E0DECE', fontWeight: 500 }}
             >
-              Soulcanvas
+              Soouls
             </span>
             <div className="flex items-center gap-[24px]">
               <a
-                href="https://twitter.com/soulcanvas_app"
+                href="https://twitter.com/soouls_app"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="opacity-80 hover:opacity-100 transition-opacity hover:text-[#E07A5F] text-[#D8D8D8]"
@@ -84,7 +84,7 @@ export default function FooterSection() {
                 <SiX size={20} />
               </a>
               <a
-                href="https://linkedin.com/company/soulcanvas"
+                href="https://www.linkedin.com/company/111764372/admin/dashboard/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="opacity-80 hover:opacity-100 transition-opacity hover:text-[#E07A5F] text-[#D8D8D8]"
@@ -92,7 +92,7 @@ export default function FooterSection() {
                 <FaLinkedinIn size={20} />
               </a>
               <a
-                href="https://instagram.com/soulcanvas_app"
+                href="https://www.instagram.com/soouls.in/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="opacity-80 hover:opacity-100 transition-opacity hover:text-[#E07A5F] text-[#D8D8D8]"
@@ -100,7 +100,7 @@ export default function FooterSection() {
                 <SiInstagram size={20} />
               </a>
               <a
-                href="https://discord.gg/soulcanvas"
+                href="https://discord.gg/soouls"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="opacity-80 hover:opacity-100 transition-opacity hover:text-[#E07A5F] text-[#D8D8D8]"
@@ -184,7 +184,7 @@ export default function FooterSection() {
               className="font-urbanist mt-[64px] text-center md:text-right w-full md:w-auto"
               style={{ fontSize: '12px', color: '#888888', fontStyle: 'italic' }}
             >
-              All rights reserved © SOULCANVAS 2026
+              All rights reserved © SOOULS 2026
             </span>
           </div>
         </div>
@@ -214,7 +214,7 @@ export default function FooterSection() {
                 marginTop: i === 0 ? '0px' : '-16%',
               }}
             >
-              Soulcanvas
+              Soouls
             </span>
           );
         })}

@@ -9,7 +9,7 @@ export default function SignUpPage() {
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(249,115,22,0.15),transparent_38%,rgba(34,197,94,0.1))]" />
           <div className="relative space-y-6">
             <div className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.28em] text-orange-200">
-              SoulCanvas Onboarding
+              Soouls Onboarding
             </div>
             <div className="space-y-4">
               <h1 className="max-w-xl font-playfair text-5xl leading-tight text-white">

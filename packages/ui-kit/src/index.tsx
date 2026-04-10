@@ -1,6 +1,6 @@
 // UI Kit Components - Barrel Export
 // Import directly from individual files for better tree-shaking:
-// import { Button } from '@soulcanvas/ui-kit/Button';
+// import { Button } from '@soouls/ui-kit/Button';
 
 export * from './Button';
 export * from './Card';

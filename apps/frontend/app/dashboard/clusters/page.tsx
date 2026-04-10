@@ -126,7 +126,7 @@ export default function CanvasPage() {
             WebkitTextStroke: '1px rgba(255,255,255,0.35)',
           }}
         >
-          Soulcanvas
+          Soouls
         </span>
       </div>
 

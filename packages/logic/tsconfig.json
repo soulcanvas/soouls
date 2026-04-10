@@ -1,5 +1,5 @@
 {
-  "extends": "@soulcanvas/typescript-config/base.json",
+  "extends": "@soouls/typescript-config/base.json",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src"

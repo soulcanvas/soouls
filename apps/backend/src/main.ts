@@ -74,8 +74,8 @@ async function bootstrap() {
 
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
-  console.log(`[SoulCanvas API] Listening on port ${port}`);
-  console.log(`[SoulCanvas API] CORS allowed origins: ${allowedOrigins.join(', ')}`);
+  console.log(`[Soouls API] Listening on port ${port}`);
+  console.log(`[Soouls API] CORS allowed origins: ${allowedOrigins.join(', ')}`);
 }
 
 bootstrap();

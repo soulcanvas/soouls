@@ -1,14 +1,14 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Injectable } from '@nestjs/common';
-import { db } from '@soulcanvas/database/client';
-import { and, desc, eq, sql } from '@soulcanvas/database/client';
-import { canvasNodes, journalEntries, users } from '@soulcanvas/database/schema';
+import { db } from '@soouls/database/client';
+import { and, desc, eq, sql } from '@soouls/database/client';
+import { canvasNodes, journalEntries, users } from '@soouls/database/schema';
 import LZString from 'lz-string';
 import type { RedisService } from '../redis/redis.service';
 import { decryptData, encryptData } from '../utils/encryption';
 
-import type { GalaxyEntry, UserEntry } from '@soulcanvas/api';
+import type { GalaxyEntry, UserEntry } from '@soouls/api';
 
 const s3 = new S3Client({
   region: 'auto',
@@ -123,7 +123,7 @@ export class EntriesService {
     }
 
     const bucketParams = {
-      Bucket: process.env.R2_BUCKET_NAME || 'soulcanvas-media',
+      Bucket: process.env.R2_BUCKET_NAME || 'soouls-media',
       Key: `entries/${userId}/${entryId}/${Date.now()}`,
       ContentType: contentType,
     };
@@ -402,7 +402,7 @@ export class EntriesService {
             const fileName = `entries/${userId}/${entry.id}/${Date.now()}.${extension}`;
 
             const bucketParams = {
-              Bucket: process.env.R2_BUCKET_NAME || 'soulcanvas-media',
+              Bucket: process.env.R2_BUCKET_NAME || 'soouls-media',
               Key: fileName,
               Body: buffer,
               ContentType: mimeType,

@@ -96,7 +96,7 @@ export type ApiKeyRecord = {
 
 export type Messaging = {
   brands: Array<{
-    key: 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk';
+    key: 'soouls' | 'soouls-studio' | 'founder-desk';
     label: string;
   }>;
   campaigns: Array<{

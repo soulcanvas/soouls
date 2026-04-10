@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { createAppRouter } from '@soulcanvas/api/router';
-import type { AppRouter, EntriesApi, MessagingApi } from '@soulcanvas/api/router';
+import { createAppRouter } from '@soouls/api/router';
+import type { AppRouter, EntriesApi, MessagingApi } from '@soouls/api/router';
 import { EntriesService } from '../entries/entries.service';
 import { MessagingService } from '../services/messaging.service';
 import { TasksService } from '../tasks/tasks.service';

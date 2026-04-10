@@ -1,5 +1,5 @@
 export type Channel = 'email' | 'whatsapp';
-export type BrandKey = 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk';
+export type BrandKey = 'soouls' | 'soouls-studio' | 'founder-desk';
 export type Category = 'transactional' | 'marketing' | 'security' | 'product';
 export type DeliveryStatus = 'sent' | 'failed' | 'skipped';
 
@@ -78,18 +78,18 @@ export const BRAND_PRESETS: Record<
     footer: string;
   }
 > = {
-  soulcanvas: {
-    key: 'soulcanvas',
-    label: 'SoulCanvas',
-    eyebrow: 'SoulCanvas',
-    footer: 'SoulCanvas is built for quiet focus, deep reflection, and meaningful product updates.',
+  soouls: {
+    key: 'soouls',
+    label: 'Soouls',
+    eyebrow: 'Soouls',
+    footer: 'Soouls is built for quiet focus, deep reflection, and meaningful product updates.',
   },
-  'soulcanvas-studio': {
-    key: 'soulcanvas-studio',
-    label: 'SoulCanvas Studio',
+  'soouls-studio': {
+    key: 'soouls-studio',
+    label: 'Soouls Studio',
     eyebrow: 'Studio Release',
     footer:
-      'SoulCanvas Studio messages are crafted for launches, downloadable builds, and product drop announcements.',
+      'Soouls Studio messages are crafted for launches, downloadable builds, and product drop announcements.',
   },
   'founder-desk': {
     key: 'founder-desk',
@@ -101,5 +101,5 @@ export const BRAND_PRESETS: Record<
 };
 
 export function getBrandPreset(brandKey: string | undefined) {
-  return BRAND_PRESETS[(brandKey as BrandKey) ?? 'soulcanvas'] ?? BRAND_PRESETS.soulcanvas;
+  return BRAND_PRESETS[(brandKey as BrandKey) ?? 'soouls'] ?? BRAND_PRESETS.soouls;
 }

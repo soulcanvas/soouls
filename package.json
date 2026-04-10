@@ -1,9 +1,9 @@
 {
-  "name": "soulcanvas",
+  "name": "soouls",
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev --continue --filter=@soulcanvas/backend --filter=@soulcanvas/frontend --filter=@soulcanvas/admin-dashboard",
+    "dev": "turbo run dev --continue --filter=@soouls/backend --filter=@soouls/frontend --filter=@soouls/admin-dashboard",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",

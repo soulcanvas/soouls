@@ -214,7 +214,7 @@ export class CommandCenterController {
       markdownBody: string;
       ctaLabel?: string;
       ctaUrl?: string;
-      brandKey?: 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk';
+      brandKey?: 'soouls' | 'soouls-studio' | 'founder-desk';
     },
   ) {
     return this.commandCenterService.sendTestEmail(this.getClerkId(request), body, request.ip);
@@ -225,7 +225,7 @@ export class CommandCenterController {
     @Req() request: CommandCenterRequest,
     @Body()
     body: {
-      brandKey: 'soulcanvas' | 'soulcanvas-studio' | 'founder-desk';
+      brandKey: 'soouls' | 'soouls-studio' | 'founder-desk';
       title: string;
       subject: string;
       markdownBody: string;
