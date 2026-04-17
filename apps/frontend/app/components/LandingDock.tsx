@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 interface NavLink {
   label: string;
   href: string;
@@ -10,10 +12,10 @@ interface LandingNavbarProps {
 }
 
 const defaultLinks: NavLink[] = [
-  { label: 'Product', href: '#product' },
-  { label: 'Philosophy', href: '#philosophy' },
-  { label: 'Sunday Review', href: '#sunday-review' },
-  { label: 'Waitlist', href: '#waitlist' },
+  { label: 'Product', href: '/#product' },
+  { label: 'Philosophy', href: '/#philosophy' },
+  { label: 'Sunday Review', href: '/#sunday-review' },
+  { label: 'Waitlist', href: '/#waitlist' },
 ];
 
 export default function LandingDock({ links = defaultLinks }: LandingNavbarProps) {
@@ -30,24 +32,26 @@ export default function LandingDock({ links = defaultLinks }: LandingNavbarProps
     >
       {/* Logo Area */}
       <div className="flex items-center gap-1">
-        <span
-          className="font-playfair font-bold"
-          style={{
-            fontFamily: 'ABC Whyte Inktrap, sans-serif',
-            color: '#D6C2A3',
-            fontSize: '28px', // Scaled down from 44px for practical web usage
-            lineHeight: '1em',
-            letterSpacing: '-0.035em',
-          }}
-        >
-          Soouls
-        </span>
+        <Link href="/#hero" aria-label="Go to the Soouls landing page">
+          <span
+            className="font-playfair font-bold"
+            style={{
+              fontFamily: 'ABC Whyte Inktrap, sans-serif',
+              color: '#D6C2A3',
+              fontSize: '28px', // Scaled down from 44px for practical web usage
+              lineHeight: '1em',
+              letterSpacing: '-0.035em',
+            }}
+          >
+            Soouls
+          </span>
+        </Link>
       </div>
 
       {/* Nav Links */}
       <nav className="hidden md:flex flex-row gap-[48px] items-center">
         {links.map((link) => (
-          <a
+          <Link
             key={link.label}
             href={link.href}
             className="font-urbanist"
@@ -58,21 +62,21 @@ export default function LandingDock({ links = defaultLinks }: LandingNavbarProps
               transition: 'color 0.2s',
             }}
             onMouseEnter={(e) => {
-              (e.target as HTMLElement).style.color = '#EFEBDD';
+              e.currentTarget.style.color = '#EFEBDD';
             }}
             onMouseLeave={(e) => {
-              (e.target as HTMLElement).style.color = '#A8A8A8';
+              e.currentTarget.style.color = '#A8A8A8';
             }}
           >
             {link.label}
-          </a>
+          </Link>
         ))}
       </nav>
 
       {/* Call To Actions */}
       <div className="flex flex-row items-center">
-        <a
-          href="#waitlist"
+        <Link
+          href="/#waitlist"
           className="font-urbanist font-semibold transition-all duration-300 flex justify-center items-center"
           style={{
             backgroundColor: '#E07C60',
@@ -94,7 +98,7 @@ export default function LandingDock({ links = defaultLinks }: LandingNavbarProps
           }}
         >
           Join the Waitlist
-        </a>
+        </Link>
       </div>
     </div>
   );

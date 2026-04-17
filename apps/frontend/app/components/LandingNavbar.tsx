@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { SymbolLogo } from './SymbolLogo';
 
@@ -13,10 +14,10 @@ interface LandingNavbarProps {
 }
 
 const defaultLinks: NavLink[] = [
-  { label: 'Product', href: '#product' },
-  { label: 'Philosophy', href: '#philosophy' },
-  { label: 'Sunday Review', href: '#sunday-review' },
-  { label: 'Waitlist', href: '#waitlist' },
+  { label: 'Product', href: '/#product' },
+  { label: 'Philosophy', href: '/#philosophy' },
+  { label: 'Sunday Review', href: '/#sunday-review' },
+  { label: 'Waitlist', href: '/#waitlist' },
 ];
 
 export default function LandingNavbar({ links = defaultLinks }: LandingNavbarProps) {
@@ -72,6 +73,7 @@ export default function LandingNavbar({ links = defaultLinks }: LandingNavbarPro
         {/* Mobile menu (Left) */}
         <div className="flex md:hidden items-center justify-start w-[80px]">
           <button
+            type="button"
             className="text-[#EFEBDD] p-2 hover:bg-white/10 rounded-md transition-colors"
             aria-label="Menu"
           >
@@ -85,6 +87,7 @@ export default function LandingNavbar({ links = defaultLinks }: LandingNavbarPro
               strokeLinecap="round"
               strokeLinejoin="round"
             >
+              <title>Open navigation menu</title>
               <line x1="3" y1="12" x2="21" y2="12" />
               <line x1="3" y1="6" x2="21" y2="6" />
               <line x1="3" y1="18" x2="21" y2="18" />
@@ -95,37 +98,43 @@ export default function LandingNavbar({ links = defaultLinks }: LandingNavbarPro
         {/* Logo */}
         <div className="flex-shrink-0 absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 flex items-center justify-center md:justify-start w-auto md:w-[200px] h-[32px]">
           {/* Text Logo */}
-          <span
-            className="absolute font-playfair font-bold"
-            style={{
-              fontFamily: 'ABC Whyte Inktrap, sans-serif',
-              color: '#D6C2A3',
-              fontSize: '28px',
-              lineHeight: '1em',
-              letterSpacing: '-0.035em',
-              opacity: scrolled ? 0 : 1,
-              transform: scrolled ? 'translateX(-20px)' : 'translateX(0)',
-              pointerEvents: scrolled ? 'none' : 'auto',
-              transition: 'all 0.5s ease',
-            }}
+          <Link
+            href="/#hero"
+            aria-label="Go to the Soouls landing page"
+            className="relative flex items-center justify-center w-full h-full"
           >
-            Soouls
-          </span>
-          {/* Symbol Logo */}
-          <div
-            className="absolute"
-            style={{
-              opacity: scrolled ? 1 : 0,
-              transform: scrolled
-                ? 'translateX(0) rotate(0deg)'
-                : 'translateX(20px) rotate(-90deg)',
-              pointerEvents: scrolled ? 'auto' : 'none',
-              color: '#D6C2A3',
-              transition: 'all 0.5s ease',
-            }}
-          >
-            <SymbolLogo variant="solid" width="36" height="36" />
-          </div>
+            <span
+              className="absolute font-playfair font-bold"
+              style={{
+                fontFamily: 'ABC Whyte Inktrap, sans-serif',
+                color: '#D6C2A3',
+                fontSize: '28px',
+                lineHeight: '1em',
+                letterSpacing: '-0.035em',
+                opacity: scrolled ? 0 : 1,
+                transform: scrolled ? 'translateX(-20px)' : 'translateX(0)',
+                pointerEvents: scrolled ? 'none' : 'auto',
+                transition: 'all 0.5s ease',
+              }}
+            >
+              Soouls
+            </span>
+            {/* Symbol Logo */}
+            <div
+              className="absolute"
+              style={{
+                opacity: scrolled ? 1 : 0,
+                transform: scrolled
+                  ? 'translateX(0) rotate(0deg)'
+                  : 'translateX(20px) rotate(-90deg)',
+                pointerEvents: scrolled ? 'auto' : 'none',
+                color: '#D6C2A3',
+                transition: 'all 0.5s ease',
+              }}
+            >
+              <SymbolLogo variant="solid" width="36" height="36" />
+            </div>
+          </Link>
         </div>
 
         {/* Nav Links — centered */}
@@ -137,7 +146,7 @@ export default function LandingNavbar({ links = defaultLinks }: LandingNavbarPro
           }}
         >
           {links.map((link) => (
-            <a
+            <Link
               key={link.label}
               href={link.href}
               className="font-urbanist"
@@ -148,21 +157,21 @@ export default function LandingNavbar({ links = defaultLinks }: LandingNavbarPro
                 transition: 'color 0.2s, font-size 0.5s ease',
               }}
               onMouseEnter={(e) => {
-                (e.target as HTMLElement).style.color = '#E07A5F';
+                e.currentTarget.style.color = '#E07A5F';
               }}
               onMouseLeave={(e) => {
-                (e.target as HTMLElement).style.color = scrolled ? '#EFEBDD' : '#A8A8A8';
+                e.currentTarget.style.color = scrolled ? '#EFEBDD' : '#A8A8A8';
               }}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
 
         {/* Right side — CTA */}
         <div className="flex-shrink-0 flex items-center justify-end w-auto md:w-[200px]">
-          <a
-            href="#waitlist"
+          <Link
+            href="/#waitlist"
             className="font-urbanist font-bold transition-all duration-300 flex justify-center items-center"
             style={{
               backgroundColor: '#E07A5F',
@@ -180,7 +189,7 @@ export default function LandingNavbar({ links = defaultLinks }: LandingNavbarPro
             }}
           >
             Join the Waitlist
-          </a>
+          </Link>
         </div>
       </nav>
     </header>
