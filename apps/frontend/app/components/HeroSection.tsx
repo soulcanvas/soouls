@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
 export default function HeroSection() {
@@ -109,14 +110,13 @@ export default function HeroSection() {
           when they fit a timeline. Build a map of your mind.
         </p>
 
-        <a
-          href="#waitlist"
+        <Link
+          href="/#waitlist"
           className="font-urbanist font-semibold bg-[#E07A5F] text-[#222222] px-8 h-16 rounded-xl flex items-center gap-3 transition-transform hover:scale-105 active:scale-95"
           style={{ fontSize: '20px' }}
         >
           Join the Waitlist
-          
-        </a>
+        </Link>
 
         <p className="font-playfair italic mt-10 text-[#D9D9D9] opacity-80 text-2xl">
           No cards, No noise, Just your story

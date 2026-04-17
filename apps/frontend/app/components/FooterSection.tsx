@@ -1,7 +1,8 @@
 'use client';
 
-import { SiDiscord, SiInstagram, SiX } from 'react-icons/si';
+import Link from 'next/link';
 import { FaLinkedinIn } from 'react-icons/fa6';
+import { SiDiscord, SiInstagram, SiX } from 'react-icons/si';
 
 export default function FooterSection() {
   return (
@@ -119,15 +120,19 @@ export default function FooterSection() {
                 <span className="font-urbanist font-bold text-[#EFEBDD] text-[12px] tracking-widest mb-[4px] md:mb-[8px]">
                   PRODUCT
                 </span>
-                {['Features', 'Downloads', 'Release Notes'].map((link) => (
-                  <a
-                    key={link}
-                    href={`#${link.toLowerCase().replace(' ', '-')}`}
+                {[
+                  { label: 'Features', href: '/features' },
+                  { label: 'Downloads', href: '/downloads' },
+                  { label: 'Release Notes', href: '/release-notes' },
+                ].map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
                     className="font-urbanist text-[#A8A8A8] hover:text-[#E07A5F] transition-colors duration-200"
                     style={{ fontSize: '13px', fontWeight: 500 }}
                   >
-                    {link}
-                  </a>
+                    {link.label}
+                  </Link>
                 ))}
               </div>
               {/* COMPANY */}
@@ -135,15 +140,19 @@ export default function FooterSection() {
                 <span className="font-urbanist font-bold text-[#EFEBDD] text-[12px] tracking-widest mb-[4px] md:mb-[8px]">
                   COMPANY
                 </span>
-                {['About Us', 'Careers', 'Contact'].map((link) => (
-                  <a
-                    key={link}
-                    href={`#${link.toLowerCase().replace(' ', '-')}`}
+                {[
+                  { label: 'About Us', href: '/about-us' },
+                  { label: 'Careers', href: '/careers' },
+                  { label: 'Contact', href: '/contact' },
+                ].map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
                     className="font-urbanist text-[#A8A8A8] hover:text-[#E07A5F] transition-colors duration-200"
                     style={{ fontSize: '13px', fontWeight: 500 }}
                   >
-                    {link}
-                  </a>
+                    {link.label}
+                  </Link>
                 ))}
               </div>
               {/* RESOURCES */}
@@ -151,15 +160,19 @@ export default function FooterSection() {
                 <span className="font-urbanist font-bold text-[#EFEBDD] text-[12px] tracking-widest mb-[4px] md:mb-[8px]">
                   RESOURCES
                 </span>
-                {['Documentation', 'Blog', 'Community'].map((link) => (
-                  <a
-                    key={link}
-                    href={`#${link.toLowerCase()}`}
+                {[
+                  { label: 'Documentation', href: '/documentation' },
+                  { label: 'Blog', href: '/blog' },
+                  { label: 'Community', href: '/community' },
+                ].map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
                     className="font-urbanist text-[#A8A8A8] hover:text-[#E07A5F] transition-colors duration-200"
                     style={{ fontSize: '13px', fontWeight: 500 }}
                   >
-                    {link}
-                  </a>
+                    {link.label}
+                  </Link>
                 ))}
               </div>
               {/* LEGAL & COMPLIANCE */}
@@ -167,15 +180,20 @@ export default function FooterSection() {
                 <span className="font-urbanist font-bold text-[#EFEBDD] text-[12px] tracking-widest mb-[4px] md:mb-[8px]">
                   LEGAL & COMPLIANCE
                 </span>
-                {['Privacy Policy', 'Terms of Service', 'Cookie Policy', 'Security'].map((link) => (
-                  <a
-                    key={link}
-                    href={`#${link.toLowerCase().replace(/ /g, '-')}`}
+                {[
+                  { label: 'Privacy Policy', href: '/privacy-policy' },
+                  { label: 'Terms of Service', href: '/terms-of-service' },
+                  { label: 'Cookie Policy', href: '/cookie-policy' },
+                  { label: 'Security', href: '/security' },
+                ].map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
                     className="font-urbanist text-[#A8A8A8] hover:text-[#E07A5F] transition-colors duration-200"
                     style={{ fontSize: '13px', fontWeight: 500 }}
                   >
-                    {link}
-                  </a>
+                    {link.label}
+                  </Link>
                 ))}
               </div>
             </div>
@@ -196,11 +214,10 @@ export default function FooterSection() {
         className="fixed bottom-0 left-0 right-0 w-full overflow-hidden flex flex-col items-center justify-end pointer-events-none opacity-20 border-t border-white/5 py-10 z-[-1]"
         style={{ backgroundColor: '#161616', height: '100vh' }}
       >
-        {Array.from({ length: 3 }).map((_, i) => {
-          // biome-ignore lint/suspicious/noArrayIndexKey: static text
+        {['top', 'middle', 'bottom'].map((layer, i) => {
           return (
             <span
-              key={`footer-txt-${i}`}
+              key={`footer-txt-${layer}`}
               className="font-playfair leading-none"
               style={{
                 fontFamily: 'ABC Whyte Inktrap, sans-serif',
