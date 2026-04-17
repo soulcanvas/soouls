@@ -115,11 +115,7 @@ export default function HeroSection() {
           style={{ fontSize: '20px' }}
         >
           Join the Waitlist
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <title>Arrow Down</title>
-            <path d="M6 8L12 14L18 8" stroke="#222222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M6 14L12 20L18 14" stroke="#222222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          
         </a>
 
         <p className="font-playfair italic mt-10 text-[#D9D9D9] opacity-80 text-2xl">
@@ -132,14 +128,14 @@ export default function HeroSection() {
             <title>Scroll Down</title>
             <path
               d="M6 8L12 14L18 8"
-              stroke="#E07A5F"
+              stroke="#D6C2A3"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
             <path
               d="M6 14L12 20L18 14"
-              stroke="#E07A5F"
+              stroke="#D6C2A3"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
