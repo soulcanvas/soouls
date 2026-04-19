@@ -11,7 +11,9 @@
       "@soouls/api/*": ["../../packages/api/src/*"],
       "@soouls/database/*": ["../../packages/database/src/*"],
       "@soouls/ai-engine/*": ["../../packages/ai-engine/src/*"]
-    }
+    },
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
