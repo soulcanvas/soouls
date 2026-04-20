@@ -45,8 +45,51 @@ export class EntriesService {
     await this.redis.invalidatePattern('admin:entries:*');
   }
 
+  /**
+   * Internal helper to decrypt, decompress and parse entry content.
+   * Handles legacy plain text, encrypted text, and compressed JSON blocks.
+   */
+  private processEntryContent(rawContent: string, userId: string): { text: string; full: any } {
+    if (!rawContent) return { text: '', full: null };
+
+    // 1. Decrypt if needed
+    const decrypted = decryptData(rawContent, userId);
+
+    // 2. Try decompression (new standard)
+    let processed = decrypted;
+    try {
+      const decompressed = LZString.decompressFromUTF16(decrypted);
+      if (decompressed) {
+        processed = decompressed;
+      }
+    } catch {
+      // Not compressed, proceed with raw decrypted
+    }
+
+    // 3. Try parsing as JSON (block editor format)
+    try {
+      const parsed = JSON.parse(processed);
+      if (parsed && typeof parsed === 'object') {
+        return {
+          text: parsed.textContent || '',
+          full: parsed,
+        };
+      }
+    } catch {
+      // Not JSON, likely plain text
+    }
+
+    return { text: processed, full: null };
+  }
+
   async createEntry(userId: string, content: string, type: 'entry' | 'task' = 'entry') {
-    const encryptedContent = encryptData(content, userId);
+    // Compress first if it looks like JSON (block editor content)
+    let processedContent = content;
+    if (content.startsWith('{') || content.startsWith('[')) {
+      processedContent = LZString.compressToUTF16(content);
+    }
+
+    const encryptedContent = encryptData(processedContent, userId);
 
     const [entry] = await db
       .insert(journalEntries)
@@ -81,7 +124,9 @@ export class EntriesService {
       .limit(1);
 
     if (entry) {
-      entry.content = decryptData(entry.content, userId);
+      const { text, full } = this.processEntryContent(entry.content, userId);
+      // For single entry view, we often want the full JSON for the editor
+      entry.content = full ? JSON.stringify(full) : text;
       await this.redis.set(cacheKey, entry, this.CACHE_TTL.ENTRY);
     }
     return entry || null;
@@ -98,10 +143,16 @@ export class EntriesService {
       throw new Error('Unauthorized or entry not found.');
     }
 
+    // Compress if it's a JSON block
+    let processedContent = content;
+    if (content.startsWith('{') || content.startsWith('[')) {
+      processedContent = LZString.compressToUTF16(content);
+    }
+
     await db
       .update(journalEntries)
       .set({
-        content: encryptData(content, userId),
+        content: encryptData(processedContent, userId),
         updatedAt: new Date(),
       })
       .where(and(eq(journalEntries.id, id), eq(journalEntries.userId, userId)));
@@ -211,28 +262,19 @@ export class EntriesService {
 
     // Decrypt on the way out
     const items = itemsToReturn.map((entry) => {
-      const dec = decryptData(entry.content, userId);
-      let optimizedContent = dec;
-      let previewText = '';
-      try {
-        const decompressed = LZString.decompressFromUTF16(dec) || dec;
-        const parsed = JSON.parse(decompressed);
-        if (parsed && typeof parsed === 'object') {
-          previewText = parsed.textContent || '';
-          // Keep only textContent to save megabytes of base64 images/audio for galaxy endpoint
-          parsed.blocks = [];
-          optimizedContent = LZString.compressToUTF16(JSON.stringify(parsed));
-        } else {
-          previewText = dec;
-        }
-      } catch (_e) {
-        // Not LZString JSON, probably legacy plain text
-        previewText = dec;
+      const { text, full } = this.processEntryContent(entry.content, userId);
+      
+      let optimizedContent = text;
+      if (full) {
+        // For galaxy, we strip heavy blocks but keep the text
+        const optimized = { ...full, blocks: [] };
+        optimizedContent = LZString.compressToUTF16(JSON.stringify(optimized));
       }
+
       return {
         ...entry,
         content: optimizedContent,
-        previewText,
+        previewText: text,
         // Ensure numbers are never null for the 3D galaxy
         x: entry.x ?? 0,
         y: entry.y ?? 0,
@@ -284,22 +326,10 @@ export class EntriesService {
 
     // Decrypt full content on the way out
     const items = itemsToReturn.map((entry) => {
-      let decryptedContent = '';
-      try {
-        const dec = decryptData(entry.content, userId);
-        const decompressed = LZString.decompressFromUTF16(dec) || dec;
-        const parsed = JSON.parse(decompressed);
-        decryptedContent = parsed.textContent || decompressed;
-      } catch {
-        try {
-          decryptedContent = decryptData(entry.content, userId);
-        } catch {
-          decryptedContent = '';
-        }
-      }
+      const { text } = this.processEntryContent(entry.content, userId);
       return {
         ...entry,
-        content: decryptedContent,
+        content: text,
       };
     });
 
@@ -340,19 +370,7 @@ export class EntriesService {
 
     // Decrypt content for admin view
     const items = rawData.map((entry) => {
-      let decryptedContent = '';
-      try {
-        const dec = decryptData(entry.content, entry.userId);
-        const decompressed = LZString.decompressFromUTF16(dec) || dec;
-        const parsed = JSON.parse(decompressed);
-        decryptedContent = parsed.textContent || decompressed;
-      } catch {
-        try {
-          decryptedContent = decryptData(entry.content, entry.userId);
-        } catch {
-          decryptedContent = '';
-        }
-      }
+      const { text } = this.processEntryContent(entry.content, entry.userId);
       return {
         id: entry.id,
         userId: entry.userId,
@@ -360,7 +378,7 @@ export class EntriesService {
         userName: entry.userName,
         type: entry.type,
         title: entry.title,
-        content: decryptedContent,
+        content: text,
         mediaUrl: entry.mediaUrl,
         sentimentColor: entry.sentimentColor,
         sentimentLabel: entry.sentimentLabel,

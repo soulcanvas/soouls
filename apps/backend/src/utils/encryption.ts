@@ -4,8 +4,8 @@
  */
 import * as crypto from 'node:crypto';
 
-// A mock "user secret" for derivation until a real passkey/password system is in place.
-const MOCK_USER_SECRET = 'soouls-backend-secret-key-2024';
+// A secret for derivation. Falls back to a mock for dev but should be in .env
+const SYSTEM_SECRET = process.env.ENCRYPTION_SECRET || 'soouls-backend-secret-key-2024';
 
 const keyCache = new Map<string, Buffer>();
 
@@ -18,7 +18,7 @@ function deriveKey(internalUserId: string): Buffer {
     return keyCache.get(internalUserId)!;
   }
   const key = crypto.pbkdf2Sync(
-    MOCK_USER_SECRET,
+    SYSTEM_SECRET,
     internalUserId,
     100000,
     32, // 256 bits
@@ -62,15 +62,26 @@ export function encryptData(text: string, internalUserId: string): string {
  */
 export function decryptData(encryptedPayload: string, internalUserId: string): string {
   if (!encryptedPayload) return '';
+  
+  // Basic format check to avoid unnecessary decryption attempts on plain text
+  if (!encryptedPayload.includes(':')) {
+    return encryptedPayload;
+  }
+
   try {
     const parts = encryptedPayload.split(':');
     if (parts.length !== 3) {
-      throw new Error('Invalid encrypted payload format.');
+      return encryptedPayload; // Not our format, return as-is
     }
 
     const iv = Buffer.from(parts[0], 'base64');
     const authTag = Buffer.from(parts[1], 'base64');
     const encryptedText = parts[2];
+
+    // Sanity check on buffer lengths for AES-GCM
+    if (iv.length !== 12 || authTag.length !== 16) {
+      return encryptedPayload;
+    }
 
     const key = deriveKey(internalUserId);
     const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
@@ -81,9 +92,11 @@ export function decryptData(encryptedPayload: string, internalUserId: string): s
 
     return decrypted;
   } catch (error) {
-    console.error('Decryption failed, returning plain text:', error);
-    // If decryption fails (e.g. not encrypted text), return original text to avoid crashing
-    // This handles legacy unencrypted entries or malformed data gracefully.
-    return encryptedPayload; // Return raw because user mentioned it wasn't working if it failed.
+    // Silent fail for decryption - most likely legacy data or wrong key
+    // We log only in debug/dev if needed, but avoid flooding production logs
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('Decryption failed for payload (likely legacy plain text):', (error as Error).message);
+    }
+    return encryptedPayload;
   }
 }

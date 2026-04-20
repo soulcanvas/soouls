@@ -254,7 +254,7 @@ export default function SettingsPage() {
               Settings
             </h1>
             <p className="text-[#e07a5f] font-urbanist text-sm mt-1">
-              Control how SoulCanvas works for you.
+              Control how Soouls works for you.
             </p>
           </div>
 

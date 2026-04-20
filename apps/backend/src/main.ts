@@ -1,5 +1,5 @@
-import * as Sentry from '@sentry/nestjs';
 import 'reflect-metadata';
+import * as Sentry from '@sentry/nestjs';
 import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import pino from 'pino-http';

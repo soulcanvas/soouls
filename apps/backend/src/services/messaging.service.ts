@@ -117,9 +117,7 @@ export class MessagingService {
   };
 
   constructor(
-    @Inject(NotificationQueueService)
     private readonly notificationQueue: NotificationQueueService,
-    @Inject(RedisService)
     private readonly redis: RedisService,
   ) {}
 

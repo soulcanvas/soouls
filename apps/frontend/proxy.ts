@@ -6,6 +6,9 @@ const isPublicRoute = createRouteMatcher([
   '/',
   '/sign-in(.*)',
   '/sign-up(.*)',
+  '/sso-callback(.*)',
+  '/forgot-password(.*)',
+  '/onboarding(.*)',
   '/api/trpc/(.*)',
   ...publicInfoPaths,
 ]);

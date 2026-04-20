@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { and, db, eq, sql } from '@soouls/database/client';
 import { canvasNodes, journalEntries, users } from '@soouls/database/schema';
-import type { RedisService } from '../redis/redis.service';
+import { RedisService } from '../redis/redis.service';
 
 @Injectable()
 export class TasksService {
