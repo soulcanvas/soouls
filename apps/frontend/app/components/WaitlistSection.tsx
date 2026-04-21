@@ -36,7 +36,7 @@ export default function WaitlistSection() {
   return (
     <section
       ref={sectionRef}
-      id="waitlist"
+      id="early-access"
       className="relative overflow-hidden bg-[#222222] min-h-[80svh] px-6 py-20 md:px-[60px] md:py-[120px]"
     >
       {/* Clover / decorative SVG elements (subtle) */}
@@ -156,7 +156,7 @@ export default function WaitlistSection() {
                 fontWeight: 500,
               }}
             >
-              LIMITED ONBOARDING
+              NOW OPEN
             </span>
           </div>
         </div>
@@ -180,66 +180,75 @@ export default function WaitlistSection() {
               thoughts
             </span>
             <br />
-            <span style={{ color: '#EFEBDD' }}>Stop feeling scattered.</span>
+            <span style={{ color: '#EFEBDD' }}>become your universe.</span>
           </h2>
         </div>
 
         {/* Email form */}
         {!submitted ? (
-          <form
-            onSubmit={handleSubmit}
-            className="reveal flex flex-col sm:flex-row gap-4 justify-center max-w-xl mx-auto mb-10"
-          >
-            <div
-              style={{
-                flex: 1,
-                background: 'rgba(255,255,255,0.04)',
-                borderRadius: '16px',
-                border: '1px solid rgba(214,194,163,0.2)',
-                padding: '18px 24px',
-              }}
+          <>
+            <form
+              onSubmit={handleSubmit}
+              className="reveal flex flex-col sm:flex-row gap-4 justify-center max-w-xl mx-auto mb-10"
             >
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="email@example.com"
-                required
-                className="font-urbanist w-full bg-transparent outline-none"
+              <div
                 style={{
-                  fontSize: '16px',
-                  color: '#EFEBDD',
-                  letterSpacing: '-0.02em',
+                  flex: 1,
+                  background: 'rgba(255,255,255,0.04)',
+                  borderRadius: '16px',
+                  border: '1px solid rgba(214,194,163,0.2)',
+                  padding: '18px 24px',
                 }}
-              />
-            </div>
-            <button
-              type="submit"
-              className="font-urbanist font-bold transition-all duration-300 flex items-center justify-center"
-              style={{
-                backgroundColor: '#E07A5F',
-                border: 'none',
-                borderRadius: '8px',
-                padding: '16px 24px',
-                color: '#222222',
-                fontSize: '13px',
-                letterSpacing: '0.05em',
-                cursor: 'pointer',
-                whiteSpace: 'nowrap',
-                height: '56px',
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.backgroundColor = '#d4694e';
-                (e.currentTarget as HTMLElement).style.color = '#FFFFFF';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.backgroundColor = '#E07A5F';
-                (e.currentTarget as HTMLElement).style.color = '#222222';
-              }}
-            >
-              RESERVE YOUR SPOT
-            </button>
-          </form>
+              >
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="email@example.com"
+                  required
+                  className="font-urbanist w-full bg-transparent outline-none"
+                  style={{
+                    fontSize: '16px',
+                    color: '#EFEBDD',
+                    letterSpacing: '-0.02em',
+                  }}
+                />
+              </div>
+              <button
+                type="submit"
+                className="font-urbanist font-bold transition-all duration-300 flex items-center justify-center"
+                style={{
+                  backgroundColor: '#E07A5F',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '16px 24px',
+                  color: '#222222',
+                  fontSize: '13px',
+                  letterSpacing: '0.05em',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  height: '56px',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.backgroundColor = '#d4694e';
+                  (e.currentTarget as HTMLElement).style.color = '#FFFFFF';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.backgroundColor = '#E07A5F';
+                  (e.currentTarget as HTMLElement).style.color = '#222222';
+                }}
+              >
+                JOIN THE CENTRUM
+              </button>
+            </form>
+            <p className="text-center text-xs text-[#A8A8A8] mt-3 font-urbanist">
+              Enter your email for updates, or{' '}
+              <a href="/sign-up" style={{ color: '#E07A5F' }}>
+                create your ID
+              </a>{' '}
+              to start writing now.
+            </p>
+          </>
         ) : (
           <div className="reveal mb-10 py-8">
             <p className="font-playfair" style={{ fontSize: '32px', color: '#D6C2A3' }}>
@@ -253,14 +262,14 @@ export default function WaitlistSection() {
 
         {/* Meta info row */}
         <div className="reveal flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-center mt-12 md:mt-0">
-          <span
-            className="font-urbanist text-[11px] md:text-[13px] tracking-[0.1em] text-[#A8A8A8]"
-          >
-            LAUNCHING FALL 2026
+          <span className="font-urbanist text-[11px] md:text-[13px] tracking-[0.1em] text-[#A8A8A8]">
+            EARLY ACCESS OPEN
           </span>
-          <span className="hidden sm:inline" style={{ color: '#A8A8A8', opacity: 0.4 }}>—</span>
+          <span className="hidden sm:inline" style={{ color: '#A8A8A8', opacity: 0.4 }}>
+            —
+          </span>
           <span className="font-urbanist text-[11px] md:text-[13px] text-[#A8A8A8]">
-            Private early access. Human centered design.
+            Join the Centrum. Human centered design.
           </span>
         </div>
       </div>

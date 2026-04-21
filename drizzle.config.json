@@ -1,0 +1,8 @@
+{
+  "schema": "packages/database/src/schema/index.ts",
+  "out": "packages/database/migrations",
+  "dialect": "postgresql",
+  "dbCredentials": {
+    "url": "env(DATABASE_URL)"
+  }
+}

@@ -17,7 +17,7 @@ const defaultLinks: NavLink[] = [
   { label: 'Product', href: '/#product' },
   { label: 'Philosophy', href: '/#philosophy' },
   { label: 'Sunday Review', href: '/#sunday-review' },
-  { label: 'Waitlist', href: '/#waitlist' },
+  { label: 'Early Access', href: '/#early-access' },
 ];
 
 export default function LandingNavbar({ links = defaultLinks }: LandingNavbarProps) {
@@ -171,7 +171,7 @@ export default function LandingNavbar({ links = defaultLinks }: LandingNavbarPro
         {/* Right side — CTA */}
         <div className="flex-shrink-0 flex items-center justify-end w-auto md:w-[200px]">
           <Link
-            href="/#waitlist"
+            href="/sign-up"
             className="font-urbanist font-bold transition-all duration-300 flex justify-center items-center"
             style={{
               backgroundColor: '#E07A5F',
@@ -188,7 +188,7 @@ export default function LandingNavbar({ links = defaultLinks }: LandingNavbarPro
               (e.currentTarget as HTMLElement).style.backgroundColor = '#E07A5F';
             }}
           >
-            Join the Waitlist
+            Start Writing
           </Link>
         </div>
       </nav>

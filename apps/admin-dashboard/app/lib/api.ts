@@ -104,6 +104,7 @@ export type Messaging = {
     title: string;
     subject: string;
     status: string;
+    createdAt: string;
   }>;
   recentDeliveries: Array<{
     id: string;

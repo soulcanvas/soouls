@@ -315,7 +315,12 @@ export class MessagingService {
         conditions.push(sql`${users.createdAt} < now() - interval '30 days'`);
       }
 
-      // We don't have lastLoginAt on Users yet, so mock or skip it for now.
+      // Billing tier / waitlist targeting
+      if ((input.targeting as any).billingTier === 'waitlist') {
+        conditions.push(eq(users.isWaitlistUser, true));
+      } else if ((input.targeting as any).billingTier && (input.targeting as any).billingTier !== 'all') {
+        conditions.push(sql`${users.billingTier} = ${(input.targeting as any).billingTier}`);
+      }
     }
 
     const baseQuery = db.select({ count: sql<number>`count(*)` }).from(users);

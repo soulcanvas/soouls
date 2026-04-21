@@ -2,11 +2,14 @@
 
 import { useUser } from '@clerk/nextjs';
 import imageCompression from 'browser-image-compression';
+import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
+  BarChart3,
   Check,
   Clock,
   Eraser,
+  GripVertical,
   Image as ImageIcon,
   ListTodo,
   Loader2,
@@ -15,6 +18,7 @@ import {
   PenTool,
   Play,
   Plus,
+  Sparkles,
   Square,
   StopCircle,
   Trash2,
@@ -678,15 +682,36 @@ function TasklistModal({
 function Card({
   children,
   onRemove,
+  index,
+  onDragStart,
+  onDragOver,
+  onDrop,
   className = '',
-}: { children: React.ReactNode; onRemove: () => void; className?: string }) {
+}: {
+  children: React.ReactNode;
+  onRemove: () => void;
+  index?: number;
+  onDragStart?: (e: React.DragEvent) => void;
+  onDragOver?: (e: React.DragEvent) => void;
+  onDrop?: (e: React.DragEvent) => void;
+  className?: string;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.93 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
-      className={`relative bg-[#1e1e1e] border border-white/[0.08] rounded-2xl p-4 flex flex-col gap-2.5 group ${className}`}
+      draggable={!!onDragStart}
+      onDragStart={onDragStart as any}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      className={`relative bg-[#1e1e1e] border border-white/[0.08] rounded-2xl p-4 flex flex-col gap-2.5 group cursor-grab active:cursor-grabbing ${className}`}
     >
+      {onDragStart && (
+        <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-60 transition-opacity z-10">
+          <GripVertical className="w-4 h-4 text-slate-500" />
+        </div>
+      )}
       {children}
       <button
         type="button"
@@ -709,9 +734,16 @@ const Badge = ({ children }: { children: React.ReactNode }) => (
 function ImageCard({
   b,
   onRemove,
-}: { b: Extract<Block, { type: 'image' }>; onRemove: () => void }) {
+  ...dragProps
+}: {
+  b: Extract<Block, { type: 'image' }>;
+  onRemove: () => void;
+  onDragStart?: (e: React.DragEvent) => void;
+  onDragOver?: (e: React.DragEvent) => void;
+  onDrop?: (e: React.DragEvent) => void;
+}) {
   return (
-    <Card onRemove={onRemove}>
+    <Card onRemove={onRemove} {...dragProps}>
       <img
         src={getOptimizedImageUrl(b.dataUrl, { width: 1200 })}
         alt={b.name}
@@ -725,7 +757,14 @@ function ImageCard({
 function VoiceCard({
   b,
   onRemove,
-}: { b: Extract<Block, { type: 'voice' }>; onRemove: () => void }) {
+  ...dragProps
+}: {
+  b: Extract<Block, { type: 'voice' }>;
+  onRemove: () => void;
+  onDragStart?: (e: React.DragEvent) => void;
+  onDragOver?: (e: React.DragEvent) => void;
+  onDrop?: (e: React.DragEvent) => void;
+}) {
   const [playing, setPlaying] = useState(false);
   const [prog, setProg] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -759,7 +798,7 @@ function VoiceCard({
   );
 
   return (
-    <Card onRemove={onRemove}>
+    <Card onRemove={onRemove} {...dragProps}>
       <div className="flex items-center gap-3">
         <button
           type="button"
@@ -801,9 +840,16 @@ function VoiceCard({
 function DoodleCard({
   b,
   onRemove,
-}: { b: Extract<Block, { type: 'doodle' }>; onRemove: () => void }) {
+  ...dragProps
+}: {
+  b: Extract<Block, { type: 'doodle' }>;
+  onRemove: () => void;
+  onDragStart?: (e: React.DragEvent) => void;
+  onDragOver?: (e: React.DragEvent) => void;
+  onDrop?: (e: React.DragEvent) => void;
+}) {
   return (
-    <Card onRemove={onRemove}>
+    <Card onRemove={onRemove} {...dragProps}>
       <img
         src={b.dataUrl}
         alt="doodle"
@@ -818,7 +864,15 @@ function GoalCard({
   b,
   onUpdate,
   onRemove,
-}: { b: Extract<Block, { type: 'goal' }>; onUpdate: (x: Block) => void; onRemove: () => void }) {
+  ...dragProps
+}: {
+  b: Extract<Block, { type: 'goal' }>;
+  onUpdate: (x: Block) => void;
+  onRemove: () => void;
+  onDragStart?: (e: React.DragEvent) => void;
+  onDragOver?: (e: React.DragEvent) => void;
+  onDrop?: (e: React.DragEvent) => void;
+}) {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -841,7 +895,7 @@ function GoalCard({
     .toLowerCase();
 
   return (
-    <Card onRemove={onRemove}>
+    <Card onRemove={onRemove} {...dragProps}>
       <div className="border border-white/10 rounded-xl px-3 py-2 bg-white/[0.03] text-white text-xs leading-snug">
         {b.goal}
       </div>
@@ -876,16 +930,20 @@ function TasklistCard({
   b,
   onUpdate,
   onRemove,
+  ...dragProps
 }: {
   b: Extract<Block, { type: 'tasklist' }>;
   onUpdate: (x: Block) => void;
   onRemove: () => void;
+  onDragStart?: (e: React.DragEvent) => void;
+  onDragOver?: (e: React.DragEvent) => void;
+  onDrop?: (e: React.DragEvent) => void;
 }) {
   const toggle = (tid: string) =>
     onUpdate({ ...b, tasks: b.tasks.map((t) => (t.id === tid ? { ...t, done: !t.done } : t)) });
   const done = b.tasks.filter((t) => t.done).length;
   return (
-    <Card onRemove={onRemove}>
+    <Card onRemove={onRemove} {...dragProps}>
       <p className="text-white text-xs font-medium">{b.title}</p>
       <div className="flex flex-col gap-1.5">
         {b.tasks.map((task) => (
@@ -933,15 +991,18 @@ function ToolBtn({
     <button
       type="button"
       onClick={onClick}
-      className={`flex items-center gap-2 px-5 py-4 transition-colors text-sm whitespace-nowrap flex-1 justify-center ${active ? 'bg-red-500/[0.08] text-red-400' : 'hover:bg-white/5 text-slate-300'}`}
+      className={`relative flex items-center justify-center w-14 h-14 rounded-2xl transition-all shadow-xl border border-white/[0.08] group ${active ? 'bg-red-500/10 border-red-500/30' : 'bg-[#1a1a1a] hover:bg-[#222] hover:scale-105'}`}
     >
       {icon}
-      <span>{label}</span>
       {!!count && count > 0 && (
-        <span className="w-4 h-4 bg-[#FF5C35] rounded-full text-[9px] flex items-center justify-center text-white font-bold">
+        <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-[#FF5C35] rounded-full text-[10px] flex items-center justify-center text-white font-bold border-2 border-[#0a0a0a]">
           {count}
         </span>
       )}
+      <div className="absolute right-full mr-4 bg-[#222] text-white text-xs px-3 py-1.5 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-xl border border-white/10 flex items-center">
+        {label}
+        <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-[#222] rotate-45 border-t border-r border-white/10" />
+      </div>
     </button>
   );
 }
@@ -1126,7 +1187,7 @@ function NewEntryContent() {
         setEntryId(e.id);
         entryIdRef.current = e.id;
         migrateKey(e.id);
-        router.replace(`/dashboard/new-entry?id=${e.id}`);
+        router.replace(`/home/canvas?id=${e.id}`);
       } else {
         await updateRef.current({ id, content: payload });
       }
@@ -1154,7 +1215,7 @@ function NewEntryContent() {
     if (dbDebounce.current) clearTimeout(dbDebounce.current);
     if (textContent.trim() && !isSaving.current)
       await performDbSave.current(textContent, blocks, entryIdRef.current);
-    router.push('/dashboard');
+    router.push('/home');
   };
 
   // ── Block helpers (setBlocks auto-persists to localStorage) ───────────────
@@ -1162,6 +1223,14 @@ function NewEntryContent() {
   const removeBlock = (id: string) => setBlocks((prev) => prev.filter((b) => b.id !== id));
   const updateBlock = (upd: Block) =>
     setBlocks((prev) => prev.map((b) => (b.id === upd.id ? upd : b)));
+  const moveBlock = (fromIdx: number, toIdx: number) => {
+    setBlocks((prev) => {
+      const next = [...prev];
+      const [moved] = next.splice(fromIdx, 1);
+      if (moved) next.splice(toIdx, 0, moved);
+      return next;
+    });
+  };
 
   const {
     recording,
@@ -1211,6 +1280,7 @@ function NewEntryContent() {
         </div>
 
         <div className="flex items-center gap-3">
+
           {/* Save status — shows localStorage save state */}
           <div className="min-w-[90px] flex justify-end">
             <AnimatePresence mode="wait">
@@ -1266,7 +1336,7 @@ function NewEntryContent() {
       </header>
 
       {/* ── THE CANVAS PANEL ─────────────────────────────────────────────────── */}
-      <main className="flex-1 w-full max-w-4xl mx-auto px-6 relative z-10 flex flex-col mt-14 pb-8">
+      <main className="flex-1 w-full max-w-5xl mx-auto px-6 relative z-10 flex flex-row gap-4 mt-8 pb-8 items-stretch">
         <div className="flex-1 rounded-[28px] bg-[#141414] border border-white/[0.08] shadow-2xl flex flex-col overflow-hidden">
           {/* Scrollable writing + blocks — everything lives here */}
           <div
@@ -1285,95 +1355,129 @@ function NewEntryContent() {
             />
 
             {/* All blocks — inside canvas, restored from localStorage on refresh */}
-            {blocks.length > 0 && (
-              <div
-                className="grid gap-4"
-                style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))' }}
-              >
-                <AnimatePresence>
-                  {blocks.map((b) => {
-                    if (b.type === 'image')
-                      return <ImageCard key={b.id} b={b} onRemove={() => removeBlock(b.id)} />;
-                    if (b.type === 'voice')
-                      return <VoiceCard key={b.id} b={b} onRemove={() => removeBlock(b.id)} />;
-                    if (b.type === 'doodle')
-                      return <DoodleCard key={b.id} b={b} onRemove={() => removeBlock(b.id)} />;
-                    if (b.type === 'goal')
-                      return (
-                        <GoalCard
-                          key={b.id}
-                          b={b}
-                          onUpdate={updateBlock}
-                          onRemove={() => removeBlock(b.id)}
-                        />
-                      );
-                    if (b.type === 'tasklist')
-                      return (
-                        <TasklistCard
-                          key={b.id}
-                          b={b}
-                          onUpdate={updateBlock}
-                          onRemove={() => removeBlock(b.id)}
-                        />
-                      );
-                    return null;
-                  })}
-                </AnimatePresence>
-              </div>
-            )}
+            {blocks.length > 0 &&
+              (() => {
+                const dragIdx = { current: -1 };
+                const makeDragHandlers = (i: number) => ({
+                  onDragStart: (e: React.DragEvent) => {
+                    dragIdx.current = i;
+                    e.dataTransfer.effectAllowed = 'move';
+                  },
+                  onDragOver: (e: React.DragEvent) => {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                  },
+                  onDrop: (e: React.DragEvent) => {
+                    e.preventDefault();
+                    if (dragIdx.current !== i) moveBlock(dragIdx.current, i);
+                  },
+                });
+                return (
+                  <div
+                    className="grid gap-4"
+                    style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))' }}
+                  >
+                    <AnimatePresence>
+                      {blocks.map((b, i) => {
+                        const dh = makeDragHandlers(i);
+                        if (b.type === 'image')
+                          return (
+                            <ImageCard
+                              key={b.id}
+                              b={b}
+                              onRemove={() => removeBlock(b.id)}
+                              {...dh}
+                            />
+                          );
+                        if (b.type === 'voice')
+                          return (
+                            <VoiceCard
+                              key={b.id}
+                              b={b}
+                              onRemove={() => removeBlock(b.id)}
+                              {...dh}
+                            />
+                          );
+                        if (b.type === 'doodle')
+                          return (
+                            <DoodleCard
+                              key={b.id}
+                              b={b}
+                              onRemove={() => removeBlock(b.id)}
+                              {...dh}
+                            />
+                          );
+                        if (b.type === 'goal')
+                          return (
+                            <GoalCard
+                              key={b.id}
+                              b={b}
+                              onUpdate={updateBlock}
+                              onRemove={() => removeBlock(b.id)}
+                              {...dh}
+                            />
+                          );
+                        if (b.type === 'tasklist')
+                          return (
+                            <TasklistCard
+                              key={b.id}
+                              b={b}
+                              onUpdate={updateBlock}
+                              onRemove={() => removeBlock(b.id)}
+                              {...dh}
+                            />
+                          );
+                        return null;
+                      })}
+                    </AnimatePresence>
+                  </div>
+                );
+              })()}
           </div>
-
-          {/* Tooltip */}
-          <div className="flex justify-center py-3 border-t border-white/[0.04]">
-            <span className="bg-[#1e1e1e] border border-white/[0.08] text-slate-400 text-xs px-4 py-1.5 rounded-full select-none">
-              Add if it helps you remember
-            </span>
-          </div>
-
-          {/* Toolbar */}
-          <div className="border-t border-white/[0.06] flex items-stretch divide-x divide-white/[0.06]">
-            <ToolBtn
-              icon={<ImageIcon className="w-4 h-4 text-[#FF5C35]" />}
-              label="Add image"
-              count={blocks.filter((b) => b.type === 'image').length}
-              onClick={() => setModal('image')}
-            />
-            <ToolBtn
-              icon={
-                recording ? (
-                  <StopCircle className="w-4 h-4 text-red-400 animate-pulse" />
-                ) : (
-                  <Mic className="w-4 h-4 text-[#FF5C35]" />
-                )
-              }
-              label={
-                recording
-                  ? `${String(Math.floor(elapsed / 60)).padStart(2, '0')}:${String(elapsed % 60).padStart(2, '00')}`
-                  : 'Voice note'
-              }
-              count={!recording ? blocks.filter((b) => b.type === 'voice').length : 0}
-              onClick={recording ? stopRec : startRec}
-              active={recording}
-            />
-            <ToolBtn
-              icon={<PenTool className="w-4 h-4 text-[#FF5C35]" />}
-              label="Doodle"
-              count={blocks.filter((b) => b.type === 'doodle').length}
-              onClick={() => setModal('doodle')}
-            />
-            <ToolBtn
-              icon={<ListTodo className="w-4 h-4 text-[#FF5C35]" />}
-              label="Tasklist"
-              count={blocks.filter((b) => b.type === 'tasklist').length}
-              onClick={() => setModal('tasklist')}
-            />
-            <ToolBtn
-              icon={<Clock className="w-4 h-4 text-[#FF5C35]" />}
-              label="Set time"
-              count={blocks.filter((b) => b.type === 'goal').length}
-              onClick={() => setModal('goal')}
-            />
-          </div>
+        </div>
+        {/* Floating Toolbar */}
+        <div className="flex flex-col gap-3 shrink-0 pt-4">
+          <ToolBtn
+            icon={<ImageIcon className="w-5 h-5 text-[#FF5C35]" />}
+            label="Add image"
+            count={blocks.filter((b) => b.type === 'image').length}
+            onClick={() => setModal('image')}
+          />
+          <ToolBtn
+            icon={
+              recording ? (
+                <StopCircle className="w-5 h-5 text-red-400 animate-pulse" />
+              ) : (
+                <Mic className="w-5 h-5 text-[#FF5C35]" />
+              )
+            }
+            label={
+              recording
+                ? `${String(Math.floor(elapsed / 60)).padStart(2, '0')}:${String(elapsed % 60).padStart(2, '00')}`
+                : 'Voice note'
+            }
+            count={!recording ? blocks.filter((b) => b.type === 'voice').length : 0}
+            onClick={recording ? stopRec : startRec}
+            active={recording}
+          />
+          <ToolBtn
+            icon={<PenTool className="w-5 h-5 text-[#FF5C35]" />}
+            label="Doodle"
+            count={blocks.filter((b) => b.type === 'doodle').length}
+            onClick={() => setModal('doodle')}
+          />
+          <ToolBtn
+            icon={<ListTodo className="w-5 h-5 text-[#FF5C35]" />}
+            label="Tasklist"
+            count={blocks.filter((b) => b.type === 'tasklist').length}
+            onClick={() => setModal('tasklist')}
+          />
+          <ToolBtn
+            icon={<Clock className="w-5 h-5 text-[#FF5C35]" />}
+            label="Set time"
+            count={blocks.filter((b) => b.type === 'goal').length}
+            onClick={() => setModal('goal')}
+          />
         </div>
       </main>
 

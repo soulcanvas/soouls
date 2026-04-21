@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
+import React, { useEffect, useRef, useState } from 'react';
 
+import { AnimatePresence, type PanInfo, motion } from 'framer-motion';
 import { Search } from 'lucide-react';
-import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 
 interface Entry {
   id: string;
@@ -21,13 +21,8 @@ interface DroppedItem extends Entry {
  * Custom Folder Component based on the latest dark-themed design.
  * Features the espresso brown fill, grey stroke, and "Entries" badge.
  */
-const FolderIcon = ({ className, count = "12" }: { className?: string; count?: string }) => (
-  <svg
-    viewBox="0 0 100 80"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-  >
+const FolderIcon = ({ className, count = '12' }: { className?: string; count?: string }) => (
+  <svg viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
     <path
       d="M10 25C10 22.2386 12.2386 20 15 20H38.5C39.6935 20 40.8443 20.4261 41.745 21.2014L50.255 28.5486C51.1557 29.3239 52.3065 29.75 53.5 29.75H85C87.7614 29.75 90 31.9886 90 34.75V70C90 72.7614 87.7614 75 85 75H15C12.2386 75 10 72.7614 10 70V25Z"
       fill="#3A2D28"
@@ -35,18 +30,23 @@ const FolderIcon = ({ className, count = "12" }: { className?: string; count?: s
       strokeWidth="3.5"
       strokeLinejoin="round"
     />
-    <rect 
-      x="18" y="58" width="22" height="8" rx="4" 
-      fill="transparent" 
-      stroke="#FF5C35" 
+    <rect
+      x="18"
+      y="58"
+      width="22"
+      height="8"
+      rx="4"
+      fill="transparent"
+      stroke="#FF5C35"
       strokeWidth="0.8"
       opacity="0.6"
     />
-    <text 
-      x="20" y="64.5" 
-      fill="#FF5C35" 
-      fontSize="4" 
-      fontWeight="600" 
+    <text
+      x="20"
+      y="64.5"
+      fill="#FF5C35"
+      fontSize="4"
+      fontWeight="600"
       style={{ fontFamily: 'sans-serif' }}
     >
       {count} Entries
@@ -57,7 +57,7 @@ const FolderIcon = ({ className, count = "12" }: { className?: string; count?: s
 export default function CanvasPage() {
   const inputRef = useRef<HTMLInputElement>(null);
   const dropZoneRef = useRef<HTMLDivElement>(null);
-   const { user } = useUser();
+  const { user } = useUser();
 
   // Replaced searchParams logic with local state for the standalone preview
   const [query, setQuery] = useState('');
@@ -93,23 +93,20 @@ export default function CanvasPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const filtered = entries.filter((e) =>
-    e.title.toLowerCase().includes(query.toLowerCase())
-  );
+  const filtered = entries.filter((e) => e.title.toLowerCase().includes(query.toLowerCase()));
 
   // Drag and Drop Logic
-  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo, entry: Entry) => {
+  const handleDragEnd = (
+    event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo,
+    entry: Entry,
+  ) => {
     const dropZone = dropZoneRef.current?.getBoundingClientRect();
     if (!dropZone) return;
 
     const { x, y } = info.point;
 
-    if (
-      x >= dropZone.left &&
-      x <= dropZone.right &&
-      y >= dropZone.top &&
-      y <= dropZone.bottom
-    ) {
+    if (x >= dropZone.left && x <= dropZone.right && y >= dropZone.top && y <= dropZone.bottom) {
       const relativeX = x - dropZone.left - 60; // offset for centering
       const relativeY = y - dropZone.top - 50;
 
@@ -127,7 +124,6 @@ export default function CanvasPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col relative overflow-hidden font-sans select-none">
-      
       {/* Watermark (Original Logic Kept) */}
       <div className="absolute top-10 left-0 right-0 flex justify-center pointer-events-none opacity-25 select-none z-0 overflow-hidden whitespace-nowrap">
         <span
@@ -144,17 +140,13 @@ export default function CanvasPage() {
       {/* Header (Original Logic Kept) */}
       <header className="px-8 py-6 flex justify-between items-center relative z-10">
         <div className="flex items-center gap-2 text-sm text-white/60">
-          <button
-            className="hover:text-[#FF5C35] transition"
-          >
-            Home
-          </button>
+          <button className="hover:text-[#FF5C35] transition">Home</button>
           <span>/</span>
           <span className="text-[#FF5C35]">Canvas</span>
         </div>
 
         <div className="w-9 h-9 rounded-full border border-white/10 bg-zinc-800 overflow-hidden">
-                  {user?.imageUrl && (
+          {user?.imageUrl && (
             <img
               src={user.imageUrl}
               alt="Profile"
@@ -172,7 +164,6 @@ export default function CanvasPage() {
       {/* Main */}
       <main className="flex-1 w-full max-w-7xl mx-auto px-6 relative z-10 flex flex-col mt-10 md:mt-14 pb-8">
         <div className="flex flex-col md:flex-row gap-6 flex-1 min-h-0">
-          
           {/* LEFT PANEL: Grid of Draggable Folders */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -213,18 +204,16 @@ export default function CanvasPage() {
                         {entry.title}
                       </p>
                     </motion.div>
-                    
+
                     <div className="absolute inset-0 opacity-10 pointer-events-none">
-                       <FolderIcon className="w-full aspect-[1.1/1] mb-3 grayscale" />
+                      <FolderIcon className="w-full aspect-[1.1/1] mb-3 grayscale" />
                     </div>
                   </div>
                 ))}
               </div>
 
               {filtered.length === 0 && (
-                <p className="text-sm text-white/30 text-center mt-10">
-                  No matching entries
-                </p>
+                <p className="text-sm text-white/30 text-center mt-10">No matching entries</p>
               )}
             </div>
           </motion.div>
@@ -233,11 +222,11 @@ export default function CanvasPage() {
           <motion.div
             ref={dropZoneRef}
             initial={{ opacity: 0, x: 20 }}
-            animate={{ 
-              opacity: 1, 
+            animate={{
+              opacity: 1,
               x: 0,
               borderColor: isDraggingOver ? 'rgba(255,92,53,0.3)' : 'rgba(255,255,255,0.08)',
-              backgroundColor: isDraggingOver ? 'rgba(255,92,53,0.02)' : 'transparent'
+              backgroundColor: isDraggingOver ? 'rgba(255,92,53,0.02)' : 'transparent',
             }}
             className="flex-[2] rounded-[28px] border shadow-2xl relative overflow-hidden flex items-center justify-center hover:border-white/20 transition"
           >
@@ -284,16 +273,16 @@ export default function CanvasPage() {
                   Double click
                 </div>
 
-                <p className="mt-2 text-sm text-white/40">
-                  Drag entries or double click to begin
-                </p>
+                <p className="mt-2 text-sm text-white/40">Drag entries or double click to begin</p>
               </div>
             )}
 
             {/* Visual Drop Feedback */}
             {isDraggingOver && (
               <div className="absolute inset-0 border-2 border-dashed border-[#FF5C35]/20 m-4 rounded-[20px] flex items-center justify-center pointer-events-none z-50">
-                <span className="text-[#FF5C35]/40 text-xs font-bold tracking-[0.5em] uppercase">Drop Here</span>
+                <span className="text-[#FF5C35]/40 text-xs font-bold tracking-[0.5em] uppercase">
+                  Drop Here
+                </span>
               </div>
             )}
           </motion.div>

@@ -111,11 +111,11 @@ export default function HeroSection() {
         </p>
 
         <Link
-          href="/#waitlist"
+          href="/sign-up"
           className="font-urbanist font-semibold bg-[#E07A5F] text-[#222222] px-8 h-16 rounded-xl flex items-center gap-3 transition-transform hover:scale-105 active:scale-95"
           style={{ fontSize: '20px' }}
         >
-          Join the Waitlist
+          Start writing
         </Link>
 
         <p className="font-playfair italic mt-10 text-[#D9D9D9] opacity-80 text-2xl">

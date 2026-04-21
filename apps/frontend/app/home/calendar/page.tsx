@@ -31,11 +31,11 @@ export default function CalendarPage() {
 
   const [view, setView] = useState('Monthly');
   const [currentDate, setCurrentDate] = useState(new Date());
-  
+
   const today = new Date();
   const month = currentDate.getMonth();
   const year = currentDate.getFullYear();
-  
+
   const [selectedDay, setSelectedDay] = useState<number | null>(today.getDate());
 
   const { data: galaxyData, isLoading } = trpc.private.entries.getGalaxy.useQuery({ limit: 500 });
@@ -71,11 +71,21 @@ export default function CalendarPage() {
     return map;
   }, [entries, month, year]);
 
-  const selectedEntries = selectedDay ? entriesByDay.get(selectedDay) ?? [] : [];
+  const selectedEntries = selectedDay ? (entriesByDay.get(selectedDay) ?? []) : [];
 
   const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   /*
@@ -88,7 +98,11 @@ export default function CalendarPage() {
     const firstDayOfMonth = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    const items: Array<{ day: number | null; key: string; events?: Array<{ id: string; title: string }> }> = [];
+    const items: Array<{
+      day: number | null;
+      key: string;
+      events?: Array<{ id: string; title: string }>;
+    }> = [];
 
     for (let i = 0; i < firstDayOfMonth; i++) {
       items.push({ day: null, key: `empty-${i}` });
@@ -134,7 +148,7 @@ export default function CalendarPage() {
       <header className="w-full max-w-4xl flex justify-between items-center mb-12 relative z-10 px-4">
         <div className="flex items-baseline gap-1 text-2xl font-semibold tracking-tight">
           <span
-            onClick={() => router.push('/dashboard')}
+            onClick={() => router.push('/home')}
             className="text-gray-500 hover:text-gray-300 transition-colors cursor-pointer"
           >
             Home
@@ -157,7 +171,11 @@ export default function CalendarPage() {
           </a>
           <div className="w-12 h-12 rounded-full border-2 border-[#e67e65] p-[2px] overflow-hidden bg-gray-800 shadow-lg">
             {user?.imageUrl ? (
-              <img src={user.imageUrl} alt="profile" className="w-full h-full object-cover rounded-full" />
+              <img
+                src={user.imageUrl}
+                alt="profile"
+                className="w-full h-full object-cover rounded-full"
+              />
             ) : (
               <div className="w-full h-full rounded-full bg-zinc-700 flex items-center justify-center text-xs">
                 {user?.firstName?.charAt(0) || 'U'}
@@ -186,7 +204,9 @@ export default function CalendarPage() {
                 key={v}
                 onClick={() => setView(v)}
                 className={`px-8 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
-                  view === v ? 'bg-[#e67e65] text-white shadow-xl' : 'text-gray-500 hover:text-gray-300'
+                  view === v
+                    ? 'bg-[#e67e65] text-white shadow-xl'
+                    : 'text-gray-500 hover:text-gray-300'
                 }`}
               >
                 {v}
@@ -210,7 +230,9 @@ export default function CalendarPage() {
           <div className="grid grid-cols-7 gap-y-10 flex-1">
             {calendarGrid.map((item) => {
               const isToday =
-                item.day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+                item.day === today.getDate() &&
+                month === today.getMonth() &&
+                year === today.getFullYear();
 
               return (
                 <DayCell
@@ -244,7 +266,7 @@ export default function CalendarPage() {
                 <li key={entry.id}>
                   <button
                     type="button"
-                    onClick={() => router.push(`/dashboard/new-entry?id=${entry.id}`)}
+                    onClick={() => router.push(`/home?id=${entry.id}`)}
                     className="w-full text-left rounded-xl border border-white/10 px-3 py-2 hover:border-[#e67e65]/40 hover:bg-[#e67e65]/10 transition-colors"
                   >
                     <div className="line-clamp-2">{entry.title}</div>

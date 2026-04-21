@@ -5,7 +5,14 @@ export default function AboutUsSection() {
     <section id="about-us" className="relative w-full py-32 bg-[#161616] overflow-hidden">
       {/* Background Decoration: Clover Pattern */}
       <div className="absolute top-[10%] left-[-10%] opacity-[0.03] rotate-12 pointer-events-none">
-        <svg width="600" height="600" viewBox="0 0 100 100" fill="none" stroke="#EFEBDD" strokeWidth="0.5">
+        <svg
+          width="600"
+          height="600"
+          viewBox="0 0 100 100"
+          fill="none"
+          stroke="#EFEBDD"
+          strokeWidth="0.5"
+        >
           <path d="M48 48 C 20 8, -5 40, 48 48 Z" />
           <path d="M52 48 C 80 8, 105 40, 52 48 Z" />
           <path d="M52 52 C 80 92, 105 60, 52 52 Z" />
@@ -26,20 +33,23 @@ export default function AboutUsSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
           <div className="space-y-12">
             <div className="p-8 rounded-[40px] bg-white/[0.02] border border-white/[0.05] backdrop-blur-2xl">
-              <h3 className="font-urbanist text-2xl font-semibold text-[#EFEBDD] mb-4">The Origin</h3>
+              <h3 className="font-urbanist text-2xl font-semibold text-[#EFEBDD] mb-4">
+                The Origin
+              </h3>
               <p className="font-urbanist text-lg text-[#A8A8A8] leading-relaxed">
-                Soouls started as a simple tool for personal reflection. We felt overwhelmed by the 
-                structured, timeline-focused nature of modern digital tools. Deep thinking isn't linear; 
-                it's an expansion.
+                Soouls started as a simple tool for personal reflection. We felt overwhelmed by the
+                structured, timeline-focused nature of modern digital tools. Deep thinking isn't
+                linear; it's an expansion.
               </p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex flex-col gap-4">
                 <span className="text-[#E07A5F] text-2xl">✻</span>
                 <h4 className="font-urbanist font-bold text-[#EFEBDD]">Thoughts are nonlinear</h4>
                 <p className="font-urbanist text-sm text-[#888888] leading-relaxed">
-                  Ideas emerge, overlap, and evolve. Our canvas respects this naturally chaotic process.
+                  Ideas emerge, overlap, and evolve. Our canvas respects this naturally chaotic
+                  process.
                 </p>
               </div>
               <div className="flex flex-col gap-4">
@@ -57,7 +67,7 @@ export default function AboutUsSection() {
             <div className="relative p-12 rounded-[56px] bg-[#1D2122] border border-white/[0.05] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
               <blockquote className="space-y-8">
                 <p className="font-playfair text-3xl md:text-4xl text-[#D6C2A3] italic leading-tight">
-                  "Soouls is not just a product. <br /> 
+                  "Soouls is not just a product. <br />
                   It's a practice of mindfulness in a digital age."
                 </p>
                 <footer className="font-urbanist text-[#888888] text-sm tracking-widest uppercase">

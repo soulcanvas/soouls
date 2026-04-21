@@ -1,7 +1,8 @@
 'use client';
 
 import { UserButton, useUser } from '@clerk/nextjs';
-import { DashboardLayout } from '@soouls/ui-kit';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   ArrowLeft,
   Calendar,
@@ -16,13 +17,10 @@ import {
   Upload,
   User,
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 
-// ─── Font constants ───────────────────────────────────────────────────────────
 const FONT_PLAYFAIR = "'Playfair Display', Georgia, serif";
 const FONT_URBANIST = "'Urbanist', system-ui, sans-serif";
 
-// ─── Stat Card ───────────────────────────────────────────────────────────────
 function StatCard({
   value,
   label,
@@ -40,9 +38,7 @@ function StatCard({
       style={{ fontFamily: FONT_URBANIST }}
     >
       <div className="flex items-start justify-between">
-        <span
-          className={`text-5xl font-bold leading-none ${highlight ? 'text-white' : 'text-[#e07a5f]'}`}
-        >
+        <span className={`text-5xl font-bold leading-none ${highlight ? 'text-white' : 'text-[#e07a5f]'}`}>
           {value}
         </span>
         <span className="text-[#FFA500]">{icon}</span>
@@ -52,26 +48,15 @@ function StatCard({
   );
 }
 
-// ─── Tag ─────────────────────────────────────────────────────────────────────
 function Tag({ label }: { label: string }) {
   return (
-    <span
-      className="inline-block rounded-full border border-white/15 px-4 py-1.5 text-sm text-white/70"
-      style={{ fontFamily: FONT_URBANIST }}
-    >
+    <span className="inline-block rounded-full border border-white/15 px-4 py-1.5 text-sm text-white/70" style={{ fontFamily: FONT_URBANIST }}>
       {label}
     </span>
   );
 }
 
-// ─── Theme Bar ───────────────────────────────────────────────────────────────
-function ThemeBar({
-  label,
-  percent,
-}: {
-  label: string;
-  percent: number;
-}) {
+function ThemeBar({ label, percent }: { label: string; percent: number }) {
   return (
     <div className="flex items-center justify-between py-1.5">
       <span className="text-[#e07a5f] font-medium text-sm" style={{ fontFamily: FONT_URBANIST }}>
@@ -84,7 +69,6 @@ function ThemeBar({
   );
 }
 
-// ─── Action Button ───────────────────────────────────────────────────────────
 function OutlineButton({
   children,
   icon,
@@ -100,10 +84,11 @@ function OutlineButton({
     <button
       type="button"
       onClick={onClick}
-      className={`flex items-center gap-2.5 rounded-full border px-6 py-3 text-sm font-medium transition-all duration-200 ${danger
-        ? 'border-red-500/40 text-red-400 hover:bg-red-500/10 hover:border-red-500/60'
-        : 'border-white/15 text-white/70 hover:bg-white/5 hover:border-white/30 hover:text-white'
-        }`}
+      className={`flex items-center gap-2.5 rounded-full border px-6 py-3 text-sm font-medium transition-all duration-200 ${
+        danger
+          ? 'border-red-500/40 text-red-400 hover:bg-red-500/10 hover:border-red-500/60'
+          : 'border-white/15 text-white/70 hover:bg-white/5 hover:border-white/30 hover:text-white'
+      }`}
       style={{ fontFamily: FONT_URBANIST }}
     >
       {icon}
@@ -112,14 +97,7 @@ function OutlineButton({
   );
 }
 
-// ─── Data Action Button ───────────────────────────────────────────────────────
-function DataActionBtn({
-  children,
-  icon,
-}: {
-  children: React.ReactNode;
-  icon: React.ReactNode;
-}) {
+function DataActionBtn({ children, icon }: { children: React.ReactNode; icon: React.ReactNode }) {
   return (
     <button
       type="button"
@@ -132,7 +110,6 @@ function DataActionBtn({
   );
 }
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
 export default function AccountPage() {
   const { user } = useUser();
   const router = useRouter();
@@ -143,7 +120,6 @@ export default function AccountPage() {
 
   return (
     <>
-      {/* Fonts */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link
@@ -151,8 +127,20 @@ export default function AccountPage() {
         rel="stylesheet"
       />
 
-      <DashboardLayout
-        userActionSlot={
+      <div className="min-h-screen bg-[#0A0A0A] text-white" style={{ fontFamily: FONT_URBANIST }}>
+        {/* Header */}
+        <header className="px-8 py-6 flex items-center justify-between border-b border-white/5">
+          <div className="flex items-center gap-4">
+            <Link
+              href="/home"
+              className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Home
+            </Link>
+            <span className="text-slate-600">/</span>
+            <span className="text-[#e07a5f] text-lg">Account</span>
+          </div>
           <UserButton
             appearance={{
               elements: {
@@ -161,18 +149,13 @@ export default function AccountPage() {
             }}
             afterSignOutUrl="/"
           />
-        }
-        title="Account"
-      >
-        <div style={{ fontFamily: FONT_URBANIST }} className="space-y-6 pb-16">
+        </header>
 
-          {/* ── Profile + Stats ────────────────────────────────── */}
+        <main className="max-w-4xl mx-auto px-8 py-10 space-y-6 pb-16">
+          {/* Profile + Stats */}
           <div className="rounded-2xl border border-white/5 bg-[#141414] p-6">
             <div className="flex flex-col sm:flex-row gap-6">
-
-              {/* Profile Info */}
               <div className="flex items-start gap-5 flex-1">
-                {/* Avatar */}
                 <div className="relative flex-shrink-0">
                   {avatarUrl ? (
                     <img
@@ -188,7 +171,6 @@ export default function AccountPage() {
                   <div className="absolute -bottom-0.5 -right-0.5 h-4 w-4 rounded-full bg-emerald-400 ring-2 ring-[#141414]" />
                 </div>
 
-                {/* Name / Email / Bio */}
                 <div className="flex-1 min-w-0 flex flex-col justify-center gap-1.5">
                   <h2
                     className="text-4xl text-white leading-none"
@@ -197,9 +179,7 @@ export default function AccountPage() {
                     {displayName}
                   </h2>
                   <p className="text-[#e07a5f] text-base">{email}</p>
-                  <div className="text-base text-white/60 mt-0.5">
-                    Trying to make sense of my thoughts.
-                  </div>
+                  <div className="text-base text-white/60 mt-0.5">Trying to make sense of my thoughts.</div>
                   <div className="flex items-center gap-1.5 mt-1">
                     <TrendingUp className="w-4 h-4 text-emerald-400" />
                     <span className="text-emerald-400 text-sm font-semibold">
@@ -209,36 +189,17 @@ export default function AccountPage() {
                 </div>
               </div>
 
-              {/* Stats 2x2 */}
               <div className="grid grid-cols-2 gap-4 w-full sm:w-1/2">
-                <StatCard
-                  value={32}
-                  label="Days Joined"
-                  icon={<Calendar className="w-6 h-6" />}
-                />
-                <StatCard
-                  value={64}
-                  label="Entries"
-                  icon={<PenLine className="w-6 h-6" />}
-                />
-                <StatCard
-                  value={9}
-                  label="Day Streak"
-                  icon={<Flame className="w-6 h-6" />}
-                />
-                <StatCard
-                  value="Evenings"
-                  label="Most Active"
-                  icon={<Moon className="w-6 h-6" />}
-                />
+                <StatCard value={32} label="Days Joined" icon={<Calendar className="w-6 h-6" />} />
+                <StatCard value={64} label="Entries" icon={<PenLine className="w-6 h-6" />} />
+                <StatCard value={9} label="Day Streak" icon={<Flame className="w-6 h-6" />} />
+                <StatCard value="Evenings" label="Most Active" icon={<Moon className="w-6 h-6" />} />
               </div>
             </div>
           </div>
 
-          {/* ── Writing Patterns + Insight Analysis ───────────── */}
+          {/* Writing Patterns + Insight Analysis */}
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-
-            {/* Writing Patterns — wider */}
             <div className="lg:col-span-3 rounded-2xl border border-white/5 bg-[#141414] p-6 space-y-4">
               <p className="text-white/70 font-semibold text-base">Your writing patterns</p>
               <p className="text-white/25 text-xs uppercase tracking-[0.18em] font-medium">
@@ -261,12 +222,9 @@ export default function AccountPage() {
               </div>
             </div>
 
-            {/* Insight Analysis — narrower */}
             <div className="lg:col-span-2 rounded-2xl border border-white/5 bg-[#141414] p-6 space-y-3">
               <p className="text-white/70 font-semibold text-base">Insight Analysis</p>
-              <p className="text-white/25 text-xs uppercase tracking-[0.18em] font-medium">
-                Core Theme
-              </p>
+              <p className="text-white/25 text-xs uppercase tracking-[0.18em] font-medium">Core Theme</p>
               <div className="divide-y divide-white/5">
                 <ThemeBar label="Healing" percent={41} />
                 <ThemeBar label="Anxiety" percent={26} />
@@ -278,23 +236,16 @@ export default function AccountPage() {
             </div>
           </div>
 
-          {/* ── Data & Ownership + Privacy Snapshot ──────────── */}
+          {/* Data & Ownership + Privacy Snapshot */}
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
-
-            {/* Data & Ownership */}
             <div className="lg:col-span-3 rounded-2xl border border-white/5 bg-[#141414] p-6 space-y-4">
               <p className="text-white/70 font-semibold text-base">Data &amp; Ownership</p>
               <div className="flex gap-3">
-                <DataActionBtn icon={<Download className="w-4 h-4" />}>
-                  Download your data
-                </DataActionBtn>
-                <DataActionBtn icon={<Upload className="w-4 h-4" />}>
-                  Backup your entries
-                </DataActionBtn>
+                <DataActionBtn icon={<Download className="w-4 h-4" />}>Download your data</DataActionBtn>
+                <DataActionBtn icon={<Upload className="w-4 h-4" />}>Backup your entries</DataActionBtn>
               </div>
             </div>
 
-            {/* Privacy Snapshot */}
             <div className="lg:col-span-2 rounded-2xl border border-white/5 bg-[#141414] p-6 space-y-3">
               <div className="flex items-center gap-2">
                 <Shield className="w-4 h-4 text-emerald-400" />
@@ -307,8 +258,8 @@ export default function AccountPage() {
                 Your privacy comes first.
               </p>
               <p className="text-[#e07a5f] text-xs leading-relaxed">
-                Your data is encrypted end-to-end and used only to generate your personal insights.
-                We don't share, sell, or use it for ads.
+                Your data is encrypted end-to-end and used only to generate your personal insights. We don&apos;t share,
+                sell, or use it for ads.
               </p>
               <div className="flex items-center gap-2 pt-1">
                 <HardDrive className="w-3.5 h-3.5 text-white/30" />
@@ -317,24 +268,17 @@ export default function AccountPage() {
             </div>
           </div>
 
-          {/* ── Bottom Actions ─────────────────────────────────── */}
+          {/* Bottom Actions */}
           <div className="flex items-center gap-3 pt-2 flex-wrap">
-            <OutlineButton
-              icon={<ArrowLeft className="w-4 h-4" />}
-              onClick={() => router.push('/dashboard')}
-            >
-              Back to Dashboard
+            <OutlineButton icon={<ArrowLeft className="w-4 h-4" />} onClick={() => router.push('/home')}>
+              Back to Home
             </OutlineButton>
-            <OutlineButton
-              icon={<Trash2 className="w-4 h-4" />}
-              danger
-            >
+            <OutlineButton icon={<Trash2 className="w-4 h-4" />} danger>
               Delete account
             </OutlineButton>
           </div>
-
-        </div>
-      </DashboardLayout>
+        </main>
+      </div>
     </>
   );
 }

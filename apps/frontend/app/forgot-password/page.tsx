@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import { useSignIn } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import Link from "next/link";
-import { Mail, Lock, Sparkles, ArrowLeft, CheckCircle2 } from "lucide-react";
+import { useSignIn } from '@clerk/nextjs';
+import { ArrowLeft, CheckCircle2, Lock, Mail, Sparkles } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-type Step = "email" | "code" | "success";
+type Step = 'email' | 'code' | 'success';
 
 export default function ForgotPassword() {
   const { isLoaded, signIn, setActive } = useSignIn();
   const router = useRouter();
 
-  const [step, setStep] = useState<Step>("email");
-  const [emailAddress, setEmailAddress] = useState("");
-  const [code, setCode] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [step, setStep] = useState<Step>('email');
+  const [emailAddress, setEmailAddress] = useState('');
+  const [code, setCode] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   // ─── Step 1: Send Reset Code ────────────────────────────────────────────────
@@ -25,19 +25,19 @@ export default function ForgotPassword() {
     e.preventDefault();
     if (!isLoaded) return;
     setIsLoading(true);
-    setError("");
+    setError('');
 
     try {
       await signIn.create({
-        strategy: "reset_password_email_code",
+        strategy: 'reset_password_email_code',
         identifier: emailAddress,
       });
-      setStep("code");
+      setStep('code');
     } catch (err: any) {
       console.error(err);
-      const msg = err.errors?.[0]?.message || "Failed to send reset code.";
-      if (msg.toLowerCase().includes("no account") || msg.toLowerCase().includes("not found")) {
-        setError("No account found with this email address.");
+      const msg = err.errors?.[0]?.message || 'Failed to send reset code.';
+      if (msg.toLowerCase().includes('no account') || msg.toLowerCase().includes('not found')) {
+        setError('No account found with this email address.');
       } else {
         setError(msg);
       }
@@ -52,43 +52,43 @@ export default function ForgotPassword() {
     if (!isLoaded) return;
 
     if (newPassword !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError('Passwords do not match.');
       return;
     }
 
     if (newPassword.length < 8) {
-      setError("Password must be at least 8 characters.");
+      setError('Password must be at least 8 characters.');
       return;
     }
 
     setIsLoading(true);
-    setError("");
+    setError('');
 
     try {
       const result = await signIn.attemptFirstFactor({
-        strategy: "reset_password_email_code",
+        strategy: 'reset_password_email_code',
         code,
         password: newPassword,
       });
 
-      if (result.status === "complete") {
+      if (result.status === 'complete') {
         await setActive({ session: result.createdSessionId });
-        setStep("success");
+        setStep('success');
         // Redirect to dashboard after a short delay
-        setTimeout(() => router.push("/dashboard"), 2000);
+        setTimeout(() => router.push('/home'), 2000);
       } else {
-        setError("Something went wrong. Please try again.");
+        setError('Something went wrong. Please try again.');
       }
     } catch (err: any) {
       console.error(err);
-      setError(err.errors?.[0]?.message || "Invalid code or password. Please try again.");
+      setError(err.errors?.[0]?.message || 'Invalid code or password. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
   // ─── Success Step ───────────────────────────────────────────────────────────
-  if (step === "success") {
+  if (step === 'success') {
     return (
       <div className="min-h-screen bg-[#111111] flex flex-col items-center justify-center font-sans text-slate-200 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-emerald-900/10 rounded-full blur-[120px] pointer-events-none" />
@@ -99,9 +99,7 @@ export default function ForgotPassword() {
               <CheckCircle2 className="w-8 h-8 text-emerald-400" />
             </div>
           </div>
-          <h2 className="font-serif text-3xl mb-4 text-white italic">
-            Password Reset!
-          </h2>
+          <h2 className="font-serif text-3xl mb-4 text-white italic">Password Reset!</h2>
           <p className="text-sm text-slate-400 mb-6">
             Your password has been updated successfully. Redirecting you to the dashboard...
           </p>
@@ -114,33 +112,31 @@ export default function ForgotPassword() {
   }
 
   // ─── Code + New Password Step ───────────────────────────────────────────────
-  if (step === "code") {
+  if (step === 'code') {
     return (
       <div className="min-h-screen bg-[#111111] flex flex-col items-center justify-center font-sans text-slate-200 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-orange-900/5 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,transparent_0%,#111111_100%)] pointer-events-none" />
 
         <div className="absolute top-10 left-12">
-          <h1 className="font-serif text-2xl italic text-orange-200/90 tracking-wide">
-            Soouls
-          </h1>
+          <h1 className="font-serif text-2xl italic text-orange-200/90 tracking-wide">Soouls</h1>
         </div>
 
         <div className="z-10 w-full max-w-[420px] bg-[#1A1A1A]/80 backdrop-blur-xl border border-white/5 rounded-[32px] p-8 md:p-10 shadow-2xl relative">
           <button
-            onClick={() => { setStep("email"); setError(""); }}
+            onClick={() => {
+              setStep('email');
+              setError('');
+            }}
             className="absolute top-6 left-6 p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
           >
             <ArrowLeft className="w-4 h-4 text-slate-400" />
           </button>
 
           <div className="text-center mb-8 pt-4">
-            <h2 className="font-serif text-3xl mb-4 text-white italic">
-              Reset Password
-            </h2>
+            <h2 className="font-serif text-3xl mb-4 text-white italic">Reset Password</h2>
             <p className="text-sm text-slate-400">
-              Enter the code sent to{" "}
-              <span className="text-orange-300">{emailAddress}</span>
+              Enter the code sent to <span className="text-orange-300">{emailAddress}</span>
             </p>
           </div>
 
@@ -211,7 +207,9 @@ export default function ForgotPassword() {
               disabled={isLoading}
               className="w-full bg-gradient-to-r from-orange-300 to-orange-400 hover:from-orange-200 hover:to-orange-300 text-orange-950 font-medium text-base py-4 rounded-full transition-all shadow-[0_0_20px_rgba(253,186,116,0.15)] disabled:opacity-50 flex items-center justify-center group"
             >
-              {isLoading ? "Resetting..." : (
+              {isLoading ? (
+                'Resetting...'
+              ) : (
                 <>
                   Reset Password
                   <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
@@ -232,8 +230,12 @@ export default function ForgotPassword() {
         <div className="absolute bottom-6 w-full px-12 flex justify-between items-center text-[10px] tracking-widest text-slate-600 z-10">
           <div>© SOOULS</div>
           <div className="flex space-x-8">
-            <Link href="#" className="hover:text-slate-400 transition-colors">PRIVACY</Link>
-            <Link href="#" className="hover:text-slate-400 transition-colors">TERMS</Link>
+            <Link href="#" className="hover:text-slate-400 transition-colors">
+              PRIVACY
+            </Link>
+            <Link href="#" className="hover:text-slate-400 transition-colors">
+              TERMS
+            </Link>
           </div>
         </div>
       </div>
@@ -249,9 +251,7 @@ export default function ForgotPassword() {
 
       {/* Header */}
       <div className="absolute top-10 left-12">
-        <h1 className="font-serif text-2xl italic text-orange-200/90 tracking-wide">
-          Soouls
-        </h1>
+        <h1 className="font-serif text-2xl italic text-orange-200/90 tracking-wide">Soouls</h1>
       </div>
 
       <div className="absolute top-10 right-12">
@@ -269,9 +269,7 @@ export default function ForgotPassword() {
         </div>
 
         <div className="text-center mb-10">
-          <h2 className="font-serif text-4xl mb-4 text-white italic">
-            Forgot Password?
-          </h2>
+          <h2 className="font-serif text-4xl mb-4 text-white italic">Forgot Password?</h2>
           <p className="text-sm text-slate-400 max-w-[260px] mx-auto leading-relaxed">
             No worries. Enter your email and we'll send you a code to reset your password.
           </p>
@@ -308,7 +306,9 @@ export default function ForgotPassword() {
             disabled={isLoading}
             className="w-full bg-gradient-to-r from-orange-300 to-orange-400 hover:from-orange-200 hover:to-orange-300 text-orange-950 font-medium text-base py-4 rounded-full transition-all shadow-[0_0_20px_rgba(253,186,116,0.15)] disabled:opacity-50 flex items-center justify-center group"
           >
-            {isLoading ? "Sending..." : (
+            {isLoading ? (
+              'Sending...'
+            ) : (
               <>
                 Send Reset Code
                 <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
@@ -318,15 +318,21 @@ export default function ForgotPassword() {
         </form>
 
         <div className="mt-10 text-center">
-          <Link href="/sign-in" className="text-xs tracking-[0.1em] text-slate-500 hover:text-slate-300 transition-colors uppercase flex items-center justify-center space-x-2">
+          <Link
+            href="/sign-in"
+            className="text-xs tracking-[0.1em] text-slate-500 hover:text-slate-300 transition-colors uppercase flex items-center justify-center space-x-2"
+          >
             <span>←</span>
             <span>BACK TO SIGN IN</span>
           </Link>
         </div>
 
         <div className="mt-8 pt-8 border-t border-white/5 text-center text-[10px] tracking-wider text-slate-500">
-          NEED FURTHER ASSISTANCE?{" "}
-          <Link href="#" className="text-orange-300/80 hover:text-orange-200 transition-colors border-b border-orange-300/30 pb-0.5">
+          NEED FURTHER ASSISTANCE?{' '}
+          <Link
+            href="#"
+            className="text-orange-300/80 hover:text-orange-200 transition-colors border-b border-orange-300/30 pb-0.5"
+          >
             CONNECT WITH SUPPORT
           </Link>
         </div>
@@ -336,9 +342,15 @@ export default function ForgotPassword() {
       <div className="absolute bottom-6 w-full px-12 flex justify-between items-center text-[10px] tracking-widest text-slate-600 z-10">
         <div>© SOOULS</div>
         <div className="flex space-x-8">
-          <Link href="#" className="hover:text-slate-400 transition-colors">PRIVACY</Link>
-          <Link href="#" className="hover:text-slate-400 transition-colors">TERMS</Link>
-          <Link href="#" className="hover:text-slate-400 transition-colors">CONTACT</Link>
+          <Link href="#" className="hover:text-slate-400 transition-colors">
+            PRIVACY
+          </Link>
+          <Link href="#" className="hover:text-slate-400 transition-colors">
+            TERMS
+          </Link>
+          <Link href="#" className="hover:text-slate-400 transition-colors">
+            CONTACT
+          </Link>
         </div>
       </div>
     </div>

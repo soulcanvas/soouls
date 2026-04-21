@@ -78,6 +78,7 @@ export const users = pgTable('users', {
   billingTier: billingTierEnum('billing_tier').default('free').notNull(),
   themePreference: text('theme_preference').default('aurora'),
   mascot: text('mascot').default('Lumi'),
+  isWaitlistUser: boolean('is_waitlist_user').default(false).notNull(),
   stripeCustomerId: text('stripe_customer_id'),
   walletAddress: text('wallet_address'),
   marketingEmailOptIn: boolean('marketing_email_opt_in').default(true).notNull(),
@@ -90,6 +91,19 @@ export const users = pgTable('users', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
   deletedAt: timestamp('deleted_at'),
+});
+
+// ────────────────────────────────────────
+// Waitlist users reference table (pre-launch survey respondents)
+// ────────────────────────────────────────
+export const waitlistUsers = pgTable('waitlist_users', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  email: text('email').notNull().unique(),
+  phoneNumber: text('phone_number'),
+  source: text('source').default('survey').notNull(),
+  claimedAt: timestamp('claimed_at'), // Set when user actually signs up
+  claimedByUserId: uuid('claimed_by_user_id').references(() => users.id),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
 // ────────────────────────────────────────

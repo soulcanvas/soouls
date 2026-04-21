@@ -221,17 +221,13 @@ export default function RiverOfTimeSection() {
         className="relative z-10 flex flex-col items-center lg:items-start text-center lg:text-left w-full lg:max-w-[650px] lg:ml-[80px]"
       >
         <div className="reveal mb-[22px]">
-          <h2
-            className="font-playfair text-[#D6C2A3] text-[48px] lg:text-[80px] leading-[1em] tracking-tight"
-          >
+          <h2 className="font-playfair text-[#D6C2A3] text-[48px] lg:text-[80px] leading-[1em] tracking-tight">
             The River of Time
           </h2>
         </div>
 
         <div className="reveal mb-[40px] md:mb-[60px]">
-          <p
-            className="font-urbanist text-[#EFEBDD] opacity-85 text-[18px] lg:text-[24px] leading-[1.4em] tracking-tight"
-          >
+          <p className="font-urbanist text-[#EFEBDD] opacity-85 text-[18px] lg:text-[24px] leading-[1.4em] tracking-tight">
             A seamless, non-linear architecture that lets your life flow naturally. Forget
             chronological constraints — connect moments by their emotional resonance
           </p>
@@ -268,9 +264,7 @@ export default function RiverOfTimeSection() {
               Dynamic Synthesis
             </span>
           </div>
-          <p
-            className="font-urbanist text-[#A8A8A8] text-[16px] lg:text-[18px] leading-[1.4em] tracking-tight max-w-[500px]"
-          >
+          <p className="font-urbanist text-[#A8A8A8] text-[16px] lg:text-[18px] leading-[1.4em] tracking-tight max-w-[500px]">
             Our engine suggests connections based on semantic meaning and mood, not just dates.
           </p>
         </div>
@@ -283,9 +277,9 @@ export default function RiverOfTimeSection() {
       >
         <div className="absolute inset-0 scale-[0.7] sm:scale-[0.85] lg:scale-100 origin-top">
           {CARDS.map((card, index) => (
-            <div 
-              key={card.id} 
-              className="reveal absolute inset-0 w-full h-full pointer-events-none" 
+            <div
+              key={card.id}
+              className="reveal absolute inset-0 w-full h-full pointer-events-none"
               style={{ transitionDelay: `${index * 250}ms` }}
             >
               <FloatingCard card={card} />

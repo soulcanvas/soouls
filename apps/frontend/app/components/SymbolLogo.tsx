@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 interface SymbolLogoProps extends React.SVGProps<SVGSVGElement> {
   variant?: 'outline' | 'solid';
@@ -8,12 +8,7 @@ export function SymbolLogo({ variant = 'outline', ...props }: SymbolLogoProps) {
   const isSolid = variant === 'solid';
 
   return (
-    <svg
-      viewBox="0 0 100 100"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <title>Soouls Clover Logo</title>
       <path
         d="M48 48 C 20 8, -5 40, 48 48 Z"

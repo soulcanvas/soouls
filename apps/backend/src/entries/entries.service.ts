@@ -8,7 +8,7 @@ import LZString from 'lz-string';
 import { RedisService } from '../redis/redis.service';
 import { decryptData, encryptData } from '../utils/encryption';
 
-import type { GalaxyEntry, UserEntry } from '@soouls/api';
+import type { GalaxyEntry, UserEntry } from '@soouls/api/router';
 
 const s3 = new S3Client({
   region: 'auto',
@@ -275,6 +275,7 @@ export class EntriesService {
         ...entry,
         content: optimizedContent,
         previewText: text,
+        createdAt: entry.createdAt instanceof Date ? entry.createdAt.toISOString() : entry.createdAt,
         // Ensure numbers are never null for the 3D galaxy
         x: entry.x ?? 0,
         y: entry.y ?? 0,

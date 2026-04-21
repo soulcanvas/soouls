@@ -6,6 +6,7 @@
   "exports": {
     "./schema": "./src/schema/index.ts",
     "./client": "./src/client.ts",
+    "./waitlist-data": "./src/waitlist-data.ts",
     "./migrations": "./migrations"
   },
   "scripts": {
