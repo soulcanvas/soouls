@@ -3,7 +3,8 @@
 import { useAuth } from '@clerk/nextjs';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { NetworkMode } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { createIDBPersister, shouldPersistQuery } from '../utils/cache/persistence';
 import { getTRPCClient, trpc } from '../utils/trpc';
 
 const QUERY_OPTIONS = {
@@ -30,7 +31,6 @@ export function TRPCProvider({ children }: { children: React.ReactNode }) {
       }),
   );
   const { getToken } = useAuth();
-
   const trpcClient = useMemo(() => getTRPCClient(getToken), [getToken]);
 
   return (
@@ -39,8 +39,6 @@ export function TRPCProvider({ children }: { children: React.ReactNode }) {
     </trpc.Provider>
   );
 }
-
-const CACHE_KEY = 'soouls-query-cache';
 
 export function PersistedTRPCProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -55,48 +53,52 @@ export function PersistedTRPCProvider({ children }: { children: React.ReactNode 
         },
       }),
   );
-
   const { getToken } = useAuth();
   const trpcClient = useMemo(() => getTRPCClient(getToken), [getToken]);
+  const idbPersister = useMemo(() => createIDBPersister(true), []);
 
-  useMemo(() => {
-    if (typeof window === 'undefined') return;
+  useEffect(() => {
+    if (!idbPersister) return;
 
-    try {
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) {
-        const { queries, timestamp } = JSON.parse(cached);
-        const maxAge = 7 * 24 * 60 * 60 * 1000;
+    let cancelled = false;
 
-        if (Date.now() - timestamp < maxAge && Array.isArray(queries)) {
-          for (const query of queries) {
-            if (query?.state?.data) {
-              queryClient.setQueryData(query.queryKey, query.state.data);
-            }
+    const restore = async () => {
+      try {
+        const persistedClient = await idbPersister.restoreClient();
+        if (cancelled || !persistedClient) return;
+
+        const client = persistedClient as {
+          queries?: Array<{ queryKey: unknown[]; state: { data: unknown } }>;
+        };
+        const queries = client.queries || [];
+        for (const query of queries) {
+          // Only restore if not already fetched (avoid race condition)
+          if (!queryClient.getQueryData(query.queryKey)) {
+            queryClient.setQueryData(query.queryKey, query.state.data);
           }
         }
+      } catch (e) {
+        console.warn('[Cache] Failed to restore cache:', e);
       }
-    } catch (e) {
-      console.warn('[Cache] Failed to restore cache:', e);
-    }
+    };
 
-    const persist = () => {
+    restore();
+
+    const persist = async () => {
+      if (cancelled) return;
+
       try {
-        const queries = queryClient.getQueryCache().getAll();
-        const serializable = queries
-          .filter((q) => q.state.data !== undefined)
+        const allQueries = queryClient.getQueryCache().getAll();
+        const persistable = allQueries
+          .filter((q) => shouldPersistQuery([...q.queryKey]) && q.state?.data !== undefined)
           .map((q) => ({
-            queryKey: q.queryKey,
-            state: {
-              data: q.state.data,
-              status: q.state.status,
-            },
+            queryKey: [...q.queryKey],
+            state: { data: q.state.data, status: q.state.status },
           }));
 
-        localStorage.setItem(
-          CACHE_KEY,
-          JSON.stringify({ queries: serializable, timestamp: Date.now() }),
-        );
+        if (persistable.length > 0) {
+          await idbPersister.persistClient({ queries: persistable, clientState: {} } as never);
+        }
       } catch (e) {
         console.warn('[Cache] Failed to persist cache:', e);
       }
@@ -106,10 +108,11 @@ export function PersistedTRPCProvider({ children }: { children: React.ReactNode 
     window.addEventListener('beforeunload', persist);
 
     return () => {
+      cancelled = true;
       clearInterval(interval);
       window.removeEventListener('beforeunload', persist);
     };
-  }, [queryClient]);
+  }, [queryClient, idbPersister]);
 
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
@@ -118,8 +121,7 @@ export function PersistedTRPCProvider({ children }: { children: React.ReactNode 
   );
 }
 
-export function clearQueryCache(): void {
-  if (typeof window !== 'undefined') {
-    localStorage.removeItem(CACHE_KEY);
-  }
+export async function clearQueryCache(): Promise<void> {
+  const { clearPersistedCache } = await import('../utils/cache/persistence');
+  await clearPersistedCache();
 }

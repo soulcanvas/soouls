@@ -6,7 +6,7 @@ import { MessagingService } from '../services/messaging.service';
 
 @Injectable()
 export class UsersService {
-  constructor(@Inject(MessagingService) private readonly messagingService: MessagingService) {}
+  constructor(private readonly messagingService: MessagingService) {}
 
   async ensureUser(clerkId: string): Promise<string> {
     // 1. Check if user exists in DB
@@ -57,5 +57,26 @@ export class UsersService {
     await this.messagingService.sendWelcomeSequence(newUser.id);
 
     return newUser.id;
+  }
+
+  async updateUser(
+    userId: string,
+    data: {
+      name?: string;
+      themePreference?: string;
+      mascot?: string;
+      marketingEmailOptIn?: boolean;
+      marketingWhatsappOptIn?: boolean;
+      transactionalEmailOptIn?: boolean;
+      transactionalWhatsappOptIn?: boolean;
+    },
+  ): Promise<void> {
+    await db
+      .update(users)
+      .set({
+        ...data,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId));
   }
 }

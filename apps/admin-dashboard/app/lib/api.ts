@@ -247,15 +247,19 @@ const CACHE_CONFIGS: Record<string, CacheConfig> = {
   '/api/admin/entries': { revalidate: 60, staleWhileRevalidate: 300 },
 };
 
+const WHITELISTED_CACHE_URLS = new Set(Object.keys(CACHE_CONFIGS));
+
 export async function api<T>(
   url: string,
   init?: RequestInit & { cache?: RequestCache },
 ): Promise<T> {
   const cacheConfig = CACHE_CONFIGS[url] || { revalidate: 60 };
 
+  const isWhitelisted = init?.cache === undefined && WHITELISTED_CACHE_URLS.has(url.split('?')[0]);
+
   const response = await fetch(url, {
     ...init,
-    cache: init?.cache || (cacheConfig.staleWhileRevalidate ? 'force-cache' : 'no-store'),
+    cache: isWhitelisted && cacheConfig.staleWhileRevalidate ? 'force-cache' : init?.cache,
     next: {
       revalidate: cacheConfig.revalidate,
     },

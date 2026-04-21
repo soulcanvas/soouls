@@ -6,7 +6,7 @@ import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { CSPostHogProvider } from '../src/providers/posthog-provider';
-import { TRPCProvider } from '../src/providers/trpc-provider';
+import { PersistedTRPCProvider } from '../src/providers/trpc-provider';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -47,7 +47,7 @@ export default function RootLayout({
           suppressHydrationWarning
         >
           <CSPostHogProvider>
-            <TRPCProvider>{children}</TRPCProvider>
+            <PersistedTRPCProvider>{children}</PersistedTRPCProvider>
             <Analytics />
             <SpeedInsights />
           </CSPostHogProvider>

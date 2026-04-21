@@ -217,6 +217,18 @@ export type MessagingApi = {
 
 export type UsersApi = {
   ensureUser: (clerkId: string) => Promise<string>;
+  updateUser: (
+    userId: string,
+    data: {
+      name?: string;
+      themePreference?: string;
+      mascot?: string;
+      marketingEmailOptIn?: boolean;
+      marketingWhatsappOptIn?: boolean;
+      transactionalEmailOptIn?: boolean;
+      transactionalWhatsappOptIn?: boolean;
+    },
+  ) => Promise<void>;
 };
 
 // ---------------------------------------------------------------------------
@@ -321,6 +333,11 @@ import {
   schema as convertToTaskSchema,
 } from './namespaces/private/tasks/convertToTask/constants.js';
 import { run as convertToTaskRun } from './namespaces/private/tasks/convertToTask/run.js';
+import {
+  config as updateUserConfig,
+  schema as updateUserSchema,
+} from './namespaces/private/users/update/constants.js';
+import { run as updateUserRun } from './namespaces/private/users/update/run.js';
 
 function buildPrivateRouter(services: Services) {
   /**
@@ -405,6 +422,13 @@ function buildPrivateRouter(services: Services) {
         .use(makeRateLimitMiddleware(sendCampaignConfig.rateLimit))
         .input(sendCampaignSchema)
         .mutation(({ input, ctx }) => sendCampaignRun(input, ctx, services)),
+    }),
+
+    users: router({
+      update: authedProcedure
+        .use(makeRateLimitMiddleware(updateUserConfig.rateLimit))
+        .input(updateUserSchema)
+        .mutation(({ input, ctx }) => updateUserRun(input, ctx, services)),
     }),
   });
 }
