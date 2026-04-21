@@ -17,7 +17,7 @@ export default function CommunitySection() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
             {[
               { icon: <SiDiscord className="w-8 h-8" />, label: 'Discord', text: 'Chat with the community and team.', href: 'https://discord.gg/soouls', color: '#5865F2' },
-              { icon: <SiX className="w-8 h-8" />, label: 'X / Twitter', text: 'Daily insights and product updates.', href: 'https://x.com/soouls_app', color: '#FFFFFF' },
+              { icon: <SiX className="w-8 h-8" />, label: 'X / Twitter', text: 'Daily insights and product updates.', href: 'https://x.com/soouls_in', color: '#FFFFFF' },
               { icon: <SiInstagram className="w-8 h-8" />, label: 'Instagram', text: 'Visual meditations and stories.', href: 'https://instagram.com/soouls.in', color: '#E1306C' },
             ].map((item) => (
               <a 
