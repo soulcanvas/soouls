@@ -176,7 +176,7 @@ export function TeamSection() {
   const approvedRequests = permissionRequests?.filter((r) => r.status === 'approved') || [];
   const deniedRequests = permissionRequests?.filter((r) => r.status === 'denied') || [];
 
-  const canManageInvites =
+  const _canManageInvites =
     hasWildcard ||
     viewerPermissions.includes('mutate:invites') ||
     viewerPermissions.includes('can_invite');

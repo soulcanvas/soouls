@@ -12,7 +12,13 @@ const isPublicRoute = createRouteMatcher([
   '/api/trpc/(.*)',
   ...publicInfoPaths,
 ]);
-const isDashboardRoute = createRouteMatcher(['/home(.*)', '/home/dashboard(.*)', '/home/canvas(.*)', '/home/new-entry(.*)', '/home/clusters(.*)']);
+const isDashboardRoute = createRouteMatcher([
+  '/home(.*)',
+  '/home/dashboard(.*)',
+  '/home/canvas(.*)',
+  '/home/new-entry(.*)',
+  '/home/clusters(.*)',
+]);
 
 export default clerkMiddleware(async (auth, req) => {
   const { userId, redirectToSignIn } = await auth();

@@ -49,7 +49,7 @@ export function RateLimitsSection() {
 
   const totalTrackedIPs = new Set(data?.entries.map((d) => d.ip)).size;
   const activeWindows = data?.entries.length || 0;
-  const highestTraffic = data?.entries.length
+  const _highestTraffic = data?.entries.length
     ? [...data.entries].sort((a, b) => b.count - a.count)[0]
     : null;
   const recentViolations =

@@ -5,7 +5,7 @@ import { db } from '@soouls/database/client';
 import { and, desc, eq, sql } from '@soouls/database/client';
 import { canvasNodes, journalEntries, users } from '@soouls/database/schema';
 import LZString from 'lz-string';
-import { RedisService } from '../redis/redis.service';
+import type { RedisService } from '../redis/redis.service';
 import { decryptData, encryptData } from '../utils/encryption';
 
 import type { GalaxyEntry, UserEntry } from '@soouls/api/router';
@@ -263,7 +263,7 @@ export class EntriesService {
     // Decrypt on the way out
     const items = itemsToReturn.map((entry) => {
       const { text, full } = this.processEntryContent(entry.content, userId);
-      
+
       let optimizedContent = text;
       if (full) {
         // For galaxy, we strip heavy blocks but keep the text
@@ -275,7 +275,8 @@ export class EntriesService {
         ...entry,
         content: optimizedContent,
         previewText: text,
-        createdAt: entry.createdAt instanceof Date ? entry.createdAt.toISOString() : entry.createdAt,
+        createdAt:
+          entry.createdAt instanceof Date ? entry.createdAt.toISOString() : entry.createdAt,
         // Ensure numbers are never null for the 3D galaxy
         x: entry.x ?? 0,
         y: entry.y ?? 0,
@@ -408,7 +409,7 @@ export class EntriesService {
       try {
         const decompressed = LZString.decompressFromUTF16(decrypted) || decrypted;
         contentData = JSON.parse(decompressed);
-      } catch (e) {
+      } catch (_e) {
         // Not a JSON block entry, skip
         continue;
       }

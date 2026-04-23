@@ -7,7 +7,7 @@ import {
   normalizePhoneNumber,
   parseEnvList,
 } from '../notifications/notification.constants';
-import { NotificationQueueService } from '../notifications/notification.queue';
+import type { NotificationQueueService } from '../notifications/notification.queue';
 import { buildCampaignTemplate } from '../notifications/notification.templates';
 import {
   BRAND_PRESETS,
@@ -17,7 +17,7 @@ import {
   type UserMessagingProfile,
   getBrandPreset,
 } from '../notifications/notification.types';
-import { RedisService } from '../redis/redis.service';
+import type { RedisService } from '../redis/redis.service';
 
 type BrandKey = 'soouls' | 'soouls-studio' | 'founder-desk';
 type CampaignStatus = 'draft' | 'sending' | 'sent' | 'partially_sent' | 'failed';
@@ -318,7 +318,10 @@ export class MessagingService {
       // Billing tier / waitlist targeting
       if ((input.targeting as any).billingTier === 'waitlist') {
         conditions.push(eq(users.isWaitlistUser, true));
-      } else if ((input.targeting as any).billingTier && (input.targeting as any).billingTier !== 'all') {
+      } else if (
+        (input.targeting as any).billingTier &&
+        (input.targeting as any).billingTier !== 'all'
+      ) {
         conditions.push(sql`${users.billingTier} = ${(input.targeting as any).billingTier}`);
       }
     }

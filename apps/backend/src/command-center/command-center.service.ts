@@ -1463,7 +1463,7 @@ export class CommandCenterService {
   }
 
   async listPermissionRequests(clerkId: string, status?: 'pending' | 'approved' | 'denied') {
-    const actor = await this.ensureAuthorizedAdmin(clerkId, null);
+    const _actor = await this.ensureAuthorizedAdmin(clerkId, null);
 
     const requests = await db
       .select()

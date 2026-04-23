@@ -45,9 +45,9 @@ export function MessagingSection() {
   const [testEmail, setTestEmail] = useState('');
   const [showTestDialog, setShowTestDialog] = useState(false);
 
-  const [composeBrand, setComposeBrand] = useState<
-    'soouls' | 'soouls-studio' | 'founder-desk'
-  >('soouls');
+  const [composeBrand, setComposeBrand] = useState<'soouls' | 'soouls-studio' | 'founder-desk'>(
+    'soouls',
+  );
   const [composeTitle, setComposeTitle] = useState('');
   const [composeSubject, setComposeSubject] = useState('');
   const [composeBody, setComposeBody] = useState('');
@@ -265,9 +265,7 @@ export function MessagingSection() {
                   id="composeBrand"
                   value={composeBrand}
                   onChange={(e) =>
-                    setComposeBrand(
-                      e.target.value as 'soouls' | 'soouls-studio' | 'founder-desk',
-                    )
+                    setComposeBrand(e.target.value as 'soouls' | 'soouls-studio' | 'founder-desk')
                   }
                   className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2.5 text-sm text-white outline-none"
                 >
@@ -336,19 +334,89 @@ export function MessagingSection() {
 
               {/* Rich Text Toolbar */}
               <div className="flex flex-wrap items-center gap-1 rounded-t-xl border border-b-0 border-white/[0.08] bg-white/[0.02] px-2 py-1.5">
-                <button type="button" onClick={() => setComposeBody(b => b + '**bold**')} className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors font-bold" title="Bold">B</button>
-                <button type="button" onClick={() => setComposeBody(b => b + '*italic*')} className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors italic" title="Italic">I</button>
+                <button
+                  type="button"
+                  onClick={() => setComposeBody((b) => `${b}**bold**`)}
+                  className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors font-bold"
+                  title="Bold"
+                >
+                  B
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setComposeBody((b) => `${b}*italic*`)}
+                  className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors italic"
+                  title="Italic"
+                >
+                  I
+                </button>
                 <div className="mx-1 h-4 w-px bg-white/[0.08]" />
-                <button type="button" onClick={() => setComposeBody(b => b + '\n# ')} className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors" title="Heading 1">H1</button>
-                <button type="button" onClick={() => setComposeBody(b => b + '\n## ')} className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors" title="Heading 2">H2</button>
-                <button type="button" onClick={() => setComposeBody(b => b + '\n### ')} className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors" title="Heading 3">H3</button>
+                <button
+                  type="button"
+                  onClick={() => setComposeBody((b) => `${b}\n# `)}
+                  className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors"
+                  title="Heading 1"
+                >
+                  H1
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setComposeBody((b) => `${b}\n## `)}
+                  className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors"
+                  title="Heading 2"
+                >
+                  H2
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setComposeBody((b) => `${b}\n### `)}
+                  className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors"
+                  title="Heading 3"
+                >
+                  H3
+                </button>
                 <div className="mx-1 h-4 w-px bg-white/[0.08]" />
-                <button type="button" onClick={() => setComposeBody(b => b + '\n- ')} className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors" title="Bullet List">• List</button>
-                <button type="button" onClick={() => setComposeBody(b => b + '\n1. ')} className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors" title="Numbered List">1. List</button>
+                <button
+                  type="button"
+                  onClick={() => setComposeBody((b) => `${b}\n- `)}
+                  className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors"
+                  title="Bullet List"
+                >
+                  • List
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setComposeBody((b) => `${b}\n1. `)}
+                  className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors"
+                  title="Numbered List"
+                >
+                  1. List
+                </button>
                 <div className="mx-1 h-4 w-px bg-white/[0.08]" />
-                <button type="button" onClick={() => setComposeBody(b => b + '[link text](https://)')} className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors" title="Insert Link">🔗 Link</button>
-                <button type="button" onClick={() => setComposeBody(b => b + '\n---\n')} className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors" title="Horizontal Rule">― HR</button>
-                <button type="button" onClick={() => setComposeBody(b => b + '\n> ')} className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors" title="Blockquote">❝ Quote</button>
+                <button
+                  type="button"
+                  onClick={() => setComposeBody((b) => `${b}[link text](https://)`)}
+                  className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors"
+                  title="Insert Link"
+                >
+                  🔗 Link
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setComposeBody((b) => `${b}\n---\n`)}
+                  className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors"
+                  title="Horizontal Rule"
+                >
+                  ― HR
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setComposeBody((b) => `${b}\n> `)}
+                  className="rounded-md px-2 py-1 text-xs text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors"
+                  title="Blockquote"
+                >
+                  ❝ Quote
+                </button>
 
                 <div className="ml-auto flex items-center gap-2">
                   <select className="rounded-md border border-white/[0.08] bg-transparent px-2 py-1 text-xs text-slate-400 outline-none">
@@ -363,7 +431,9 @@ export function MessagingSection() {
                 id="composeBody"
                 value={composeBody}
                 onChange={(e) => setComposeBody(e.target.value)}
-                placeholder={"# Hello 👋\n\nWrite your message here using **markdown** formatting...\n\nTry the toolbar above for quick formatting."}
+                placeholder={
+                  '# Hello 👋\n\nWrite your message here using **markdown** formatting...\n\nTry the toolbar above for quick formatting.'
+                }
                 rows={12}
                 className="w-full resize-y rounded-b-xl border border-white/[0.08] bg-white/[0.03] p-4 text-sm font-mono text-white placeholder:text-slate-600 outline-none transition-colors focus:border-amber-400/30"
               />
@@ -592,44 +662,48 @@ export function MessagingSection() {
                 const channels = ((campaign as any).channels as string[]) ?? ['email'];
 
                 return (
-                <div
-                  key={campaign.id}
-                  className="rounded-xl bg-white/[0.02] px-5 py-4 transition-colors hover:bg-white/[0.04]"
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <div>
-                      <div className="text-sm font-medium text-white">{campaign.title}</div>
-                      <div className="mt-0.5 text-xs text-slate-400">{campaign.subject}</div>
-                    </div>
-                    <StatusBadge status={campaign.status} />
-                  </div>
-
-                  {/* Delivery Progress */}
-                  {total > 0 && (
-                    <div className="mt-3">
-                      <div className="flex items-center justify-between text-[10px] text-slate-500 mb-1">
-                        <span>{sent} of {total} delivered</span>
-                        <span>{pct}%</span>
+                  <div
+                    key={campaign.id}
+                    className="rounded-xl bg-white/[0.02] px-5 py-4 transition-colors hover:bg-white/[0.04]"
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <div className="text-sm font-medium text-white">{campaign.title}</div>
+                        <div className="mt-0.5 text-xs text-slate-400">{campaign.subject}</div>
                       </div>
-                      <div className="h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-amber-500 to-amber-400 transition-all duration-500"
-                          style={{ width: `${pct}%` }}
-                        />
-                      </div>
+                      <StatusBadge status={campaign.status} />
                     </div>
-                  )}
 
-                  <div className="mt-2 flex items-center gap-3 text-[10px] text-slate-500">
-                    <span className="flex items-center gap-1">
-                      {channels.includes('email') && <Mail className="h-3 w-3" />}
-                      {channels.includes('whatsapp') && <MessageSquareShare className="h-3 w-3" />}
-                      {channels.join(' + ')}
-                    </span>
-                    <span>·</span>
-                    <span>{formatRelativeTime(campaign.createdAt)}</span>
+                    {/* Delivery Progress */}
+                    {total > 0 && (
+                      <div className="mt-3">
+                        <div className="flex items-center justify-between text-[10px] text-slate-500 mb-1">
+                          <span>
+                            {sent} of {total} delivered
+                          </span>
+                          <span>{pct}%</span>
+                        </div>
+                        <div className="h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-gradient-to-r from-amber-500 to-amber-400 transition-all duration-500"
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="mt-2 flex items-center gap-3 text-[10px] text-slate-500">
+                      <span className="flex items-center gap-1">
+                        {channels.includes('email') && <Mail className="h-3 w-3" />}
+                        {channels.includes('whatsapp') && (
+                          <MessageSquareShare className="h-3 w-3" />
+                        )}
+                        {channels.join(' + ')}
+                      </span>
+                      <span>·</span>
+                      <span>{formatRelativeTime(campaign.createdAt)}</span>
+                    </div>
                   </div>
-                </div>
                 );
               })
             )}

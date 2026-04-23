@@ -16,13 +16,13 @@ export default function HeroSection() {
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
-        if (entry && entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           video.play().catch(() => {});
         } else {
           video.pause();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
     observer.observe(video);
 
@@ -52,32 +52,32 @@ export default function HeroSection() {
       style={{ height: '100svh', minHeight: '700px' }}
     >
       {/* Background Video */}
-<div className="absolute inset-0 z-0 pointer-events-none">
-  <video
-    ref={videoRef}
-    autoPlay
-    loop
-    muted
-    playsInline
-    preload="metadata"
-    disablePictureInPicture
-    disableRemotePlayback
-    poster="/hero-bg-figma.png"
-    className="absolute inset-0 w-full h-full object-cover"
-    style={{ objectPosition: 'center center' }}
-  >
-    {/* Cloudinary auto-serves WebM to Chrome/Firefox, MP4 to Safari */}
-    <source
-      src="https://res.cloudinary.com/dkwjn4n33/video/upload/v1776944721/red_sun_remix_mxe0as.webm"
-      type="video/webm"
-    />
-    <source
-      src="https://res.cloudinary.com/dkwjn4n33/video/upload/v1776944721/red_sun_remix_mxe0as.mp4"
-      type="video/mp4"
-    />
-  </video>
-  <div className="absolute inset-0 bg-[#0A0A0A]/40 z-[1]" />
-</div>
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          disablePictureInPicture
+          disableRemotePlayback
+          poster="/hero-bg-figma.png"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition: 'center center' }}
+        >
+          {/* Cloudinary auto-serves WebM to Chrome/Firefox, MP4 to Safari */}
+          <source
+            src="https://res.cloudinary.com/dkwjn4n33/video/upload/v1776944721/red_sun_remix_mxe0as.webm"
+            type="video/webm"
+          />
+          <source
+            src="https://res.cloudinary.com/dkwjn4n33/video/upload/v1776944721/red_sun_remix_mxe0as.mp4"
+            type="video/mp4"
+          />
+        </video>
+        <div className="absolute inset-0 bg-[#0A0A0A]/40 z-[1]" />
+      </div>
 
       {/* ── Content ── */}
       <div
@@ -96,7 +96,8 @@ export default function HeroSection() {
             <div
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] md:w-[450px] h-[150px] md:h-[250px] pointer-events-none"
               style={{
-                background: 'radial-gradient(ellipse, rgba(224, 122, 95, 0.45) 0%, transparent 70%)',
+                background:
+                  'radial-gradient(ellipse, rgba(224, 122, 95, 0.45) 0%, transparent 70%)',
                 filter: 'blur(30px)',
                 zIndex: 0,
               }}
@@ -143,8 +144,20 @@ export default function HeroSection() {
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-80 hover:opacity-100 transition-opacity">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <title>Scroll Down</title>
-            <path d="M6 8L12 14L18 8" stroke="#D6C2A3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M6 14L12 20L18 14" stroke="#D6C2A3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M6 8L12 14L18 8"
+              stroke="#D6C2A3"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M6 14L12 20L18 14"
+              stroke="#D6C2A3"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </div>
       </div>

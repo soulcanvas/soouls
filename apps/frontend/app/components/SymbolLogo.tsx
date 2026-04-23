@@ -7,7 +7,7 @@ interface SymbolLogoProps extends React.SVGProps<SVGSVGElement> {
 export function SymbolLogo({ variant = 'solid', ...props }: SymbolLogoProps) {
   const isSolid = variant === 'solid';
 
-  // We use a slightly expanded viewBox to prevent the bezier curves from clipping 
+  // We use a slightly expanded viewBox to prevent the bezier curves from clipping
   // since the path coordinates go from x=-5 to 105.
   return (
     <svg viewBox="-10 -10 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>

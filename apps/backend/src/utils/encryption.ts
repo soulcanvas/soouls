@@ -62,7 +62,7 @@ export function encryptData(text: string, internalUserId: string): string {
  */
 export function decryptData(encryptedPayload: string, internalUserId: string): string {
   if (!encryptedPayload) return '';
-  
+
   // Basic format check to avoid unnecessary decryption attempts on plain text
   if (!encryptedPayload.includes(':')) {
     return encryptedPayload;
@@ -95,7 +95,10 @@ export function decryptData(encryptedPayload: string, internalUserId: string): s
     // Silent fail for decryption - most likely legacy data or wrong key
     // We log only in debug/dev if needed, but avoid flooding production logs
     if (process.env.NODE_ENV === 'development') {
-      console.warn('Decryption failed for payload (likely legacy plain text):', (error as Error).message);
+      console.warn(
+        'Decryption failed for payload (likely legacy plain text):',
+        (error as Error).message,
+      );
     }
     return encryptedPayload;
   }

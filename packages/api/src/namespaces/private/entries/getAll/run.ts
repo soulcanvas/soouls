@@ -9,10 +9,6 @@
 import type { ProtectedContext, Services } from '../../../../trpc.js';
 import type { Input } from './constants.js';
 
-export async function run(
-  input: Input,
-  ctx: ProtectedContext,
-  services: Services,
-) {
+export async function run(input: Input, ctx: ProtectedContext, services: Services) {
   return services.entries.getAllEntries(ctx.userId, input.limit, input.cursor ?? 0);
 }

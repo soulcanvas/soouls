@@ -1,6 +1,6 @@
 'use client';
 
-import { useUser, useSignIn } from '@clerk/nextjs';
+import { useSignIn, useUser } from '@clerk/nextjs';
 import { ArrowLeft, Lock, Mail, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -193,7 +193,6 @@ export default function SignInPage() {
                 placeholder="Verification Code"
                 className="w-full bg-[#222222] border border-transparent focus:border-orange-500/30 rounded-2xl py-4 px-4 text-center text-xl tracking-[0.5em] text-white placeholder-slate-600 outline-none transition-all"
                 required
-                autoFocus
               />
             </div>
 
@@ -391,7 +390,7 @@ export default function SignInPage() {
 
         <div className="mt-8 mb-6 relative flex items-center justify-center">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-white/5"></div>
+            <div className="w-full border-t border-white/5" />
           </div>
           <div className="relative bg-[#1A1A1A] px-4 text-[10px] uppercase tracking-[0.2em] text-slate-600">
             OR CONTINUE WITH

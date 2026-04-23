@@ -1,8 +1,8 @@
 'use client';
 
 import { UserButton } from '@clerk/nextjs';
-import Link from 'next/link';
 import { Bell, ChevronDown, Clock, Moon, Sparkles } from 'lucide-react';
+import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { trpc } from '../../../src/utils/trpc';
 
@@ -52,9 +52,14 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void 
   );
 }
 
-function SectionCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+function SectionCard({
+  children,
+  className = '',
+}: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`rounded-2xl bg-[#1a1a1a] border border-white/5 p-6 ${className}`}>{children}</div>
+    <div className={`rounded-2xl bg-[#1a1a1a] border border-white/5 p-6 ${className}`}>
+      {children}
+    </div>
   );
 }
 
@@ -176,7 +181,13 @@ export default function SettingsPage() {
               href="/home"
               className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
             >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
               Home
@@ -199,7 +210,11 @@ export default function SettingsPage() {
           <div>
             <h1
               className="font-playfair text-4xl italic text-white leading-tight"
-              style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontWeight: 600 }}
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                fontStyle: 'italic',
+                fontWeight: 600,
+              }}
             >
               Settings
             </h1>
@@ -243,7 +258,9 @@ export default function SettingsPage() {
                     type="button"
                     onClick={() => setPref('writingMode', 'Minimal')}
                     className={`text-sm font-medium transition-colors ${
-                      prefs.writingMode === 'Minimal' ? 'text-[#e07a5f]' : 'text-white/40 hover:text-white/70'
+                      prefs.writingMode === 'Minimal'
+                        ? 'text-[#e07a5f]'
+                        : 'text-white/40 hover:text-white/70'
                     }`}
                   >
                     Minimal
@@ -253,7 +270,9 @@ export default function SettingsPage() {
                     type="button"
                     onClick={() => setPref('writingMode', 'Guided')}
                     className={`text-sm font-medium transition-colors ${
-                      prefs.writingMode === 'Guided' ? 'text-[#e07a5f]' : 'text-white/40 hover:text-white/70'
+                      prefs.writingMode === 'Guided'
+                        ? 'text-[#e07a5f]'
+                        : 'text-white/40 hover:text-white/70'
                     }`}
                   >
                     Guided
@@ -271,14 +290,21 @@ export default function SettingsPage() {
               label="Daily reminder"
               sublabel="Gentle nudge to reflect on your day"
               icon={<Bell className="w-4 h-4" />}
-              right={<Toggle on={notifDailyReminder} onChange={(v) => handleNotifChange('daily', v)} />}
+              right={
+                <Toggle on={notifDailyReminder} onChange={(v) => handleNotifChange('daily', v)} />
+              }
             />
 
             <SettingRow
               label="Reflection prompts"
               sublabel="AI-generated questions for deeper thought"
               icon={<Sparkles className="w-4 h-4" />}
-              right={<Toggle on={notifReflectionPrompts} onChange={(v) => handleNotifChange('reflection', v)} />}
+              right={
+                <Toggle
+                  on={notifReflectionPrompts}
+                  onChange={(v) => handleNotifChange('reflection', v)}
+                />
+              }
             />
 
             <SettingRow
@@ -299,7 +325,9 @@ export default function SettingsPage() {
               <SectionTitle>AI Behavior</SectionTitle>
 
               <div className="mb-4">
-                <p className="text-white/30 text-xs uppercase tracking-widest mb-3">Insight depth</p>
+                <p className="text-white/30 text-xs uppercase tracking-widest mb-3">
+                  Insight depth
+                </p>
                 <div className="flex items-center bg-[#111] rounded-xl p-1 gap-1">
                   {(['Minimal', 'Balanced', 'Deep'] as const).map((level) => (
                     <button
@@ -322,10 +350,15 @@ export default function SettingsPage() {
                 label="Auto clustering"
                 right={
                   <div className="flex items-center gap-2">
-                    <span className={`text-xs font-semibold ${prefs.autoClustering ? 'text-[#e07a5f]' : 'text-white/30'}`}>
+                    <span
+                      className={`text-xs font-semibold ${prefs.autoClustering ? 'text-[#e07a5f]' : 'text-white/30'}`}
+                    >
                       {prefs.autoClustering ? 'ON' : 'OFF'}
                     </span>
-                    <Toggle on={prefs.autoClustering} onChange={(v) => setPref('autoClustering', v)} />
+                    <Toggle
+                      on={prefs.autoClustering}
+                      onChange={(v) => setPref('autoClustering', v)}
+                    />
                   </div>
                 }
               />
@@ -334,7 +367,9 @@ export default function SettingsPage() {
                 label="Suggestions"
                 right={
                   <div className="flex items-center gap-2">
-                    <span className={`text-xs font-semibold ${prefs.suggestions ? 'text-[#e07a5f]' : 'text-white/30'}`}>
+                    <span
+                      className={`text-xs font-semibold ${prefs.suggestions ? 'text-[#e07a5f]' : 'text-white/30'}`}
+                    >
                       {prefs.suggestions ? 'ON' : 'OFF'}
                     </span>
                     <Toggle on={prefs.suggestions} onChange={(v) => setPref('suggestions', v)} />
@@ -350,7 +385,9 @@ export default function SettingsPage() {
                 label="Autosave"
                 right={
                   <div className="flex items-center gap-2">
-                    <span className={`text-xs font-semibold ${prefs.autosave ? 'text-[#e07a5f]' : 'text-white/30'}`}>
+                    <span
+                      className={`text-xs font-semibold ${prefs.autosave ? 'text-[#e07a5f]' : 'text-white/30'}`}
+                    >
                       {prefs.autosave ? 'ON' : 'OFF'}
                     </span>
                     <Toggle on={prefs.autosave} onChange={(v) => setPref('autosave', v)} />
@@ -362,7 +399,9 @@ export default function SettingsPage() {
                 label="Focus mode"
                 right={
                   <div className="flex items-center gap-2">
-                    <span className={`text-xs font-semibold ${prefs.focusMode ? 'text-[#e07a5f]' : 'text-white/30'}`}>
+                    <span
+                      className={`text-xs font-semibold ${prefs.focusMode ? 'text-[#e07a5f]' : 'text-white/30'}`}
+                    >
                       {prefs.focusMode ? 'ON' : 'OFF'}
                     </span>
                     <Toggle on={prefs.focusMode} onChange={(v) => setPref('focusMode', v)} />
@@ -373,10 +412,15 @@ export default function SettingsPage() {
                 label="Session tracking"
                 right={
                   <div className="flex items-center gap-2">
-                    <span className={`text-xs font-semibold ${prefs.sessionTracking ? 'text-[#e07a5f]' : 'text-white/30'}`}>
+                    <span
+                      className={`text-xs font-semibold ${prefs.sessionTracking ? 'text-[#e07a5f]' : 'text-white/30'}`}
+                    >
                       {prefs.sessionTracking ? 'ON' : 'OFF'}
                     </span>
-                    <Toggle on={prefs.sessionTracking} onChange={(v) => setPref('sessionTracking', v)} />
+                    <Toggle
+                      on={prefs.sessionTracking}
+                      onChange={(v) => setPref('sessionTracking', v)}
+                    />
                   </div>
                 }
               />
@@ -393,7 +437,12 @@ export default function SettingsPage() {
                   <span className="text-white text-base font-semibold">{prefs.dataStorage}</span>
                   <button
                     type="button"
-                    onClick={() => setPref('dataStorage', prefs.dataStorage === 'Local Only' ? 'Cloud' : 'Local Only')}
+                    onClick={() =>
+                      setPref(
+                        'dataStorage',
+                        prefs.dataStorage === 'Local Only' ? 'Cloud' : 'Local Only',
+                      )
+                    }
                     className="text-[#e07a5f] text-xs underline underline-offset-2 hover:text-white transition-colors"
                   >
                     Switch
@@ -407,7 +456,9 @@ export default function SettingsPage() {
                   <span className="text-white text-base font-semibold">{prefs.dataUsage}</span>
                   <button
                     type="button"
-                    onClick={() => setPref('dataUsage', prefs.dataUsage === 'Anonymous' ? 'Full' : 'Anonymous')}
+                    onClick={() =>
+                      setPref('dataUsage', prefs.dataUsage === 'Anonymous' ? 'Full' : 'Anonymous')
+                    }
                     className="w-6 h-1.5 rounded-full bg-[#e07a5f] hover:bg-[#c96a4f] transition-colors"
                     aria-label="Toggle data usage"
                   />
@@ -415,7 +466,9 @@ export default function SettingsPage() {
               </div>
 
               <div className="sm:pl-6">
-                <p className="text-white/30 text-xs uppercase tracking-widest mb-3">Clear history</p>
+                <p className="text-white/30 text-xs uppercase tracking-widest mb-3">
+                  Clear history
+                </p>
                 <button
                   type="button"
                   onClick={handleClearCache}

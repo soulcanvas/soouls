@@ -1,13 +1,17 @@
-import { db } from './src/client';
 import { sql } from 'drizzle-orm';
+import { db } from './src/client';
 
 async function main() {
   console.log('Running manual migration...');
-  
+
   try {
-    await db.execute(sql`ALTER TABLE "users" ADD COLUMN IF NOT EXISTS "is_waitlist_user" boolean DEFAULT false NOT NULL`);
+    await db.execute(
+      sql`ALTER TABLE "users" ADD COLUMN IF NOT EXISTS "is_waitlist_user" boolean DEFAULT false NOT NULL`,
+    );
     console.log('Added is_waitlist_user to users table');
-  } catch(e) { console.warn(e.message); }
+  } catch (e) {
+    console.warn(e.message);
+  }
 
   try {
     await db.execute(sql`
@@ -23,7 +27,9 @@ async function main() {
       )
     `);
     console.log('Created waitlist_users table');
-  } catch(e) { console.warn(e.message); }
+  } catch (e) {
+    console.warn(e.message);
+  }
 
   try {
     await db.execute(sql`
@@ -38,10 +44,15 @@ async function main() {
       END $$;
     `);
     console.log('Added foreign key constraint');
-  } catch(e) { console.warn(e.message); }
+  } catch (e) {
+    console.warn(e.message);
+  }
 
   console.log('Done.');
   process.exit(0);
 }
 
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

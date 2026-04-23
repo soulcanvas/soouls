@@ -85,7 +85,7 @@ interface DashboardShellProps {
 export function DashboardShell({ viewer }: DashboardShellProps) {
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState<SectionName>('dashboard');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [_mobileMenuOpen, _setMobileMenuOpen] = useState(false);
 
   const visibleItems = NAV_ITEMS.filter((item) => {
     if (item.divider || item.groupLabel) return true;
@@ -129,7 +129,7 @@ export function DashboardShell({ viewer }: DashboardShellProps) {
     }
   };
 
-  const getActiveSectionFromPath = () => {
+  const _getActiveSectionFromPath = () => {
     const path = pathname.replace('/', '');
     if (!path) return 'dashboard';
     const sectionMap: Record<string, SectionName> = {
@@ -174,7 +174,7 @@ export function DashboardShell({ viewer }: DashboardShellProps) {
             if (item.groupLabel) {
               const prevItem = visibleItems[index - 1];
               const nextItem = visibleItems[index + 1];
-              if (nextItem && nextItem.section && (prevItem?.groupLabel || !prevItem)) {
+              if (nextItem?.section && (prevItem?.groupLabel || !prevItem)) {
                 return (
                   <div key={item.label} className="pt-4 first:pt-0">
                     <div className="mb-1 px-3 text-[10px] font-semibold uppercase tracking-widest text-slate-600">

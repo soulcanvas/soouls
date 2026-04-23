@@ -47,7 +47,7 @@ export function getOptimizedImageUrl(url: string | null | undefined, options: Im
     // Construct the optimized URL
     // Format: origin / cdn-cgi / image / transforms / path
     return `${domain}/cdn-cgi/image/${transformString}${path}`;
-  } catch (e) {
+  } catch (_e) {
     console.error('Failed to parse image URL for optimization:', url);
     return url;
   }

@@ -109,7 +109,9 @@ export default function OnboardingFlow() {
 
   return (
     <div
-      className={`min-h-screen bg-[#0A0A0E] text-slate-200 overflow-hidden relative transition-colors duration-1000`}
+      className={
+        'min-h-screen bg-[#0A0A0E] text-slate-200 overflow-hidden relative transition-colors duration-1000'
+      }
     >
       {/* Dynamic Background */}
       <div
@@ -649,7 +651,7 @@ export default function OnboardingFlow() {
               className="absolute inset-0 flex items-center justify-center bg-[#050505]"
             >
               <div className="absolute bottom-8 right-8 w-12 h-12 rounded-full bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl flex items-center justify-center">
-                <div className="w-3 h-3 rounded-full bg-white/80 shadow-[0_0_10px_white]"></div>
+                <div className="w-3 h-3 rounded-full bg-white/80 shadow-[0_0_10px_white]" />
               </div>
 
               <div className="flex flex-col items-center max-w-md text-center">

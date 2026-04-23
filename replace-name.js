@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const EXCLUDED_DIRS = new Set([
   'node_modules',
@@ -8,12 +8,23 @@ const EXCLUDED_DIRS = new Set([
   '.turbo',
   'dist',
   'build',
-  '.husky'
+  '.husky',
 ]);
 
 const EXCLUDED_EXTENSIONS = new Set([
-  '.png', '.jpg', '.jpeg', '.gif', '.ico', '.svg', '.mp4', '.mov', '.zip', '.tar', '.gz',
-  '.lockb', '.lock'
+  '.png',
+  '.jpg',
+  '.jpeg',
+  '.gif',
+  '.ico',
+  '.svg',
+  '.mp4',
+  '.mov',
+  '.zip',
+  '.tar',
+  '.gz',
+  '.lockb',
+  '.lock',
 ]);
 
 const REPLACE_MAP = [
@@ -23,7 +34,7 @@ const REPLACE_MAP = [
   { from: /SOULCANVAS/g, to: 'SOOULS' },
   { from: /soul\s+canvas/g, to: 'soouls' },
   { from: /Soul\s+Canvas/g, to: 'Soouls' },
-  { from: /SOUL\s+CANVAS/g, to: 'SOOULS' }
+  { from: /SOUL\s+CANVAS/g, to: 'SOOULS' },
 ];
 
 function processPath(targetPath) {
@@ -41,17 +52,17 @@ function processPath(targetPath) {
   } else if (stats.isFile()) {
     const ext = path.extname(targetPath).toLowerCase();
     if (EXCLUDED_EXTENSIONS.has(ext)) return;
-    
+
     // Check if filename itself indicates binary like .bun.lockb
     if (targetPath.endsWith('bun.lockb') || targetPath.endsWith('bun.lock')) return;
-    
+
     // Exclude our script
     if (path.basename(targetPath) === 'replace-name.js') return;
 
     try {
       let content = fs.readFileSync(targetPath, 'utf8');
-      let originalContent = content;
-      
+      const originalContent = content;
+
       for (const { from, to } of REPLACE_MAP) {
         content = content.replace(from, to);
       }
@@ -63,7 +74,7 @@ function processPath(targetPath) {
     } catch (e) {
       // Ignore files that can't be read as utf8
       if (!e.message.includes('ENOENT')) {
-          // console.error(`Error processing ${targetPath}: ${e.message}`);
+        // console.error(`Error processing ${targetPath}: ${e.message}`);
       }
     }
   }

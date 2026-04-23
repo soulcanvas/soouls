@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { createAppRouter } from '@soouls/api/router';
 import type { AppRouter, EntriesApi, MessagingApi } from '@soouls/api/router';
-import { EntriesService } from '../entries/entries.service';
-import { MessagingService } from '../services/messaging.service';
-import { TasksService } from '../tasks/tasks.service';
-import { UsersService } from '../users/users.service';
+import type { EntriesService } from '../entries/entries.service';
+import type { MessagingService } from '../services/messaging.service';
+import type { TasksService } from '../tasks/tasks.service';
+import type { UsersService } from '../users/users.service';
 
 @Injectable()
 export class TrpcRouter {

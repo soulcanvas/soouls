@@ -1,6 +1,6 @@
 'use client';
 
-import { AuthenticateWithRedirectCallback, useUser, useSignUp } from '@clerk/nextjs';
+import { AuthenticateWithRedirectCallback, useSignUp, useUser } from '@clerk/nextjs';
 import { ArrowLeft, Lock, Mail, Phone } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -218,7 +218,6 @@ export default function SignUpPage() {
               placeholder="Enter code"
               className="w-full bg-[#222222] border border-transparent focus:border-orange-500/30 rounded-2xl py-4 px-4 text-center text-xl tracking-[0.5em] text-white placeholder-slate-600 outline-none transition-all"
               required
-              autoFocus
             />
             <button
               type="submit"

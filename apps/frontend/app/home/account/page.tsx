@@ -1,8 +1,6 @@
 'use client';
 
 import { UserButton, useUser } from '@clerk/nextjs';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import {
   ArrowLeft,
   Calendar,
@@ -17,6 +15,8 @@ import {
   Upload,
   User,
 } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const FONT_PLAYFAIR = "'Playfair Display', Georgia, serif";
 const FONT_URBANIST = "'Urbanist', system-ui, sans-serif";
@@ -38,7 +38,9 @@ function StatCard({
       style={{ fontFamily: FONT_URBANIST }}
     >
       <div className="flex items-start justify-between">
-        <span className={`text-5xl font-bold leading-none ${highlight ? 'text-white' : 'text-[#e07a5f]'}`}>
+        <span
+          className={`text-5xl font-bold leading-none ${highlight ? 'text-white' : 'text-[#e07a5f]'}`}
+        >
           {value}
         </span>
         <span className="text-[#FFA500]">{icon}</span>
@@ -50,7 +52,10 @@ function StatCard({
 
 function Tag({ label }: { label: string }) {
   return (
-    <span className="inline-block rounded-full border border-white/15 px-4 py-1.5 text-sm text-white/70" style={{ fontFamily: FONT_URBANIST }}>
+    <span
+      className="inline-block rounded-full border border-white/15 px-4 py-1.5 text-sm text-white/70"
+      style={{ fontFamily: FONT_URBANIST }}
+    >
       {label}
     </span>
   );
@@ -179,7 +184,9 @@ export default function AccountPage() {
                     {displayName}
                   </h2>
                   <p className="text-[#e07a5f] text-base">{email}</p>
-                  <div className="text-base text-white/60 mt-0.5">Trying to make sense of my thoughts.</div>
+                  <div className="text-base text-white/60 mt-0.5">
+                    Trying to make sense of my thoughts.
+                  </div>
                   <div className="flex items-center gap-1.5 mt-1">
                     <TrendingUp className="w-4 h-4 text-emerald-400" />
                     <span className="text-emerald-400 text-sm font-semibold">
@@ -193,7 +200,11 @@ export default function AccountPage() {
                 <StatCard value={32} label="Days Joined" icon={<Calendar className="w-6 h-6" />} />
                 <StatCard value={64} label="Entries" icon={<PenLine className="w-6 h-6" />} />
                 <StatCard value={9} label="Day Streak" icon={<Flame className="w-6 h-6" />} />
-                <StatCard value="Evenings" label="Most Active" icon={<Moon className="w-6 h-6" />} />
+                <StatCard
+                  value="Evenings"
+                  label="Most Active"
+                  icon={<Moon className="w-6 h-6" />}
+                />
               </div>
             </div>
           </div>
@@ -224,7 +235,9 @@ export default function AccountPage() {
 
             <div className="lg:col-span-2 rounded-2xl border border-white/5 bg-[#141414] p-6 space-y-3">
               <p className="text-white/70 font-semibold text-base">Insight Analysis</p>
-              <p className="text-white/25 text-xs uppercase tracking-[0.18em] font-medium">Core Theme</p>
+              <p className="text-white/25 text-xs uppercase tracking-[0.18em] font-medium">
+                Core Theme
+              </p>
               <div className="divide-y divide-white/5">
                 <ThemeBar label="Healing" percent={41} />
                 <ThemeBar label="Anxiety" percent={26} />
@@ -241,8 +254,12 @@ export default function AccountPage() {
             <div className="lg:col-span-3 rounded-2xl border border-white/5 bg-[#141414] p-6 space-y-4">
               <p className="text-white/70 font-semibold text-base">Data &amp; Ownership</p>
               <div className="flex gap-3">
-                <DataActionBtn icon={<Download className="w-4 h-4" />}>Download your data</DataActionBtn>
-                <DataActionBtn icon={<Upload className="w-4 h-4" />}>Backup your entries</DataActionBtn>
+                <DataActionBtn icon={<Download className="w-4 h-4" />}>
+                  Download your data
+                </DataActionBtn>
+                <DataActionBtn icon={<Upload className="w-4 h-4" />}>
+                  Backup your entries
+                </DataActionBtn>
               </div>
             </div>
 
@@ -258,8 +275,8 @@ export default function AccountPage() {
                 Your privacy comes first.
               </p>
               <p className="text-[#e07a5f] text-xs leading-relaxed">
-                Your data is encrypted end-to-end and used only to generate your personal insights. We don&apos;t share,
-                sell, or use it for ads.
+                Your data is encrypted end-to-end and used only to generate your personal insights.
+                We don&apos;t share, sell, or use it for ads.
               </p>
               <div className="flex items-center gap-2 pt-1">
                 <HardDrive className="w-3.5 h-3.5 text-white/30" />
@@ -270,7 +287,10 @@ export default function AccountPage() {
 
           {/* Bottom Actions */}
           <div className="flex items-center gap-3 pt-2 flex-wrap">
-            <OutlineButton icon={<ArrowLeft className="w-4 h-4" />} onClick={() => router.push('/home')}>
+            <OutlineButton
+              icon={<ArrowLeft className="w-4 h-4" />}
+              onClick={() => router.push('/home')}
+            >
               Back to Home
             </OutlineButton>
             <OutlineButton icon={<Trash2 className="w-4 h-4" />} danger>

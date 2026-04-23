@@ -1,6 +1,6 @@
 import 'reflect-metadata';
-import * as Sentry from '@sentry/nestjs';
 import { NestFactory } from '@nestjs/core';
+import * as Sentry from '@sentry/nestjs';
 import helmet from 'helmet';
 import pino from 'pino-http';
 import { AppModule } from './app.module';

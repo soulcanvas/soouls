@@ -96,7 +96,7 @@ export function AuditLogsSection() {
             log.actorEmail.toLowerCase().includes(term) ||
             log.action.toLowerCase().includes(term) ||
             log.targetType.toLowerCase().includes(term) ||
-            (log.ipAddress && log.ipAddress.toLowerCase().includes(term)) ||
+            log.ipAddress?.toLowerCase().includes(term) ||
             (log.metadata && JSON.stringify(log.metadata).toLowerCase().includes(term))
           );
         }

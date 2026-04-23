@@ -137,9 +137,7 @@ export const WAITLIST_DATA: WaitlistEntry[] = [
 /**
  * Quick email-based lookup set (lowercased) for O(1) checking during signup.
  */
-export const WAITLIST_EMAILS = new Set(
-  WAITLIST_DATA.map((entry) => entry.email.toLowerCase()),
-);
+export const WAITLIST_EMAILS = new Set(WAITLIST_DATA.map((entry) => entry.email.toLowerCase()));
 
 /**
  * Check if an email belongs to a waitlist user.
