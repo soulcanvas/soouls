@@ -12,6 +12,8 @@ export interface CalendarEvent {
 interface DayCellProps {
   day: number | null;
   isToday: boolean;
+  /** Whether this cell is the user-selected day (distinct from isToday) */
+  isSelected?: boolean;
   events?: CalendarEvent[];
   onClick?: () => void;
   className?: string;
@@ -19,10 +21,18 @@ interface DayCellProps {
 
 /**
  * Atomic Calendar Day Cell
+ *
+ * Visual priority: isToday > isSelected > default
  */
 export const DayCell = React.memo(
-  ({ day, isToday, events = [], onClick, className = '' }: DayCellProps) => {
+  ({ day, isToday, isSelected = false, events = [], onClick, className = '' }: DayCellProps) => {
     if (!day) return <div className="h-20" />;
+
+    const cellClass = isToday
+      ? 'bg-[#e67e65] text-white shadow-2xl shadow-[#e67e65]/40'
+      : isSelected
+        ? 'ring-2 ring-[#e67e65] ring-offset-2 ring-offset-[#121212] text-white bg-white/5'
+        : 'text-gray-300 hover:bg-white/5';
 
     return (
       <div className={`relative flex flex-col justify-center items-center group h-20 ${className}`}>
@@ -32,11 +42,7 @@ export const DayCell = React.memo(
           className={`
             w-14 h-16 flex flex-col items-center justify-center text-2xl font-light cursor-pointer
             transition-all duration-300 rounded-2xl relative
-            ${
-              isToday
-                ? 'bg-[#e67e65] text-white shadow-2xl shadow-[#e67e65]/40'
-                : 'text-gray-300 hover:bg-white/5'
-            }
+            ${cellClass}
           `}
         >
           {day}
@@ -46,7 +52,14 @@ export const DayCell = React.memo(
               {events.map((event) => (
                 <span
                   key={event.id}
-                  className={`w-1 h-1 rounded-full ${isToday ? 'bg-white' : 'bg-[#e67e65]'}`}
+                  className={`w-1 h-1 rounded-full ${
+                    event.color
+                      ? ''
+                      : isToday
+                        ? 'bg-white'
+                        : 'bg-[#e67e65]'
+                  }`}
+                  style={event.color ? { backgroundColor: event.color } : undefined}
                 />
               ))}
             </div>
