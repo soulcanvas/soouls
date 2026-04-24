@@ -33,7 +33,7 @@ import { GoogleCalendarService } from './google-calendar.service';
 export class GoogleCalendarController {
   private readonly logger = new Logger(GoogleCalendarController.name);
 
-  constructor(private readonly gcalService: GoogleCalendarService) {}
+  constructor(private readonly gcalService: GoogleCalendarService) { }
 
   // ─── Helper: verify Clerk JWT from Authorization header or query param ────
 
@@ -68,7 +68,7 @@ export class GoogleCalendarController {
   async connect(@Req() req: Request) {
     if (!this.gcalService.isConfigured) {
       return {
-        url: `${process.env.FRONTEND_URL ?? 'http://localhost:3001'}/home/calendar?gcal_error=not_configured`,
+        url: `${process.env.FRONTEND_URL ?? 'http://localhost:3001'}/home?gcal_error=not_configured`,
         statusCode: 302,
       };
     }
@@ -90,7 +90,7 @@ export class GoogleCalendarController {
     @Res() res: Response,
   ) {
     const frontendBase = process.env.FRONTEND_URL ?? 'http://localhost:3001';
-    const calendarUrl = `${frontendBase}/home/calendar`;
+    const calendarUrl = `${frontendBase}/home`;
 
     if (error || !code) {
       this.logger.warn(`[GCal] Callback error: ${error}`);

@@ -28,40 +28,28 @@ export const DayCell = React.memo(
   ({ day, isToday, isSelected = false, events = [], onClick, className = '' }: DayCellProps) => {
     if (!day) return <div className="h-20" />;
 
-    const cellClass = isToday
-      ? 'bg-[#e67e65] text-white shadow-2xl shadow-[#e67e65]/40'
-      : isSelected
-        ? 'ring-2 ring-[#e67e65] ring-offset-2 ring-offset-[#121212] text-white bg-white/5'
+    const cellClass = isSelected
+      ? 'bg-[#e67e65] text-neutral-900 font-medium'
+      : isToday
+        ? 'bg-white/10 text-white'
         : 'text-gray-300 hover:bg-white/5';
 
     return (
       <div className={`relative flex flex-col justify-center items-center group h-20 ${className}`}>
         <motion.div
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: 1.05 }}
           onClick={onClick}
           className={`
-            w-14 h-16 flex flex-col items-center justify-center text-2xl font-light cursor-pointer
-            transition-all duration-300 rounded-2xl relative
+            w-14 h-16 flex flex-col items-center justify-center text-lg cursor-pointer
+            transition-all duration-200 rounded-xl relative
             ${cellClass}
           `}
         >
           {day}
 
           {events.length > 0 && (
-            <div className="absolute bottom-2 flex gap-1">
-              {events.map((event) => (
-                <span
-                  key={event.id}
-                  className={`w-1 h-1 rounded-full ${
-                    event.color
-                      ? ''
-                      : isToday
-                        ? 'bg-white'
-                        : 'bg-[#e67e65]'
-                  }`}
-                  style={event.color ? { backgroundColor: event.color } : undefined}
-                />
-              ))}
+            <div className="absolute -bottom-1.5 -right-1.5 flex items-center justify-center w-5 h-5 rounded-full bg-[#1c1c1c] text-[9px] font-bold text-white border border-[#333] shadow-lg">
+              {events.length}
             </div>
           )}
         </motion.div>

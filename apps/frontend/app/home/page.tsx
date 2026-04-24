@@ -23,6 +23,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { SymbolLogo } from '../components/SymbolLogo';
+import { CalendarModal } from './components/CalendarModal';
 
 // Custom Leaf Icon
 const LeafIcon = ({ className }: { className?: string }) => (
@@ -118,11 +119,24 @@ export default function HomePage() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  //When user connects with google calendar, open the calendar modal and clean up URL
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const search = window.location.search;
+      if (search.includes('gcal_connected=1') || search.includes('gcal_error=')) {
+        setIsCalendarOpen(true);
+        // Clean up URL so it doesn't stay there forever
+        window.history.replaceState({}, '', window.location.pathname);
+      }
+    }
   }, []);
 
   const userName = user?.firstName || user?.fullName?.split(' ')[0] || 'Explorer';
@@ -150,11 +164,10 @@ export default function HomePage() {
 
       {/* ─── Top Navigation ─── */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 transition-all duration-300 w-full ${
-          scrolled
+        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 transition-all duration-300 w-full ${scrolled
             ? 'py-4 bg-[#1E1E1E]/80 backdrop-blur-md shadow-lg border-b border-white/5'
             : 'py-6 bg-transparent'
-        }`}
+          }`}
       >
         <Link href="/home" className="relative flex items-center h-8 w-24">
           <AnimatePresence mode="wait">
@@ -454,7 +467,7 @@ export default function HomePage() {
 
           {/* Calendar Button */}
           <button
-            onClick={() => router.push('/home/calendar')}
+            onClick={() => setIsCalendarOpen(true)}
             className="pointer-events-auto flex items-center gap-3 text-[15px] text-white hover:text-white transition-colors bg-[#111111] px-6 py-3.5 rounded-full shadow-[0_0_25px_rgba(212,107,78,0.15)] border border-[#D46B4E]/40"
           >
             <svg
@@ -643,6 +656,12 @@ export default function HomePage() {
               </div>
             </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isCalendarOpen && (
+          <CalendarModal onClose={() => setIsCalendarOpen(false)} />
         )}
       </AnimatePresence>
     </div>
