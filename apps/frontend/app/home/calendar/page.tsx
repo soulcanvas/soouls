@@ -200,7 +200,7 @@ function GCalModal({
         exit={{ scale: 0.9, opacity: 0, y: 10 }}
         transition={{ type: 'spring', stiffness: 300, damping: 28 }}
         className="w-full max-w-md bg-[#1c1c1c] border border-white/10 rounded-3xl p-8 relative shadow-2xl overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e: React.MouseEvent) => e.stopPropagation()}
       >
         <button onClick={onClose} className="absolute top-5 right-5 text-gray-500 hover:text-white transition-colors z-10">
           <X size={18} />
@@ -596,7 +596,7 @@ export default function CalendarPage() {
 
   const entries = useMemo<CalendarEntry[]>(() => {
     if (!galaxyData?.items) return [];
-    return galaxyData.items.map((entry) => {
+    return galaxyData.items.map((entry: any) => {
       const decoded = decodeEntryContent(entry.content);
       const firstLine = decoded.split('\n').map((l) => l.trim()).find(Boolean);
       return { id: entry.id, title: firstLine || 'Untitled entry', createdAt: new Date(entry.createdAt) };
@@ -658,8 +658,8 @@ export default function CalendarPage() {
     for (let i = 0; i < firstDay; i++) items.push({ day: null, key: `empty-${i}` });
 
     for (let d = 1; d <= daysInMonth; d++) {
-      const soulEvents = (entriesByDay.get(d) ?? []).slice(0, 3).map((e) => ({ id: e.id, title: e.title }));
-      const gEvents = (gcalEventsByDay.get(d) ?? []).slice(0, 2).map((e) => ({
+      const soulEvents = (entriesByDay.get(d) ?? []).slice(0, 3).map((e: CalendarEntry) => ({ id: e.id, title: e.title }));
+      const gEvents = (gcalEventsByDay.get(d) ?? []).slice(0, 2).map((e: GCalEvent) => ({
         id: `gcal-${e.id}`, title: e.summary, color: GCAL_COLORS[e.colorId ?? ''] ?? GCAL_DEFAULT_COLOR,
       }));
       items.push({ day: d, key: `day-${d}`, events: [...soulEvents, ...gEvents] });
@@ -670,7 +670,7 @@ export default function CalendarPage() {
   const weekDates = useMemo(() => getWeekDates(currentDate), [currentDate]);
 
   const navigate = useCallback((dir: number) => {
-    setCurrentDate((prev) => {
+    setCurrentDate((prev: Date) => {
       const d = new Date(prev);
       if (view === 'Monthly') { d.setDate(1); d.setMonth(d.getMonth() + dir); }
       else if (view === 'Weekly') { d.setDate(d.getDate() + dir * 7); }
@@ -684,9 +684,16 @@ export default function CalendarPage() {
 
   const periodLabel = useMemo(() => {
     if (view === 'Monthly') return `${MONTHS[month]} ${year}`;
-    if (view === 'Weekly') {
-      const s = weekDates[0]; const e = weekDates[6];
-      return `${MONTHS[s.getMonth()].slice(0, 3)} ${s.getDate()} – ${MONTHS[e.getMonth()].slice(0, 3)} ${e.getDate()}`;
+    if (view === 'Weekly' && weekDates.length >= 7) {
+      const s = weekDates[0];
+      const e = weekDates[6];
+      if (s instanceof Date && e instanceof Date) {
+        const startMonth = MONTHS[s.getMonth()];
+        const endMonth = MONTHS[e.getMonth()];
+        if (startMonth && endMonth) {
+          return `${startMonth.slice(0, 3)} ${s.getDate()} – ${endMonth.slice(0, 3)} ${e.getDate()}`;
+        }
+      }
     }
     return `${MONTHS[currentDate.getMonth()]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
   }, [view, month, year, weekDates, currentDate]);
@@ -795,7 +802,7 @@ export default function CalendarPage() {
             {view === 'Monthly' && (
               <motion.div key="monthly" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}>
                 <div className="grid grid-cols-7 mb-6">
-                  {SHORT_DAYS.map((day) => (
+                  {SHORT_DAYS.map((day: string) => (
                     <div key={day} className="flex justify-center"><Badge>{day}</Badge></div>
                   ))}
                 </div>
@@ -835,7 +842,7 @@ export default function CalendarPage() {
 
                       <div className="space-y-2 mb-4 max-h-[200px] overflow-y-auto pr-1">
                         {/* GCal events first */}
-                        {selectedGcalEvents.map((ev) => {
+                        {selectedGcalEvents.map((ev: GCalEvent) => {
                           const color = GCAL_COLORS[ev.colorId ?? ''] ?? GCAL_DEFAULT_COLOR;
                           return (
                             <div key={ev.id} className="rounded-xl border px-3 py-2" style={{ borderColor: `${color}40`, backgroundColor: `${color}10` }}>
@@ -850,7 +857,7 @@ export default function CalendarPage() {
                           );
                         })}
                         {/* Soouls entries */}
-                        {selectedEntries.map((entry) => (
+                        {selectedEntries.map((entry: CalendarEntry) => (
                           <button
                             key={entry.id}
                             onClick={() => openEntry(entry.id)}
@@ -896,7 +903,7 @@ export default function CalendarPage() {
             {view === 'Weekly' && (
               <motion.div key="weekly" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}>
                 <div className="grid grid-cols-7 mb-4">
-                  {SHORT_DAYS.map((day) => <div key={day} className="flex justify-center"><Badge>{day}</Badge></div>)}
+                  {SHORT_DAYS.map((day: string) => <div key={day} className="flex justify-center"><Badge>{day}</Badge></div>)}
                 </div>
                 {isLoading ? (
                   <div className="grid grid-cols-7 gap-3 animate-pulse">

@@ -7,7 +7,7 @@ import {
   normalizePhoneNumber,
   parseEnvList,
 } from '../notifications/notification.constants';
-import type { NotificationQueueService } from '../notifications/notification.queue';
+import { NotificationQueueService } from '../notifications/notification.queue';
 import { buildCampaignTemplate } from '../notifications/notification.templates';
 import {
   BRAND_PRESETS,
@@ -17,7 +17,7 @@ import {
   type UserMessagingProfile,
   getBrandPreset,
 } from '../notifications/notification.types';
-import type { RedisService } from '../redis/redis.service';
+import { RedisService } from '../redis/redis.service';
 
 type BrandKey = 'soouls' | 'soouls-studio' | 'founder-desk';
 type CampaignStatus = 'draft' | 'sending' | 'sent' | 'partially_sent' | 'failed';

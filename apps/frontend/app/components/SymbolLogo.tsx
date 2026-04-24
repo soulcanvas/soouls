@@ -1,6 +1,6 @@
-import type React from 'react';
+import type { SVGProps } from 'react';
 
-interface SymbolLogoProps extends React.SVGProps<SVGSVGElement> {
+interface SymbolLogoProps extends SVGProps<SVGSVGElement> {
   variant?: 'outline' | 'solid';
 }
 

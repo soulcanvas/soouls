@@ -94,15 +94,15 @@ async function checkRateLimitRedis(
   try {
     const member = `${now}`;
 
-    const pipeline = redisClient?.pipeline();
+    const pipeline = redisClient!.pipeline();
     pipeline.zadd(key, now, member);
     pipeline.zremrangebyscore(key, '-inf', windowStart);
     pipeline.expire(key, Math.ceil(config.windowMs / 1000) + 1);
     await pipeline.exec();
-
-    const count = await redisClient?.zcount(key, windowStart, now);
-
-    if (count > config.maxRequests) {
+ 
+    const count = await redisClient!.zcount(key, windowStart, now);
+ 
+    if (count !== undefined && count > config.maxRequests) {
       addViolation(ip, routeKey, count);
       return { ok: false, retryAfterMs: config.windowMs };
     }

@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { db, eq } from '@soouls/database/client';
 import { users, waitlistUsers } from '@soouls/database/schema';
 import { getWaitlistEntry, isWaitlistEmail } from '@soouls/database/waitlist-data';
-import type { MessagingService } from '../services/messaging.service';
+import { MessagingService } from '../services/messaging.service';
 
 @Injectable()
 export class UsersService {

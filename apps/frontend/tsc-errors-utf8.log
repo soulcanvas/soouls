@@ -1,0 +1,9 @@
+﻿app/home/calendar/page.tsx(690,19): error TS2532: Object is possibly 'undefined'.
+app/home/calendar/page.tsx(690,72): error TS2532: Object is possibly 'undefined'.
+../../packages/api/src/rate-limit.ts(98,5): error TS18048: 'pipeline' is possibly 'undefined'.
+../../packages/api/src/rate-limit.ts(99,5): error TS18048: 'pipeline' is possibly 'undefined'.
+../../packages/api/src/rate-limit.ts(100,5): error TS18048: 'pipeline' is possibly 'undefined'.
+../../packages/api/src/rate-limit.ts(101,11): error TS18048: 'pipeline' is possibly 'undefined'.
+../../packages/api/src/rate-limit.ts(105,9): error TS18048: 'count' is possibly 'undefined'.
+../../packages/api/src/rate-limit.ts(106,34): error TS2345: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'.
