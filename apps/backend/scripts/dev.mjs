@@ -9,7 +9,6 @@ const child = spawn('bun', ['run', '--env-file=../../.env', entryPoint], {
   cwd: appRoot,
   stdio: 'inherit',
   env: process.env,
-  shell: process.platform === 'win32',
 });
 
 function stopChild(signal = 'SIGTERM') {

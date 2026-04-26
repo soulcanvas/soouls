@@ -11,6 +11,7 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   outputFileTracingRoot: monorepoRoot,
+  transpilePackages: ['@soouls/ui-kit', '@soouls/api', '@soouls/logic'],
   turbopack: {
     root: monorepoRoot,
   },

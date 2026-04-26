@@ -1,6 +1,12 @@
 {
-  "extends": "@soouls/typescript-config/nextjs.json",
+  "extends": "../../packages/typescript-config/nextjs.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@soouls/ui-kit": ["../../packages/ui-kit/src/index.tsx"],
+      "@soouls/api": ["../../packages/api/src/index.ts"],
+      "@soouls/logic": ["../../packages/logic/src/index.ts"]
+    },
     "plugins": [
       {
         "name": "next"

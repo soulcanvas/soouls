@@ -99,10 +99,9 @@ async function checkRateLimitRedis(
     pipeline.zremrangebyscore(key, '-inf', windowStart);
     pipeline.expire(key, Math.ceil(config.windowMs / 1000) + 1);
     await pipeline.exec();
-
     const count = await redisClient!.zcount(key, windowStart, now);
 
-    if (count > config.maxRequests) {
+    if (count !== undefined && count > config.maxRequests) {
       addViolation(ip, routeKey, count);
       return { ok: false, retryAfterMs: config.windowMs };
     }

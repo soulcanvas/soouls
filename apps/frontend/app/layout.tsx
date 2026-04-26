@@ -32,6 +32,11 @@ export const metadata: Metadata = {
   title: 'Soouls — A quieter way to think',
   description:
     'Non-linear journaling designed for depth. Capture your thoughts as they happen. Build a map of your mind.',
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
 };
 
 export default function RootLayout({

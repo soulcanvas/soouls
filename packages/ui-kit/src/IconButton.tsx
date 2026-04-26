@@ -2,12 +2,14 @@ import { type HTMLMotionProps, motion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import React from 'react';
 
-interface IconButtonProps extends HTMLMotionProps<'button'> {
+export interface IconButtonProps extends HTMLMotionProps<'button'> {
   icon: LucideIcon;
   label: string;
   active?: boolean;
   size?: number;
   variant?: 'primary' | 'ghost' | 'danger';
+  className?: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const variantStyles = {

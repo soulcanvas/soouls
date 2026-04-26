@@ -20,6 +20,9 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: 'SoulLabs Command Center',
   description: 'Internal operating system for SoulLabs support, engineering, and admin operations.',
+  icons: {
+    icon: '/favicon.png',
+  },
 };
 
 export default function RootLayout({
