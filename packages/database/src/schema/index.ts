@@ -236,7 +236,7 @@ export const permissionRequests = pgTable('permission_requests', {
   reviewedAt: timestamp('reviewed_at'),
   responseNote: text('response_note'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
-  expiresAt: timestamp('expires_at').defaultNow().notNull(),
+  expiresAt: timestamp('expires_at').notNull(),
 });
 
 export const featureFlags = pgTable('feature_flags', {
