@@ -54,7 +54,11 @@ const child =
       ? spawn('node', [nextCli, ...args], spawnOptions)
       : command === 'bunx'
         ? spawn(process.platform === 'win32' ? 'npx.cmd' : 'npx', args, spawnOptions)
-        : spawn(process.platform === 'win32' && !command.endsWith('.exe') ? command + '.cmd' : command, args, { ...spawnOptions, shell: true });
+        : spawn(
+            process.platform === 'win32' && !command.endsWith('.exe') ? `${command}.cmd` : command,
+            args,
+            { ...spawnOptions, shell: true },
+          );
 
 function stopChild(signal = 'SIGTERM') {
   if (!child.killed && child.exitCode === null) {
