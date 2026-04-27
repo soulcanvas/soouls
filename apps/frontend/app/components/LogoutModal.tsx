@@ -2,7 +2,7 @@
 
 import { useClerk } from '@clerk/nextjs';
 import { AnimatePresence, motion } from 'framer-motion';
-import React from 'react';
+import type React from 'react';
 import { SymbolLogo } from './SymbolLogo';
 
 interface LogoutModalProps {
@@ -29,7 +29,7 @@ export const LogoutModal: React.FC<LogoutModalProps> = ({
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="w-full max-w-lg bg-[#838182] rounded-[2rem] p-10 text-center shadow-2xl relative overflow-hidden"
+            className="w-full max-w-[728px] rounded-[16px] bg-[rgba(14,14,14,0.88)] p-8 text-center shadow-2xl backdrop-blur-[30px] relative overflow-hidden sm:p-12"
           >
             {/* Decorative Butterfly Logo */}
             <SymbolLogo
@@ -38,25 +38,27 @@ export const LogoutModal: React.FC<LogoutModalProps> = ({
             />
 
             <div className="relative z-10 text-left">
-              <h2 className="text-[40px] font-urbanist font-light text-white mb-2">
+              <h2 className="text-[42px] font-urbanist font-medium leading-none text-white mb-8 sm:text-[60px]">
                 Leaving for now?
               </h2>
-              <p className="text-2xl text-white/90 font-playfair italic mb-16">
+              <p className="text-2xl text-white/85 font-playfair italic mb-20 sm:text-[30px]">
                 Your thoughts are safely stored. You can
                 <br />
                 return anytime.
               </p>
 
-              <div className="flex gap-6 justify-center mb-8">
+              <div className="flex flex-col gap-4 justify-center mb-10 sm:flex-row sm:gap-16">
                 <button
+                  type="button"
                   onClick={onClose}
-                  className="w-36 py-3.5 rounded-2xl bg-[#4A4A4A] border border-[#D46B4E] text-white hover:bg-[#5a5a5a] transition-all text-lg font-medium shadow-lg"
+                  className="w-full py-3.5 rounded-2xl bg-[rgba(15,15,15,0.5)] border border-[#D46B4E] text-[#E6E2D6] hover:bg-[#222] transition-all text-lg font-bold shadow-lg sm:w-52"
                 >
                   Stay
                 </button>
                 <button
+                  type="button"
                   onClick={() => signOut({ redirectUrl: '/' })}
-                  className="w-36 py-3.5 rounded-2xl bg-[#D33F3F] border border-[#B33535] text-white hover:bg-[#E34A4A] transition-all text-lg font-medium shadow-lg"
+                  className="w-full py-3.5 rounded-2xl bg-[rgba(255,0,0,0.72)] border border-red-600 text-[#E6E2D6] hover:bg-red-700 transition-all text-lg font-bold shadow-lg sm:w-52"
                 >
                   Logout
                 </button>

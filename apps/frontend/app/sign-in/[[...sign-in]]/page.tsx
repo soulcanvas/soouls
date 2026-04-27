@@ -16,6 +16,17 @@ export default function SignInPage() {
   const { user } = useUser();
 
   // ─── If user already signed in, redirect to home ─────────────────
+  const [step, setStep] = useState<Step>('form');
+  const [authMethod, setAuthMethod] = useState<AuthMethod>('email');
+
+  // Form state
+  const [emailAddress, setEmailAddress] = useState('');
+  const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneCode, setPhoneCode] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   if (user) {
     router.replace('/home');
     return (
@@ -27,17 +38,6 @@ export default function SignInPage() {
       </div>
     );
   }
-
-  const [step, setStep] = useState<Step>('form');
-  const [authMethod, setAuthMethod] = useState<AuthMethod>('email');
-
-  // Form state
-  const [emailAddress, setEmailAddress] = useState('');
-  const [password, setPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [phoneCode, setPhoneCode] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   // ─── Email/Password Sign-In ─────────────────────────────────────────────────
   const handleEmailSubmit = async (e: React.FormEvent) => {

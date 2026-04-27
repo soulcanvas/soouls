@@ -1,10 +1,9 @@
 'use client';
 
 import { useUser } from '@clerk/nextjs';
-import { Calendar, Moon, Sparkles, Target, TrendingDown, TrendingUp, Zap } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, Calendar, Moon, Sparkles, Target, TrendingDown, TrendingUp, Zap } from 'lucide-react';
 import React from 'react';
 import { useSidebar } from '../../../src/providers/sidebar-provider';
-import { ArrowDownRight, ArrowUpRight, Calendar, Moon, Sparkles, Target } from 'lucide-react';
 import { buildActivityBars, formatCurrentMonthRange } from '../../../src/utils/home';
 import { trpc } from '../../../src/utils/trpc';
 

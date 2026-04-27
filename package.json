@@ -32,7 +32,7 @@
     "@giphy/js-fetch-api": "^5.7.0",
     "@giphy/react-components": "^10.1.2",
     "@sentry/nextjs": "^10.50.0",
-    "emoji-picker-react": "^4.19.0",
+    "emoji-picker-react": "^4.19.1",
     "lottie-react": "^2.4.1",
     "lz-string": "^1.5.0",
     "next": "^16.2.4",

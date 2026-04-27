@@ -10,7 +10,7 @@ import {
   X,
 } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
+import type React from 'react';
 import { SymbolLogo } from './SymbolLogo';
 import { DiamondIcon, NetworkIcon, CanvasLoopIcon } from './Icons';
 
@@ -20,6 +20,10 @@ interface ProfileSidebarProps {
   onLogoutClick: () => void;
 }
 
+function avatarFor(seed?: string | null) {
+  return `https://api.dicebear.com/9.x/glass/svg?seed=${encodeURIComponent(seed || 'Soouls')}&backgroundColor=1c1c1c,e07a5f&radius=50`;
+}
+
 export const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
   isOpen,
   onClose,
@@ -27,6 +31,8 @@ export const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
 }) => {
   const { user } = useUser();
   const userName = user?.firstName || user?.fullName?.split(' ')[0] || 'Explorer';
+  const fullName = user?.fullName || `${userName} Lane`;
+  const avatarUrl = user?.imageUrl || avatarFor(user?.primaryEmailAddress?.emailAddress || user?.id);
 
   return (
     <AnimatePresence>
@@ -44,9 +50,10 @@ export const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed top-0 right-0 z-50 w-80 h-full bg-[#222222] shadow-2xl p-8 flex flex-col rounded-l-2xl overflow-hidden"
+            className="fixed top-0 right-0 z-50 h-full w-[min(92vw,415px)] border-l border-[#222] bg-[rgba(15,15,15,0.92)] p-8 shadow-2xl backdrop-blur-[30px] sm:p-12 flex flex-col rounded-l-[24px] overflow-hidden"
           >
             <button
+              type="button"
               onClick={onClose}
               className="absolute top-4 right-4 p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-all z-[60]"
               aria-label="Close sidebar"
@@ -57,14 +64,8 @@ export const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
             {/* Profile Header */}
             <div className="mb-10 pt-2 flex flex-col items-start relative z-10">
               <div className="flex gap-4 items-center mb-2">
-                <div className="w-16 h-16 rounded-full bg-[#1A1A1A] overflow-hidden shrink-0 border-2 border-white/10">
-                  {user?.imageUrl ? (
-                    <img src={user.imageUrl} alt="" className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-white/50">
-                      U
-                    </div>
-                  )}
+                <div className="w-24 h-24 rounded-full bg-[#1A1A1A] overflow-hidden shrink-0 border-2 border-white/10">
+                  <img src={avatarUrl} alt="" className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <p className="text-[22px] text-white/90 font-playfair italic leading-tight">
@@ -73,7 +74,7 @@ export const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
                 </div>
               </div>
               <h2 className="text-[32px] font-bold text-[#D46B4E] tracking-tight leading-none mb-4">
-                {userName} {user?.lastName || 'Lane'}
+                {fullName}
               </h2>
               <p className="text-xl text-white font-playfair italic leading-snug">
                 &quot;You&apos;ve shown up <span className="text-[#D46B4E]">12 days</span>
@@ -125,6 +126,7 @@ export const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
 
               {/* Logout */}
               <button
+                type="button"
                 onClick={() => {
                   onClose();
                   onLogoutClick();
