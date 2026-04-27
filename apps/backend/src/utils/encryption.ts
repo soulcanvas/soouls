@@ -14,8 +14,9 @@ const keyCache = new Map<string, Buffer>();
  * @param internalUserId The user's internal DB UUID (used as a salt).
  */
 function deriveKey(internalUserId: string): Buffer {
-  if (keyCache.has(internalUserId)) {
-    return keyCache.get(internalUserId)!;
+  const cachedKey = keyCache.get(internalUserId);
+  if (cachedKey) {
+    return cachedKey;
   }
   const key = crypto.pbkdf2Sync(
     SYSTEM_SECRET,

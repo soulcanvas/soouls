@@ -1,5 +1,5 @@
-import http from 'node:http';
 import { realpathSync } from 'node:fs';
+import http from 'node:http';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import next from 'next';

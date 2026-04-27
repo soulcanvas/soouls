@@ -425,6 +425,41 @@ import {
 import { run as getAllRun } from './namespaces/private/entries/getAll/run.js';
 
 import {
+  config as deleteHomeAccountConfig,
+  schema as deleteHomeAccountSchema,
+} from './namespaces/private/home/deleteAccount/constants.js';
+import { run as deleteHomeAccountRun } from './namespaces/private/home/deleteAccount/run.js';
+import {
+  config as getHomeAccountConfig,
+  schema as getHomeAccountSchema,
+} from './namespaces/private/home/getAccount/constants.js';
+import { run as getHomeAccountRun } from './namespaces/private/home/getAccount/run.js';
+import {
+  config as getClusterDetailConfig,
+  schema as getClusterDetailSchema,
+} from './namespaces/private/home/getClusterDetail/constants.js';
+import { run as getClusterDetailRun } from './namespaces/private/home/getClusterDetail/run.js';
+import {
+  config as getHomeClustersConfig,
+  schema as getHomeClustersSchema,
+} from './namespaces/private/home/getClusters/constants.js';
+import { run as getHomeClustersRun } from './namespaces/private/home/getClusters/run.js';
+import {
+  config as getHomeInsightsConfig,
+  schema as getHomeInsightsSchema,
+} from './namespaces/private/home/getInsights/constants.js';
+import { run as getHomeInsightsRun } from './namespaces/private/home/getInsights/run.js';
+import {
+  config as getHomeSettingsConfig,
+  schema as getHomeSettingsSchema,
+} from './namespaces/private/home/getSettings/constants.js';
+import { run as getHomeSettingsRun } from './namespaces/private/home/getSettings/run.js';
+import {
+  config as updateHomeSettingsConfig,
+  schema as updateHomeSettingsSchema,
+} from './namespaces/private/home/updateSettings/constants.js';
+import { run as updateHomeSettingsRun } from './namespaces/private/home/updateSettings/run.js';
+import {
   config as getCenterConfig,
   schema as getCenterSchema,
 } from './namespaces/private/messaging/getCenter/constants.js';
@@ -449,41 +484,6 @@ import {
   schema as updateUserSchema,
 } from './namespaces/private/users/update/constants.js';
 import { run as updateUserRun } from './namespaces/private/users/update/run.js';
-import {
-  config as getHomeInsightsConfig,
-  schema as getHomeInsightsSchema,
-} from './namespaces/private/home/getInsights/constants.js';
-import { run as getHomeInsightsRun } from './namespaces/private/home/getInsights/run.js';
-import {
-  config as getHomeAccountConfig,
-  schema as getHomeAccountSchema,
-} from './namespaces/private/home/getAccount/constants.js';
-import { run as getHomeAccountRun } from './namespaces/private/home/getAccount/run.js';
-import {
-  config as getHomeSettingsConfig,
-  schema as getHomeSettingsSchema,
-} from './namespaces/private/home/getSettings/constants.js';
-import { run as getHomeSettingsRun } from './namespaces/private/home/getSettings/run.js';
-import {
-  config as updateHomeSettingsConfig,
-  schema as updateHomeSettingsSchema,
-} from './namespaces/private/home/updateSettings/constants.js';
-import { run as updateHomeSettingsRun } from './namespaces/private/home/updateSettings/run.js';
-import {
-  config as getHomeClustersConfig,
-  schema as getHomeClustersSchema,
-} from './namespaces/private/home/getClusters/constants.js';
-import { run as getHomeClustersRun } from './namespaces/private/home/getClusters/run.js';
-import {
-  config as getClusterDetailConfig,
-  schema as getClusterDetailSchema,
-} from './namespaces/private/home/getClusterDetail/constants.js';
-import { run as getClusterDetailRun } from './namespaces/private/home/getClusterDetail/run.js';
-import {
-  config as deleteHomeAccountConfig,
-  schema as deleteHomeAccountSchema,
-} from './namespaces/private/home/deleteAccount/constants.js';
-import { run as deleteHomeAccountRun } from './namespaces/private/home/deleteAccount/run.js';
 
 function buildPrivateRouter(services: Services) {
   /**

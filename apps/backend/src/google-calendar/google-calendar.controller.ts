@@ -1,7 +1,9 @@
+import { verifyToken } from '@clerk/backend';
 import {
   Controller,
   Get,
   Inject,
+  Logger,
   Param,
   Patch,
   Post,
@@ -10,10 +12,8 @@ import {
   Req,
   Res,
   UnauthorizedException,
-  Logger,
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
-import { verifyToken } from '@clerk/backend';
 import { GoogleCalendarService } from './google-calendar.service';
 
 /**
@@ -37,7 +37,7 @@ import { GoogleCalendarService } from './google-calendar.service';
 export class GoogleCalendarController {
   private readonly logger = new Logger(GoogleCalendarController.name);
 
-  constructor(@Inject(GoogleCalendarService) private readonly gcalService: GoogleCalendarService) { }
+  constructor(@Inject(GoogleCalendarService) private readonly gcalService: GoogleCalendarService) {}
 
   // ─── Helper: verify Clerk JWT from Authorization header or query param ────
 
@@ -149,14 +149,16 @@ export class GoogleCalendarController {
   ) {
     const clerkUserId = await this.verifyClerkToken(req);
 
-    if (!timeMin || !timeMax) {
+    let finalTimeMin = timeMin;
+    let finalTimeMax = timeMax;
+    if (!finalTimeMin || !finalTimeMax) {
       // Default: current month
       const now = new Date();
-      timeMin = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
-      timeMax = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59).toISOString();
+      finalTimeMin = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+      finalTimeMax = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59).toISOString();
     }
 
-    const events = await this.gcalService.getEvents(clerkUserId, timeMin, timeMax);
+    const events = await this.gcalService.getEvents(clerkUserId, finalTimeMin, finalTimeMax);
     return { events };
   }
 }

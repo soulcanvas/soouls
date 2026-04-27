@@ -223,7 +223,9 @@ export function DashboardShell({ viewer }: DashboardShellProps) {
               <button
                 key={item.label}
                 type="button"
-                onClick={() => item.section && router.push(SECTION_ROUTE_MAP[item.section as SectionName])}
+                onClick={() =>
+                  item.section && router.push(SECTION_ROUTE_MAP[item.section as SectionName])
+                }
                 className={`group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all duration-200 ${
                   isActive
                     ? 'bg-gradient-to-r from-amber-400/15 to-orange-400/10 text-amber-200 shadow-inner'

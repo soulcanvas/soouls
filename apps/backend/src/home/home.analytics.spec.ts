@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import {
+  type DecodedHomeEntry,
   buildHomeAnalytics,
   normalizeUserPreferences,
-  type DecodedHomeEntry,
 } from './home.analytics';
 
 describe('home analytics', () => {
@@ -37,8 +37,7 @@ describe('home analytics', () => {
         id: 'entry-1',
         createdAt: new Date('2026-04-23T21:10:00.000Z'),
         updatedAt: new Date('2026-04-23T21:10:00.000Z'),
-        text:
-          'I feel anxious about my career direction, but I also have hope about the startup roadmap and product strategy.',
+        text: 'I feel anxious about my career direction, but I also have hope about the startup roadmap and product strategy.',
         title: 'Career direction at night',
         type: 'entry',
         sentimentLabel: 'anxiety',
@@ -49,8 +48,7 @@ describe('home analytics', () => {
         id: 'entry-2',
         createdAt: new Date('2026-04-24T22:25:00.000Z'),
         updatedAt: new Date('2026-04-24T22:25:00.000Z'),
-        text:
-          'The side project is becoming clearer. I want to validate the startup idea, build discipline, and ship a focused prototype.',
+        text: 'The side project is becoming clearer. I want to validate the startup idea, build discipline, and ship a focused prototype.',
         title: 'Clearer side project',
         type: 'entry',
         sentimentLabel: 'hope',
@@ -70,8 +68,7 @@ describe('home analytics', () => {
         id: 'entry-3',
         createdAt: new Date('2026-04-25T23:05:00.000Z'),
         updatedAt: new Date('2026-04-25T23:05:00.000Z'),
-        text:
-          'Journaling helps with healing and self reflection. I am calmer when I track progress, complete tasks, and stay grounded.',
+        text: 'Journaling helps with healing and self reflection. I am calmer when I track progress, complete tasks, and stay grounded.',
         title: 'Healing through tracking',
         type: 'task',
         sentimentLabel: 'neutral',

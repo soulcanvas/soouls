@@ -26,7 +26,7 @@ declare module 'drizzle-orm' {
 declare module 'drizzle-orm/pg-core' {
   type AnyBuilder = {
     [key: string]: any;
-    $type: <T>() => AnyBuilder;
+    $type: <_T>() => AnyBuilder;
     primaryKey: () => AnyBuilder;
     defaultRandom: () => AnyBuilder;
     notNull: () => AnyBuilder;
@@ -37,7 +37,7 @@ declare module 'drizzle-orm/pg-core' {
   };
 
   export function boolean(...args: any[]): AnyBuilder;
-  export function customType<T = any>(config: any): (...args: any[]) => AnyBuilder;
+  export function customType<_T = any>(config: any): (...args: any[]) => AnyBuilder;
   export function integer(...args: any[]): AnyBuilder;
   export function jsonb(...args: any[]): AnyBuilder;
   export function pgEnum(...args: any[]): (...innerArgs: any[]) => AnyBuilder;

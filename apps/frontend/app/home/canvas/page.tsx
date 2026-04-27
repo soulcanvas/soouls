@@ -3,9 +3,9 @@
 import { useUser } from '@clerk/nextjs';
 import { AnimatePresence, type PanInfo, motion } from 'framer-motion';
 import { Search } from 'lucide-react';
-import { useSidebar } from '../../../src/providers/sidebar-provider';
-import { useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useMemo, useRef, useState } from 'react';
+import { useSidebar } from '../../../src/providers/sidebar-provider';
 import { trpc } from '../../../src/utils/trpc';
 
 type FolderItem = {
@@ -97,7 +97,10 @@ export default function CanvasPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden font-sans select-none" style={{ backgroundColor: 'var(--soouls-bg)', color: 'var(--soouls-text-strong)' }}>
+    <div
+      className="min-h-screen flex flex-col relative overflow-hidden font-sans select-none"
+      style={{ backgroundColor: 'var(--soouls-bg)', color: 'var(--soouls-text-strong)' }}
+    >
       <div className="absolute top-10 left-0 right-0 flex justify-center pointer-events-none opacity-25 select-none z-0 overflow-hidden whitespace-nowrap">
         <span
           className="text-[20vw] leading-none text-transparent tracking-tighter"
@@ -112,30 +115,34 @@ export default function CanvasPage() {
 
       <header className="px-8 py-6 flex justify-between items-center relative z-10">
         <div className="flex items-center gap-2 text-sm text-[var(--soouls-text-muted)]">
-          <button onClick={() => router.push('/home')} className="transition hover:text-[var(--soouls-accent)]">
+          <button
+            onClick={() => router.push('/home')}
+            className="transition hover:text-[var(--soouls-accent)]"
+          >
             Home
           </button>
           <span>/</span>
           <span style={{ color: 'var(--soouls-accent)' }}>Canvas</span>
         </div>
 
-        <button 
+        <button
           onClick={() => setIsOpen(true)}
           className="w-9 h-9 rounded-full border border-white/10 bg-zinc-800 overflow-hidden hover:border-white/30 transition-all cursor-pointer"
         >
           {user?.imageUrl && (
-            <img
-              src={user.imageUrl}
-              alt="Profile"
-              className="w-9 h-9 rounded-full"
-            />
+            <img src={user.imageUrl} alt="Profile" className="w-9 h-9 rounded-full" />
           )}
         </button>
         <div
           className="w-9 h-9 rounded-full border overflow-hidden"
-          style={{ borderColor: 'var(--soouls-border)', backgroundColor: 'var(--soouls-bg-elevated)' }}
+          style={{
+            borderColor: 'var(--soouls-border)',
+            backgroundColor: 'var(--soouls-bg-elevated)',
+          }}
         >
-          {user?.imageUrl && <img src={user.imageUrl} alt="Profile" className="w-full h-full object-cover" />}
+          {user?.imageUrl && (
+            <img src={user.imageUrl} alt="Profile" className="w-full h-full object-cover" />
+          )}
         </div>
       </header>
 
@@ -183,19 +190,26 @@ export default function CanvasPage() {
                       className="flex flex-col items-start group cursor-grab active:cursor-grabbing z-20 relative"
                     >
                       <div className="relative w-full aspect-[1.1/1] mb-3 pointer-events-none">
-                        <FolderIcon className="w-full h-full drop-shadow-xl" count={String(folder.entryCount)} />
+                        <FolderIcon
+                          className="w-full h-full drop-shadow-xl"
+                          count={String(folder.entryCount)}
+                        />
                       </div>
                       <p className="text-[12px] font-medium px-1 leading-tight pointer-events-none text-[var(--soouls-text-muted)] group-hover:text-[var(--soouls-text-strong)]">
                         {folder.title}
                       </p>
-                      <p className="text-[10px] px-1 mt-1 text-[var(--soouls-text-faint)]">{folder.updatedAtLabel}</p>
+                      <p className="text-[10px] px-1 mt-1 text-[var(--soouls-text-faint)]">
+                        {folder.updatedAtLabel}
+                      </p>
                     </motion.div>
                   </div>
                 ))}
               </div>
 
               {folders.length === 0 && (
-                <p className="text-sm text-center mt-10 text-[var(--soouls-text-faint)]">No matching folders</p>
+                <p className="text-sm text-center mt-10 text-[var(--soouls-text-faint)]">
+                  No matching folders
+                </p>
               )}
             </div>
           </motion.div>
@@ -206,13 +220,20 @@ export default function CanvasPage() {
             animate={{
               opacity: 1,
               x: 0,
-              borderColor: isDraggingOver ? 'rgba(var(--soouls-accent-rgb), 0.4)' : 'rgba(255,255,255,0.08)',
-              backgroundColor: isDraggingOver ? 'rgba(var(--soouls-accent-rgb), 0.03)' : 'transparent',
+              borderColor: isDraggingOver
+                ? 'rgba(var(--soouls-accent-rgb), 0.4)'
+                : 'rgba(255,255,255,0.08)',
+              backgroundColor: isDraggingOver
+                ? 'rgba(var(--soouls-accent-rgb), 0.03)'
+                : 'transparent',
             }}
             className="flex-[2] rounded-[28px] border shadow-2xl relative overflow-hidden flex items-center justify-center transition"
           >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,0.06),transparent_40%),radial-gradient(circle_at_75%_80%,rgba(255,255,255,0.04),transparent_50%)]" />
-            <div className="absolute inset-0 backdrop-blur-sm" style={{ backgroundColor: 'rgba(15,15,15,0.86)' }} />
+            <div
+              className="absolute inset-0 backdrop-blur-sm"
+              style={{ backgroundColor: 'rgba(15,15,15,0.86)' }}
+            />
 
             <AnimatePresence>
               {droppedItems.map((item) => (
@@ -227,7 +248,10 @@ export default function CanvasPage() {
                   onDoubleClick={() => router.push(`/home/canvas/${item.id}`)}
                   className="w-28 flex flex-col items-center cursor-move group z-30"
                 >
-                  <FolderIcon className="w-full h-auto drop-shadow-2xl" count={String(item.entryCount)} />
+                  <FolderIcon
+                    className="w-full h-auto drop-shadow-2xl"
+                    count={String(item.entryCount)}
+                  />
                   <p className="mt-1 text-[10px] text-center font-medium backdrop-blur-sm truncate w-full px-2 py-1 rounded-md text-[var(--soouls-text-muted)]">
                     {item.title}
                   </p>
@@ -237,7 +261,10 @@ export default function CanvasPage() {
 
             {droppedItems.length === 0 && (
               <div className="relative z-10 text-center px-6 max-w-xl pointer-events-none">
-                <p className="text-[22px] md:text-[26px] leading-relaxed text-white/75" style={{ fontFamily: 'serif' }}>
+                <p
+                  className="text-[22px] md:text-[26px] leading-relaxed text-white/75"
+                  style={{ fontFamily: 'serif' }}
+                >
                   “Your thoughts are not separate.
                   <br />
                   They are waiting to connect.”
@@ -254,8 +281,14 @@ export default function CanvasPage() {
             )}
 
             {isDraggingOver && (
-              <div className="absolute inset-0 border-2 border-dashed m-4 rounded-[20px] flex items-center justify-center pointer-events-none z-50" style={{ borderColor: 'rgba(var(--soouls-accent-rgb), 0.2)' }}>
-                <span className="text-xs font-bold tracking-[0.5em] uppercase" style={{ color: 'rgba(var(--soouls-accent-rgb), 0.45)' }}>
+              <div
+                className="absolute inset-0 border-2 border-dashed m-4 rounded-[20px] flex items-center justify-center pointer-events-none z-50"
+                style={{ borderColor: 'rgba(var(--soouls-accent-rgb), 0.2)' }}
+              >
+                <span
+                  className="text-xs font-bold tracking-[0.5em] uppercase"
+                  style={{ color: 'rgba(var(--soouls-accent-rgb), 0.45)' }}
+                >
                   Drop Here
                 </span>
               </div>

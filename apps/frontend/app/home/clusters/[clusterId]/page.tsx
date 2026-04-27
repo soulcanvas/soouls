@@ -24,10 +24,17 @@ export default function ClusterDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--soouls-bg)', color: 'var(--soouls-text-strong)' }}>
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{ backgroundColor: 'var(--soouls-bg)', color: 'var(--soouls-text-strong)' }}
+      >
         <div className="text-center">
           <p className="text-lg mb-3">Loading cluster...</p>
-          <button type="button" onClick={() => router.push('/home/clusters')} style={{ color: 'var(--soouls-accent)' }}>
+          <button
+            type="button"
+            onClick={() => router.push('/home/clusters')}
+            style={{ color: 'var(--soouls-accent)' }}
+          >
             Back to clusters
           </button>
         </div>
@@ -48,7 +55,10 @@ export default function ClusterDetailPage() {
             borderColor: 'var(--soouls-border)',
           }}
         >
-          <p className="text-sm uppercase tracking-[0.18em] mb-4" style={{ color: 'var(--soouls-accent)' }}>
+          <p
+            className="text-sm uppercase tracking-[0.18em] mb-4"
+            style={{ color: 'var(--soouls-accent)' }}
+          >
             Cluster Unavailable
           </p>
           <h1 className="text-2xl font-semibold mb-3">This cluster could not be found.</h1>
@@ -71,7 +81,10 @@ export default function ClusterDetailPage() {
   const cluster = data.cluster;
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden" style={{ backgroundColor: 'var(--soouls-bg)', color: 'var(--soouls-text-strong)' }}>
+    <div
+      className="min-h-screen flex flex-col relative overflow-hidden"
+      style={{ backgroundColor: 'var(--soouls-bg)', color: 'var(--soouls-text-strong)' }}
+    >
       <div className="absolute top-10 left-0 right-0 flex justify-center pointer-events-none opacity-10 select-none z-0 overflow-hidden whitespace-nowrap">
         <span
           className="text-[20vw] leading-none text-transparent tracking-tighter"
@@ -93,7 +106,10 @@ export default function ClusterDetailPage() {
             Home
           </button>
           <span>/</span>
-          <span className="hover:text-[var(--soouls-accent)] cursor-pointer" onClick={() => router.push('/home/clusters')}>
+          <span
+            className="hover:text-[var(--soouls-accent)] cursor-pointer"
+            onClick={() => router.push('/home/clusters')}
+          >
             Clusters
           </span>
           <span>/</span>
@@ -102,9 +118,14 @@ export default function ClusterDetailPage() {
 
         <div
           className="w-9 h-9 rounded-full border overflow-hidden ring-2 ring-white/5"
-          style={{ borderColor: 'var(--soouls-border)', backgroundColor: 'var(--soouls-bg-elevated)' }}
+          style={{
+            borderColor: 'var(--soouls-border)',
+            backgroundColor: 'var(--soouls-bg-elevated)',
+          }}
         >
-          {user?.imageUrl && <img src={user.imageUrl} alt="Profile" className="w-full h-full object-cover" />}
+          {user?.imageUrl && (
+            <img src={user.imageUrl} alt="Profile" className="w-full h-full object-cover" />
+          )}
         </div>
       </header>
 
@@ -116,7 +137,10 @@ export default function ClusterDetailPage() {
             borderColor: 'var(--soouls-border)',
           }}
         >
-          <p className="text-sm uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--soouls-accent)' }}>
+          <p
+            className="text-sm uppercase tracking-[0.2em] mb-4"
+            style={{ color: 'var(--soouls-accent)' }}
+          >
             Core Theme
           </p>
           <h1 className="text-4xl font-semibold mb-8">{cluster.name}</h1>
@@ -125,7 +149,8 @@ export default function ClusterDetailPage() {
             className="rounded-[2rem] border p-8 mb-10"
             style={{
               borderColor: 'rgba(var(--soouls-accent-rgb), 0.35)',
-              background: 'linear-gradient(135deg, rgba(var(--soouls-accent-rgb), 0.16), transparent)',
+              background:
+                'linear-gradient(135deg, rgba(var(--soouls-accent-rgb), 0.16), transparent)',
             }}
           >
             <p className="text-sm font-medium mb-3" style={{ color: 'var(--soouls-accent)' }}>
@@ -137,25 +162,54 @@ export default function ClusterDetailPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-            <div className="lg:col-span-2 border rounded-3xl p-6" style={{ borderColor: 'var(--soouls-border)', backgroundColor: 'rgba(255,255,255,0.03)' }}>
+            <div
+              className="lg:col-span-2 border rounded-3xl p-6"
+              style={{
+                borderColor: 'var(--soouls-border)',
+                backgroundColor: 'rgba(255,255,255,0.03)',
+              }}
+            >
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-semibold">Key Ideas</h2>
-                <p className="text-sm text-[var(--soouls-text-muted)]">{cluster.entryCount} Nodes Identified</p>
+                <p className="text-sm text-[var(--soouls-text-muted)]">
+                  {cluster.entryCount} Nodes Identified
+                </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {data.keyIdeas.map((idea, index) => (
-                  <div key={idea.label} className="rounded-2xl border p-5" style={{ borderColor: 'var(--soouls-border)', backgroundColor: 'rgba(255,255,255,0.02)' }}>
-                    <p className="text-sm mb-3" style={{ color: index % 2 === 0 ? 'var(--soouls-accent)' : 'var(--soouls-text-strong)' }}>
+                  <div
+                    key={idea.label}
+                    className="rounded-2xl border p-5"
+                    style={{
+                      borderColor: 'var(--soouls-border)',
+                      backgroundColor: 'rgba(255,255,255,0.02)',
+                    }}
+                  >
+                    <p
+                      className="text-sm mb-3"
+                      style={{
+                        color:
+                          index % 2 === 0 ? 'var(--soouls-accent)' : 'var(--soouls-text-strong)',
+                      }}
+                    >
                       {idea.label}
                     </p>
-                    <p className="text-sm leading-relaxed text-[var(--soouls-text-muted)]">{idea.description}</p>
+                    <p className="text-sm leading-relaxed text-[var(--soouls-text-muted)]">
+                      {idea.description}
+                    </p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="border rounded-3xl p-6" style={{ borderColor: 'var(--soouls-border)', backgroundColor: 'rgba(255,255,255,0.03)' }}>
+            <div
+              className="border rounded-3xl p-6"
+              style={{
+                borderColor: 'var(--soouls-border)',
+                backgroundColor: 'rgba(255,255,255,0.03)',
+              }}
+            >
               <h2 className="text-2xl font-semibold mb-6">Idea Connections</h2>
               <div className="space-y-5">
                 {data.keyIdeas.map((idea, index) => {
@@ -163,11 +217,17 @@ export default function ClusterDetailPage() {
                   return (
                     <div key={`${idea.label}-${partner?.label ?? index}`}>
                       <div className="flex items-center justify-between gap-4">
-                        <span className="text-sm text-[var(--soouls-text-strong)]">{idea.label}</span>
+                        <span className="text-sm text-[var(--soouls-text-strong)]">
+                          {idea.label}
+                        </span>
                         <span style={{ color: 'var(--soouls-accent)' }}>↔</span>
-                        <span className="text-sm text-[var(--soouls-text-muted)]">{partner?.label ?? cluster.name}</span>
+                        <span className="text-sm text-[var(--soouls-text-muted)]">
+                          {partner?.label ?? cluster.name}
+                        </span>
                       </div>
-                      <p className="text-xs mt-1 text-[var(--soouls-text-faint)]">These themes keep appearing near each other in your recent writing.</p>
+                      <p className="text-xs mt-1 text-[var(--soouls-text-faint)]">
+                        These themes keep appearing near each other in your recent writing.
+                      </p>
                     </div>
                   );
                 })}
@@ -176,7 +236,13 @@ export default function ClusterDetailPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
-            <div className="border rounded-3xl p-6" style={{ borderColor: 'var(--soouls-border)', backgroundColor: 'rgba(255,255,255,0.03)' }}>
+            <div
+              className="border rounded-3xl p-6"
+              style={{
+                borderColor: 'var(--soouls-border)',
+                backgroundColor: 'rgba(255,255,255,0.03)',
+              }}
+            >
               <h2 className="text-2xl font-semibold mb-6">Entry Highlights</h2>
               <div className="space-y-4">
                 {data.highlights.map((highlight) => (
@@ -184,12 +250,17 @@ export default function ClusterDetailPage() {
                     key={highlight.id}
                     href={`/home/new-entry?id=${highlight.id}`}
                     className="flex items-center justify-between rounded-2xl border px-4 py-4 transition-colors hover:border-[var(--soouls-accent)]"
-                    style={{ borderColor: 'var(--soouls-border)', backgroundColor: 'rgba(255,255,255,0.02)' }}
+                    style={{
+                      borderColor: 'var(--soouls-border)',
+                      backgroundColor: 'rgba(255,255,255,0.02)',
+                    }}
                   >
                     <div className="flex items-start gap-3">
                       <HighlightIcon type={highlight.type} />
                       <div>
-                        <p className="text-sm text-[var(--soouls-text-strong)]">{highlight.title}</p>
+                        <p className="text-sm text-[var(--soouls-text-strong)]">
+                          {highlight.title}
+                        </p>
                         <p className="text-xs uppercase tracking-widest text-[var(--soouls-text-faint)]">
                           {highlight.type === 'task' ? 'Task entry' : 'Text entry'} ·{' '}
                           {new Date(highlight.createdAt).toLocaleDateString('en-US', {
@@ -205,9 +276,17 @@ export default function ClusterDetailPage() {
               </div>
             </div>
 
-            <div className="border rounded-3xl p-6" style={{ borderColor: 'var(--soouls-border)', backgroundColor: 'rgba(255,255,255,0.03)' }}>
+            <div
+              className="border rounded-3xl p-6"
+              style={{
+                borderColor: 'var(--soouls-border)',
+                backgroundColor: 'rgba(255,255,255,0.03)',
+              }}
+            >
               <h2 className="text-2xl font-semibold mb-6">Observations</h2>
-              <p className="text-sm leading-relaxed mb-8 text-[var(--soouls-text-muted)]">{data.observation}</p>
+              <p className="text-sm leading-relaxed mb-8 text-[var(--soouls-text-muted)]">
+                {data.observation}
+              </p>
               <p className="text-sm font-semibold mb-3" style={{ color: 'var(--soouls-accent)' }}>
                 Next Logical Step
               </p>
@@ -224,7 +303,8 @@ export default function ClusterDetailPage() {
             className="rounded-[2rem] border p-8 text-center"
             style={{
               borderColor: 'rgba(var(--soouls-accent-rgb), 0.35)',
-              background: 'linear-gradient(180deg, rgba(var(--soouls-accent-rgb), 0.12), transparent)',
+              background:
+                'linear-gradient(180deg, rgba(var(--soouls-accent-rgb), 0.12), transparent)',
             }}
           >
             <div className="flex justify-center mb-5">
@@ -237,7 +317,7 @@ export default function ClusterDetailPage() {
               “{data.reflectionPrompt}”
             </p>
             <Link
-              href={`/home/new-entry`}
+              href={'/home/new-entry'}
               className="inline-flex items-center justify-center px-6 py-3 rounded-full text-sm font-medium text-white"
               style={{ backgroundColor: 'var(--soouls-accent)' }}
             >

@@ -8,7 +8,7 @@ import { ActionButton, EmptyState, Panel, StatusBadge } from '../components/ui';
 import { type UserProfile, type UserRecord, api, formatDate } from '../lib/api';
 
 export function UsersSection() {
-  const { viewer, setFlash } = useShell();
+  const { setFlash } = useShell();
   const [search, setSearch] = useState('');
   const deferredSearch = useDeferredValue(search);
   const [users, setUsers] = useState<UserRecord[]>([]);

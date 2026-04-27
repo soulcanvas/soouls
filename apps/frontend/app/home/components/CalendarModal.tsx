@@ -1,14 +1,23 @@
 import { useAuth, useUser } from '@clerk/nextjs';
 import { Badge, DayCell, IconButton } from '@soouls/ui-kit';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Calendar, Check, ChevronLeft, ChevronRight, Loader2, PenSquare, Search, X } from 'lucide-react';
+import {
+  Calendar,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
+  PenSquare,
+  Search,
+  X,
+} from 'lucide-react';
 import LZString from 'lz-string';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { trpc } from '../../../src/utils/trpc';
 import { SymbolLogo } from '../../components/SymbolLogo';
-import { WeeklyTimeGrid } from './WeeklyTimeGrid';
 import { DailyTimeGrid } from './DailyTimeGrid';
+import { WeeklyTimeGrid } from './WeeklyTimeGrid';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -29,9 +38,17 @@ type GCalEvent = {
 type ViewMode = 'Monthly' | 'Weekly' | 'Daily';
 
 const GCAL_COLORS: Record<string, string> = {
-  '1': '#B86B4E', '2': '#AE8B7E', '3': '#D46B4E', '4': '#A67C52',
-  '5': '#E6B89C', '6': '#845C44', '7': '#C5906E', '8': '#5D5D5D',
-  '9': '#E27D60', '10': '#4E342E', '11': '#BF360C',
+  '1': '#B86B4E',
+  '2': '#AE8B7E',
+  '3': '#D46B4E',
+  '4': '#A67C52',
+  '5': '#E6B89C',
+  '6': '#845C44',
+  '7': '#C5906E',
+  '8': '#5D5D5D',
+  '9': '#E27D60',
+  '10': '#4E342E',
+  '11': '#BF360C',
 };
 const GCAL_DEFAULT_COLOR = '#D46B4E';
 
@@ -65,8 +82,18 @@ function getWeekDates(date: Date): Date[] {
 }
 
 const MONTHS = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 const SHORT_DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? 'http://localhost:3000';
@@ -82,7 +109,10 @@ function EmptyDay({ onNewEntry }: { onNewEntry: () => void }) {
       <p className="text-xs text-gray-500 text-center leading-relaxed max-w-[180px]">
         No entries on this day yet.
       </p>
-      <button onClick={onNewEntry} className="text-xs text-[#e67e65] hover:underline underline-offset-2">
+      <button
+        onClick={onNewEntry}
+        className="text-xs text-[#e67e65] hover:underline underline-offset-2"
+      >
         Write one now →
       </button>
     </div>
@@ -122,16 +152,25 @@ function GCalModal({
         className="w-full max-w-md bg-[#1c1c1c] border border-white/10 rounded-3xl p-8 relative shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <button onClick={onClose} className="absolute top-5 right-5 text-gray-500 hover:text-white transition-colors z-10">
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 text-gray-500 hover:text-white transition-colors z-10"
+        >
           <X size={18} />
         </button>
 
-        <SymbolLogo className="absolute -top-12 -right-12 w-48 h-48 text-white/5 opacity-40 pointer-events-none" variant="solid" />
+        <SymbolLogo
+          className="absolute -top-12 -right-12 w-48 h-48 text-white/5 opacity-40 pointer-events-none"
+          variant="solid"
+        />
 
-        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 relative z-10 ${isConnected
-          ? 'bg-[#D46B4E]/10 border border-[#D46B4E]/30'
-          : 'bg-white/5 border border-white/10'
-          }`}>
+        <div
+          className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 relative z-10 ${
+            isConnected
+              ? 'bg-[#D46B4E]/10 border border-[#D46B4E]/30'
+              : 'bg-white/5 border border-white/10'
+          }`}
+        >
           {isConnected ? (
             <Check size={28} className="text-[#D46B4E]" />
           ) : (
@@ -141,28 +180,44 @@ function GCalModal({
 
         {isConnected ? (
           <div className="relative z-10">
-            <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">Google Calendar Connected</h2>
+            <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
+              Google Calendar Connected
+            </h2>
             <p className="text-sm text-gray-400 leading-relaxed mb-8">
-              Your Google Calendar events are showing in the calendar view alongside your Soouls entries.
+              Your Google Calendar events are showing in the calendar view alongside your Soouls
+              entries.
             </p>
             <div className="flex gap-3">
-              <button onClick={onClose} className="flex-1 py-3 rounded-xl bg-white/5 border border-white/10 text-sm font-semibold text-white hover:bg-white/10 transition-colors">
+              <button
+                onClick={onClose}
+                className="flex-1 py-3 rounded-xl bg-white/5 border border-white/10 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
+              >
                 Close
               </button>
-              <button onClick={onDisconnect} className="px-5 py-3 rounded-xl border border-red-500/20 text-sm text-red-400 hover:bg-red-500/10 transition-colors">
+              <button
+                onClick={onDisconnect}
+                className="px-5 py-3 rounded-xl border border-red-500/20 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
+              >
                 Disconnect
               </button>
             </div>
           </div>
         ) : (
           <div className="relative z-10">
-            <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">Connect Google Calendar</h2>
+            <h2 className="text-2xl font-semibold text-white mb-2 tracking-tight">
+              Connect Google Calendar
+            </h2>
             <p className="text-sm text-gray-400 leading-relaxed mb-6">
-              See your Google Calendar events alongside your Soouls entries — birthdays, meetings, and milestones, all in one view.
+              See your Google Calendar events alongside your Soouls entries — birthdays, meetings,
+              and milestones, all in one view.
             </p>
 
             <ul className="space-y-2 mb-8">
-              {['View events without leaving Soouls', 'Colour-coded Google events in the calendar grid', 'Your journal data stays private — read-only access'].map((item) => (
+              {[
+                'View events without leaving Soouls',
+                'Colour-coded Google events in the calendar grid',
+                'Your journal data stays private — read-only access',
+              ].map((item) => (
                 <li key={item} className="flex items-start gap-2 text-sm text-gray-300">
                   <span className="mt-1 w-1.5 h-1.5 rounded-full bg-[#D46B4E] shrink-0" />
                   {item}
@@ -174,16 +229,28 @@ function GCalModal({
               <div className="mb-6 rounded-xl border border-amber-500/20 bg-amber-500/5 px-4 py-3 text-xs text-amber-400">
                 Google Calendar OAuth is not yet configured on this server. Add{' '}
                 <code className="font-mono text-amber-300">GOOGLE_CLIENT_ID</code> and{' '}
-                <code className="font-mono text-amber-300">GOOGLE_CLIENT_SECRET</code> to your <code>.env</code>.
+                <code className="font-mono text-amber-300">GOOGLE_CLIENT_SECRET</code> to your{' '}
+                <code>.env</code>.
               </div>
             )}
 
             <div className="flex gap-3">
-              <button onClick={onConnect} disabled={connecting || !isConfigured} className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#D46B4E] py-3 text-sm font-semibold text-white hover:bg-[#c35b3e] transition-all shadow-lg shadow-[#D46B4E]/20 disabled:opacity-50 disabled:cursor-not-allowed">
-                {connecting ? <Loader2 size={14} className="animate-spin" /> : <Calendar size={14} />}
+              <button
+                onClick={onConnect}
+                disabled={connecting || !isConfigured}
+                className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-[#D46B4E] py-3 text-sm font-semibold text-white hover:bg-[#c35b3e] transition-all shadow-lg shadow-[#D46B4E]/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {connecting ? (
+                  <Loader2 size={14} className="animate-spin" />
+                ) : (
+                  <Calendar size={14} />
+                )}
                 {connecting ? 'Redirecting…' : 'Authorize with Google'}
               </button>
-              <button onClick={onClose} className="px-5 py-3 rounded-xl border border-white/10 text-sm text-gray-400 hover:text-white hover:border-white/20 transition-colors">
+              <button
+                onClick={onClose}
+                className="px-5 py-3 rounded-xl border border-white/10 text-sm text-gray-400 hover:text-white hover:border-white/20 transition-colors"
+              >
                 Not now
               </button>
             </div>
@@ -293,8 +360,15 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
     if (!galaxyData?.items) return [];
     return galaxyData.items.map((entry) => {
       const decoded = decodeEntryContent(entry.content);
-      const firstLine = decoded.split('\n').map((l) => l.trim()).find(Boolean);
-      return { id: entry.id, title: firstLine || 'Untitled entry', createdAt: new Date(entry.createdAt) };
+      const firstLine = decoded
+        .split('\n')
+        .map((l) => l.trim())
+        .find(Boolean);
+      return {
+        id: entry.id,
+        title: firstLine || 'Untitled entry',
+        createdAt: new Date(entry.createdAt),
+      };
     });
   }, [galaxyData]);
 
@@ -340,22 +414,36 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
     return map;
   }, [gcalEvents]);
 
-  const selectedEntries = useMemo(() => selectedDay ? (entriesByDay.get(selectedDay) ?? []) : [], [selectedDay, entriesByDay]);
-  const selectedGcalEvents = useMemo(() => selectedDay ? (gcalEventsByDay.get(selectedDay) ?? []) : [], [selectedDay, gcalEventsByDay]);
+  const selectedEntries = useMemo(
+    () => (selectedDay ? (entriesByDay.get(selectedDay) ?? []) : []),
+    [selectedDay, entriesByDay],
+  );
+  const selectedGcalEvents = useMemo(
+    () => (selectedDay ? (gcalEventsByDay.get(selectedDay) ?? []) : []),
+    [selectedDay, gcalEventsByDay],
+  );
 
   // ── Calendar grid ─────────────────────────────────────────────────────
 
   const calendarGrid = useMemo(() => {
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const items: Array<{ day: number | null; key: string; events?: Array<{ id: string; title: string; color?: string }> }> = [];
+    const items: Array<{
+      day: number | null;
+      key: string;
+      events?: Array<{ id: string; title: string; color?: string }>;
+    }> = [];
 
     for (let i = 0; i < firstDay; i++) items.push({ day: null, key: `empty-${i}` });
 
     for (let d = 1; d <= daysInMonth; d++) {
-      const soulEvents = (entriesByDay.get(d) ?? []).slice(0, 3).map((e: CalendarEntry) => ({ id: e.id, title: e.title }));
+      const soulEvents = (entriesByDay.get(d) ?? [])
+        .slice(0, 3)
+        .map((e: CalendarEntry) => ({ id: e.id, title: e.title }));
       const gEvents = (gcalEventsByDay.get(d) ?? []).slice(0, 2).map((e: GCalEvent) => ({
-        id: `gcal-${e.id}`, title: e.summary, color: GCAL_COLORS[e.colorId ?? ''] ?? GCAL_DEFAULT_COLOR,
+        id: `gcal-${e.id}`,
+        title: e.summary,
+        color: GCAL_COLORS[e.colorId ?? ''] ?? GCAL_DEFAULT_COLOR,
       }));
       items.push({ day: d, key: `day-${d}`, events: [...soulEvents, ...gEvents] });
     }
@@ -364,20 +452,32 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
 
   const weekDates = useMemo(() => getWeekDates(currentDate), [currentDate]);
 
-  const navigate = useCallback((dir: number) => {
-    setCurrentDate((prev) => {
-      const d = new Date(prev);
-      if (view === 'Monthly') { d.setDate(1); d.setMonth(d.getMonth() + dir); }
-      else if (view === 'Weekly') { d.setDate(d.getDate() + dir * 7); }
-      else { d.setDate(d.getDate() + dir); setSelectedDay(d.getDate()); }
-      return d;
-    });
-  }, [view]);
+  const navigate = useCallback(
+    (dir: number) => {
+      setCurrentDate((prev) => {
+        const d = new Date(prev);
+        if (view === 'Monthly') {
+          d.setDate(1);
+          d.setMonth(d.getMonth() + dir);
+        } else if (view === 'Weekly') {
+          d.setDate(d.getDate() + dir * 7);
+        } else {
+          d.setDate(d.getDate() + dir);
+          setSelectedDay(d.getDate());
+        }
+        return d;
+      });
+    },
+    [view],
+  );
 
-  const openEntry = useCallback((id: string) => {
-    onClose();
-    router.push(`/home?id=${id}`);
-  }, [router, onClose]);
+  const openEntry = useCallback(
+    (id: string) => {
+      onClose();
+      router.push(`/home?id=${id}`);
+    },
+    [router, onClose],
+  );
 
   const newEntry = useCallback(() => {
     onClose();
@@ -387,7 +487,8 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
   const periodLabel = useMemo(() => {
     if (view === 'Monthly') return `${MONTHS[month]} ${year}`;
     if (view === 'Weekly') {
-      const s = weekDates[0]; const e = weekDates[6];
+      const s = weekDates[0];
+      const e = weekDates[6];
       if (!s || !e) return '';
       return `${MONTHS[s.getMonth()]?.slice(0, 3)} ${s.getDate()} – ${MONTHS[e.getMonth()]?.slice(0, 3)} ${e.getDate()}`;
     }
@@ -396,7 +497,10 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
 
   const dailyKey = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`;
   const dailyEntries = useMemo(() => entriesByDate.get(dailyKey) ?? [], [entriesByDate, dailyKey]);
-  const dailyGcal = useMemo(() => gcalEventsByDate.get(dailyKey) ?? [], [gcalEventsByDate, dailyKey]);
+  const dailyGcal = useMemo(
+    () => gcalEventsByDate.get(dailyKey) ?? [],
+    [gcalEventsByDate, dailyKey],
+  );
 
   return (
     <motion.div
@@ -417,7 +521,10 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
         {/* Header */}
         <header className="flex justify-between items-center p-6 border-b border-white/5 shrink-0 relative">
           <div className="flex items-center gap-8 w-full justify-center relative">
-            <button onClick={() => navigate(-1)} className="text-[#e67e65] hover:opacity-80 transition-opacity p-2">
+            <button
+              onClick={() => navigate(-1)}
+              className="text-[#e67e65] hover:opacity-80 transition-opacity p-2"
+            >
               <ChevronLeft size={18} strokeWidth={2.5} />
             </button>
             <h2 className="text-xl md:text-2xl font-semibold tracking-tight min-w-[200px] text-center text-white relative">
@@ -428,7 +535,10 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
                 </span>
               )}
             </h2>
-            <button onClick={() => navigate(1)} className="text-[#e67e65] hover:opacity-80 transition-opacity p-2">
+            <button
+              onClick={() => navigate(1)}
+              className="text-[#e67e65] hover:opacity-80 transition-opacity p-2"
+            >
               <ChevronRight size={18} strokeWidth={2.5} />
             </button>
           </div>
@@ -436,12 +546,17 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
           <div className="flex items-center gap-4 absolute right-6">
             <button
               onClick={() => setShowGCalModal(true)}
-              className={`hidden sm:inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold transition-all ${gcalConnected
-                ? 'border-[#D46B4E]/40 bg-[#D46B4E]/10 text-[#f4b29f] hover:bg-[#D46B4E]/20'
-                : 'border-white/10 bg-white/5 text-gray-400 hover:bg-white/10 hover:border-white/20'
-                }`}
+              className={`hidden sm:inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold transition-all ${
+                gcalConnected
+                  ? 'border-[#D46B4E]/40 bg-[#D46B4E]/10 text-[#f4b29f] hover:bg-[#D46B4E]/20'
+                  : 'border-white/10 bg-white/5 text-gray-400 hover:bg-white/10 hover:border-white/20'
+              }`}
             >
-              {gcalConnected ? <Check size={12} className="text-[#D46B4E]" /> : <Calendar size={12} />}
+              {gcalConnected ? (
+                <Check size={12} className="text-[#D46B4E]" />
+              ) : (
+                <Calendar size={12} />
+              )}
               <span>{gcalConnected ? 'Connected' : 'Connect Google Calendar'}</span>
             </button>
 
@@ -450,15 +565,21 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
                 <button
                   key={v}
                   onClick={() => setView(v)}
-                  className={`px-5 py-2 rounded-full text-xs font-semibold transition-all duration-300 ${view === v ? 'bg-[#e67e65] text-neutral-900 shadow-lg shadow-[#e67e65]/20' : 'text-gray-400 hover:text-white'
-                    }`}
+                  className={`px-5 py-2 rounded-full text-xs font-semibold transition-all duration-300 ${
+                    view === v
+                      ? 'bg-[#e67e65] text-neutral-900 shadow-lg shadow-[#e67e65]/20'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
                 >
                   {v}
                 </button>
               ))}
             </div>
 
-            <button onClick={onClose} className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors ml-2 hidden">
+            <button
+              onClick={onClose}
+              className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors ml-2 hidden"
+            >
               <X size={20} />
             </button>
           </div>
@@ -469,7 +590,14 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
           <AnimatePresence mode="wait">
             {/* Monthly */}
             {view === 'Monthly' && (
-              <motion.div key="monthly" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }} className="h-full flex flex-col lg:flex-row gap-6">
+              <motion.div
+                key="monthly"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.22 }}
+                className="h-full flex flex-col lg:flex-row gap-6"
+              >
                 <div className="flex-1 flex flex-col h-full overflow-y-auto pr-2">
                   <div className="grid grid-cols-7 mb-4">
                     {SHORT_DAYS.map((day) => (
@@ -482,12 +610,19 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
                   </div>
                   {isLoading ? (
                     <div className="grid grid-cols-7 gap-y-4">
-                      {Array.from({ length: 35 }).map((_, i) => <div key={i} className="flex justify-center"><div className="w-14 h-16 rounded-2xl bg-white/5 animate-pulse" /></div>)}
+                      {Array.from({ length: 35 }).map((_, i) => (
+                        <div key={i} className="flex justify-center">
+                          <div className="w-14 h-16 rounded-2xl bg-white/5 animate-pulse" />
+                        </div>
+                      ))}
                     </div>
                   ) : (
                     <div className="grid grid-cols-7 gap-y-4">
                       {calendarGrid.map((item) => {
-                        const isTodayCell = item.day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+                        const isTodayCell =
+                          item.day === today.getDate() &&
+                          month === today.getMonth() &&
+                          year === today.getFullYear();
                         const isSelectedCell = item.day === selectedDay;
                         return (
                           <DayCell
@@ -507,13 +642,17 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
                 {/* Sidebar */}
                 <div className="w-full lg:w-[320px] shrink-0 h-full">
                   <div className="bg-black/20 border border-white/15 rounded-3xl p-6 h-full flex flex-col backdrop-blur-md">
-                    <div className="text-[10px] text-[#e67e65] font-bold uppercase tracking-widest mb-1">Schedule</div>
+                    <div className="text-[10px] text-[#e67e65] font-bold uppercase tracking-widest mb-1">
+                      Schedule
+                    </div>
                     <div className="text-2xl font-bold mb-1 text-white">
                       {selectedDay ? `${MONTHS[month]} ${selectedDay}` : 'Pick a day'}
                     </div>
                     <div className="text-sm text-gray-500 mb-6 font-medium">
                       {selectedEntries.length + selectedGcalEvents.length}{' '}
-                      {selectedEntries.length + selectedGcalEvents.length === 1 ? 'event' : 'events'}
+                      {selectedEntries.length + selectedGcalEvents.length === 1
+                        ? 'event'
+                        : 'events'}
                     </div>
 
                     <div className="flex-1 space-y-3 overflow-y-auto pr-2 custom-scrollbar">
@@ -521,13 +660,26 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
                       {selectedGcalEvents.map((ev) => {
                         const color = GCAL_COLORS[ev.colorId ?? ''] ?? GCAL_DEFAULT_COLOR;
                         return (
-                          <div key={ev.id} className="rounded-2xl border px-4 py-3 shadow-lg" style={{ borderColor: `${color}30`, backgroundColor: `${color}10` }}>
+                          <div
+                            key={ev.id}
+                            className="rounded-2xl border px-4 py-3 shadow-lg"
+                            style={{ borderColor: `${color}30`, backgroundColor: `${color}10` }}
+                          >
                             <div className="flex items-center gap-2">
-                              <span className="w-2 h-2 rounded-full shrink-0 shadow-[0_0_8px_currentColor]" style={{ backgroundColor: color, color }} />
-                              <p className="text-sm text-white font-medium line-clamp-1">{ev.summary}</p>
+                              <span
+                                className="w-2 h-2 rounded-full shrink-0 shadow-[0_0_8px_currentColor]"
+                                style={{ backgroundColor: color, color }}
+                              />
+                              <p className="text-sm text-white font-medium line-clamp-1">
+                                {ev.summary}
+                              </p>
                             </div>
                             <p className="text-xs text-gray-400 mt-1.5 ml-4">
-                              {new Date(ev.start).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
+                              {new Date(ev.start).toLocaleTimeString('en-US', {
+                                hour: 'numeric',
+                                minute: '2-digit',
+                                hour12: true,
+                              })}
                             </p>
                           </div>
                         );
@@ -539,8 +691,12 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
                           onClick={() => openEntry(entry.id)}
                           className="w-full text-left rounded-2xl border border-white/10 px-4 py-3 bg-white/[0.02] hover:border-[#e67e65]/40 hover:bg-[#e67e65]/10 transition-all shadow-lg group"
                         >
-                          <div className="line-clamp-2 text-sm text-gray-200 group-hover:text-white font-medium">{entry.title}</div>
-                          <div className="mt-1.5 text-xs text-gray-500">{formatTime(entry.createdAt)}</div>
+                          <div className="line-clamp-2 text-sm text-gray-200 group-hover:text-white font-medium">
+                            {entry.title}
+                          </div>
+                          <div className="mt-1.5 text-xs text-gray-500">
+                            {formatTime(entry.createdAt)}
+                          </div>
                         </button>
                       ))}
                       {selectedEntries.length === 0 && selectedGcalEvents.length === 0 && (
@@ -551,7 +707,9 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
                     {/* GCal CTA */}
                     {!gcalConnected && (
                       <div className="border border-[#D46B4E]/30 bg-[#D46B4E]/5 rounded-2xl p-4 text-center mt-6">
-                        <div className="text-xs text-gray-400 mb-3 font-medium">Want to see all your events?</div>
+                        <div className="text-xs text-gray-400 mb-3 font-medium">
+                          Want to see all your events?
+                        </div>
                         <button
                           onClick={() => setShowGCalModal(true)}
                           className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#D46B4E] py-2.5 text-sm font-semibold text-white hover:bg-[#c35b3e] transition-all shadow-lg"
@@ -568,7 +726,14 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
 
             {/* Weekly */}
             {view === 'Weekly' && (
-              <motion.div key="weekly" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }} className="h-full">
+              <motion.div
+                key="weekly"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.22 }}
+                className="h-full"
+              >
                 {isLoading ? (
                   <div className="w-full h-full animate-pulse rounded-2xl bg-white/5" />
                 ) : (
@@ -587,7 +752,14 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
 
             {/* Daily */}
             {view === 'Daily' && (
-              <motion.div key="daily" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }} className="h-full">
+              <motion.div
+                key="daily"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.22 }}
+                className="h-full"
+              >
                 {isLoading ? (
                   <div className="w-full h-full animate-pulse rounded-2xl bg-white/5" />
                 ) : (

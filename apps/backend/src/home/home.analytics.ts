@@ -316,11 +316,13 @@ function toDateKey(date: Date): string {
 }
 
 function getCurrentStreak(entries: DecodedHomeEntry[]): number {
-  const uniqueDays = [...new Set(entries.map((entry) => toDateKey(entry.createdAt)))].sort().reverse();
+  const uniqueDays = [...new Set(entries.map((entry) => toDateKey(entry.createdAt)))]
+    .sort()
+    .reverse();
   if (uniqueDays.length === 0) return 0;
 
   let streak = 0;
-  let cursor = new Date(`${uniqueDays[0]}T00:00:00.000Z`);
+  const cursor = new Date(`${uniqueDays[0]}T00:00:00.000Z`);
 
   for (const day of uniqueDays) {
     if (toDateKey(cursor) !== day) {
@@ -348,9 +350,7 @@ function getMostActivePeriod(entries: DecodedHomeEntry[]): string {
     counts.set(label, (counts.get(label) ?? 0) + 1);
   }
 
-  return (
-    [...counts.entries()].sort((left, right) => right[1] - left[1])[0]?.[0] ?? 'Evenings'
-  );
+  return [...counts.entries()].sort((left, right) => right[1] - left[1])[0]?.[0] ?? 'Evenings';
 }
 
 function getWeeklyEntryCount(entries: DecodedHomeEntry[], now: Date): number {
@@ -361,7 +361,8 @@ function getWeeklyEntryCount(entries: DecodedHomeEntry[], now: Date): number {
 }
 
 function getCompletedTaskCount(entries: DecodedHomeEntry[]): number {
-  return entries.filter((entry) => entry.type === 'task' && entry.taskStatus === 'completed').length;
+  return entries.filter((entry) => entry.type === 'task' && entry.taskStatus === 'completed')
+    .length;
 }
 
 function getEntryCorpus(entry: DecodedHomeEntry): string {
@@ -485,7 +486,11 @@ function formatUpdatedAtLabel(latestDate: Date, now: Date): string {
   return diffDays === 1 ? '1 day ago' : `${diffDays} days ago`;
 }
 
-function buildClusters(entries: DecodedHomeEntry[], themeScores: ThemeScore[], now: Date): ClusterCard[] {
+function buildClusters(
+  entries: DecodedHomeEntry[],
+  themeScores: ThemeScore[],
+  now: Date,
+): ClusterCard[] {
   return themeScores.slice(0, 6).map((theme, index) => {
     const themedEntries = entries.filter((entry) => {
       const corpus = getEntryCorpus(entry);
@@ -551,10 +556,9 @@ export function buildHomeAnalytics(input: {
       coreThemes: buildCoreThemes(themeScores),
     },
     clusters: {
-      headline:
-        topTheme?.label
-          ? `You've been thinking most about ${topTheme.label.toLowerCase()} lately.`
-          : 'Your recent thoughts are starting to cluster into a few recurring themes.',
+      headline: topTheme?.label
+        ? `You've been thinking most about ${topTheme.label.toLowerCase()} lately.`
+        : 'Your recent thoughts are starting to cluster into a few recurring themes.',
       items: clusters,
     },
     canvas: {

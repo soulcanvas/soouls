@@ -1,14 +1,6 @@
 import { createClerkClient } from '@clerk/backend';
 import { Inject, Injectable } from '@nestjs/common';
 import { generateHomeInsightCopy } from '@soouls/ai-engine/home-insights';
-import { db, desc, eq, inArray } from '@soouls/database/client';
-import {
-  canvasNodes,
-  journalEntries,
-  messageCampaigns,
-  messageDeliveries,
-  users,
-} from '@soouls/database/schema';
 import type {
   HomeAccount,
   HomeApi,
@@ -17,15 +9,23 @@ import type {
   HomeInsights,
   HomeSettings,
 } from '@soouls/api/router';
+import { db, desc, eq, inArray } from '@soouls/database/client';
+import {
+  canvasNodes,
+  journalEntries,
+  messageCampaigns,
+  messageDeliveries,
+  users,
+} from '@soouls/database/schema';
 import { EntriesService } from '../entries/entries.service';
 import { RedisService } from '../redis/redis.service';
 import {
-  type HomeAnalyticsBundle,
-  buildHomeAnalytics,
   type DecodedEntryBlock,
   type DecodedHomeEntry,
+  type HomeAnalyticsBundle,
   type NormalizedUserPreferences,
   type UserPreferencesInput,
+  buildHomeAnalytics,
   normalizeUserPreferences,
 } from './home.analytics';
 
@@ -118,7 +118,9 @@ export class HomeService implements HomeApi {
         sentimentLabel: row.sentimentLabel,
         sentimentColor: row.sentimentColor,
         taskStatus: row.taskStatus,
-        blocks: Array.isArray(decoded.full?.blocks) ? (decoded.full.blocks as DecodedEntryBlock[]) : [],
+        blocks: Array.isArray(decoded.full?.blocks)
+          ? (decoded.full.blocks as DecodedEntryBlock[])
+          : [],
       };
     });
   }
@@ -318,10 +320,12 @@ export class HomeService implements HomeApi {
       .filter((word) => word.length > 4)
       .slice(0, 6);
 
-    const keyIdeas = (topWords.length > 0 ? topWords : cluster.name.split(' ')).slice(0, 3).map((word) => ({
-      label: word.replace(/^\w/, (char) => char.toUpperCase()),
-      description: `This idea appears repeatedly inside the ${cluster.name.toLowerCase()} cluster.`,
-    }));
+    const keyIdeas = (topWords.length > 0 ? topWords : cluster.name.split(' '))
+      .slice(0, 3)
+      .map((word) => ({
+        label: word.replace(/^\w/, (char) => char.toUpperCase()),
+        description: `This idea appears repeatedly inside the ${cluster.name.toLowerCase()} cluster.`,
+      }));
 
     return {
       cluster,

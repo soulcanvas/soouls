@@ -2,17 +2,11 @@
 
 import { useUser } from '@clerk/nextjs';
 import { AnimatePresence, motion } from 'framer-motion';
-import {
-  LogOut,
-  Settings,
-  Sparkles,
-  UserCircle,
-  X,
-} from 'lucide-react';
+import { LogOut, Settings, Sparkles, UserCircle, X } from 'lucide-react';
 import Link from 'next/link';
 import type React from 'react';
+import { CanvasLoopIcon, DiamondIcon, NetworkIcon } from './Icons';
 import { SymbolLogo } from './SymbolLogo';
-import { DiamondIcon, NetworkIcon, CanvasLoopIcon } from './Icons';
 
 interface ProfileSidebarProps {
   isOpen: boolean;
@@ -32,7 +26,8 @@ export const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
   const { user } = useUser();
   const userName = user?.firstName || user?.fullName?.split(' ')[0] || 'Explorer';
   const fullName = user?.fullName || `${userName} Lane`;
-  const avatarUrl = user?.imageUrl || avatarFor(user?.primaryEmailAddress?.emailAddress || user?.id);
+  const avatarUrl =
+    user?.imageUrl || avatarFor(user?.primaryEmailAddress?.emailAddress || user?.id);
 
   return (
     <AnimatePresence>

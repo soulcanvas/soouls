@@ -117,9 +117,12 @@ describe('MessagingService.sendWelcomeSequence', () => {
     dispatcher.processWelcomeSequence.mockReset();
 
     queue.enqueueWelcomeSequence.mockImplementation(async (_userId: string) => undefined);
-    queue.getCounts.mockImplementation(
-      async () => ({ waiting: 0, active: 0, delayed: 0, failed: 0 }),
-    );
+    queue.getCounts.mockImplementation(async () => ({
+      waiting: 0,
+      active: 0,
+      delayed: 0,
+      failed: 0,
+    }));
     queue.isConfigured.mockImplementation(() => true);
     redis.del.mockImplementation(async (_key: string) => undefined);
     redis.get.mockImplementation(async (_key: string) => null);

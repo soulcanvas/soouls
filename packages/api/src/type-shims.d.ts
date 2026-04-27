@@ -4,7 +4,7 @@ declare module '@trpc/server' {
   }
 
   export const initTRPC: {
-    context<TContext>(): {
+    context<_TContext>(): {
       create(): {
         router: any;
         procedure: any;
@@ -15,6 +15,6 @@ declare module '@trpc/server' {
 }
 
 declare module '@trpc/client' {
-  export function createTRPCProxyClient<TRouter>(input: any): any;
+  export function createTRPCProxyClient<_TRouter>(input: any): any;
   export function httpBatchLink(input: any): any;
 }

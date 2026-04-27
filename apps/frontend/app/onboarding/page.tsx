@@ -23,13 +23,13 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { SymbolLogo } from '../components/SymbolLogo';
 import {
   HOME_DEFAULT_SETTINGS,
   HOME_THEME_STORAGE_KEY,
   applyHomeTheme,
 } from '../../src/hooks/use-home-theme';
 import { trpc } from '../../src/utils/trpc';
+import { SymbolLogo } from '../components/SymbolLogo';
 import { GuideMascot } from './guide-mascot';
 
 type ThemeColor = 'orange' | 'yellow' | 'green' | 'purple';
@@ -167,7 +167,8 @@ function deriveSettings(answers: FlowAnswers, theme: ThemeColor) {
     dailyReminder: answers.rhythm !== 'random',
     reflectionPrompts: answers.voice !== 'quiet',
     suggestions: answers.voice !== 'quiet',
-    reminderTime: reminderByRhythm[answers.rhythm ?? 'evening'] ?? HOME_DEFAULT_SETTINGS.reminderTime,
+    reminderTime:
+      reminderByRhythm[answers.rhythm ?? 'evening'] ?? HOME_DEFAULT_SETTINGS.reminderTime,
   };
 }
 
@@ -490,7 +491,10 @@ export default function OnboardingPage() {
 
           <div className="flex w-full flex-1 flex-col items-center justify-center lg:justify-start lg:pt-20">
             <div className="mb-10 flex w-full items-center justify-between lg:hidden">
-              <Link href="/" className="text-[52px] font-semibold leading-none tracking-[-0.06em] text-[#e8d5b4]">
+              <Link
+                href="/"
+                className="text-[52px] font-semibold leading-none tracking-[-0.06em] text-[#e8d5b4]"
+              >
                 Soouls
               </Link>
             </div>
@@ -636,9 +640,11 @@ export default function OnboardingPage() {
                     </div>
 
                     <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-                      {(Object.entries(THEME_COPY) as Array<
-                        [ThemeColor, (typeof THEME_COPY)[ThemeColor]]
-                      >).map(([key, item]) => {
+                      {(
+                        Object.entries(THEME_COPY) as Array<
+                          [ThemeColor, (typeof THEME_COPY)[ThemeColor]]
+                        >
+                      ).map(([key, item]) => {
                         const selected = answers.tone === key;
                         return (
                           <button
@@ -1148,7 +1154,10 @@ export default function OnboardingPage() {
                       }}
                     >
                       <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-[rgba(var(--soouls-accent-rgb),0.26)] bg-[rgba(var(--soouls-accent-rgb),0.08)]">
-                        <CheckCircle2 className="h-7 w-7" style={{ color: 'var(--soouls-accent)' }} />
+                        <CheckCircle2
+                          className="h-7 w-7"
+                          style={{ color: 'var(--soouls-accent)' }}
+                        />
                       </div>
                       <h2
                         className="text-[2.6rem] leading-[1] text-white sm:text-[3.2rem]"

@@ -32,7 +32,7 @@ if (!command) {
 }
 
 const nextSubcommand = command === 'next' ? args[0] : undefined;
-const env =
+const _env =
   nextSubcommand === 'build' || nextSubcommand === 'start'
     ? {
         ...process.env,
@@ -44,7 +44,7 @@ const spawnOptions = {
   cwd: appRoot,
   stdio: 'inherit',
   env: process.env,
-  shell: true,
+  shell: false,
 };
 
 const child =
@@ -53,8 +53,8 @@ const child =
     : command === 'next'
       ? spawn('node', [nextCli, ...args], spawnOptions)
       : command === 'bunx'
-        ? spawn('npx', args, spawnOptions)
-        : spawn(command, args, spawnOptions);
+        ? spawn(process.platform === 'win32' ? 'npx.cmd' : 'npx', args, spawnOptions)
+        : spawn(process.platform === 'win32' && !command.endsWith('.exe') ? command + '.cmd' : command, args, { ...spawnOptions, shell: true });
 
 function stopChild(signal = 'SIGTERM') {
   if (!child.killed && child.exitCode === null) {

@@ -2,12 +2,12 @@ import { Inject, Injectable } from '@nestjs/common';
 import { and, db, desc, eq, sql } from '@soouls/database/client';
 import { messageCampaigns, messageDeliveries, users } from '@soouls/database/schema';
 import { Resend } from 'resend';
+import { NotificationDispatchService } from '../notifications/notification-dispatch.service';
 import {
   countValue,
   normalizePhoneNumber,
   parseEnvList,
 } from '../notifications/notification.constants';
-import { NotificationDispatchService } from '../notifications/notification-dispatch.service';
 import { NotificationQueueService } from '../notifications/notification.queue';
 import { buildCampaignTemplate } from '../notifications/notification.templates';
 import {
@@ -119,7 +119,8 @@ export class MessagingService {
 
   constructor(
     @Inject(NotificationQueueService) private readonly notificationQueue: NotificationQueueService,
-    @Inject(NotificationDispatchService) private readonly notificationDispatch: NotificationDispatchService,
+    @Inject(NotificationDispatchService)
+    private readonly notificationDispatch: NotificationDispatchService,
     @Inject(RedisService) private readonly redis: RedisService,
   ) {}
 

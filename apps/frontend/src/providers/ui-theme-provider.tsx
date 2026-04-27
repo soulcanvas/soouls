@@ -38,7 +38,9 @@ export function UiThemeProvider({ children }: { children: React.ReactNode }) {
       const local = window.localStorage.getItem(HOME_THEME_STORAGE_KEY);
       if (local) {
         try {
-          applyHomeTheme(JSON.parse(local) as { themeMode: 'dark' | 'light'; accentTheme: HomeAccent });
+          applyHomeTheme(
+            JSON.parse(local) as { themeMode: 'dark' | 'light'; accentTheme: HomeAccent },
+          );
           return;
         } catch {
           // Fall back to server settings when the local preview cannot be parsed.

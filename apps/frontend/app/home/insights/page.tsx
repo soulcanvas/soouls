@@ -1,7 +1,17 @@
 'use client';
 
 import { useUser } from '@clerk/nextjs';
-import { ArrowDownRight, ArrowUpRight, Calendar, Moon, Sparkles, Target, TrendingDown, TrendingUp, Zap } from 'lucide-react';
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  Calendar,
+  Moon,
+  Sparkles,
+  Target,
+  TrendingDown,
+  TrendingUp,
+  Zap,
+} from 'lucide-react';
 import React from 'react';
 import { useSidebar } from '../../../src/providers/sidebar-provider';
 import { buildActivityBars, formatCurrentMonthRange } from '../../../src/utils/home';
@@ -25,7 +35,10 @@ export default function InsightsPage() {
   const activityBars = buildActivityBars(entries?.items ?? []);
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden font-sans select-none" style={{ backgroundColor: 'var(--soouls-bg)', color: 'var(--soouls-text-strong)' }}>
+    <div
+      className="min-h-screen flex flex-col relative overflow-hidden font-sans select-none"
+      style={{ backgroundColor: 'var(--soouls-bg)', color: 'var(--soouls-text-strong)' }}
+    >
       <div className="absolute top-10 left-0 right-0 flex justify-center pointer-events-none opacity-10 select-none z-0 overflow-hidden whitespace-nowrap">
         <span
           className="text-[20vw] leading-none text-transparent tracking-tighter"
@@ -60,9 +73,14 @@ export default function InsightsPage() {
         </button>
         <div
           className="w-9 h-9 rounded-full border overflow-hidden ring-2 ring-white/5"
-          style={{ borderColor: 'var(--soouls-border)', backgroundColor: 'var(--soouls-bg-elevated)' }}
+          style={{
+            borderColor: 'var(--soouls-border)',
+            backgroundColor: 'var(--soouls-bg-elevated)',
+          }}
         >
-          {user?.imageUrl && <img src={user.imageUrl} alt="Profile" className="w-full h-full object-cover" />}
+          {user?.imageUrl && (
+            <img src={user.imageUrl} alt="Profile" className="w-full h-full object-cover" />
+          )}
         </div>
       </header>
 
@@ -89,7 +107,10 @@ export default function InsightsPage() {
               <Sparkles className="w-6 h-6 shrink-0" style={{ color: 'var(--soouls-accent)' }} />
               <div className="space-y-4">
                 <blockquote className="text-3xl md:text-4xl font-serif italic leading-[1.3] text-[var(--soouls-text-strong)]">
-                  “{insights?.monthlyNarrative ?? 'Your recent writing is starting to reveal a clearer pattern.'}”
+                  “
+                  {insights?.monthlyNarrative ??
+                    'Your recent writing is starting to reveal a clearer pattern.'}
+                  ”
                 </blockquote>
                 <p className="text-sm leading-relaxed max-w-2xl font-light text-[var(--soouls-text-muted)]">
                   {insights
@@ -116,7 +137,9 @@ export default function InsightsPage() {
                   thoughtThemes.slice(0, 4).map((theme) => (
                     <div key={theme.key}>
                       <div className="flex justify-between text-[10px] tracking-widest font-bold mb-3">
-                        <span className="text-[var(--soouls-text-faint)]">{theme.label.toUpperCase()}</span>
+                        <span className="text-[var(--soouls-text-faint)]">
+                          {theme.label.toUpperCase()}
+                        </span>
                         <span style={{ color: 'var(--soouls-accent)' }}>{theme.count} ENTRIES</span>
                       </div>
                       <div
@@ -162,7 +185,11 @@ export default function InsightsPage() {
               <div className="flex gap-4 mb-10">
                 <Moon className="w-5 h-5 shrink-0" style={{ color: 'var(--soouls-accent)' }} />
                 <p className="text-xs leading-relaxed italic text-[var(--soouls-text-muted)]">
-                  You tend to reflect most during <span className="text-[var(--soouls-text-strong)]">{insights?.overview.mostActivePeriod ?? 'Evenings'}</span>, when your thoughts gather more shape and language.
+                  You tend to reflect most during{' '}
+                  <span className="text-[var(--soouls-text-strong)]">
+                    {insights?.overview.mostActivePeriod ?? 'Evenings'}
+                  </span>
+                  , when your thoughts gather more shape and language.
                 </p>
               </div>
 
@@ -212,9 +239,13 @@ export default function InsightsPage() {
                   <line x1="48%" y1="50%" x2="30%" y2="72%" />
                   <line x1="48%" y1="50%" x2="78%" y2="42%" />
                 </svg>
-                {(coreThemes.slice(0, 4).length ? coreThemes.slice(0, 4) : [{ label: 'Reflection', percent: 100 }]).map((theme, index) => {
+                {(coreThemes.slice(0, 4).length
+                  ? coreThemes.slice(0, 4)
+                  : [{ label: 'Reflection', percent: 100 }]
+                ).map((theme, index) => {
                   const point = RELATION_POINTS[index] ?? { top: '50%', left: '50%' };
-                  const size = index === 1 ? 'w-3.5 h-3.5' : index === 2 ? 'w-2 h-2' : 'w-2.5 h-2.5';
+                  const size =
+                    index === 1 ? 'w-3.5 h-3.5' : index === 2 ? 'w-2 h-2' : 'w-2.5 h-2.5';
                   return (
                     <div key={theme.label}>
                       <div
@@ -222,12 +253,18 @@ export default function InsightsPage() {
                         style={{
                           top: point.top,
                           left: point.left,
-                          backgroundColor: index <= 1 ? 'var(--soouls-accent)' : 'rgba(var(--soouls-accent-rgb), 0.55)',
+                          backgroundColor:
+                            index <= 1
+                              ? 'var(--soouls-accent)'
+                              : 'rgba(var(--soouls-accent-rgb), 0.55)',
                         }}
                       />
                       <span
                         className="absolute text-[8px] tracking-widest text-[var(--soouls-text-faint)]"
-                        style={{ top: `calc(${point.top} - 18px)`, left: `calc(${point.left} - 8px)` }}
+                        style={{
+                          top: `calc(${point.top} - 18px)`,
+                          left: `calc(${point.left} - 8px)`,
+                        }}
                       >
                         {theme.label.toUpperCase()}
                       </span>
@@ -251,30 +288,42 @@ export default function InsightsPage() {
                 EVOLUTION STATUS
               </span>
               <div className="space-y-6">
-                {(coreThemes.length ? coreThemes : thoughtThemes.slice(0, 3).map((theme) => ({ label: theme.label, percent: theme.progress }))).slice(0, 4).map((theme, index) => (
-                  <div key={theme.label} className="flex justify-between items-center">
-                    <span className="text-[10px] tracking-wider font-bold uppercase text-[var(--soouls-text-muted)]">
-                      {theme.label}
-                    </span>
-                    <div className="flex items-center gap-2">
-                      {index === 0 && <ArrowUpRight className="w-3 h-3" style={{ color: 'var(--soouls-accent)' }} />}
-                      {index === 1 && <ArrowDownRight className="w-3 h-3 text-white/40" />}
-                      {index === 2 && (
-                        <span
-                          className="text-[9px] px-2 py-0.5 rounded border font-bold tracking-widest"
-                          style={{
-                            color: 'var(--soouls-accent)',
-                            backgroundColor: 'rgba(var(--soouls-accent-rgb), 0.15)',
-                            borderColor: 'rgba(var(--soouls-accent-rgb), 0.28)',
-                          }}
-                        >
-                          EMERGING
-                        </span>
-                      )}
-                      {index > 2 && <Target className="w-4 h-4 text-white/30" />}
+                {(coreThemes.length
+                  ? coreThemes
+                  : thoughtThemes
+                      .slice(0, 3)
+                      .map((theme) => ({ label: theme.label, percent: theme.progress }))
+                )
+                  .slice(0, 4)
+                  .map((theme, index) => (
+                    <div key={theme.label} className="flex justify-between items-center">
+                      <span className="text-[10px] tracking-wider font-bold uppercase text-[var(--soouls-text-muted)]">
+                        {theme.label}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        {index === 0 && (
+                          <ArrowUpRight
+                            className="w-3 h-3"
+                            style={{ color: 'var(--soouls-accent)' }}
+                          />
+                        )}
+                        {index === 1 && <ArrowDownRight className="w-3 h-3 text-white/40" />}
+                        {index === 2 && (
+                          <span
+                            className="text-[9px] px-2 py-0.5 rounded border font-bold tracking-widest"
+                            style={{
+                              color: 'var(--soouls-accent)',
+                              backgroundColor: 'rgba(var(--soouls-accent-rgb), 0.15)',
+                              borderColor: 'rgba(var(--soouls-accent-rgb), 0.28)',
+                            }}
+                          >
+                            EMERGING
+                          </span>
+                        )}
+                        {index > 2 && <Target className="w-4 h-4 text-white/30" />}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           </div>
@@ -282,22 +331,35 @@ export default function InsightsPage() {
           <div className="pt-12 border-t border-white/5 mt-8">
             <div className="flex flex-col items-center text-center max-w-2xl mx-auto">
               <Sparkles className="w-6 h-6 mb-6" style={{ color: 'var(--soouls-accent)' }} />
-              <span className="text-[10px] font-bold tracking-[0.3em] mb-4 uppercase" style={{ color: 'var(--soouls-accent)' }}>
+              <span
+                className="text-[10px] font-bold tracking-[0.3em] mb-4 uppercase"
+                style={{ color: 'var(--soouls-accent)' }}
+              >
                 Final Synthesis
               </span>
               <h4 className="text-2xl md:text-3xl font-serif italic mb-4 text-[var(--soouls-text-strong)]">
-                “{insights?.finalSynthesis ?? 'Your writing suggests a meaningful transition is underway.'}”
+                “
+                {insights?.finalSynthesis ??
+                  'Your writing suggests a meaningful transition is underway.'}
+                ”
               </h4>
               <p className="text-sm leading-relaxed font-light italic text-[var(--soouls-text-muted)]">
-                These insights update from your real entries, not placeholders, so they evolve as your writing evolves.
+                These insights update from your real entries, not placeholders, so they evolve as
+                your writing evolves.
               </p>
             </div>
           </div>
         </div>
       </main>
 
-      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full blur-[120px] pointer-events-none" style={{ backgroundColor: 'rgba(var(--soouls-accent-rgb), 0.08)' }} />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full blur-[120px] pointer-events-none" style={{ backgroundColor: 'rgba(var(--soouls-accent-rgb), 0.06)' }} />
+      <div
+        className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full blur-[120px] pointer-events-none"
+        style={{ backgroundColor: 'rgba(var(--soouls-accent-rgb), 0.08)' }}
+      />
+      <div
+        className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full blur-[120px] pointer-events-none"
+        style={{ backgroundColor: 'rgba(var(--soouls-accent-rgb), 0.06)' }}
+      />
     </div>
   );
 }

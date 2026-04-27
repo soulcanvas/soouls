@@ -144,6 +144,7 @@ export function RateLimitsSection() {
       <div className="flex gap-2">
         {(['overview', 'violations', 'endpoints'] as const).map((tab) => (
           <button
+            type="button"
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`rounded-xl border px-4 py-2 text-sm capitalize transition-colors ${

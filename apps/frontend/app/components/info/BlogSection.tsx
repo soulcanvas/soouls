@@ -47,7 +47,7 @@ export default function BlogSection() {
               The Soouls Journal
             </p>
           </div>
-          <button className="px-8 py-3 rounded-full border border-white/10 text-[#EFEBDD] font-urbanist font-bold text-sm hover:bg-white/5 transition-all">
+          <button type="button" className="px-8 py-3 rounded-full border border-white/10 text-[#EFEBDD] font-urbanist font-bold text-sm hover:bg-white/5 transition-all">
             View All Articles
           </button>
         </div>

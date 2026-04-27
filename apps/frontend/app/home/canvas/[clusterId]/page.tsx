@@ -1,11 +1,11 @@
 'use client';
 
+import { useUser } from '@clerk/nextjs';
 import type { UserEntry } from '@soouls/api/router';
 import { AnimatePresence, type PanInfo, motion } from 'framer-motion';
 import { Search } from 'lucide-react';
-import { useUser } from '@clerk/nextjs';
-import { useMemo, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { useMemo, useRef, useState } from 'react';
 import { clusterMatchesEntry, getEntryTitle, truncateText } from '../../../../src/utils/home';
 import { trpc } from '../../../../src/utils/trpc';
 
@@ -37,7 +37,9 @@ export default function CanvasClusterPage() {
     const highlightIds = new Set(clusterDetail.highlights.map((highlight) => highlight.id));
 
     return (allEntries?.items ?? [])
-      .filter((entry) => highlightIds.has(entry.id) || clusterMatchesEntry(clusterDetail.cluster, entry))
+      .filter(
+        (entry) => highlightIds.has(entry.id) || clusterMatchesEntry(clusterDetail.cluster, entry),
+      )
       .filter((entry) => {
         const corpus = `${entry.title ?? ''} ${entry.content}`.toLowerCase();
         return corpus.includes(query.toLowerCase());
@@ -69,7 +71,10 @@ export default function CanvasClusterPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden font-sans select-none" style={{ backgroundColor: 'var(--soouls-bg)', color: 'var(--soouls-text-strong)' }}>
+    <div
+      className="min-h-screen flex flex-col relative overflow-hidden font-sans select-none"
+      style={{ backgroundColor: 'var(--soouls-bg)', color: 'var(--soouls-text-strong)' }}
+    >
       <div className="absolute top-10 left-0 right-0 flex justify-center pointer-events-none opacity-18 select-none z-0 overflow-hidden whitespace-nowrap">
         <span
           className="text-[18vw] leading-none text-transparent tracking-tighter"
@@ -84,22 +89,35 @@ export default function CanvasClusterPage() {
 
       <header className="px-8 py-6 flex justify-between items-center relative z-10">
         <div className="flex items-center gap-2 text-sm text-[var(--soouls-text-muted)]">
-          <button onClick={() => router.push('/home')} className="transition hover:text-[var(--soouls-accent)]">
+          <button
+            onClick={() => router.push('/home')}
+            className="transition hover:text-[var(--soouls-accent)]"
+          >
             Home
           </button>
           <span>/</span>
-          <button onClick={() => router.push('/home/canvas')} className="transition hover:text-[var(--soouls-accent)]">
+          <button
+            onClick={() => router.push('/home/canvas')}
+            className="transition hover:text-[var(--soouls-accent)]"
+          >
             Canvas
           </button>
           <span>/</span>
-          <span style={{ color: 'var(--soouls-accent)' }}>{clusterDetail?.cluster.name ?? 'Cluster'}</span>
+          <span style={{ color: 'var(--soouls-accent)' }}>
+            {clusterDetail?.cluster.name ?? 'Cluster'}
+          </span>
         </div>
 
         <div
           className="w-9 h-9 rounded-full border overflow-hidden"
-          style={{ borderColor: 'var(--soouls-border)', backgroundColor: 'var(--soouls-bg-elevated)' }}
+          style={{
+            borderColor: 'var(--soouls-border)',
+            backgroundColor: 'var(--soouls-bg-elevated)',
+          }}
         >
-          {user?.imageUrl && <img src={user.imageUrl} alt="Profile" className="w-full h-full object-cover" />}
+          {user?.imageUrl && (
+            <img src={user.imageUrl} alt="Profile" className="w-full h-full object-cover" />
+          )}
         </div>
       </header>
 
@@ -133,7 +151,9 @@ export default function CanvasClusterPage() {
             </div>
 
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
-              <p className="text-3xl font-semibold mb-2">{clusterDetail?.cluster.name ?? 'Entries'}</p>
+              <p className="text-3xl font-semibold mb-2">
+                {clusterDetail?.cluster.name ?? 'Entries'}
+              </p>
               {entries.map((entry) => (
                 <motion.div
                   key={entry.id}
@@ -173,13 +193,20 @@ export default function CanvasClusterPage() {
             animate={{
               opacity: 1,
               x: 0,
-              borderColor: isDraggingOver ? 'rgba(var(--soouls-accent-rgb), 0.4)' : 'rgba(255,255,255,0.08)',
-              backgroundColor: isDraggingOver ? 'rgba(var(--soouls-accent-rgb), 0.03)' : 'transparent',
+              borderColor: isDraggingOver
+                ? 'rgba(var(--soouls-accent-rgb), 0.4)'
+                : 'rgba(255,255,255,0.08)',
+              backgroundColor: isDraggingOver
+                ? 'rgba(var(--soouls-accent-rgb), 0.03)'
+                : 'transparent',
             }}
             className="flex-[2] rounded-[28px] border shadow-2xl relative overflow-hidden flex items-center justify-center transition"
           >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,0.06),transparent_40%),radial-gradient(circle_at_75%_80%,rgba(255,255,255,0.04),transparent_50%)]" />
-            <div className="absolute inset-0 backdrop-blur-sm" style={{ backgroundColor: 'rgba(15,15,15,0.86)' }} />
+            <div
+              className="absolute inset-0 backdrop-blur-sm"
+              style={{ backgroundColor: 'rgba(15,15,15,0.86)' }}
+            />
 
             <AnimatePresence>
               {droppedEntries.map((entry) => (
@@ -210,7 +237,10 @@ export default function CanvasClusterPage() {
 
             {droppedEntries.length === 0 && (
               <div className="relative z-10 text-center px-6 max-w-xl pointer-events-none">
-                <p className="text-[22px] md:text-[26px] leading-relaxed text-white/75" style={{ fontFamily: 'serif' }}>
+                <p
+                  className="text-[22px] md:text-[26px] leading-relaxed text-white/75"
+                  style={{ fontFamily: 'serif' }}
+                >
                   “Your thoughts are not separate.
                   <br />
                   They are waiting to connect.”
@@ -227,8 +257,14 @@ export default function CanvasClusterPage() {
             )}
 
             {isDraggingOver && (
-              <div className="absolute inset-0 border-2 border-dashed m-4 rounded-[20px] flex items-center justify-center pointer-events-none z-50" style={{ borderColor: 'rgba(var(--soouls-accent-rgb), 0.2)' }}>
-                <span className="text-xs font-bold tracking-[0.5em] uppercase" style={{ color: 'rgba(var(--soouls-accent-rgb), 0.45)' }}>
+              <div
+                className="absolute inset-0 border-2 border-dashed m-4 rounded-[20px] flex items-center justify-center pointer-events-none z-50"
+                style={{ borderColor: 'rgba(var(--soouls-accent-rgb), 0.2)' }}
+              >
+                <span
+                  className="text-xs font-bold tracking-[0.5em] uppercase"
+                  style={{ color: 'rgba(var(--soouls-accent-rgb), 0.45)' }}
+                >
                   Drop Here
                 </span>
               </div>

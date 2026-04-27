@@ -47,19 +47,21 @@ export default function ContactSection() {
               <form className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="flex flex-col gap-2">
-                    <label className="font-urbanist text-xs font-bold text-[#888888] tracking-widest uppercase ml-2">
+                    <label htmlFor="contactName" className="font-urbanist text-xs font-bold text-[#888888] tracking-widest uppercase ml-2">
                       Name
                     </label>
                     <input
+                      id="contactName"
                       type="text"
                       className="bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-[#EFEBDD] font-urbanist focus:outline-none focus:border-[#E07A5F]/40"
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="font-urbanist text-xs font-bold text-[#888888] tracking-widest uppercase ml-2">
+                    <label htmlFor="contactEmail" className="font-urbanist text-xs font-bold text-[#888888] tracking-widest uppercase ml-2">
                       Email
                     </label>
                     <input
+                      id="contactEmail"
                       type="email"
                       className="bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-[#EFEBDD] font-urbanist focus:outline-none focus:border-[#E07A5F]/40"
                     />

@@ -145,7 +145,9 @@ export class EntriesService {
         : [];
 
       if (taskLists.length > 0) {
-        const tasks = taskLists.flatMap((block: { tasks: Array<{ done?: boolean }> }) => block.tasks);
+        const tasks = taskLists.flatMap(
+          (block: { tasks: Array<{ done?: boolean }> }) => block.tasks,
+        );
         taskStatus = tasks.length > 0 && tasks.every((task) => task.done) ? 'completed' : 'pending';
       } else {
         taskStatus = 'pending';

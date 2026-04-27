@@ -1,10 +1,10 @@
 'use client';
 
 import { useUser } from '@clerk/nextjs';
-import { GraduationCap, Lightbulb, Search, Settings, Sparkles, Sun } from 'lucide-react';
+import { GraduationCap, Lightbulb, Search, Sparkles, Sun } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React, { useMemo, useState } from 'react';
 import { useSidebar } from '../../../src/providers/sidebar-provider';
-import { useRouter } from 'next/navigation';
 import { trpc } from '../../../src/utils/trpc';
 
 const FILTERS = [
@@ -50,7 +50,10 @@ export default function ClustersPage() {
   const featured = clusters[0];
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden font-sans select-none" style={{ backgroundColor: 'var(--soouls-bg)', color: 'var(--soouls-text-strong)' }}>
+    <div
+      className="min-h-screen flex flex-col relative overflow-hidden font-sans select-none"
+      style={{ backgroundColor: 'var(--soouls-bg)', color: 'var(--soouls-text-strong)' }}
+    >
       <div className="absolute top-10 left-0 right-0 flex justify-center pointer-events-none opacity-10 select-none z-0 overflow-hidden whitespace-nowrap">
         <span
           className="text-[20vw] leading-none text-transparent tracking-tighter"
@@ -80,25 +83,29 @@ export default function ClustersPage() {
           className="w-9 h-9 rounded-full border border-white/10 bg-zinc-800 overflow-hidden ring-2 ring-white/5 hover:border-white/30 transition-all cursor-pointer"
         >
           {user?.imageUrl && (
-            <img
-              src={user.imageUrl}
-              alt="Profile"
-              className="w-9 h-9 rounded-full"
-            />
+            <img src={user.imageUrl} alt="Profile" className="w-9 h-9 rounded-full" />
           )}
         </button>
         <div
           className="w-9 h-9 rounded-full border overflow-hidden ring-2 ring-white/5"
-          style={{ borderColor: 'var(--soouls-border)', backgroundColor: 'var(--soouls-bg-elevated)' }}
+          style={{
+            borderColor: 'var(--soouls-border)',
+            backgroundColor: 'var(--soouls-bg-elevated)',
+          }}
         >
-          {user?.imageUrl && <img src={user.imageUrl} alt="Profile" className="w-full h-full object-cover" />}
+          {user?.imageUrl && (
+            <img src={user.imageUrl} alt="Profile" className="w-full h-full object-cover" />
+          )}
         </div>
       </header>
 
       <main className="flex-1 w-full max-w-6xl mx-auto px-6 relative z-10 flex flex-col pt-4 pb-20">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <h1 className="text-4xl md:text-5xl font-serif italic leading-tight" style={{ color: 'var(--soouls-accent)' }}>
+            <h1
+              className="text-4xl md:text-5xl font-serif italic leading-tight"
+              style={{ color: 'var(--soouls-accent)' }}
+            >
               Your thought clusters
             </h1>
             <p className="mt-2 text-lg text-[var(--soouls-text-muted)]">
@@ -130,10 +137,15 @@ export default function ClustersPage() {
                   className="text-[10px] uppercase tracking-wider px-3 py-1 rounded-full border transition-all"
                   style={{
                     backgroundColor:
-                      filter === option.key ? 'rgba(var(--soouls-accent-rgb), 0.15)' : 'transparent',
+                      filter === option.key
+                        ? 'rgba(var(--soouls-accent-rgb), 0.15)'
+                        : 'transparent',
                     borderColor:
-                      filter === option.key ? 'rgba(var(--soouls-accent-rgb), 0.6)' : 'var(--soouls-border)',
-                    color: filter === option.key ? 'var(--soouls-accent)' : 'var(--soouls-text-muted)',
+                      filter === option.key
+                        ? 'rgba(var(--soouls-accent-rgb), 0.6)'
+                        : 'var(--soouls-border)',
+                    color:
+                      filter === option.key ? 'var(--soouls-accent)' : 'var(--soouls-text-muted)',
                   }}
                 >
                   {option.label}
@@ -176,8 +188,13 @@ export default function ClustersPage() {
                 </div>
 
                 <div className="flex items-start gap-4 mb-4">
-                  <GraduationCap className="w-6 h-6 mt-1" style={{ color: 'var(--soouls-accent)' }} />
-                  <h2 className="text-3xl font-serif italic text-[var(--soouls-text-strong)]">{featured.name}</h2>
+                  <GraduationCap
+                    className="w-6 h-6 mt-1"
+                    style={{ color: 'var(--soouls-accent)' }}
+                  />
+                  <h2 className="text-3xl font-serif italic text-[var(--soouls-text-strong)]">
+                    {featured.name}
+                  </h2>
                 </div>
 
                 <p className="text-sm leading-relaxed mb-10 max-w-md text-[var(--soouls-text-muted)]">
@@ -211,17 +228,26 @@ export default function ClustersPage() {
 
               <div className="lg:col-span-5 flex items-center justify-center">
                 <div className="relative w-48 h-48 flex items-center justify-center">
-                  <div className="absolute inset-0 rounded-full blur-2xl" style={{ backgroundColor: 'rgba(var(--soouls-accent-rgb), 0.12)' }} />
+                  <div
+                    className="absolute inset-0 rounded-full blur-2xl"
+                    style={{ backgroundColor: 'rgba(var(--soouls-accent-rgb), 0.12)' }}
+                  />
                   <div
                     className="absolute inset-0 rounded-full border"
                     style={{
                       borderColor: 'rgba(var(--soouls-accent-rgb), 0.22)',
-                      background: 'linear-gradient(180deg, rgba(var(--soouls-accent-rgb), 0.12), transparent)',
+                      background:
+                        'linear-gradient(180deg, rgba(var(--soouls-accent-rgb), 0.12), transparent)',
                     }}
                   />
                   <div className="text-center">
-                    <div className="text-5xl font-serif italic text-[var(--soouls-text-strong)]">{featured.entryCount}</div>
-                    <div className="text-[10px] uppercase tracking-[0.2em] mt-1" style={{ color: 'var(--soouls-accent)' }}>
+                    <div className="text-5xl font-serif italic text-[var(--soouls-text-strong)]">
+                      {featured.entryCount}
+                    </div>
+                    <div
+                      className="text-[10px] uppercase tracking-[0.2em] mt-1"
+                      style={{ color: 'var(--soouls-accent)' }}
+                    >
                       Entries
                     </div>
                   </div>
@@ -286,8 +312,14 @@ export default function ClustersPage() {
         </div>
       </main>
 
-      <div className="absolute -bottom-20 -left-20 w-96 h-96 rounded-full blur-[120px] pointer-events-none" style={{ backgroundColor: 'rgba(var(--soouls-accent-rgb), 0.05)' }} />
-      <div className="absolute top-1/2 -right-20 w-80 h-80 rounded-full blur-[100px] pointer-events-none" style={{ backgroundColor: 'rgba(var(--soouls-accent-rgb), 0.06)' }} />
+      <div
+        className="absolute -bottom-20 -left-20 w-96 h-96 rounded-full blur-[120px] pointer-events-none"
+        style={{ backgroundColor: 'rgba(var(--soouls-accent-rgb), 0.05)' }}
+      />
+      <div
+        className="absolute top-1/2 -right-20 w-80 h-80 rounded-full blur-[100px] pointer-events-none"
+        style={{ backgroundColor: 'rgba(var(--soouls-accent-rgb), 0.06)' }}
+      />
     </div>
   );
 }

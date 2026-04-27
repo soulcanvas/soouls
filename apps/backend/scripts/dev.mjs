@@ -10,7 +10,7 @@ const child = spawn('bun', ['run', '--env-file=../../.env', entryPoint], {
   cwd: appRoot,
   stdio: 'inherit',
   env: process.env,
-  shell: true,
+  shell: false,
 });
 
 child.on('error', (error) => {

@@ -23,7 +23,7 @@ export function MessagingSection() {
   const { setFlash } = useShell();
   const queryClient = useQueryClient();
 
-  const { data: messaging, isLoading: messagingLoading } = useQuery({
+  const { data: messaging } = useQuery({
     queryKey: ['messaging'],
     queryFn: () => api<Messaging>('/command-api/messaging'),
     refetchInterval: 5000, // Auto-refresh every 5s for live delivery tracking
@@ -280,7 +280,10 @@ export function MessagingSection() {
 
             {/* Sender Email Selection */}
             <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
-              <label className="mb-2 block text-xs font-medium text-slate-400">
+              <label
+                htmlFor="composeSender"
+                className="mb-2 block text-xs font-medium text-slate-400"
+              >
                 Send From (Email)
               </label>
               <div className="flex flex-wrap gap-2">
@@ -484,10 +487,14 @@ export function MessagingSection() {
               <h3 className="mb-4 text-sm font-semibold text-amber-200">Audience Targeting</h3>
               <div className="grid gap-4 md:grid-cols-3">
                 <div>
-                  <label className="mb-1.5 block text-xs font-medium text-slate-400">
+                  <label
+                    htmlFor="targetBillingTier"
+                    className="mb-1.5 block text-xs font-medium text-slate-400"
+                  >
                     Billing Tier
                   </label>
                   <select
+                    id="targetBillingTier"
                     value={targetBillingTier}
                     onChange={(e) => setTargetBillingTier(e.target.value)}
                     className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-sm text-white outline-none"
@@ -500,10 +507,14 @@ export function MessagingSection() {
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-xs font-medium text-slate-400">
+                  <label
+                    htmlFor="targetSignupDate"
+                    className="mb-1.5 block text-xs font-medium text-slate-400"
+                  >
                     Signup Date
                   </label>
                   <select
+                    id="targetSignupDate"
                     value={targetSignupDate}
                     onChange={(e) => setTargetSignupDate(e.target.value)}
                     className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-sm text-white outline-none"
@@ -515,10 +526,14 @@ export function MessagingSection() {
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-xs font-medium text-slate-400">
+                  <label
+                    htmlFor="targetNodeCount"
+                    className="mb-1.5 block text-xs font-medium text-slate-400"
+                  >
                     Node Count
                   </label>
                   <select
+                    id="targetNodeCount"
                     value={targetNodeCount}
                     onChange={(e) => setTargetNodeCount(e.target.value)}
                     className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-sm text-white outline-none"
@@ -656,10 +671,13 @@ export function MessagingSection() {
               </div>
             ) : (
               messaging.campaigns.map((campaign) => {
-                const sent = (campaign as any).sentCount ?? 0;
-                const total = (campaign as any).totalRecipients ?? 0;
+                const sent = (campaign as unknown as { sentCount?: number }).sentCount ?? 0;
+                const total =
+                  (campaign as unknown as { totalRecipients?: number }).totalRecipients ?? 0;
                 const pct = total > 0 ? Math.round((sent / total) * 100) : 0;
-                const channels = ((campaign as any).channels as string[]) ?? ['email'];
+                const channels = (campaign as unknown as { channels?: string[] }).channels ?? [
+                  'email',
+                ];
 
                 return (
                   <div

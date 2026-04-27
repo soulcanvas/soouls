@@ -302,7 +302,7 @@ export function GuideMascot({
             animate={{
               boxShadow: [
                 `0 0 0 0 ${tone.glow}`,
-                `0 0 0 7px rgba(0,0,0,0)`,
+                '0 0 0 7px rgba(0,0,0,0)',
                 `0 0 0 0 ${tone.glow}`,
               ],
             }}

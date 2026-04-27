@@ -12,7 +12,7 @@ export interface GCalEvent {
   id: string;
   summary: string;
   start: string; // ISO
-  end: string;   // ISO
+  end: string; // ISO
   colorId?: string;
 }
 
@@ -25,8 +25,7 @@ export class GoogleCalendarService {
   private readonly clientId = process.env.GOOGLE_CLIENT_ID ?? '';
   private readonly clientSecret = process.env.GOOGLE_CLIENT_SECRET ?? '';
   private readonly redirectUri =
-    process.env.GOOGLE_CALENDAR_REDIRECT_URI ??
-    'http://localhost:3000/google-calendar/callback';
+    process.env.GOOGLE_CALENDAR_REDIRECT_URI ?? 'http://localhost:3000/google-calendar/callback';
 
   constructor(@Inject(RedisService) private readonly redis: RedisService) {}
 
@@ -155,11 +154,7 @@ export class GoogleCalendarService {
 
   // ─── Fetch events ─────────────────────────────────────────────────────────
 
-  async getEvents(
-    clerkUserId: string,
-    timeMin: string,
-    timeMax: string,
-  ): Promise<GCalEvent[]> {
+  async getEvents(clerkUserId: string, timeMin: string, timeMax: string): Promise<GCalEvent[]> {
     const token = await this.getValidToken(clerkUserId);
     if (!token) return [];
 

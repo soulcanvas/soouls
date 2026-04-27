@@ -10,10 +10,7 @@ interface LogoutModalProps {
   onClose: () => void;
 }
 
-export const LogoutModal: React.FC<LogoutModalProps> = ({
-  isOpen,
-  onClose,
-}) => {
+export const LogoutModal: React.FC<LogoutModalProps> = ({ isOpen, onClose }) => {
   const { signOut } = useClerk();
 
   return (
