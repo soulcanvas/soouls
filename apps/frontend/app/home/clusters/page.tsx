@@ -2,10 +2,8 @@
 
 import { useUser } from '@clerk/nextjs';
 import { GraduationCap, Lightbulb, Search, Settings, Sparkles, Sun } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSidebar } from '../../../src/providers/sidebar-provider';
-import { GraduationCap, Lightbulb, Search, Sparkles, Sun } from 'lucide-react';
-import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { trpc } from '../../../src/utils/trpc';
 

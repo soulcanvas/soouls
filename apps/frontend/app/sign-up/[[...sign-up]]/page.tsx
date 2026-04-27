@@ -17,6 +17,19 @@ export default function SignUpPage() {
   const { user } = useUser();
 
   // ─── If user already signed in, redirect to home ─────────────────
+  // ─── Handle SSO Callback (Google OAuth redirect lands here) ─────────────────
+  const [step, setStep] = useState<Step>('form');
+  const [authMethod, setAuthMethod] = useState<AuthMethod>('email');
+
+  // Form State
+  const [emailAddress, setEmailAddress] = useState('');
+  const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [code, setCode] = useState('');
+  const [phonePassword, setPhonePassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   if (user) {
     router.replace('/home');
     return (
@@ -29,7 +42,6 @@ export default function SignUpPage() {
     );
   }
 
-  // ─── Handle SSO Callback (Google OAuth redirect lands here) ─────────────────
   if (pathname?.includes('sso-callback')) {
     return (
       <div className="min-h-screen bg-[#111111] flex items-center justify-center">
@@ -49,18 +61,6 @@ export default function SignUpPage() {
       </div>
     );
   }
-
-  const [step, setStep] = useState<Step>('form');
-  const [authMethod, setAuthMethod] = useState<AuthMethod>('email');
-
-  // Form State
-  const [emailAddress, setEmailAddress] = useState('');
-  const [password, setPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [code, setCode] = useState('');
-  const [phonePassword, setPhonePassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   // ─── Email Sign-Up ──────────────────────────────────────────────────────────
   const handleEmailSignUp = async (e: React.FormEvent) => {
