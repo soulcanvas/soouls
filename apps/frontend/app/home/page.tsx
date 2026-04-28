@@ -115,6 +115,7 @@ function SearchPopup({ entries, onClose }: { entries: UserEntry[]; onClose: () =
               }}
               placeholder="Search or find entries"
               className="w-full bg-transparent text-2xl outline-none placeholder:text-[#d8d8d8]"
+              autoFocus
             />
           </label>
           <p className="mb-5 mt-10 text-2xl text-[#d8d8d8]">Recent Entries</p>

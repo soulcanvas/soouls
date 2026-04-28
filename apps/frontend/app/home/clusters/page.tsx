@@ -1,6 +1,7 @@
 'use client';
 
 import { useUser } from '@clerk/nextjs';
+import { GraduationCap, Lightbulb, Search, Settings, Sparkles, Sun } from 'lucide-react';
 import { GraduationCap, Lightbulb, Search, Sparkles, Sun } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useMemo, useState } from 'react';

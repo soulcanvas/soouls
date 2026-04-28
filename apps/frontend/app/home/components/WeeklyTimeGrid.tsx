@@ -185,7 +185,7 @@ export function WeeklyTimeGrid({
                     })}
 
                     {/* Render Soouls Entries (assuming default 30 min duration for visual) */}
-                    {dayEntries.map((entry, _index) => {
+                    {dayEntries.map((entry, index) => {
                       const startHour =
                         entry.createdAt.getHours() + entry.createdAt.getMinutes() / 60;
                       const top = startHour * 80;
